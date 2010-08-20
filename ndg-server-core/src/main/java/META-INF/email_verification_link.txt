@@ -1,0 +1,16 @@
+
+Welcome __name __lastname (Username: __username),
+
+You're just one step away from opening your Nokia Data Gathering -  NDG account.
+
+All you need to do is confirm that we have your correct email address: __email.
+To do so please click on the link below or cut and paste it into your browser address window:
+__urlValidationKey=__validationKey
+
+If you'd like to find out more about Nokia Data Gathering services please go to
+www.nokia.com/datagathering.
+
+Thank you for joining and we hope you enjoy using Nokia services.
+
+All the best,
+Nokia Data Gathering Team

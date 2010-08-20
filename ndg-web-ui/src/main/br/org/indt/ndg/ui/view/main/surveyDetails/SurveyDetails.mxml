@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="956" height="460" styleName="mainAreaModule"
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
+
+	
+	<mx:Script source="../../../../controller/main/surveyDetails/SurveyDetailsController.as" />
+
+	<mx:HBox width="100%" styleName="functionalitiesBar">		
+		<mx:Button height="43" width="63" click="showSurveys(event)"
+			label="{ConfigI18n.getInstance().getString('btnDetailsBack')}">
+			<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+		</mx:Button>	
+		<mx:VBox verticalAlign="middle" verticalGap="0">		
+			<mx:HBox verticalAlign="middle" horizontalGap="4">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblDetailsSurveyTitle')}" styleName="darkTitle"/>
+				<mx:Label id="surveyTitle" styleName="darkTitle" maxWidth="300"/>
+			</mx:HBox>
+			<mx:HBox verticalAlign="middle" horizontalGap="2">
+				<!-- <mx:Button label="{ConfigI18n.getInstance().getString('btnViewMapPosition')}" height="22" width="70"/> -->
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnDetailsExport')}" height="22" width="70" click="export()"/>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnDisassociateUser')}" height="22" width="70"
+					click="detachImei()" visible="false"/>				
+			</mx:HBox>
+		</mx:VBox>
+		<mx:HRule width="100%" visible="false"/>
+		<comp:PowerSearch id="search" optionsLabels="{searchOptionsLabels}" optionsFields="{searchOptionsFields}"
+			searchLabel="{ConfigI18n.getInstance().getString('lblSearch')}" width="100%" horizontalAlign="right"/>
+	</mx:HBox>	
+	
+	<mx:VBox width="100%" height="100%" verticalGap="3" styleName="gridPanel">
+		<mx:DataGrid id="imeiGrid" height="100%" dataProvider="{imeiList}" itemClick="pagination.itemClick(imeiGrid.selectedItem)" 
+				creationComplete="init()" width="100%"> 
+			<mx:columns>
+				<render:CheckBoxHeaderColumn dataField="selected"
+					id="customCheck" width="25" sortable="false"
+					headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
+					itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDetailImeiId')}"	dataField="imei" width="250"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDetailPhoneNumber')}" dataField="msisdn" width="150" sortable="false"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDetailUser')}" dataField="userName"  width="150" sortable="false" />
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDetailStatus')}"	dataField="status" width="160" sortable="false" />
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDetailResults')}" dataField="qtdeResults" width="100" sortable="false" />
+				<!--
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDetailLocation')}" dataField="" sortable="false" width="121">
+					<mx:itemRenderer>
+						<mx:Component>
+							<mx:VBox width="100%" horizontalAlign="center">
+								<mx:Image source="main/resources/images/MAP_STATUS_OK.png" mouseEnabled="true" buttonMode="true"
+									visible="{data.lat != null || data.lon != null}" toolTip="[{data.lat},{data.lon}]"/>
+							</mx:VBox>
+						</mx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>	
+				-->			
+			</mx:columns>
+		</mx:DataGrid>
+		<comp:PowerDataPagination dataProvider="{imeiList}" remoteObject="{remoteListImeis}" 
+			grid="{imeiGrid}" search="{search}"  
+			changePage="listImeis(event)" pageSize="{IMEI_PAGE_SIZE}" checkable="true" id="pagination"
+			pageLabel="{ConfigI18n.getInstance().getString('pcPageLabel')}"
+			ofLabel="{ConfigI18n.getInstance().getString('pcOfLabel')}"
+			refreshLabel="{ConfigI18n.getInstance().getString('pcRefreshLabel')}"
+			itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
+			selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}"/>
+	</mx:VBox>
+	
+</mx:Module>

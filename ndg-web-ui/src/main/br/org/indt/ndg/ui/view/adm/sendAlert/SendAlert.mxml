@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*" 
+	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*"
+	layout="vertical" styleName="wizardModule" width="640" height="363">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+		]]>
+	</mx:Script>
+
+	<mx:Script source="../../../../controller/adm/sendAlert/SendAlertController.as" />
+
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="590" y="-1" click="cancelSendAlert(event)">
+            <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>
+
+    <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertTitle')}" styleName="clearTitle3"/>
+        <mx:HRule width="100%" visible="false"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertStep')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="{stepText}" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertStepOf')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="3" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        
+        <mx:ApplicationControlBar id="stp1" styleName="wizardProgress" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp2" styleName="wizardBlank" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp3" styleName="wizardBlank" width="35" height="7"/>
+    </mx:ApplicationControlBar>
+    
+    <mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>
+	
+	
+	<mx:ViewStack id="viewStackSendAlert" width="100%" height="100%" selectedIndex="0" change="updateSteps()">
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="3" paddingBottom="5" paddingTop="5">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertSelectPhone')}" styleName="darkTitle" height="16"/>
+				<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="3" visible="{hasBalanceCheck}"
+					height="0" id="balancePanel">
+					<mx:Image width="16" height="14" source="main/resources/images/BALANCE.png" id="balanceIcon"/>
+					<mx:Label text="{userBalanceMessage}" height="15"/>
+				</mx:HBox>
+			</mx:VBox>
+			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
+				<mx:VBox width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblCheckSelUsers')}" fontWeight="bold"/>
+					<mx:DataGrid id="usersGrid" dataProvider="{selectedUsersList}" width="90%" height="140" itemClick="loadImeis(event)"
+						styleName="wizardGrid">
+						<mx:columns>
+						    <mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserName')}" dataField="username"/>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserPhoneNumber')}" dataField="phoneNumber"/>							
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:VBox>
+				<mx:VBox width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblCheckSelImeis')}" fontWeight="bold"/>
+					<mx:DataGrid id="imeiGrid" dataProvider="{imeiList}" width="90%" height="140" itemClick="itemClick(event)"
+						styleName="wizardGrid">
+						<mx:columns>
+							<render:CheckBoxHeaderColumn dataField="selected" id="customCheck" width="25" sortable="false"
+								headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
+								itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer" />
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyImei')}" dataField="imei"/>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyPhone')}" dataField="msisdn"/>
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:VBox>
+			</mx:HBox>
+			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="52">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendAlertNext')}" click="composeMessage(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" enabled="{hasBalance}">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>		
+			</mx:HBox>
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertTypeAlert')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
+				<mx:TextArea id="message" width="300" height="100" maxChars="166" change="updateSizeAlert()"/>
+				<mx:HBox horizontalGap="0">
+					<mx:Label text="{messageSize}" width="25"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertSizeSMSOf')}"/>
+					<mx:Label text="166"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertSizeSMSCharacter')}"/>
+				</mx:HBox>
+			</mx:VBox>
+			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="52">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendAlertBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendAlertSend')}" click="sendAlert()"/>
+			</mx:HBox>			
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertSuccess')}" styleName="darkTitle"/>
+				<mx:Text text="{ConfigI18n.getInstance().getString('lblSendAlertSent')}" textAlign="center"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">			
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendAlertFinish')}" click="cancelSendAlert(event)"
+					paddingLeft="10" paddingRight="10"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_FAIL.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertFail')}" styleName="darkTitle"/>
+				<mx:Text text="{ConfigI18n.getInstance().getString('lblSendAlertNotSent')}" textAlign="center"/>
+			</mx:VBox>
+			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="52">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendAlertBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>	
+		</mx:VBox>
+		
+	</mx:ViewStack>
+
+
+</mx:Module>

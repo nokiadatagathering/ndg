@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module layout="vertical" styleName="wizardModule" width="640" height="363"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
+
+	<mx:Script source="../../../../controller/main/sendSurvey/SendSurveyController.as" />
+    
+    
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="590" y="-1" click="cancelSendSurvey(event)">
+            <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>
+    
+    <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblSendSurveyTitle')}" styleName="clearTitle3"/>
+        <mx:HRule width="10" visible="false"/>
+        <mx:Canvas verticalCenter="0" borderStyle="none">
+	        <mx:Image width="14" height="14" id="modeIcon" visible="false"/>
+	        <mx:Label styleName="clearText" height="14" x="13" y="1" id="modeText" visible="false"/>
+        </mx:Canvas>
+        <mx:HRule width="100%" visible="false"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizSendSurveyStep')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="{stepText}" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizSendSurveyStepOf')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="4" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        
+        <mx:ApplicationControlBar id="stp1" styleName="wizardProgress" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp2" styleName="wizardBlank" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp3" styleName="wizardBlank" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp4" styleName="wizardBlank" width="35" height="7"/>
+    </mx:ApplicationControlBar>
+    
+    
+    <mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>
+
+
+	<mx:ViewStack id="viewStackSendSurvey" width="100%" height="100%" selectedIndex="0" change="updateSteps()">
+
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblChosenSurveys')}" styleName="darkTitle" height="16"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSelectMode')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
+				<mx:Button id="cable" label="{ConfigI18n.getInstance().getString('btnModeCable')}" width="110" height="60"
+					click="modeSelected(event)" styleName="wizardClearButton">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_USB_ICON.png')</mx:icon>
+				</mx:Button>
+				<mx:Button id="sms" label="{ConfigI18n.getInstance().getString('btnModeSMS')}" width="110" height="60"
+					click="modeSelected(event)" styleName="wizardClearButton">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_SMS_ICON.png')</mx:icon>
+				</mx:Button>
+				<mx:Button id="gprs" label="{ConfigI18n.getInstance().getString('btnModeInternet')}" width="110" height="60"
+					click="modeSelected(event)" styleName="wizardClearButton">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_INTERNET_ICON.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="52">
+			</mx:HBox>
+		</mx:VBox>
+		
+		<!-- Step select device -->
+		<mx:VBox show="showComboDevices()" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}" width="100%">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendSurveySelectDriveTitle')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="center" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:VBox id="comboPanel" height="100%" width="250" verticalAlign="middle" horizontalAlign="center" 
+							borderStyle="none" paddingTop="10">
+					<mx:HBox horizontalGap="2">
+						<mx:ComboBox dataProvider="{deviceList}" id="deviceCombo" change="checkImei()" visible="true"/>
+						<mx:Button click="loadDevices()" id="refreshBtn" width="22" height="22" 
+								toolTip="{ConfigI18n.getInstance().getString('lblSendSurveyRefreshTip')}">
+							<mx:skin>@Embed(source='../../../../../../../../resources/images/BT_REFRESH.png')</mx:skin>
+						</mx:Button>
+					</mx:HBox>
+					<mx:Text id="deviceImeiText" text="" width="240" height="33" textAlign="center" />
+				</mx:VBox>	
+			</mx:HBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="firstStep()"
+					paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyNext')}" click="deviceSelected(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" id="btnDeviceSelect" enabled="false">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>				
+		</mx:VBox>
+		
+		<mx:VBox>
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSelectUsersBelow')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+		
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:VBox paddingRight="5" width="100%" id="gridPanel">
+					<mx:DataGrid id="imeiGrid" dataProvider="{imeiList}" itemClick="isEditable(event)" width="100%" height="140"
+						styleName="wizardGrid" creationComplete="customCheckAddListener()">
+						<mx:columns>
+							<render:CheckBoxHeaderColumn dataField="selected"
+								id="customCheck" width="25" sortable="false"
+								headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
+								itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer" />
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyImei')}" dataField="imei"/>					
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyPhone')}" dataField="msisdn"/>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyOwner')}" dataField="userName"/>						
+						</mx:columns>  
+					</mx:DataGrid>
+					<comp:PowerDataPagination dataProvider="{imeiList}" remoteObject="{remoteListImeis}"
+						grid="{imeiGrid}" creationComplete="loadImeiList()"  verticalAlign="middle" height="25"
+						changePage="listImeis(event)" pageSize="{IMEI_PAGE_SIZE}" checkable="true" id="pagination"
+						pageLabel="{ConfigI18n.getInstance().getString('pcPageLabel')}"
+						ofLabel="{ConfigI18n.getInstance().getString('pcOfLabel')}"
+						refreshLabel="{ConfigI18n.getInstance().getString('pcRefreshLabel')}"
+						itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
+						selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}"/>
+				</mx:VBox>							
+			</mx:HBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="firstStep()"
+					paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyNext')}" click="imeiSelected(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>				
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendSurveyConfirmation')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>			
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:VBox width="50%" verticalGap="0" horizontalAlign="center">
+					<mx:Label text="{ConfigI18n.getInstance().getString('titleSurveysToSent')}" fontWeight="bold"/>
+					<mx:DataGrid id="surveyGrid" dataProvider="{selectedSurveyList}" showHeaders="true" height="140" editable="false"
+						styleName="wizardGrid" width="90%">
+						<mx:columns>
+						    <mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSurveyIdSent')}" dataField="idSurvey" width="100"/>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSurveyNameSent')}" dataField="title"/>							
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:VBox>
+				<mx:VBox width="50%" verticalGap="0" horizontalAlign="center">
+					<mx:Label text="{ConfigI18n.getInstance().getString('titleImeisToReceive')}" fontWeight="bold"/>
+					<mx:DataGrid id="imeiSelectedGrid" dataProvider="{selectedImeisList}" showHeaders="true" height="140" editable="false"
+						styleName="wizardGrid" width="90%">
+						<mx:columns>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyImei')}" dataField="imei"/>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyPhone')}" dataField="msisdn"/>
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:VBox>
+			</mx:HBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="backToSelectImei(event)"
+					paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyNext')}" click="sendSurveys(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>			
+			</mx:HBox>
+		</mx:VBox>
+		
+		<!-- success -->
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendingSuccess')}" styleName="darkTitle"/>
+				<mx:Text text="{ConfigI18n.getInstance().getString('lblFinishWarn')}" textAlign="center"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">			
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyOk')}" click="cancelSendSurvey(event)"
+					paddingLeft="10" paddingRight="10"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<!-- fail -->
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_FAIL.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendingFail')}" styleName="darkTitle"/>
+				<mx:Text text="{ConfigI18n.getInstance().getString('lblSendingFailWarn')}" textAlign="center"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">			
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="backFailScreen(event)"
+					paddingLeft="10" paddingRight="10">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>								
+		</mx:VBox>
+	</mx:ViewStack>
+
+
+	
+</mx:Module>

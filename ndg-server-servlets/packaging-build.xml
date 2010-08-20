@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NDG Servlets Generator" default="_packaging_generation_">
+
+<path id="classpath">
+    <fileset dir="../lib/" includes="**/*.jar"/>
+    <pathelement location="../ndg-server-core/bin/"/>
+</path>
+
+<target name="clean">
+    <delete dir="build/classes"/>
+</target>
+
+<target name="prepare" depends="clean">
+    <mkdir dir="build/classes"/>
+</target>
+
+<target name="compile" depends="prepare">
+    <javac srcdir="." classpathref="classpath" destdir="build/classes"
+            includes="**/*.java"
+            excludes="src/main/java/com/jcraft/**/*.java"/>
+</target>
+
+<target name="N65599" description="ndg-core-web.war" depends="compile">
+	<war destfile="build/ndg-servlets.war" webxml="WebContent/WEB-INF/web.xml" update="true">
+		<classes dir="build/classes"/>
+		<fileset dir="WebContent">
+			<exclude name="WEB-INF/web.xml"/>
+		</fileset>
+	</war>
+	<copy file="build/ndg-servlets.war" todir=""></copy>
+</target>
+
+<target name="_packaging_generation_" depends="N65599"/>
+
+</project>

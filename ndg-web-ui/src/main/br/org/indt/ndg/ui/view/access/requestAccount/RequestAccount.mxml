@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module layout="vertical"
+	width="970" height="562" styleName="bodyModule"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:password="main.br.org.indt.ndg.controller.access.requestAccount.*"
+	updateComplete="updateLanguage()"
+	creationComplete="init()">
+
+
+	<mx:Script source="../../../../controller/access/requestAccount/ComboArrays.as" />
+	<mx:Script source="../../../../controller/access/requestAccount/RequestAccountController.as" />
+	
+	<mx:Array id="validators">
+		<mx:StringValidator source="{txFirstname}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txLastname}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txUsername}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="15" tooLongError="{getMaxLengthMsg('15')}"
+			minLength="5" tooShortError="{getMinLengthMsg('5')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txPasswordReqAc}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txtVerifyPassword}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txCompany}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:NumberValidator source="{cbCountry}" property="selectedIndex"
+			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			minValue="1"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txCountryCode}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txAreaCode}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{txPhoneNumber}" property="text" 
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:EmailValidator source="{txEmail}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			invalidCharError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidCharEmailErrorMsg')}"
+			invalidDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidDomainEmailErrorMsg')}"
+			invalidIPDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidIPDomainEmailErrorMsg')}"
+			invalidPeriodsInDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidPeriodsInDomainEmailErrorMsg')}"
+			missingAtSignError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingAtSignEmailErrorMsg')}"
+			missingPeriodInDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingPeriodInDomainEmailErrorMsg')}"
+			missingUsernameError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingUsernameEmailErrorMsg')}"
+			tooManyAtSignsError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'tooManyAtSignsEmailErrorMsg')}"
+			triggerEvent="change"/>
+		<mx:NumberValidator source="{cbCompanyType}" property="selectedIndex"
+			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			minValue="1"
+			triggerEvent="change"/>
+		<mx:NumberValidator source="{cbFieldIndustry}" property="selectedIndex"
+			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			minValue="1"
+			triggerEvent="change"/>
+		<mx:NumberValidator source="{cbCompanySize}" property="selectedIndex"
+			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			minValue="1"
+			triggerEvent="change"/>
+	</mx:Array>
+	
+	<mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>	
+
+	<mx:VRule height="30" visible="false"/>
+	
+    <mx:ApplicationControlBar width="100%" height="80" styleName="loginBar">
+    	<mx:VBox verticalGap="0">
+	        <mx:Label text="{resourceManager.getString('requestAccount', 'titleRequestAccount01')}"
+	        	styleName="clearTitle5"/>
+	        <mx:Label text="{resourceManager.getString('requestAccount', 'titleRequestAccount02')}"
+	        	styleName="clearTitle2"/>
+    	</mx:VBox>
+    </mx:ApplicationControlBar>
+    
+    	
+	<mx:ViewStack id="raStack" width="100%">
+		<mx:VBox width="100%" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:HBox width="100%" height="30" verticalAlign="middle" horizontalAlign="center">
+				<mx:Label styleName="errorText" id="errorMsg" width="800" height="15" textAlign="center"/>
+			</mx:HBox>
+			
+			<mx:HBox width="100%" styleName="loginCenterPanel" verticalAlign="top" horizontalAlign="center"
+				horizontalGap="30" height="346">
+				<mx:VBox paddingTop="20" paddingBottom="20">
+					<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldFirstName')}" fontSize="12">
+							<mx:TextInput id="txFirstname" maxChars="50" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldLastName')}" fontSize="12">
+							<mx:TextInput id="txLastname" maxChars="50" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldUsername')}" fontSize="12">
+							<mx:TextInput id="txUsername" maxChars="15" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldPassword')}" fontSize="12">
+							<mx:TextInput id="txPasswordReqAc" maxChars="8" displayAsPassword="true" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldVerifyPassword')}" fontSize="12">
+							<mx:TextInput id="txtVerifyPassword" maxChars="8" displayAsPassword="true" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompany')}" fontSize="12">
+							<mx:TextInput id="txCompany" maxChars="50" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCountry')}" fontSize="12">
+							<mx:ComboBox id="cbCountry" dataProvider="{countriesAC}" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldPhone')}" fontSize="12">
+							<mx:HBox>
+							<mx:TextInput id="txCountryCode" maxChars="3" width="30" restrict="[0-9]"/>
+							<mx:TextInput id="txAreaCode" maxChars="3" width="30" restrict="[0-9]"/>
+							<mx:TextInput id="txPhoneNumber" restrict="[0-9]"/>
+							</mx:HBox>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldEmail')}" fontSize="12">
+							<mx:TextInput id="txEmail" maxChars="50" width="236"/>
+						</mx:FormItem>
+					</mx:Form>
+				</mx:VBox>
+				<mx:VBox paddingTop="20" paddingBottom="20">
+					<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompanyType')}">
+							<mx:ComboBox id="cbCompanyType" dataProvider="{companyTypeAC}" width="236"/>
+						</mx:FormItem>	
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldIndustry')}">
+							<mx:ComboBox id="cbFieldIndustry" dataProvider="{industryAC}" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompanySize')}">
+							<mx:ComboBox id="cbCompanySize" dataProvider="{companySizeAC}" width="236"/>
+						</mx:FormItem>
+						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldAgreement')}">
+							<mx:TextArea width="380" height="150" editable="false" id="licenseArea"
+								htmlText="{resourceManager.getString('requestAccount', 'license')}"/>
+						</mx:FormItem>
+						<mx:FormItem>
+							<mx:HBox>
+								<mx:Button label="{resourceManager.getString('requestAccount', 'btnAgreeAccount')}"
+									click="requestAccount(event)"/>
+								<mx:Button label="{resourceManager.getString('requestAccount', 'btnDisagreeAccount')}"
+									click="goBackLogin()"/>
+							</mx:HBox>
+						</mx:FormItem>
+					</mx:Form>
+				</mx:VBox>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<!--<mx:VBox width="100%" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:HBox width="100%" height="30" verticalAlign="middle" horizontalAlign="center">
+				<mx:Label height="15"/>
+			</mx:HBox>
+			<mx:VBox width="100%" height="346" styleName="loginCenterPanel" verticalAlign="middle"
+				horizontalAlign="center">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Label text="{resourceManager.getString('requestAccount', 'lblRequestAccountSuccess')}"
+					styleName="darkTitle"/>
+				<mx:Label text="{resourceManager.getString('requestAccount', 'raCheckYourEmail')}"/>
+				<mx:LinkButton label="{resourceManager.getString('requestAccount', 'btnBackToLogin')}"
+					click="goBackLogin()" x="15" y="250"/>
+			</mx:VBox>
+		</mx:VBox>-->
+	</mx:ViewStack>
+	
+</mx:Module>

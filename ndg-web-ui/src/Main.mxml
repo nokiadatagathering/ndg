@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:vapp="main.br.org.indt.ndg.ui.view.app.*"
+	xmlns:vaccess="main.br.org.indt.ndg.ui.view.access.*"
+	xmlns:events="flash.events.*"
+	xmlns:requestAccount="main.br.org.indt.ndg.ui.view.access.requestAccount.*"
+	creationComplete="init()"	
+	pageTitle="Nokia Data Gathering"
+	layout="absolute" width="100%" height="100%"
+	horizontalScrollPolicy="off">
+	
+	<mx:Style>
+		@font-face{
+			src: url("main/resources/fonts/NS Wide Regular.ttf");
+			font-style: normal;
+			font-weight: normal;
+			font-family: "NokiaSansWide";
+		}
+		@font-face{
+			src: url("main/resources/fonts/NS Wide Bold.ttf");
+			font-style: normal;
+			font-weight: bold;
+			font-family: "NokiaSansWide";
+		}
+		@font-face{
+			src: url("main/resources/fonts/NS Wide Italic.ttf");
+			font-style: italic;
+			font-weight: normal;
+			font-family: "NokiaSansWide";
+		}
+		@font-face{
+			src: url("main/resources/fonts/NS Wide BolIta.ttf");
+			font-style: italic;
+			font-weight: bold;
+			font-family: "NokiaSansWide";
+		}
+	</mx:Style>	
+
+	<mx:Style source="main/resources/style/ndgStyle.css"/>
+	
+	<mx:Script source="MainController.as"/>
+	
+	
+	<mx:Canvas x="0" y="0" width="100%" height="248">
+		<mx:borderSkin>@Embed(source='main/resources/images/HEADER_1PX_LINE.png')</mx:borderSkin>
+	</mx:Canvas>
+	
+	<mx:Dissolve id="dissolveOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+	
+	<mx:Canvas width="994" y="0" horizontalCenter="0">
+		<mx:Image x="2" y="98">
+			<mx:source>main/resources/images/SHADOW_LEFT.png</mx:source>
+		</mx:Image>
+		<mx:Image x="980" y="98">
+			<mx:source>main/resources/images/SHADOW_RIGTH.png</mx:source>
+		</mx:Image>
+		<vapp:HeaderLogo id="headerLogoView" horizontalCenter="0" y="0"/>
+		
+		<!-- header -->
+		<mx:ViewStack id="headerStack" y="55" horizontalCenter="0">
+			<mx:VBox><vapp:HeaderBeforeLogin id="headerBeforeLoginView"/></mx:VBox>
+			<mx:VBox width="970" height="25"/>
+			<mx:VBox><vapp:HeaderAfterLogin id="headerAfterLoginView" bodyStack="{bodyStack}"/></mx:VBox>
+		</mx:ViewStack>
+		
+		<!-- body -->
+		<mx:VBox verticalAlign="middle" horizontalCenter="0" id="bodyPanel"
+			width="970" height="570" y="80" styleName="bodyModule">
+			<mx:ViewStack height="562" id="bodyStack" change="changeHeaderStack()">
+				<!-- Login view -->
+				<mx:VBox hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+					<vaccess:Login id="loginView" myStack="{bodyStack}"/>
+				</mx:VBox>
+				<!-- Request Account -->
+				<mx:VBox hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+					<requestAccount:RequestAccount myStack="{bodyStack}"/>
+				</mx:VBox>
+				<mx:VBox/>
+				<!-- Body view -->
+				<mx:VBox hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+					<vapp:BodyView id="bodyView" myStack="{bodyStack}"/>
+				</mx:VBox>
+			</mx:ViewStack>
+		</mx:VBox>
+	</mx:Canvas>
+
+	
+	
+</mx:Application>

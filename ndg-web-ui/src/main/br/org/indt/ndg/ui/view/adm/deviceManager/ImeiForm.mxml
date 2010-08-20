@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+	xmlns:display="flash.display.*"
+	layout="vertical" styleName="previewPanel">
+	
+	
+	<mx:Script source="../../../../controller/adm/deviceManager/ImeiFormController.as" />
+	
+	<mx:HBox width="100%" horizontalAlign="center" paddingTop="3" paddingBottom="15">
+		<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredDeviceFields')}"/>
+	</mx:HBox>
+	
+	
+	<mx:Array id="validators">
+		<mx:StringValidator source="{inputImei}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="15" tooLongError="{getMaxLengthMsg('15')}"
+			minLength="15" tooShortError="{getMinLengthMsg('15')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{inputPhoneNumber}" property="text" 
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>	
+		<mx:StringValidator source="{comboModels}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+	</mx:Array>
+	
+	<mx:Form id="form" paddingLeft="0" paddingRight="0" paddingBottom="5" paddingTop="0">
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldImeiImei')}" fontWeight="bold">
+			<mx:TextInput id="inputImei" text="{dto.imei}" fontWeight="normal" width="160" enabled="false" restrict="[0-9]"
+				styleName="formTextInput"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldImeilPhoneNumber')}" fontWeight="bold">
+			<mx:TextInput id="inputPhoneNumber" text="{dto.msisdn}" fontWeight="normal" width="160" enabled="false"
+				styleName="formTextInput" restrict="[0-9]"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldImeiDeviceModel')}" fontWeight="bold">
+			<mx:HBox horizontalGap="3">
+				<mx:ComboBox width="160" id="comboModels" labelField="deviceModel" enabled="false"
+					dataProvider="{comboDevicesDataProvider}" selectedIndex="{comboDevicesSelectedIndex}"
+					styleName="formComboBox"/>
+				<mx:Button width="20" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
+					click="showDeviceModelManager(event)">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/DEVICES_LIST.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="3" visible="{hasBalanceCheck}">
+		<mx:Image width="16" height="14" source="main/resources/images/BALANCE.png" id="balanceIcon"/>
+		<mx:Label text="{userBalanceMessage}"/>
+	</mx:HBox>
+	
+	<mx:HBox width="100%" horizontalGap="3" horizontalAlign="center" verticalAlign="middle"
+		paddingBottom="20" paddingTop="5">
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnNewImei')}"
+				paddingLeft="3" paddingRight="3" click="add()" enabled="{!(!(!editMode)||!(hasBalance))}"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnEditImei')}"
+				paddingLeft="3" paddingRight="3" click="edit()" enabled="{!(editMode || (dto == null))}"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnSaveImei')}"
+				paddingLeft="3" paddingRight="3" click="save()" enabled="{editMode}"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnCancelEditImei')}"
+				paddingLeft="3" paddingRight="3" click="cancel()" enabled="{editMode}"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnDeleteImei')}"
+				paddingLeft="3" paddingRight="3" click="remove()" enabled="{!(editMode || (dto == null))}"/>
+	</mx:HBox>
+
+
+	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnAssociatedSurveys')}"
+		enabled="{!(editMode || (dto == null))}" click="showAssociatedSurveys()"/>
+
+	
+	
+</mx:Module>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+	width="956" height="460" styleName="mainAreaModule"
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*"		
+	xmlns:aul="main.br.org.indt.ndg.ui.view.adm.usersList.*">
+	
+	<mx:Script source="../../../../controller/adm/usersList/UserListController.as" />
+	
+	<mx:HBox width="100%" styleName="functionalitiesBar">
+		<mx:VBox verticalAlign="middle" verticalGap="0">
+			<mx:HBox verticalAlign="middle" horizontalGap="4">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblUsersTitle')}" styleName="darkTitle"/>
+			</mx:HBox>
+			<mx:HBox verticalAlign="middle" horizontalGap="2">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendAlert')}" height="22" width="120"
+					enabled="{pagination.selectedAllItems.length > 0}" id="btnSendAlert" click="showSendAlert(event)" />
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnDeviceManager')}" height="22" width="120"
+					enabled="{pagination.selectedAllItems.length == 1}"
+					id="btnDeviceManager" click="showDeviceManager(event)"/>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:HRule width="100%" visible="false"/>
+		<comp:PowerSearch id="search" optionsLabels="{searchOptionsLabels}" optionsFields="{searchOptionsFields}"
+			searchLabel="{ConfigI18n.getInstance().getString('lblSearch')}"/>
+	</mx:HBox>	
+	
+	<mx:HBox width="100%" height="100%" horizontalGap="2">
+		<mx:VBox width="100%" height="100%" styleName="gridPanel">
+			<mx:DataGrid id="userGrid" dataProvider="{userList}" change="showPreview(event)"
+				itemClick="{pagination.itemClick(userGrid.selectedItem)}" height="100%">
+				<mx:columns>
+					<render:CheckBoxHeaderColumn dataField="selected"
+						id="customCheck" width="25" sortable="false"
+						headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
+						itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"/>				
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserName')}"
+						dataField="username" width="100"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colPersonalName')}" 
+						labelFunction="getPersonalName" sortable="false" width="190"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserEmail')}"
+						dataField="email" width="140"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserPhoneNumber')}"
+						labelFunction="getPhoneNumber" sortable="false" width="130"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserPermission')}" 
+						labelFunction="getPermission" sortable="false" width="94"/>
+				</mx:columns>
+			</mx:DataGrid>
+			
+			<comp:PowerDataPagination dataProvider="{userList}" remoteObject="{remoteUserList}"
+				grid="{userGrid}" search="{search}" id="pagination"
+				changePage="listUsers(event)" pageSize="{USER_PAGE_SIZE}" checkable="true"
+				pageLabel="{ConfigI18n.getInstance().getString('pcPageLabel')}"
+				ofLabel="{ConfigI18n.getInstance().getString('pcOfLabel')}"
+				refreshLabel="{ConfigI18n.getInstance().getString('pcRefreshLabel')}"
+				itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
+				selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}"/>
+		</mx:VBox>
+		
+		<mx:VBox width="275" height="100%" borderStyle="none" verticalGap="1">
+			<mx:ApplicationControlBar height="23" width="100%" styleName="previewCtrlBar">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblPreviewUser')}" styleName="clearText" fontWeight="bold"/>
+			</mx:ApplicationControlBar>
+			<aul:UserForm width="100%" height="100%" id="userPreview" pagination="{pagination}"/>	
+		</mx:VBox>			
+	</mx:HBox>		
+			
+
+	
+</mx:Module>

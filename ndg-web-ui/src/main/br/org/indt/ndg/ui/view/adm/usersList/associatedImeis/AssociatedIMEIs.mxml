@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+	layout="vertical" styleName="wizardModule" width="550" height="345">
+	
+	
+	<mx:Script source="../../../../../controller/adm/usersList/associatedImeis/AssociatedIMEIsController.as" />
+	
+	
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="490" y="-1" click="close()">
+            <mx:skin>@Embed(source='../../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>	
+	
+    <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+        <mx:Label text="{ConfigI18n.getInstance().getString('associatedImeisTitle')}" styleName="clearTitle3"/>
+    </mx:ApplicationControlBar>	
+	
+	<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="5" paddingTop="5">
+		<mx:Label text="" styleName="darkTitle" height="16"/>
+	</mx:VBox>
+	
+	
+	<mx:VBox width="100%" height="100%" verticalAlign="middle" horizontalAlign="center" verticalGap="5" styleName="wizardCenterPanel">
+		<mx:DataGrid height="100%" width="98%" id="grid" dataProvider="{imeiList}" styleName="wizardGrid">
+			<mx:columns>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colAssociatedImeiImei')}"
+					dataField="imei" sortable="true" width="200"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colAssociatedImeiMsisdn')}"
+					dataField="msisdn" sortable="true" width="150"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colAssociatedImeiDevice')}"
+					labelFunction="getDeviceModel" sortable="false" width="150"/>
+			</mx:columns>
+		</mx:DataGrid>
+		
+		<comp:PowerDataPagination dataProvider="{imeiList}" remoteObject="{remoteList}"
+			grid="{grid}" id="pagination" checkable="false" width="98%"
+			changePage="listImeis(event)" pageSize="{IMEIS_PAGE_SIZE}"
+			pageLabel="{ConfigI18n.getInstance().getString('pcPageLabel')}"
+			ofLabel="{ConfigI18n.getInstance().getString('pcOfLabel')}"
+			refreshLabel="{ConfigI18n.getInstance().getString('pcRefreshLabel')}"
+			itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
+			selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}" horizontalAlign="center" verticalAlign="middle"/>
+	</mx:VBox>
+
+
+	<mx:HBox width="100%" height="52" verticalAlign="middle" horizontalAlign="center">
+	</mx:HBox>	
+	
+</mx:Module>

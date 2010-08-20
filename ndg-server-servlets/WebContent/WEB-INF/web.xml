@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>ndg-server-servlets</display-name>
+	<servlet>
+		<description>Install NDG Client OTA</description>
+		<display-name>GetClient</display-name>
+		<servlet-name>GetClient</servlet-name>
+		<servlet-class>br.org.indt.ndg.servlets.GetClient</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetClient</servlet-name>
+		<url-pattern>/GetClient</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>Receive results from Devices</description>
+		<display-name>PostResults</display-name>
+		<servlet-name>PostResults</servlet-name>
+		<servlet-class>br.org.indt.ndg.servlets.PostResults</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostResults</servlet-name>
+		<url-pattern>/PostResults</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>Receive surveys from Editor</description>
+		<display-name>PostSurveys</display-name>
+		<servlet-name>PostSurveys</servlet-name>
+		<servlet-class>br.org.indt.ndg.servlets.PostSurveys</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostSurveys</servlet-name>
+		<url-pattern>/PostSurveys</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>Send surveys to devices</description>
+		<display-name>ReceiveSurvey</display-name>
+		<servlet-name>ReceiveSurvey</servlet-name>
+		<servlet-class>br.org.indt.ndg.servlets.ReceiveSurvey</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReceiveSurvey</servlet-name>
+		<url-pattern>/ReceiveSurveys</url-pattern>
+	</servlet-mapping>
+	<servlet>
+    	<description>Receive image from Client</description>
+    	<display-name>ReceiveImage</display-name>
+    	<servlet-name>ReceiveImage</servlet-name>
+    	<servlet-class>br.org.indt.ndg.servlets.ReceiveImage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>ReceiveImage</servlet-name>
+    	<url-pattern>/ReceiveImage</url-pattern>
+    </servlet-mapping>
+    <servlet>
+    	<description>Register IMEI</description>
+    	<display-name>RegisterIMEI</display-name>
+    	<servlet-name>RegisterIMEI</servlet-name>
+    	<servlet-class>br.org.indt.ndg.servlets.RegisterIMEI</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>RegisterIMEI</servlet-name>
+    	<url-pattern>/RegisterIMEI</url-pattern>
+    </servlet-mapping>
+	<servlet>
+		<description>Check for Client Update</description>
+		<display-name>ClientUpdate</display-name>
+		<servlet-name>ClientUpdate</servlet-name>
+		<servlet-class>br.org.indt.ndg.servlets.ClientUpdate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClientUpdate</servlet-name>
+		<url-pattern>/ClientUpdate</url-pattern>
+	</servlet-mapping>	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error404.html</location>
+	</error-page>
+		<error-page>
+		<error-code>500</error-code>
+		<location>/error500.html</location>
+	</error-page>
+		<error-page>
+		<error-code>501</error-code>
+		<location>/error501.html</location>
+	</error-page>
+</web-app>

@@ -1,0 +1,47 @@
+<project name="ndg-web-server" default="pack-blaze">
+
+    <path id="classpath">
+        <fileset dir="../../lib/" includes="**/*.jar"/>
+        <pathelement location="../../ndg-server-core/bin/"/>
+    </path>
+
+	<property name="deploy.dir" value="../deploy"/>
+	<property name="output.dir" value="../output"/>
+
+	<target name="create-directories">
+		<mkdir dir="${deploy.dir}"/>
+		<mkdir dir="${output.dir}"/>
+		<mkdir dir="${output.dir}/blaze"/>
+		<mkdir dir="${output.dir}/blaze/WEB-INF/classes"/>
+		<mkdir dir="${output.dir}/blaze/swf"/>
+	</target>
+
+	<property name="sourceBlaze.dir" value="../../ndg-web-server/src/"/>
+
+	<target name="clean">
+	    <delete dir="${output.dir}/blaze"/>
+		
+		<mkdir dir="${output.dir}/blaze"/>
+		<mkdir dir="${output.dir}/blaze/WEB-INF/classes"/>
+		<mkdir dir="${output.dir}/blaze/WEB-INF/lib"/>
+	</target>
+
+	<target name="build-blaze" depends="create-directories">
+        <javac srcdir="../src/" classpathref="classpath" destdir="${output.dir}/blaze/WEB-INF/classes"
+            includes="**/*.java"/>
+
+		<copy todir="${output.dir}/blaze">
+			<fileset dir="${sourceBlaze.dir}/../WebContent">
+				<include name="**/*.*"/>
+				<exclude name="**/*.svn"/>
+				<exclude name="**/WEB-INF/lib/blazeDS/"/>
+			</fileset>									
+		</copy>
+	</target>
+
+    <target name="pack-blaze"  depends="build-blaze">
+    	<jar destfile="${deploy.dir}/ndgFlex.war" basedir="${output.dir}/blaze"></jar>
+    	<copy file="ndgFlex.war" todir=""></copy>
+    </target>
+
+</project>

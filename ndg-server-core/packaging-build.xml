@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NDG Server Core Generator" default="_packaging_generation_">
+<target name="_packaging_generation_" depends="N65582,N65565,N65540,N65599,N65640" />
+
+<path id="classpath">
+    <fileset dir="../lib/" includes="**/*.jar"/>
+</path>
+
+<target name="clean">
+    <delete dir="bin"/>
+</target>
+
+<target name="prepare" depends="clean">
+    <mkdir dir="bin"/>
+    <mkdir dir="build" />    
+</target>
+
+<target name="compile" depends="prepare">
+    <javac srcdir="." classpathref="classpath" destdir="bin"
+            includes="**/*.java"/>
+</target>
+
+<target name="N65582" description="msmjms.jar" depends="compile">
+    <jar destfile="build/msmjms.jar">
+        <zipfileset dir="bin" includes="**/jms/*.class" />
+    </jar>
+    <copy file="build/msmjms.jar" todir="">
+    </copy>
+</target>
+
+	<target name="N65565" description="ndg-ejb-client.jar" depends="compile">
+		<mkdir dir="build" />
+		<jar destfile="build/ndg-ejb-client.jar">
+			<zipfileset dir="bin" includes="**/*/*Exception.class, **/SMSMessageVO.class, **/IMEIManager.class, **/UserManager.class, **/SurveyHandler.class, **/*client*/*.class, **/authentication/User.class, **/authorization/Role.class, **/sms/SMSMessageVO.class, **/util/*.class" excludes="**/jms/*.class" />
+		</jar>
+		<copy file="build/ndg-ejb-client.jar" todir="">
+		</copy>
+	</target>
+	<target name="N65540" description="ndg-ejb.jar">
+		<mkdir dir="build" />
+		<mkdir dir="bin" />
+		<jar destfile="build/ndg-ejb.jar">
+			<zipfileset dir="src/main/java/META-INF" prefix="META-INF" includes="persistence.xml" />
+			<zipfileset dir="bin" includes="**/*.class" excludes="**/jms/*.class, **/sms/SMSMessageVO.class" />
+			<zipfileset dir="src/main/java/META-INF" prefix="META-INF">
+				<include name="survey.xml" />
+				<include name="email_verification_link.txt" />
+				<include name="email_recovery_password_link.txt" />
+			</zipfileset>
+		</jar>
+
+	</target>
+	<target name="N65599" description="ndg-core-web.war" depends="compile">
+		<mkdir dir="build" />
+		<jar destfile="build/ndg-core-web.war" manifest="src/main/java/META-INF/MANIFEST.MF">
+			<zipfileset dir="src/main/java/WEB-INF" prefix="WEB-INF">
+				<include name="web.xml" />
+			</zipfileset>
+			<zipfileset dir="src/main/java/WEB-INF" prefix="WEB-INF">
+				<include name="jboss-web.xml" />
+			</zipfileset>
+			<zipfileset dir="bin" prefix="WEB-INF/classes" includes="**/servlet/*.class" />
+		</jar>
+	</target>
+	<target name="N65640" description="ndg-core.ear" depends="compile">
+		<mkdir dir="build" />
+		<jar destfile="build/ndg-core.ear" manifest="src/main/java/META-INF/MANIFEST.MF">
+			<zipfileset dir="src/main/java/META-INF" prefix="META-INF">
+				<include name="application.xml" />
+			</zipfileset>
+			<zipfileset dir="build">
+				<include name="ndg-core-web.war" />
+			</zipfileset>
+			<zipfileset dir="build">
+				<include name="ndg-ejb.jar" />
+			</zipfileset>
+		</jar>
+		<copy file="build/ndg-core.ear" todir="">
+		</copy>
+	</target>
+</project>

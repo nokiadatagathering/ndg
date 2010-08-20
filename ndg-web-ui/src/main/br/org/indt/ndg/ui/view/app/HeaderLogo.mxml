@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="horizontal" width="970" height="55" 
+	horizontalAlign="center" verticalAlign="middle">
+
+	
+	<mx:VBox verticalGap="0" verticalAlign="middle" horizontalAlign="center">
+		<mx:Label text="NOKIA DATA" styleName="clearTitle" height="18"/>
+		<mx:Label text="GATHERING" styleName="clearTitle" height="18"/>
+	</mx:VBox>
+	<mx:HRule width="100%" visible="false"/>
+	<mx:Label text="NOKIA" styleName="clearTitle"/>
+	
+	
+</mx:Module>

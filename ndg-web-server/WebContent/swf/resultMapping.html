@@ -1,0 +1,70 @@
+<!-- saved from url=(0014)about:internet -->
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="sessvars.js"></script>
+	<script src="http://maptile.svc.nokia.com.edgesuite.net/players/map/auth/maps/maploader.js?token=4bf9f3078fe455decd26d3e36b09b1d3"></script>
+</head>
+
+<body scroll="no">
+
+	<div id="playerPanel" style="height: 100%; width: 100%;"></div>	
+
+	<script language="JavaScript" type="text/javascript">
+
+	/*
+	var player = nokiaMapLoader.getPlayer({playerDomId: "playerPanel", onInitDone: addIconToCenter, defaultState: {longitude: 14.439904, latitude: 50.110434, orientation: 0, scale: 500}, token: "15b0b4806591a73caf37230e70dde1cc"});
+
+	function addIconToCenter()
+	{
+    	player.map.moveTo({});
+        
+		var layer = player.map.createLayer({name: "test"});
+		
+		var centeredMarker = layer.addMapObjects
+		({
+			type:"marker", 
+			clickable: true, 
+			infoTitle: "Hello World", 
+			infoDescription: "This is a long description of this Item. If it could talk, it would tell a tale about its" + " creation, the surroundings and other wonderful things."
+		});
+
+    	player.map.moveTo({position: centeredMarker[0]});
+	}
+	*/
+	
+	var player = nokiaMapLoader.getPlayer({playerDomId: "playerPanel", token: "4bf9f3078fe455decd26d3e36b09b1d3", onInitDone: addPOIsToMap});	
+		
+	// event handler for setting markers on the map for all loaded poi's
+	function addPOIsToMap()
+	{
+		player.map.moveTo({});
+		
+		var layer = player.map.createLayer({name: "resultMapLayer"});
+		var mapObjects = null;
+		
+		// display some poi's as icons on the map
+		for (var i = 0, len = sessvars.listOfPOIs.length; i < len; ++i)
+		{		
+			mapObjects = layer.addMapObjects({type: "marker", latitude: sessvars.listOfPOIs[i].lat, longitude: sessvars.listOfPOIs[i].lon});
+		}
+ 
+		// get the index of the middle marker             
+		var ix = mapObjects.length / 2; 
+		var rem = ix % 1; 
+		 
+		if (rem > 0) 
+		{
+			ix = ix - rem;
+		} 
+		 
+		// set zoom scale and center the map on the middle marker
+		player.map.moveTo({position: mapObjects[ix], scale: 4000}); 
+	};
+	// -->
+	</script>
+
+</body>
+
+</html>

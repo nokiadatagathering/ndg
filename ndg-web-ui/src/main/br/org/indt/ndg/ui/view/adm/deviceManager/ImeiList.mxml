@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+	width="956" height="460" styleName="mainAreaModule"
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+	xmlns:adm="main.br.org.indt.ndg.ui.view.adm.deviceManager.*"
+	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
+	
+	<mx:Script source="../../../../controller/adm/deviceManager/ImeiListController.as" />
+	
+	<mx:HBox width="100%" styleName="functionalitiesBar">
+		<mx:Button height="43" width="63" click="showUsers(event)"
+			label="{ConfigI18n.getInstance().getString('btnImeisBack')}">
+			<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+		</mx:Button>		
+		<mx:HBox verticalAlign="middle">
+			<mx:Label text="{ConfigI18n.getInstance().getString('lblDeviceManagerTitle')}" styleName="darkTitle"/>
+			<mx:Label styleName="darkTitle" id="userTitle" maxWidth="300"/>
+		</mx:HBox>
+		<mx:HRule width="100%" visible="false"/>
+		<comp:PowerSearch id="search" optionsLabels="{searchOptionsLabels}" optionsFields="{searchOptionsFields}"
+			searchLabel="{ConfigI18n.getInstance().getString('lblSearch')}"/>
+	</mx:HBox>	
+	
+	<!--
+	<mx:HBox width="100%" height="22" borderStyle="none" verticalAlign="middle" horizontalGap="4">
+		<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnUsersMarkAll')}"
+			height="20" y="1" x="1" click="markAll(event)"/>
+		<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnUsersUnmarkAll')}"
+			height="20" click="unmarkAll(event)"/>
+	</mx:HBox>
+	-->
+	
+	<mx:HBox width="100%" height="100%" horizontalGap="2">
+		<mx:VBox width="100%" height="100%" styleName="gridPanel">
+			<mx:DataGrid id="imeiGrid" dataProvider="{imeiList}" change="showPreview(event)"
+				itemClick="{pagination.itemClick(imeiGrid.selectedItem)}" height="100%">
+				<mx:columns>
+					<render:CheckBoxHeaderColumn dataField="selected"
+						id="customCheck" width="25" sortable="false"
+						headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
+						itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer" />
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDeviceManagerImei')}"
+						dataField="imei" sortable="true" width="220"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDeviceManagerPhone')}"
+						labelFunction="getMsisdn" sortable="true" width="220"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDeviceManagerDevice')}"
+						labelFunction="getDeviceModel" sortable="false" width="189"/>
+				</mx:columns>
+			</mx:DataGrid>
+			
+			<comp:PowerDataPagination dataProvider="{imeiList}" remoteObject="{remoteImeiList}"
+				grid="{imeiGrid}" search="{search}" id="pagination" checkable="true"
+				changePage="listImeis(event)" pageSize="{IMEI_PAGE_SIZE}"
+				pageLabel="{ConfigI18n.getInstance().getString('pcPageLabel')}"
+				ofLabel="{ConfigI18n.getInstance().getString('pcOfLabel')}"
+				refreshLabel="{ConfigI18n.getInstance().getString('pcRefreshLabel')}"
+				itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
+				selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}"/>
+		</mx:VBox>
+		
+		<mx:VBox width="300" height="100%" borderStyle="none" verticalGap="1">
+			<mx:ApplicationControlBar height="23" width="100%" styleName="previewCtrlBar">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblPreviewDevice')}" styleName="clearText" fontWeight="bold"/>
+			</mx:ApplicationControlBar>
+			<adm:ImeiForm width="100%" height="100%" id="imeiPreview" pagination="{pagination}" selectedUser="{selectedUserDTO}"/>	
+		</mx:VBox>			
+	</mx:HBox>		
+			
+
+	
+</mx:Module>

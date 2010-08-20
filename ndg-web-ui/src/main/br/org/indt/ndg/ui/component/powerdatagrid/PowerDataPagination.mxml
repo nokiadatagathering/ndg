@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" height="23" horizontalGap="4" verticalAlign="middle" creationComplete="init()">
+
+
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ListEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.events.DataGridEvent;
+			import mx.controls.DataGrid;
+			import mx.events.CollectionEvent;
+			import main.br.org.indt.ndg.model.SurveyDTO;
+			import mx.collections.ArrayCollection;
+			import main.br.org.indt.ndg.i18n.ConfigI18n;
+			import main.br.org.indt.ndg.controller.util.ExceptionUtil;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.remoting.mxml.RemoteObject;
+			
+			public var pageSize:int = 1;
+			public var grid:DataGrid = null;
+			public var search:PowerSearch = null;
+			[Bindable] public var dataProvider:Object;
+			[Bindable] public var remoteObject:RemoteObject;  
+			[Bindable] public var checkable:Boolean = false;
+			[Bindable] public var pageLabel:String = "Page";
+			[Bindable] public var ofLabel:String = "of";
+			[Bindable] public var refreshLabel:String = "Refresh";
+			[Bindable] public var itemsLabel:String = "Items:";
+			[Bindable] public var selectedItemsLabel:String = "Selected Items:";
+			
+			[Bindable] public var selectedAllItems:ArrayCollection = new ArrayCollection();
+			[Bindable] public var currentPage:int = 0;
+			[Bindable] private var pageCount:int = 0;
+			[Bindable] private var recordCount:int = 0;
+			private var sortField:String = null;
+			private var sortDescending:Boolean = false;
+			private var filterText:String = null;
+			private var filterFields:Array = null;
+			
+			
+			public function reset():void{
+				selectedAllItems = new ArrayCollection();
+				currentPage = 0;
+				pageCount = 0;
+				recordCount = 0;
+				sortField = null;
+				sortDescending = false;
+				filterText = null;
+				filterFields = null;
+			}
+			
+			private function init():void{
+				remoteObject.showBusyCursor = true;
+				remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+				remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+				grid.addEventListener(DataGridEvent.HEADER_RELEASE, headerRelease);
+				if (search != null){
+					search.addEventListener(SearchEvent.EVENT_NAME, searching);
+				}
+				if (checkable == false){
+					this.removeChild(selectedItemsLbl01);
+					this.removeChild(selectedItemsLbl02);
+					this.removeChild(selectedItemsRule);
+				}
+			}
+			
+			private function headerRelease(event:DataGridEvent):void{
+				var c:DataGridColumn = grid.columns[event.columnIndex] as DataGridColumn;
+				sortField = event.dataField.toString();
+				sortDescending = !c.sortDescending;
+				reorder();
+			}
+			
+			private function searching(event:SearchEvent):void{
+				filterText = event.filterText;
+				filterFields = event.filterFields;
+				filter();
+			}
+			
+			private function onFault(event:FaultEvent):void{
+				pageInput.text = currentPage.toString();
+				Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
+						ConfigI18n.getInstance().getString("lblError"));
+			}
+			private function onSuccess(event:ResultEvent):void{
+				if (event.result != null) {
+					var result:QueryInputOutputDTO = event.result as QueryInputOutputDTO;
+					var array:ArrayCollection = result.queryResult;
+					
+					dataProvider.source = array.toArray();
+					if (array == null || array.length == 0){
+						selectedAllItems = new ArrayCollection();
+					} else{
+						updateChecks();	
+					}
+					
+					recordCount = result.recordCount;
+					pageCount = result.pageCount;
+					currentPage = result.pageNumber;
+					pageInput.text = currentPage.toString();
+					
+					if (currentPage <= 1){
+						firstBtn.enabled = false;
+						previousBtn.enabled = false;
+					} else{
+						firstBtn.enabled = true;
+						previousBtn.enabled = true;
+					}
+					if (currentPage >= pageCount){
+						nextBtn.enabled = false;
+						lastBtn.enabled = false;
+					} else{
+						nextBtn.enabled = true;
+						lastBtn.enabled = true;
+					}
+					
+					if (array.length > 0){
+						grid.selectedIndex = 0;
+						grid.dispatchEvent(new ListEvent(ListEvent.CHANGE));
+					}
+				}	
+			}
+			
+			private function changePage(page:int):void{
+				var aEvent:ChangePageEvent = new ChangePageEvent(ChangePageEvent.EVENT_NAME);
+				aEvent.page = page;
+				aEvent.pageSize = pageSize;
+				aEvent.sortField = sortField;
+				aEvent.sortDescending = sortDescending;
+				aEvent.filterText = filterText;
+				aEvent.filterFields = filterFields;
+				dispatchEvent(aEvent);
+			}
+			
+			public function nextPage():void{
+				changePage(currentPage+1);
+			}
+			public function previousPage():void{
+				changePage(currentPage-1);
+			}
+			public function lastPage():void{
+				changePage(pageCount);
+			}
+			public function firstPage():void{
+				changePage(1);
+			}
+			public function refresh():void{
+				selectedAllItems = new ArrayCollection();
+				changePage(1);
+			}
+			private function reorder():void{
+				changePage(1);
+			}
+			private function filter():void{
+				refresh();
+			}
+			public function getPage(p:int):void{
+				if (p < 1){
+					p = 1;
+				} else if (p > pageCount){
+					p = pageCount;
+				}
+				changePage(p);
+			}
+			
+			public function itemClick(item:Object):void{
+				if (checkable){
+					var selItem:Object = null;
+					if (item.selected){
+						for (var j:int=0; j<selectedAllItems.length; j++){
+							selItem = selectedAllItems.getItemAt(j);
+							if (selItem.getId() == item.getId()){
+								break;
+							}
+						}
+						if (j==selectedAllItems.length){
+							selectedAllItems.addItem(item);
+						}
+					} else{
+						for (j=0; j<selectedAllItems.length; j++){
+							selItem = selectedAllItems.getItemAt(j);
+							if (selItem.getId() == item.getId()){
+								selectedAllItems.removeItemAt(j);
+								break;
+							}
+						}						
+					}
+				}
+			}
+			
+			public function selectAll(selected:Boolean):void{
+				if (checkable){
+					var array:Array = dataProvider.source as Array;
+					var selItem:Object = null;
+					if (selected){
+						for (var i:int=0; i<array.length; i++){
+							array[i].selected = true;
+							for (var j:int=0; j<selectedAllItems.length; j++){
+								selItem = selectedAllItems.getItemAt(j);
+								if (selItem.getId() == array[i].getId()){
+									break;
+								}
+							}
+							if (j==selectedAllItems.length){
+								selectedAllItems.addItem(array[i]);
+							}
+						}
+					} else{
+						for (i=0; i<array.length; i++){
+							array[i].selected = false;
+							for (j=0; j<selectedAllItems.length; j++){
+								selItem = selectedAllItems.getItemAt(j);
+								if (selItem.getId() == array[i].getId()){
+									selectedAllItems.removeItemAt(j);
+									break;
+								}
+							}
+						}	
+					}
+				}
+			}
+			
+			private function updateChecks():void{
+				if (checkable){
+					var array:Array = dataProvider.source as Array;
+					var selItem:Object = null;
+					for (var j:int=0; j<selectedAllItems.length; j++){
+						selItem = selectedAllItems.getItemAt(j);
+						for (var i:int=0; i<array.length; i++){
+							if (selItem.getId() == array[i].getId()){
+								array[i].selected = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			public function getSelectedAllItems():ArrayCollection{
+				return selectedAllItems;
+			}
+			
+		]]>
+	</mx:Script>
+
+	<mx:Metadata>
+		[Event(name="changePage", type="main.br.org.indt.ndg.ui.component.powerdatagrid.ChangePageEvent")]
+	</mx:Metadata>
+	<mx:ApplicationControlBar height="22" styleName="paginationCtrlBar">
+		<mx:Button click="firstPage()" enabled="false" id="firstBtn" width="13" height="10" styleName="iconButton">
+			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_BACK_ALL_TRANSP.png')</mx:skin>
+		</mx:Button>
+		<mx:Button click="previousPage()" enabled="false" id="previousBtn" width="10" height="10" styleName="iconButton">
+			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:skin>
+		</mx:Button>
+		<mx:Label text="{pageLabel}" styleName="clearSmallText"/>
+		<mx:TextInput width="36" height="15" maxChars="5" text="0" id="pageInput" restrict="0-9" styleName="paginationTextInput"
+			enter="getPage(new int(pageInput.text))" />
+		<mx:Label text="{ofLabel}" styleName="clearSmallText"/>
+		<mx:Label text="{pageCount}" styleName="clearSmallText"/>
+		<mx:Button click="nextPage()" enabled="false" id="nextBtn" width="10" height="10" styleName="iconButton">
+			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:skin>
+		</mx:Button>
+		<mx:Button click="lastPage()" enabled="false" id="lastBtn" width="13" height="10" styleName="iconButton">
+			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_NEXT_ALL_TRANSP.png')</mx:skin>
+		</mx:Button>
+		<mx:Button click="refresh()" id="refreshBtn" width="10" height="10" styleName="iconButton">
+			<mx:skin>@Embed(source='../../../../../../../resources/images/RELOAD_TRANSP.png')</mx:skin>
+		</mx:Button>
+	</mx:ApplicationControlBar>
+
+	<mx:HRule width="100%" visible="false"/>
+
+	<mx:HBox height="24" horizontalGap="3" verticalAlign="middle">
+		<mx:Label text="{itemsLabel}"/>
+		<mx:Label text="{recordCount}"/>
+		<mx:HRule width="20" visible="false" id="selectedItemsRule"/>
+		<mx:Label text="{selectedItemsLabel}" visible="{checkable}" id="selectedItemsLbl01"/>
+		<mx:Label text="{selectedAllItems.length}" visible="{checkable}" id="selectedItemsLbl02"/>	
+	</mx:HBox>
+	
+	
+	
+</mx:HBox>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:display="flash.display.*"
+	layout="vertical" styleName="previewPanel"
+	creationComplete="init()">
+	
+	
+	<mx:Script source="../../../../controller/adm/usersList/UserFormController.as" />	
+
+
+	<mx:HBox width="100%" horizontalAlign="center" paddingTop="3" paddingBottom="15">
+		<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredUserFields')}"/>
+	</mx:HBox>
+	
+	<mx:Array id="validators">
+		<mx:StringValidator source="{inputUser}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="15" tooLongError="{getMaxLengthMsg('15')}"
+			minLength="5" tooShortError="{getMinLengthMsg('5')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{inputFirstName}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{inputLastName}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:EmailValidator source="{inputEmail}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			invalidCharError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidCharEmailErrorMsg')}"
+			invalidDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidDomainEmailErrorMsg')}"
+			invalidIPDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidIPDomainEmailErrorMsg')}"
+			invalidPeriodsInDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidPeriodsInDomainEmailErrorMsg')}"
+			missingAtSignError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingAtSignEmailErrorMsg')}"
+			missingPeriodInDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingPeriodInDomainEmailErrorMsg')}"
+			missingUsernameError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingUsernameEmailErrorMsg')}"
+			tooManyAtSignsError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'tooManyAtSignsEmailErrorMsg')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{comboRoles}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{inputCountryCode}" property="text" 
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="3" tooLongError="{getMaxLengthMsg('3')}"
+			triggerEvent="change"/>			
+		<mx:StringValidator source="{inputAreaCode}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="3" tooLongError="{getMaxLengthMsg('3')}"
+			triggerEvent="change"/>		
+		<mx:StringValidator source="{inputPhone}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:StringValidator source="{inputPassword}" property="text" id="passValidator"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="8" tooLongError="{getMaxLengthMsg('8')}"
+			triggerEvent="change"/>
+	</mx:Array>
+	
+	<mx:Form id="form" paddingLeft="0" paddingRight="0" paddingBottom="5" paddingTop="0">
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldUsername')}" fontWeight="bold">
+			<mx:TextInput id="inputUser" text="{dto.username}" fontWeight="normal" width="155" enabled="false"
+				styleName="formTextInput"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldFirstName')}" fontWeight="bold">
+			<mx:TextInput id="inputFirstName" text="{dto.firstName}" fontWeight="normal" width="155" enabled="false"
+				styleName="formTextInput"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldLastName')}" fontWeight="bold">
+			<mx:TextInput id="inputLastName" text="{dto.lastName}" fontWeight="normal" width="155" enabled="false"
+				styleName="formTextInput"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldEmail')}" fontWeight="bold">
+			<mx:TextInput id="inputEmail" text="{dto.email}" fontWeight="normal" width="155" enabled="false"
+				styleName="formTextInput"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldPermission')}" fontWeight="bold">
+			<mx:ComboBox width="155" id="comboRoles" labelField="name" enabled="false" styleName="formComboBox"
+				dataProvider="{comboRolesDataProvider}" selectedIndex="{comboRolesSelectedIndex}"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldCountryCode')}" fontWeight="bold">
+			<mx:TextInput id="inputCountryCode" text="{dto.countryCode}" fontWeight="normal" width="155" enabled="false"
+				styleName="formTextInput" restrict="[0-9]"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldAreaCode')}" fontWeight="bold">
+			<mx:TextInput id="inputAreaCode" text="{dto.areaCode}" fontWeight="normal" width="155" enabled="false"
+				styleName="formTextInput" restrict="[0-9]"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldPhoneNumber')}" fontWeight="bold">
+			<mx:TextInput id="inputPhone" text="{dto.phoneNumber}" fontWeight="normal" width="155" enabled="false"
+				styleName="formTextInput" restrict="[0-9]"/>
+		</mx:FormItem>
+		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldPassword')}" fontWeight="bold">
+			<mx:TextInput id="inputPassword" fontWeight="normal" width="155" enabled="false" displayAsPassword="true"
+				change="updatePassValidatorState()" styleName="formTextInput"/>
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="3" visible="{hasBalanceCheck}">
+		<mx:Image width="16" height="14" source="main/resources/images/BALANCE.png" id="balanceIcon"/>
+		<mx:Label text="{userBalanceMessage}"/>
+	</mx:HBox>
+	
+	<mx:HBox width="100%" horizontalGap="3" horizontalAlign="center" verticalAlign="middle"
+		paddingBottom="20" paddingTop="5">
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnNewUser')}"
+				click="add()" enabled="{!(!(!editMode)||!(hasBalance))}" id="btnNewUser"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnEditUser')}"
+				click="edit()" enabled="{!(editMode || (dto == null))}"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnSaveUser')}"
+				click="save()" enabled="{editMode}"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnCancelEditUser')}"
+				click="cancel()" enabled="{editMode}"/>
+		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnDeleteUser')}"
+				click="remove()" enabled="{!(editMode || (dto == null))}"/>
+	</mx:HBox>
+	
+
+	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnAssociatedImeis')}"
+		enabled="{!(editMode || (dto == null))}" click="showAssociatedImeis()"/>
+	
+	
+	
+</mx:Module>

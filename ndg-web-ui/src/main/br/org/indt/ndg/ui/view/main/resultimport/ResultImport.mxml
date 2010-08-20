@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module layout="vertical" styleName="wizardModule" width="640" height="363"
+	xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()">
+	
+	<mx:Script source="../../../../controller/main/resultimport/ResultImportController.as" />
+	
+	<mx:Metadata>
+		[Event(name="closeResultImport", type="main.br.org.indt.ndg.controller.main.resultimport.CloseResultImportEvent")]
+	</mx:Metadata>
+
+
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="590" y="-1" click="close(1)">
+            <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>
+    
+    <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblTitleImport')}" styleName="clearTitle3"/>
+        <mx:HRule width="10" visible="false"/>
+        <mx:Canvas verticalCenter="0" borderStyle="none">
+	        <mx:Image width="15" height="12" id="modeIcon" visible="false"/>
+        </mx:Canvas>
+        <mx:HRule width="100%" visible="false"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizImportStep')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="{stepText}" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizImportStepOf')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="2" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        
+        <mx:ApplicationControlBar id="stp1" styleName="wizardProgress" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp2" styleName="wizardBlank" width="35" height="7"/>
+    </mx:ApplicationControlBar>
+    
+    
+    <mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>		
+	
+	
+	<mx:ViewStack id="viewStack" width="100%" height="100%" selectedIndex="0" change="updateSteps()">
+
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportSelectDrive')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportDrive')}"/>
+				<mx:ComboBox dataProvider="{comboArr}" width="140" id="driveCombo"/>
+			</mx:HBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnImportImport')}" click="callImport()"/>
+			</mx:HBox>
+		</mx:VBox>
+
+		<!-- fail -->
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_FAIL.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportFail')}" styleName="darkTitle"/>
+				<mx:Text textAlign="center" text="{ConfigI18n.getInstance().getString('lblImportPleaseCheck')}"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">	
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnImportClose')}" click="close(0)"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<!-- success -->
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportSuccess')}" styleName="darkTitle"/>
+				<mx:Text textAlign="center" text="{ConfigI18n.getInstance().getString('lblImportResultsImported')}"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">	
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnImportClose')}" click="close(1)"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+	</mx:ViewStack>
+
+	
+	
+</mx:Module>

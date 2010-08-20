@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module layout="vertical"
+	width="970" height="562" styleName="bodyModule"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:vmain="main.br.org.indt.ndg.ui.view.main.*"
+	xmlns:vadm="main.br.org.indt.ndg.ui.view.adm.*"
+	creationComplete="init()">
+
+	
+	<mx:Script source="../../../controller/app/BodyController.as" />
+
+
+	<mx:ViewStack height="{getHeight()}" id="viewStackButtonBar">
+		<mx:Canvas height="102" id="buttonBar" creationComplete="updateButtonBarSize()">
+				<mx:Button id="btnMain" width="319" height="77" x="6" y="12" click="mouseClickButton(1, event)"
+						mouseOver="mouseOverButton(1, event)" mouseOut="mouseOutButton(1, event)">
+					<mx:skin>@Embed(source='main/resources/images/ABA_MAIN_IDLE.png')</mx:skin>
+					<mx:overSkin>@Embed(source='main/resources/images/ABA_MAIN_SELECTED.png')</mx:overSkin>
+					<mx:focusSkin>@Embed(source='main/resources/images/ABA_MAIN_SELECTED.png')</mx:focusSkin>
+					<mx:downSkin>@Embed(source='main/resources/images/ABA_MAIN_SELECTED.png')</mx:downSkin>
+					<mx:selectedOverSkin>@Embed(source='main/resources/images/ABA_MAIN_SELECTED.png')</mx:selectedOverSkin>
+					<mx:selectedDownSkin>@Embed(source='main/resources/images/ABA_MAIN_SELECTED.png')</mx:selectedDownSkin>			
+					<mx:selectedUpSkin>@Embed(source='main/resources/images/ABA_MAIN_SELECTED.png')</mx:selectedUpSkin>	
+				</mx:Button>	
+		
+				<mx:Button id="btnManage" width="319" height="77" x="324" y="12"
+						mouseOver="mouseOverButton(2, event)" mouseOut="mouseOutButton(2, event)" click="mouseClickButton(2, event)">
+					<mx:skin>@Embed(source='main/resources/images/ABA_MANAGE_IDLE.png')</mx:skin>					
+					<mx:overSkin>@Embed(source='main/resources/images/ABA_MANAGE_SELECTED.png')</mx:overSkin>
+					<mx:focusSkin>@Embed(source='main/resources/images/ABA_MANAGE_SELECTED.png')</mx:focusSkin>
+					<mx:downSkin>@Embed(source='main/resources/images/ABA_MANAGE_SELECTED.png')</mx:downSkin>
+					<mx:selectedOverSkin>@Embed(source='main/resources/images/ABA_MANAGE_SELECTED.png')</mx:selectedOverSkin>
+					<mx:selectedDownSkin>@Embed(source='main/resources/images/ABA_MANAGE_SELECTED.png')</mx:selectedDownSkin>			
+					<mx:selectedUpSkin>@Embed(source='main/resources/images/ABA_MANAGE_SELECTED.png')</mx:selectedUpSkin>			
+				</mx:Button>
+	
+				<mx:Button id="btnEditor" width="319" height="77" x="643" y="12"
+						mouseOver="mouseOverButton(3, event)" mouseOut="mouseOutButton(3, event)" click="mouseClickButton(3, event)">
+					<mx:skin>@Embed(source='main/resources/images/ABA_EDITOR_IDLE.png')</mx:skin>					
+					<mx:overSkin>@Embed(source='main/resources/images/ABA_EDITOR_SELECTED.png')</mx:overSkin>
+					<mx:focusSkin>@Embed(source='main/resources/images/ABA_EDITOR_SELECTED.png')</mx:focusSkin>
+					<mx:downSkin>@Embed(source='main/resources/images/ABA_EDITOR_SELECTED.png')</mx:downSkin>
+					<mx:selectedOverSkin>@Embed(source='main/resources/images/ABA_EDITOR_SELECTED.png')</mx:selectedOverSkin>
+					<mx:selectedDownSkin>@Embed(source='main/resources/images/ABA_EDITOR_SELECTED.png')</mx:selectedDownSkin>			
+					<mx:selectedUpSkin>@Embed(source='main/resources/images/ABA_EDITOR_SELECTED.png')</mx:selectedUpSkin>			
+				</mx:Button>	
+		</mx:Canvas>
+		
+		<mx:VBox height="68" id="buttonOneBar" verticalAlign="middle" width="970">
+			<mx:ApplicationControlBar height="60" width="100%" styleName="tabBar">
+				<mx:Label text="Main" styleName="clearTitle7"/>
+				<mx:HRule visible="false" width="20"/>
+				<mx:Label text="Control surveys, assign users, verify results" styleName="clearTitle2"/>
+			</mx:ApplicationControlBar>
+		</mx:VBox>		
+	</mx:ViewStack>
+
+	
+    <mx:Dissolve id="dissolveOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+        
+	
+	<mx:ViewStack id="viewStack" width="100%">
+		<!-- Main Tab -->
+		<mx:VBox width="100%" horizontalAlign="center" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<vmain:MainTabContainer id="mainTabContainer"/>
+		</mx:VBox>
+		<!-- Manage Tab -->
+		<mx:HBox width="100%" horizontalAlign="center" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<vadm:ManagerTabContainer id="managerTabContainer"/>
+		</mx:HBox>
+		<!-- Editor Tab -->
+		<mx:HBox width="100%" horizontalAlign="center" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:Label text="Editor"/>
+		</mx:HBox>
+	</mx:ViewStack>
+	
+</mx:Module>

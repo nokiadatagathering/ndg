@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+	width="956" height="460" styleName="mainAreaModule"
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
+	
+	
+	<mx:Script source="../../../controller/main/SurveyListController.as" />
+	
+	<mx:HBox width="100%" styleName="functionalitiesBar">
+		<mx:VBox verticalAlign="middle" verticalGap="0">
+			<mx:HBox verticalAlign="middle">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSurveysTitle')}" styleName="darkTitle"/>
+			</mx:HBox>
+			<mx:HBox verticalAlign="middle" horizontalGap="2">
+				<mx:Button id="btnSendSurvey" label="{ConfigI18n.getInstance().getString('btnSendSurvey')}" height="22"
+					click="showSendSurveys(event)" enabled="{pagination.selectedAllItems.length > 0}" buttonMode="true" width="100"/>
+				<mx:Button id="btnSurveyStatus" label="{ConfigI18n.getInstance().getString('btnSurveyStatus')}" height="22"
+					click="showSurveyDetails(event)" enabled="{pagination.selectedAllItems.length == 1}" buttonMode="true" width="100"/>
+				<mx:Button id="btnShowResults" label="{ConfigI18n.getInstance().getString('btnShowResults')}" height="22"
+					click="showResults(event)" enabled="{pagination.selectedAllItems.length == 1}" buttonMode="true" width="100"/>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:HRule width="100%" visible="false"/>
+		<comp:PowerSearch id="search" optionsLabels="{searchOptionsLabels}" optionsFields="{searchOptionsFields}"
+			searchLabel="{ConfigI18n.getInstance().getString('lblSearch')}"/>
+	</mx:HBox>
+	
+	<mx:VBox width="100%" height="100%" verticalGap="3" styleName="gridPanel">
+		<mx:DataGrid id="surveyGrid" dataProvider="{surveyList}" height="100%" itemClick="{pagination.itemClick(surveyGrid.selectedItem)}">
+			<mx:columns>
+				<render:CheckBoxHeaderColumn dataField="selected"
+					id="customCheck" width="25" sortable="false"
+					headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
+					itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSurveyId')}" dataField="idSurvey" width="120"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSurveyName')}" dataField="title" sortable="false" width="410"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSurveyDate')}" dataField="date"  sortable="false" width="150"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colPublisher')}" dataField="user" sortable="false" width="160"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colResults')}" dataField="results" sortable="false" width="91"/>
+			</mx:columns>
+		</mx:DataGrid>
+		
+		<comp:PowerDataPagination dataProvider="{surveyList}" remoteObject="{remoteListSurveys}"
+			grid="{surveyGrid}" search="{search}"
+			changePage="listSurveys(event)" pageSize="{SURVEY_PAGE_SIZE}" checkable="true" id="pagination"
+			pageLabel="{ConfigI18n.getInstance().getString('pcPageLabel')}"
+			ofLabel="{ConfigI18n.getInstance().getString('pcOfLabel')}"
+			refreshLabel="{ConfigI18n.getInstance().getString('pcRefreshLabel')}"
+			itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
+			selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}"/>
+	</mx:VBox>
+
+	
+	
+</mx:Module>

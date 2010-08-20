@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<survey display="1-1" id="IDS" title="Demo Survey" deployed="false" checksum="CHKS">
+  <category id="1" name="General Questions">
+    <question id="1" type="_str" field="" direction="in" editable="true">
+      <description>What is your name?</description>
+      <length>80</length>
+    </question>
+    <question id="2" type="_int" field="" direction="in" editable="true" min="0" max="50">
+      <description>On average, how often do you laugh per day?</description>
+      <length>10</length>
+    </question>
+    <question id="3" type="_choice" field="" direction="in" editable="true">
+      <description>Are you a thinker, a talker or a doer?</description>
+      <select>exclusive</select>
+      <item otr="0">Doer</item>
+      <item otr="0">Thinker</item>
+      <item otr="0">Talker</item>
+    </question>
+    <question id="4" type="_choice" field="" direction="in" editable="true">
+      <description>Which continents have you visited?</description>
+      <select>multiple</select>
+      <item otr="0">Asia</item>
+      <item otr="0">Africa</item>
+      <item otr="0">Australia</item>
+      <item otr="0">Europe</item>
+      <item otr="0">Antarctica</item>
+      <item otr="0">North America</item>
+      <item otr="0">Latin America</item>
+    </question>
+    <question id="5" type="_str" field="" direction="in" editable="true">
+      <description>What do you like most about Finland?</description>
+      <length>50</length>
+    </question>
+    <question id="6" type="_date" field="" direction="in" editable="true" min="12/10/2008" max="">
+      <description>Date</description>
+    </question>
+  </category>
+</survey>

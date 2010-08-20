@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="horizontal" width="970" height="25"
+	verticalAlign="middle" horizontalAlign="left" horizontalGap="2" >
+	
+	
+	<mx:Metadata>
+		[Event(name="locale", type="main.br.org.indt.ndg.controller.app.LocaleEvent")]
+	</mx:Metadata>
+	
+	<mx:Script source="../../../controller/app/HeaderBeforeLoginController.as" />
+	
+	
+	
+	<mx:HRule width="100%" visible="false"/>
+	
+	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE,'btnEnglish')}"
+		click="changeLocale(event)" id="en_US" styleName="headerLinkButton"/>
+	<mx:VRule height="12"/>
+	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE,'btnPortuguese')}"
+		click="changeLocale(event)" id="pt_BR" styleName="headerLinkButton"/>
+	<mx:VRule height="12"/>
+	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE,'btnSpanish')}"
+		click="changeLocale(event)" id="es_ES" styleName="headerLinkButton"/>
+	
+	
+</mx:Module>

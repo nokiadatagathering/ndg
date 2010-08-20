@@ -1,0 +1,13 @@
+Dear $name $lastname,
+
+Thank you for your interest in trying Nokia Data Gathering - NDG.  We received a request to create an account for you with the e-mail address of $email.
+To activate your NDG account, please follow this link:
+
+$urlValidationKey?key=$validationKey
+
+Once your account has been activated, you will be able to logon in NDG Server for trial our application.
+If you think that this e-mail has been sent to you in error, please disregard this email - no further action is needed on your part. No account will be created without your confirmation.
+
+Sincerely,
+Nokia
+www.nokia.com/datagathering

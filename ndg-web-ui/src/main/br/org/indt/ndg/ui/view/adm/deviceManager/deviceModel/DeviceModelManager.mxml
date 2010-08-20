@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" 
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+	layout="vertical" styleName="wizardModule" width="550" height="325">
+	
+	
+	<mx:Script source="../../../../../controller/adm/deviceManager/deviceModel/DeviceModelManagerController.as" />
+	
+	<mx:Metadata>
+		[Event(name="closeDeviceModelManager",
+		type="main.br.org.indt.ndg.controller.adm.deviceManager.deviceModel.CloseDeviceModelManagerEvent")]
+	</mx:Metadata>	
+
+
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="490" y="-1" click="close()">
+            <mx:skin>@Embed(source='../../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>
+
+	<mx:Array id="validators">
+		<mx:StringValidator source="{inputModel}" property="text"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxLength="10" tooLongError="{getMaxLengthMsg('10')}"
+			triggerEvent="change"/>
+	</mx:Array>
+	
+    <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblDeviceModelMagaerTitle')}" styleName="clearTitle3"/>
+    </mx:ApplicationControlBar>
+
+	<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="5" paddingTop="5">
+		<mx:Label text="" styleName="darkTitle" height="16"/>
+	</mx:VBox>
+	
+	
+	
+	<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="10"
+		styleName="wizardCenterPanel">
+		
+		<mx:DataGrid height="100%" width="200" dataProvider="{modelList}" change="showPreview(event)" id="grid"
+			styleName="wizardGrid">
+			<mx:columns>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colModelName')}"
+					dataField="deviceModel" sortable="true"/>
+			</mx:columns>
+		</mx:DataGrid>
+		
+		<mx:VBox width="250" height="100%" borderStyle="solid" borderThickness="1" borderColor="#FFFFFF"
+			verticalGap="0" horizontalAlign="center">
+			<mx:ApplicationControlBar height="23" width="100%" styleName="previewCtrlBar">
+				<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'lblDeviceModelPreview')}"
+					styleName="clearText" fontWeight="bold"/>
+			</mx:ApplicationControlBar>
+			<mx:VBox id="wait" height="100%" verticalAlign="middle">
+				<mx:Label text="{ConfigI18n.getInstance().getString('fieldModelName')}"/>
+				<mx:TextInput id="inputModel" text="{dto.deviceModel}" enabled="false" styleName="formTextInput"/>
+				
+				<mx:HBox width="100%" horizontalGap="3" verticalAlign="middle" paddingTop="20">
+					<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnNewDeviceModel')}"
+							click="add()" enabled="{!editMode}"/>
+					<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnEditDeviceModel')}"
+							click="edit()" enabled="{!(editMode || (dto == null))}"/>
+					<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnSaveDeviceModel')}"
+							click="save()" enabled="{editMode}"/>
+					<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnCancelEditDeviceModel')}"
+							click="cancel()" enabled="{editMode}"/>
+					<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnDeleteDeviceModel')}"
+							click="remove()" enabled="{!(editMode || (dto == null))}"/>
+				</mx:HBox>			
+			</mx:VBox>
+		</mx:VBox>
+
+	</mx:HBox>
+	
+
+	<mx:HBox width="100%" height="52" verticalAlign="middle" horizontalAlign="center">
+	</mx:HBox>
+	
+	
+</mx:Module>

@@ -1,0 +1,92 @@
+@CHARSET "ISO-8859-1";
+
+body {
+font: 12px verdana, arial, helvetica, sans-serif;
+background-color:#FFFFFF;
+} 
+
+table.wwFormTable {
+font: 12px verdana, arial, helvetica, sans-serif;
+border-width: 1px;
+border-color: #030;
+border-style: solid;
+color: #242;
+background-color: #ada;
+width: 30%;
+margin-left:35%;
+margin-right:35%;
+margin-top:15%;
+} 
+
+table.wwFormTable th {
+}
+
+table.wwFormTable tr td {
+background-color: #dfd;
+margin: 5px;
+padding: 5px;
+}
+
+.tdLabel {
+/*
+border-width: 1px;
+border-color: #afa;
+border-style: solid;
+*/
+font-weight: bold;
+align: top;
+} 
+
+.label {
+} 
+
+.errorMessage {
+color: red;
+font-size: 0.8em;
+} 
+
+#headerDiv {
+border-style: solid;
+border-width: 1px 1px 0px;
+border-color: black;
+padding: 5px;
+background-color: #7a7;
+/* height: 22px; */
+height: 1.8em;
+/* margin-bottom: 12px; */
+}
+
+#buttonBar {
+border-width: 0px 1px 1px;
+border-style: solid;
+border-color: black;
+color: white;
+margin-bottom: 12px;
+background-color: #7a7;
+height: 1.6em;
+padding: 5px;
+}
+
+#appName {
+color: white;
+font-size: 1.8em;
+}
+
+#pageTitle {
+font-size: 1.4em;
+color: #dfd;
+clear: none;
+}
+
+#appName, #pageTitle {
+float: right;
+}
+
+#menuContainer {
+float: left;
+}
+
+#brandingContainer {
+float: right:
+text-align: right;
+}

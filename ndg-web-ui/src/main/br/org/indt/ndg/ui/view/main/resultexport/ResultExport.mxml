@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module layout="vertical" styleName="wizardModule" width="640" height="363"
+	xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()">
+	
+	<mx:Script source="../../../../controller/main/resultexport/ResultExportController.as" />
+	
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="590" y="-1" click="close()">
+            <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>
+	
+    <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblTitleExport')}" styleName="clearTitle3"/>
+        <mx:HRule width="10" visible="false"/>
+        <mx:Canvas verticalCenter="0" borderStyle="none">
+	        <mx:Image width="15" height="12" id="modeIcon" visible="false"/>
+        </mx:Canvas>
+        <mx:HRule width="100%" visible="false"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizExportResultStep')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="{stepText}" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizExportResultStepOf')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="3" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        
+        <mx:ApplicationControlBar id="stp1" styleName="wizardProgress" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp2" styleName="wizardBlank" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp3" styleName="wizardBlank" width="35" height="7"/>
+    </mx:ApplicationControlBar>
+    
+    
+    <mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>	
+	
+
+	
+	<mx:ViewStack id="viewStack" width="100%" height="100%" selectedIndex="0" change="updateSteps()">
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblSelectFormat')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Button id="csv" width="80" height="60" click="export(CSV)" styleName="wizardClearButton">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_EXP_CSV_ICON.png')</mx:icon>
+				</mx:Button>
+				<mx:Button id="xls" width="80" height="60" click="export(XLS)" styleName="wizardClearButton">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_EXP_XLS_ICON.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle"/>
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportResultExporting')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="35" height="35" source="main/resources/images/POPUP_ICON_LOADING.gif"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportPleaseWait')}" styleName="darkTitle"/>
+				<mx:Text text="{waitStr}" textAlign="center"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnExportCancel')}" click="close()"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<!-- success -->
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportSuccess')}" styleName="darkTitle"/>
+				<mx:LinkButton label="{successStr}" click="download()"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">			
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnExportClose')}" click="close()"
+					paddingLeft="10" paddingRight="10"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<!-- fail -->
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>				
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="main/resources/images/ICON_FAIL.png"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportFail')}" styleName="darkTitle"/>
+				<mx:Text text="{failStr}" textAlign="center"/>
+			</mx:VBox>				
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">			
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnExportClose')}" click="close()"
+					paddingLeft="10" paddingRight="10"/>
+			</mx:HBox>
+		</mx:VBox>
+	</mx:ViewStack>
+
+
+</mx:Module>

@@ -1,0 +1,471 @@
+/* CSS file */
+
+/* Global */
+global
+{
+	font-family: NokiaSansWide;
+	color: #051F7D;
+	font-size: 10;
+	font-weight: normal;
+	font-style: normal;
+}
+Application
+{
+	vertical-align: top;
+	horizontal-align: center;
+	background-gradient-alphas: 1, 1;
+	background-gradient-colors: #FFFFFF, #FFFFFF;
+}
+
+/* Tabs */
+ApplicationControlBar.tabBar
+{
+	cornerRadius: 0;
+	fillAlphas: 1, 1;
+	fillColors: #E1E23D, #E48717;
+	horizontalAlign: left;
+	paddingBottom: 0;
+	paddingTop: 2;
+	verticalAlign: middle;
+	shadow-distance: 1;
+	horizontal-gap: 2;
+}
+
+
+/* Module */
+Module.bodyModule
+{
+	backgroundColor: #FFFFFF;
+	borderStyle: solid;
+	borderThickness: 0;
+	cornerRadius: 6;
+	horizontal-align: center;
+	vertical-align: top;
+	vertical-gap: 0;
+}
+Module.mainAreaModule
+{
+	vertical-gap: 0;
+}
+VBox.gridPanel
+{
+	border-style: none;
+	paddingTop: 1;
+}
+HBox.functionalitiesBar
+{
+	backgroundColor: #DFECFF;
+	paddingBottom: 5;
+	paddingLeft: 5;
+	paddingRight: 5;
+	paddingTop: 5;
+	vertical-align: middle;
+}
+
+/* Login components */
+ApplicationControlBar.loginBar
+{
+	cornerRadius: 0;
+	fillAlphas: 1, 1;
+	fillColors: #3687FF, #051F7D;
+	horizontalAlign: left;
+	paddingBottom: 0;
+	paddingTop: 2;
+	verticalAlign: middle;
+	shadow-distance: 1;
+	horizontal-gap: 2;
+}
+HBox.loginCenterPanel
+{
+	horizontal-gap: 45;
+    font-size: 12;
+	backgroundColor: #DFECFF;
+	paddingBottom: 20;
+	paddingLeft: 20;
+	paddingRight: 20;
+	paddingTop: 20;
+	vertical-align: middle;
+}
+
+/* Pagination components */
+ApplicationControlBar.paginationCtrlBar
+{
+	fill-alphas: 1,1;
+	fill-colors: #3687FF,#051F7D;
+	vertical-align: middle;
+	padding-bottom: 0;
+	padding-left: 4;
+	padding-right: 4;
+	padding-top:0;
+	horizontal-gap: 4;
+	shadow-distance: 1;
+}
+TextInput.paginationTextInput
+{
+	fontSize: 8;
+}
+
+
+/* Search Components */
+ComboBox.paginationCombo
+{
+	borderColor: #051F7D;
+	color: #FFFFFF;
+	cornerRadius: 4;
+	fillAlphas: 1.0, 1.0;
+	fillColors: #3687FF, #051F7D;
+	text-roll-over-color: #051f7d;
+	text-selected-color: #051f7d;
+	alternating-item-colors: #3687FF, #3687FF;
+	selection-color: #DFECFF;
+	roll-over-color: #DFECFF;
+	dropdownStyleName: comboBoxDropdown;
+	font-size: 10;
+	iconColor: #FFFFFF;
+}
+
+
+/* Wizard components */
+Module.wizardModule
+{
+	backgroundColor: #FFFFFF;
+	borderColor: 666666;
+	borderStyle: solid;
+	borderThickness: 1;
+	cornerRadius: 7;
+	verticalAlign: middle;
+	verticalGap: 0;
+}
+ApplicationControlBar.wizardProgress
+{
+	cornerRadius: 3;
+	fillAlphas: 1, 1;
+	fillColors: #79CD19, #1B6332;
+	shadow-distance: 1;
+}
+ApplicationControlBar.wizardBlank
+{
+	cornerRadius: 3;
+	fillAlphas: 1, 1;
+	fillColors: #FFFFFF, #FFFFFF;
+	shadow-distance: 1;
+}
+ApplicationControlBar.wizardProgressBar
+{
+	cornerRadius: 0;
+	fillAlphas: 1, 1;
+	fillColors: #3687FF, #051F7D;
+	horizontalAlign: center;
+	paddingBottom: 0;
+	paddingTop: 2;
+	verticalAlign: middle;
+	shadow-distance: 1;
+	horizontal-gap: 2;
+}
+HBox.wizardCenterPanel
+{
+	backgroundColor: #DFECFF;
+	paddingBottom: 5;
+	paddingLeft: 5;
+	paddingRight: 5;
+	paddingTop: 5;
+	vertical-align: middle;
+}
+Button.wizardClearButton
+{
+	borderColor: #051F7D;
+	color: #051F7D;
+	fillAlphas: 1.0, 1.0;
+	fillColors: #FFFFFF, #FFFFFF;
+	paddingLeft: 2;
+	paddingRight: 2;
+	font-size: 10;
+	textRollOverColor: #3687FF;
+	textSelectedColor: #051F7D;
+	disabledColor: #051F7D;
+	themeColor: #3687FF;
+}
+DataGrid.wizardGrid
+{
+	border-style: solid;
+	border-color: #FFFFFF;
+}
+
+
+/* Preview components */
+ApplicationControlBar.previewCtrlBar
+{
+	cornerRadius: 0;
+	fillAlphas: 1, 1;
+	fillColors: #3687FF, #051F7D;
+	horizontalAlign: center;
+	paddingBottom: 0;
+	paddingTop: 2;
+	verticalAlign: middle;
+	shadow-distance: 1;
+	horizontal-gap: 2;
+}
+TextArea.previewTextArea
+{
+	backgroundColor: #DFECFF;
+	borderStyle: none;
+}
+Module.previewPanel
+{
+	backgroundColor: #DFECFF;
+	borderStyle: none;
+	horizontalAlign: center;
+	verticalAlign: top;
+	verticalGap: 0;
+}
+TextInput.formTextInput
+{
+	paddingTop: 1;
+	paddingLeft: 1;
+	paddingRight: 1;
+	disabledColor: #3687FF;
+	backgroundDisabledColor: #FFFFFF;
+}
+ComboBox.formComboBox
+{
+	background-disabled-color: #DFECFF;
+	disabled-color: #3687FF;
+	themeColor: #051F7D;
+	paddingLeft: 1;
+	font-weight: normal;
+}
+
+
+/* Labels */
+Label.errorText
+{
+	color: #FF0000;
+	font-size: 10;
+	font-weight: normal;
+	font-style: normal;
+}
+Label.clearSmallText
+{
+	color: #FFFFFF;
+	font-size: 8;
+	font-weight: normal;
+	font-style: normal;
+}
+Label.clearText
+{
+	color: #FFFFFF;
+	font-size: 10;
+	font-weight: normal;
+	font-style: normal;
+}
+Label.clearTitle
+{
+	color: #FFFFFF;
+	font-size: 12;
+	font-weight: bold;
+	font-style: normal;
+}
+Label.clearTitle2
+{
+	color: #FFFFFF;
+	font-size: 14;
+	font-weight: bold;
+	font-style: normal;
+}
+Label.clearTitle3
+{
+	color: #FFFFFF;
+	font-size: 16;
+	font-weight: bold;
+	font-style: normal;
+}
+Label.clearTitle5
+{
+	color: #FFFFFF;
+	font-size: 20;
+	font-weight: bold;
+	font-style: normal;
+}
+Label.clearTitle7
+{
+	color: #FFFFFF;
+	font-size: 24;
+	font-weight: bold;
+	font-style: normal;
+}
+Label.darkSmallText
+{
+	color: #051F7D;
+	font-size: 8;
+	font-weight: normal;
+	font-style: normal;
+}
+Label.darkText
+{
+	color: #051F7D;
+	font-size: 10;
+	font-weight: normal;
+	font-style: normal;
+}
+Label.darkTitle
+{
+	color: #051F7D;
+	font-size: 12;
+	font-weight: bold;
+	font-style: normal;
+}
+Label.darkTitle2
+{
+	color: #051F7D;
+	font-size: 14;
+	font-weight: bold;
+	font-style: normal;
+}
+Label.darkTitle3
+{
+	color: #051F7D;
+	font-size: 16;
+	font-weight: bold;
+	font-style: normal;
+}
+
+/* Components */
+Button
+{
+	borderColor: #051F7D;
+	color: #FFFFFF;
+	fillAlphas: 1.0, 1.0;
+	fillColors: #3687FF, #051F7D, #DFECFF, #3687FF;
+	paddingLeft: 2;
+	paddingRight: 2;
+	themeColor: #051F7D;
+	font-size: 10;
+	textRollOverColor: #051F7D;
+	textSelectedColor: #051f7d;
+	disabledColor: #C3C4C8;
+	leading: 0;
+	fontWeight: bold;
+	fontStyle: normal;
+	textAlign: center;
+	
+}
+Button.iconButton
+{
+	paddingBottom: 0;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 0;
+}
+LinkButton
+{
+	fontSize: 10;
+	paddingBottom: 0;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 0;
+	color: #051f7d;
+	textSelectedColor: #051F7D;
+	textRollOverColor: #051F7D;
+}
+LinkButton.headerLinkButton
+{
+	paddingBottom: 0;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 0;
+	color: #FFFFFF;
+	textSelectedColor: #051F7D;
+	textRollOverColor: #051F7D;
+}
+ComboBox
+{
+	borderColor: #051F7D;
+	color: #051F7D;
+	cornerRadius: 4;
+	fillAlphas: 1.0, 1.0;
+	fillColors: #FFFFFF, #FFFFFF;
+	text-roll-over-color: #051f7d;
+	text-selected-color: #051f7d;
+	dropdownStyleName: comboBoxDropdown;
+	font-size: 10;
+	iconColor: #051f7d;
+}
+CheckBox
+{
+	borderColor: #051F7D;
+	cornerRadius: 4;
+	fillAlphas: 1,1,1,1;
+	fillColors: #FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF;
+	color: #051F7D;
+	textRollOverColor: #051F7D;
+}
+VScrollBar {
+   cornerRadius: 4;
+   highlightAlphas: 0, 0;
+   fillAlphas: 1, 1, 1, 1;
+   fillColors: #DEEEF9, #DEEEF9, #FFFFFF, #DEEEF9;
+   trackColors: #FFFFFF, #FFFFFF;
+   themeColor: #051F7D;
+   borderColor: #051F7D;
+   iconColor: #000000;
+   thumbOffset: 0;
+}
+HScrollBar {
+   cornerRadius: 4;
+   highlightAlphas: 0, 0;
+   fillAlphas: 1, 1, 1, 1;
+   fillColors: #FFFFFF, #3687FF, #FFFFFF, #DEEEF9;
+   trackColors: #3687FF, #FFFFFF;
+   themeColor: #051F7D;
+   borderColor: #051F7D;
+   iconColor: #000000;
+   thumbOffset: 0;
+}
+TextInput
+{
+	borderColor: #051F7D;
+	borderStyle: solid;
+	borderThickness: 1;
+	cornerRadius: 4;
+	font-size: 10;
+}
+DataGrid
+{
+	border-style: none;
+	border-color: #FFFFFF;
+	alternatingItemColors: #FFFFFF,#DFECFF;
+	color: #051F7D;
+	headerColors: #3687FF, #051F7D;
+	rollOverColor: #92C2E8;
+	selectionColor: #92C2E8;
+	verticalGridLineColor: #FFFFFF;
+	verticalGridLines: true;
+	horizontalGridLines: false;
+	textRollOverColor: #051F7D;
+	textSelectedColor: #051F7D;
+	icon-color: #FFFFFF;
+	headerStyleName: "dataGridHeaderStyle";
+	font-size: 10;
+}
+.dataGridHeaderStyle {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 10;
+}
+VRule
+{
+	strokeColor: #051F7D;
+	themeColor: #051F7D;
+}
+
+
+
+
+
+
+
+
+
+
+
+

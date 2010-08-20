@@ -1,0 +1,283 @@
+/* 
+ * STYLE SHEET FOR MOBISUS
+ *
+ * This styles are only to the login page.
+ * 
+ */
+
+body {
+	background: url('../images/bg.jpg') no-repeat scroll center top !important;
+	margin-top: 0px;
+	height: 100% !important;
+	width: 100% !important;
+}
+
+h1 {
+	letter-spacing: -3px;
+	font-family: "verdana";
+	color: #73d9e3;
+	margin-bottom: 10px;
+}
+
+h2 {
+	font-family: "verdana";
+	font-weight: bold;
+	color: #24a3d2;
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+
+p {
+	font: normal 12px verdana;
+	color: gray;
+	margin: 0px 4px 4px 0px;
+}
+
+/* 
+ * frame is the "mother-div" that contains all other
+ */
+#frame { 
+	background-color: white;
+	border: none;
+	text-align: justify;
+	width:806px;
+}
+
+a.header {
+	font-family: verdana;
+	font-size: 11px;
+	color: #24a3d2;
+}
+
+#header {
+	/*display:inline-block;
+ 	display:-moz-inline-block;
+	display:-moz-inline-box;
+	text-align: left;
+	width:730px;*/
+	background: url('../images/header_bg.gif') no-repeat;
+	width:  100%;
+	height: 141px;
+	text-align: right;
+	font-family: verdana;
+	font-size: 11px;
+	color: #24a3d2;
+}
+
+#htext {
+	padding-right: 10px;
+	padding-top:   5px;
+}
+
+#footer {
+	display:inline-block;
+ 	display:-moz-inline-block;
+	display:-moz-inline-box;
+	text-align: left;
+	padding-left: 10px;
+	margin-top: 5px;
+	width: 806px;
+}
+
+#image {
+	padding-top: 10px;
+	padding-left: 10px;
+}
+
+/* 
+ * FORM STYLES
+ *
+ */
+
+p.label {
+	font-weight: bold;
+	font-size: 11px;
+}
+
+input.field {
+	border: 1px solid #CCC;
+	width: 150px;
+}
+
+select {
+	border: 1px solid #CCC;
+	font-family: verdana;
+	width: 250px;
+}
+
+input.button {
+	border: 0px solid #24a3d2;
+	background-color: #24a3d2;
+	color: white;
+	font: normal 70% verdana;
+	font-weight: bold;
+	background-image:url('../images/button.png');
+	background-repeat: repeat-x;
+	height: 24px;
+	width: 65px;
+	margin: 2px 4px -4px 0px;
+}
+
+input.button2 {
+	border: 0px solid #24a3d2;
+	background-color: #24a3d2;
+	color: white;
+	font: normal 65% verdana;
+	font-weight: bold;
+	background-image:url('../images/button.png');
+	background-repeat: repeat-x;
+	height: 24px;
+	margin: 2px 4px -4px 0px;
+}
+
+a {
+	font: normal 11px sans;
+	color: #82ba17;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+form {
+	width: auto;
+	margin-bottom: 50px;
+	margin-top: 48px;
+	text-align: right;
+}
+
+.form2 {
+	width: auto;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	text-align: right;
+}
+
+/* 
+ * LOGIN PANEL STYLES
+ *
+ */
+#loginPanel {
+	/*display:inline-block;
+ 	display:-moz-inline-block;
+	display:-moz-inline-box;
+  -moz-border-radius: 2em;
+  border-radius: 2em;*/
+
+	height: auto;
+}
+
+#loginPanel span.left {
+	display:-moz-inline-block;
+	display:-moz-inline-box;
+	display:inline-block;
+}
+
+#loginPanel span.right {
+	display:-moz-inline-block;
+	display:-moz-inline-box;
+	display:inline-block;
+	width: 270px;
+	padding-left: 10px;
+	padding-bottom: 0px;
+}
+
+#desc {
+	text-align: justify;
+	margin-top: 10px;
+	background: none;
+	width: 796px;
+}
+
+a.desc, p.desc {
+	font-family: verdana;
+	font-size: 11px;
+}
+
+a.desc2, p.desc2 {
+	font-family: verdana;
+	font-size: 11px;
+	text-align: right;
+}
+
+/* 
+ * FOOTER STYLE
+ *
+ */
+
+p.links, a.links {
+	font-weight: bold;
+	color: #999;
+	font-family: verdana;
+}
+
+span.license {
+	font-family: verdana;
+	font-size: 10px;
+	padding-left: 10px;
+	color: #82ba17;
+}
+
+.left2 {
+	display:-moz-inline-block;
+	display:-moz-inline-box;
+	display:inline-block;
+	padding-left: 55px;
+}
+
+.right2 {
+	padding-top: 18px;
+	padding-left: 20px;
+	font-family: verdana;
+	font-size: 14px;
+}
+
+.errorMessage {
+	font-family: verdana;
+	font-size: 10px;
+	position: relative;
+	top: -5px;
+	color: red;
+}
+
+.frameClass {
+	border: 1px solid rgb(204, 204, 204);
+	width: 70%;
+	height: 100px;
+}
+
+.frameClass2 {
+	border: 1px solid rgb(204, 204, 204);
+	width: 80%;
+	height: 150px;
+}
+
+.error {
+	font-family: Tahoma;
+	font-size: 8pt;
+	color: red;
+}
+
+.passTxt {
+	font: normal 10px verdana;
+	color: gray;
+	margin-left: 7px;
+}
+
+.passTxt2 {
+	font: normal 10px verdana;
+	color: gray;
+	font-weight: bold;
+}
+
+ul {
+	margin-left: -40px;
+	padding-left: 40px;
+}
+
+li {
+	list-style: none;
+}
+
+.lText {
+	font-size: 8px;
+	font-family: verdana;
+}

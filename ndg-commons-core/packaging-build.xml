@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NDG Commons Core Generator" default="_packaging_generation_">
+
+<path id="classpath">
+    <fileset dir="../lib/" includes="**/*.jar"/>
+    <pathelement location="../ndg-server-core/bin/"/>
+</path>
+
+<target name="clean">
+    <delete dir="bin"/>
+</target>
+
+<target name="prepare" depends="clean">
+    <mkdir dir="bin"/>
+    <mkdir dir="build"/>
+</target>
+
+<target name="compile" depends="prepare">
+    <javac srcdir="." classpathref="classpath" destdir="bin"
+            includes="**/*.java"/>
+</target>
+
+<target name="N65582" description="ndg-commons.jar" depends="compile">
+	  <jar destfile="build/ndg-commons.jar">
+	    <zipfileset dir="bin" includes="**/*.class"/>
+	  </jar>
+	<copy file="build/ndg-commons.jar" todir="../lib"></copy>
+</target>
+
+<target name="_packaging_generation_" depends="N65582"/>
+
+</project>
