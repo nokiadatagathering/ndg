@@ -13,7 +13,7 @@ The web user interface module is:
     
 The release includes the source code to create the .jar files on which NDG depends. 
   
-Inside the lib directory there are Java .jar files needed for compilation. They provide provide core functionality which the NDG software uses. For some of these files and which module uses them use we have specified the .jar name, give a short description and the software license: 
+Inside the lib directory there are Java .jar files needed for compilation. They provide core functionality which the NDG software uses. For some of these files and which module uses them use we have specified the .jar name, give a short description and the software license: 
 
 1. ndg-commons-core
   (Required) commons-logging.jar - A modular bridging API with support for most well known logging system - Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
