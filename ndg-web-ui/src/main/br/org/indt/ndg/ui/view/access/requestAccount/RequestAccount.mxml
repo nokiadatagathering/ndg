@@ -32,7 +32,7 @@
 			triggerEvent="change"/>
 		<mx:StringValidator source="{txCompany}" property="text"
 			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
-			triggerEvent="change"/>
+			triggerEvent="change" enabled="{txCompany.text.length > 0}"/>
 		<mx:NumberValidator source="{cbCountry}" property="selectedIndex"
 			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
 			minValue="1"
@@ -58,18 +58,18 @@
 			missingUsernameError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingUsernameEmailErrorMsg')}"
 			tooManyAtSignsError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'tooManyAtSignsEmailErrorMsg')}"
 			triggerEvent="change"/>
+		<!--
 		<mx:NumberValidator source="{cbCompanyType}" property="selectedIndex"
 			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
 			minValue="1"
 			triggerEvent="change"/>
-		<mx:NumberValidator source="{cbFieldIndustry}" property="selectedIndex"
+		-->
+		<mx:NumberValidator source="{cbIndustry}" property="selectedIndex"
 			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
-			minValue="1"
-			triggerEvent="change"/>
-		<mx:NumberValidator source="{cbCompanySize}" property="selectedIndex"
+			minValue="1" triggerEvent="change" enabled="{txCompany.text.length > 0}"/>
+		<mx:NumberValidator source="{cbIndustrySize}" property="selectedIndex"
 			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
-			minValue="1"
-			triggerEvent="change"/>
+			minValue="1" triggerEvent="change" enabled="{txCompany.text.length > 0}"/>
 	</mx:Array>
 	
 	<mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
@@ -88,77 +88,88 @@
     
     	
 	<mx:ViewStack id="raStack" width="100%">
-		<mx:VBox width="100%" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-			<mx:HBox width="100%" height="30" verticalAlign="middle" horizontalAlign="center">
-				<mx:Label styleName="errorText" id="errorMsg" width="800" height="15" textAlign="center"/>
+		<mx:VBox width="100%" hideEffect="{dissolveOut}" showEffect="{dissolveIn}" verticalGap="0">
+			<mx:HBox width="100%" height="27" verticalAlign="middle" horizontalAlign="center">
+				<mx:Label styleName="errorText" id="errorMsg" width="800" height="16" textAlign="center" text="sadsdasd"/>
 			</mx:HBox>
 			
-			<mx:HBox width="100%" styleName="loginCenterPanel" verticalAlign="top" horizontalAlign="center"
-				horizontalGap="30" height="346">
-				<mx:VBox paddingTop="20" paddingBottom="20">
-					<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldFirstName')}" fontSize="12">
-							<mx:TextInput id="txFirstname" maxChars="50" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldLastName')}" fontSize="12">
-							<mx:TextInput id="txLastname" maxChars="50" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldUsername')}" fontSize="12">
-							<mx:TextInput id="txUsername" maxChars="15" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldPassword')}" fontSize="12">
-							<mx:TextInput id="txPasswordReqAc" maxChars="8" displayAsPassword="true" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldVerifyPassword')}" fontSize="12">
-							<mx:TextInput id="txtVerifyPassword" maxChars="8" displayAsPassword="true" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompany')}" fontSize="12">
-							<mx:TextInput id="txCompany" maxChars="50" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCountry')}" fontSize="12">
-							<mx:ComboBox id="cbCountry" dataProvider="{countriesAC}" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldPhone')}" fontSize="12">
-							<mx:HBox>
-							<mx:TextInput id="txCountryCode" maxChars="3" width="30" restrict="[0-9]"/>
-							<mx:TextInput id="txAreaCode" maxChars="3" width="30" restrict="[0-9]"/>
-							<mx:TextInput id="txPhoneNumber" restrict="[0-9]"/>
-							</mx:HBox>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldEmail')}" fontSize="12">
-							<mx:TextInput id="txEmail" maxChars="50" width="236"/>
-						</mx:FormItem>
-					</mx:Form>
-				</mx:VBox>
-				<mx:VBox paddingTop="20" paddingBottom="20">
-					<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompanyType')}">
-							<mx:ComboBox id="cbCompanyType" dataProvider="{companyTypeAC}" width="236"/>
-						</mx:FormItem>	
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldIndustry')}">
-							<mx:ComboBox id="cbFieldIndustry" dataProvider="{industryAC}" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompanySize')}">
-							<mx:ComboBox id="cbCompanySize" dataProvider="{companySizeAC}" width="236"/>
-						</mx:FormItem>
-						<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldAgreement')}">
-							<mx:TextArea width="380" height="150" editable="false" id="licenseArea"
-								htmlText="{resourceManager.getString('requestAccount', 'license')}"/>
-						</mx:FormItem>
-						<mx:FormItem>
-							<mx:HBox>
-								<mx:Button label="{resourceManager.getString('requestAccount', 'btnAgreeAccount')}"
-									click="requestAccount(event)"/>
-								<mx:Button label="{resourceManager.getString('requestAccount', 'btnDisagreeAccount')}"
-									click="goBackLogin()"/>
-							</mx:HBox>
-						</mx:FormItem>
-					</mx:Form>
-				</mx:VBox>
-			</mx:HBox>
+			<mx:VBox width="100%" styleName="loginCenterPanel" verticalAlign="top" horizontalAlign="center" height="385" verticalGap="0">			
+				<mx:HBox width="100%" height="15" verticalAlign="middle" horizontalAlign="left" horizontalGap="0">
+					<mx:Image width="7" height="7" source="@Embed('main/resources/images/ASTERISCO_RED.png')"/>
+					<mx:Label text="{resourceManager.getString('requestAccount', 'requiredFields')}" height="13" styleName="darkSmallText"/>
+				</mx:HBox>			
+				<mx:HBox width="100%" horizontalGap="30" horizontalAlign="center">
+					<mx:VBox paddingTop="10" paddingBottom="10">
+						<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldFirstName')}" fontSize="12" required="true">
+								<mx:TextInput id="txFirstname" maxChars="50" width="236"/>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldLastName')}" fontSize="12" required="true">
+								<mx:TextInput id="txLastname" maxChars="50" width="236"/>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldUsername')}" fontSize="12" required="true">
+								<mx:TextInput id="txUsername" maxChars="15" width="236"/>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldPassword')}" fontSize="12" required="true">
+								<mx:TextInput id="txPasswordReqAc" maxChars="8" displayAsPassword="true" width="236"/>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldVerifyPassword')}" fontSize="12" required="true">
+								<mx:TextInput id="txtVerifyPassword" maxChars="8" displayAsPassword="true" width="236"/>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompany')}" fontSize="12"
+								required="{txCompany.text.length > 0}">
+								<mx:TextInput id="txCompany" maxChars="50" width="236" change="{companyChange()}"/>
+							</mx:FormItem>
+							<!--
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompanyType')}">
+								<mx:ComboBox id="cbCompanyType" dataProvider="{companyTypeAC}" width="236"/>
+							</mx:FormItem>	
+							-->
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldIndustry')}" required="{txCompany.text.length > 0}">
+								<mx:ComboBox id="cbIndustry" dataProvider="{industryAC}" width="236" enabled="{txCompany.text.length > 0}"/>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCompanySize')}" required="{txCompany.text.length > 0}">
+								<mx:ComboBox id="cbIndustrySize" dataProvider="{industrySizeAC}" width="236" enabled="{txCompany.text.length > 0}"/>
+							</mx:FormItem>						
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldCountry')}" fontSize="12" required="true">
+								<mx:ComboBox id="cbCountry" dataProvider="{countriesAC}" width="236"/>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldPhone')}" fontSize="12" required="true">
+								<mx:HBox>
+								<mx:TextInput id="txCountryCode" maxChars="3" width="30" restrict="[0-9]"/>
+								<mx:TextInput id="txAreaCode" maxChars="3" width="30" restrict="[0-9]"/>
+								<mx:TextInput id="txPhoneNumber" restrict="[0-9]"/>
+								</mx:HBox>
+							</mx:FormItem>
+							<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldEmail')}" fontSize="12" required="true">
+								<mx:TextInput id="txEmail" maxChars="50" width="236"/>
+							</mx:FormItem>
+						</mx:Form>
+					</mx:VBox>
+					<mx:VBox paddingTop="10" paddingBottom="10">
+						<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
+							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldAgreement')}">
+								<mx:TextArea width="380" height="200" editable="false" id="licenseArea"
+									htmlText="{resourceManager.getString('requestAccount', 'license')}"/>
+							</mx:FormItem>
+							<mx:FormItem>
+								<mx:CheckBox label="{resourceManager.getString('requestAccount', 'checkIAgree')}" id="check" fontSize="12"/>
+							</mx:FormItem>
+							<mx:FormItem>
+								<mx:HBox paddingTop="10">
+									<mx:Button label="{resourceManager.getString('requestAccount', 'btnAgreeAccount')}"
+										click="requestAccount(event)" enabled="{check.selected}" width="60"/>
+									<mx:Button label="{resourceManager.getString('requestAccount', 'btnDisagreeAccount')}"
+										click="goBackLogin()" width="60"/>
+								</mx:HBox>
+							</mx:FormItem>
+						</mx:Form>
+					</mx:VBox>
+				</mx:HBox>
+			</mx:VBox>
 		</mx:VBox>
-		
-		<!--<mx:VBox width="100%" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+		<!--
+		<mx:VBox width="100%" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
 			<mx:HBox width="100%" height="30" verticalAlign="middle" horizontalAlign="center">
 				<mx:Label height="15"/>
 			</mx:HBox>
@@ -169,9 +180,10 @@
 					styleName="darkTitle"/>
 				<mx:Label text="{resourceManager.getString('requestAccount', 'raCheckYourEmail')}"/>
 				<mx:LinkButton label="{resourceManager.getString('requestAccount', 'btnBackToLogin')}"
-					click="goBackLogin()" x="15" y="250"/>
+					click="goBackLogin()"/>
 			</mx:VBox>
-		</mx:VBox>-->
+		</mx:VBox>
+		-->
 	</mx:ViewStack>
 	
 </mx:Module>

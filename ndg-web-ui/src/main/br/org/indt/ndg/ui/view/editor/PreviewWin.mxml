@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+        layout="absolute"
+        title="{ConfigI18n.getInstance().getStringFile('editorResources', 'PREVIEW')}"
+        showCloseButton="true"
+        width="456"
+        borderAlpha="1"
+        close="titleWindow_close(event);" xmlns:ns1="main.br.org.indt.ndg.ui.view.editor.*">
+	<ns1:Previewer id="previewQuestion" scaleX="1" scaleY="1" creationComplete="onShow()" width="416" x="15" y="-20">
+	</ns1:Previewer>
+    <mx:ButtonBar itemClick="clickHandler(event);" buttonHeight="30" buttonWidth="100" horizontalCenter="0">
+	    <mx:dataProvider>
+	        <mx:Array>
+	            <mx:String>{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_BUTTON')}</mx:String>
+	            <mx:String>{ConfigI18n.getInstance().getStringFile('editorResources', 'PREV_BUTTON')}</mx:String>
+	            <mx:String>{ConfigI18n.getInstance().getStringFile('editorResources', 'NEXT_BUTTON')}</mx:String>
+	            <mx:String>{ConfigI18n.getInstance().getStringFile('editorResources', 'LAST_BUTTON')}</mx:String>
+	        </mx:Array>
+	    </mx:dataProvider>
+	</mx:ButtonBar>
+	<mx:Script>
+        <![CDATA[
+        	import mx.controls.Alert;
+        	import mx.collections.XMLListCollection;
+            import mx.events.CloseEvent;
+            import mx.managers.PopUpManager;
+            import mx.events.*;
+            
+            import main.br.org.indt.ndg.controller.editor.*;
+            import main.br.org.indt.ndg.ui.view.editor.*;
+            import main.br.org.indt.ndg.i18n.ConfigI18n;
+            
+            public var mainView: EditorEditSurveys;
+            private var xmlContent:XMLListCollection;
+            private var catIndex:int;
+            private var questIndex:int;
+            private var catLength:int;
+            private var questLength:int;
+            private var node:XML;
+            
+            public function setMainView(mainGUI:EditorEditSurveys):void
+            {
+            	mainView = mainGUI;
+            }
+            
+            private function onShow():void
+            {
+            	startNavigation();
+            }
+
+            private function titleWindow_close(evt:CloseEvent):void
+            {
+                PopUpManager.removePopUp(this);
+            }
+            
+            private function clickHandler(event:ItemClickEvent):void 
+            {
+    		   	switch (event.index)
+    		   	{
+    		   		case 0: firstQuestion(); break;
+    		   		case 1: prevQuestion(); break;
+    		   		case 2: nextQuestion(); break;
+    		   		case 3: lastQuestion(); break;
+    		   	}
+            }
+            
+            private function startNavigation():void
+            {
+            	previewQuestion.showMain(mainView.cmbDevice.text);
+            	
+            	xmlContent = Survey.getInstance().getContentList();
+            	catLength = xmlContent.length;
+            	
+            	if (catLength > 0)
+            	{
+            		catIndex = 1;
+            		questIndex = 1;
+            		node = Category.getQuestion(catIndex, questIndex);
+            		if (node != null)
+            		{
+	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE) )
+	            		{
+	            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
+	            		}
+	            		else if (node.@type == Question.CHOICE_TYPE)
+	            		{
+	            			previewQuestion.showMultipleChoiceQuestion(node, mainView.cmbDevice.text);
+	            		}
+	            	}
+            	}
+            }
+            
+            private function nextQuestion():void
+            {          	
+            	var bProceed:Boolean = true;
+            	
+            	if (catIndex > 0)
+            	{
+            		questLength = xmlContent[catIndex-1].children().length();
+            	}
+            	
+            	questIndex++;
+            	
+            	if (questIndex > questLength)
+            	{
+            		questIndex--;
+            		catIndex++;
+            		
+            		if (catIndex > catLength)
+            		{
+            			bProceed = false;
+            			catIndex--;
+            		}
+            		else
+            		{
+            			questIndex = 1;
+            			questLength = xmlContent[catIndex-1].children().length();
+            		}
+            	}
+            	
+            	if (bProceed)
+            	{
+	            	node = Category.getQuestion(catIndex, questIndex);
+	        		if (node != null)
+	        		{
+	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE) )
+	            		{
+	            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
+	            		}
+	            		else if (node.@type == Question.CHOICE_TYPE)
+	            		{
+	            			previewQuestion.showMultipleChoiceQuestion(node, mainView.cmbDevice.text);
+	            		}
+	          		}
+	            }
+            }
+            
+            private function prevQuestion():void
+            {
+            	// May I proceed ?            	
+            	var bProceed:Boolean = true;
+            	questIndex--;
+            	if (questIndex < 1)
+            	{
+            		questIndex++;
+            		catIndex--;
+            		if (catIndex < 1)
+            		{
+            			bProceed = false;
+            			catIndex++;
+            		}
+            		else
+            		{
+            			questIndex = xmlContent[catIndex-1].children().length();
+            		}
+            	}
+            	
+            	if (bProceed)
+            	{
+	            	node = Category.getQuestion(catIndex, questIndex);
+	        		if (node != null)
+	        		{
+	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE) )
+	            		{
+	            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
+	            		}
+	            		else if (node.@type == Question.CHOICE_TYPE)
+	            		{
+	            			previewQuestion.showMultipleChoiceQuestion(node, mainView.cmbDevice.text);
+	            		}
+	          		}
+	            }
+            }
+            
+            private function firstQuestion():void
+            {
+				questIndex = 1;
+				if (catIndex > 0)
+				{
+					catIndex = 1;
+				}
+				
+            	node = Category.getQuestion(catIndex, questIndex);
+            	
+        		if (node != null)
+        		{
+            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE))
+            		{
+            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
+            		}
+            		else if (node.@type == Question.CHOICE_TYPE)
+            		{
+            			previewQuestion.showMultipleChoiceQuestion(node, mainView.cmbDevice.text);
+            		}
+          		}
+            }
+            
+            private function lastQuestion():void
+            {
+				catIndex = Survey.getInstance().getContentList().length;
+
+				if (catIndex > 0)
+				{
+					questIndex = xmlContent[catIndex-1].children().length();
+				}
+
+            	node = Category.getQuestion(catIndex, questIndex);
+
+        		if (node != null)
+        		{
+            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE))
+            		{
+            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
+            		}
+            		else if (node.@type == Question.CHOICE_TYPE)
+            		{
+            			previewQuestion.showMultipleChoiceQuestion(node, mainView.cmbDevice.text);
+            		}
+          		}
+            }
+        ]]>
+    </mx:Script>
+
+</mx:TitleWindow>

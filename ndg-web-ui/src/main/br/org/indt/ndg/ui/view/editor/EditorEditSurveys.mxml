@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init(this)"
+		width="956" height="460" styleName="mainAreaModule"
+		xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
+		xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*"
+		xmlns:sharedViews="main.br.org.indt.ndg.ui.view.editor.*">
+
+	<!--states-->
+	<mx:states>
+		<mx:State name="Category">
+			<mx:AddChild relativeTo="{questionPanel}" position="lastChild">
+				<mx:VBox width="100%" height="100%" styleName="previewPanel" keyUp="onKeyUp_quest(event, 0)" verticalGap="0">
+					<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CATEGORY')}"
+							styleName="clearText" fontWeight="bold"/>
+					</mx:ApplicationControlBar>
+					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10"
+						paddingBottom="10" paddingTop="10">
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CATEGORY_DESC')}"
+							fontSize="11" fontFamily="Arial" id="lblCategory" enabled="true"/>
+						<mx:TextArea id="txtCategory" width="100%"
+							wordWrap="true" height="56"	text=""
+							editable="true"
+							enabled="true" fontSize="12"
+							click="txtQuestionFocus(event, 0);"
+							focusIn="txtQuestionFocus(event, 0);"
+							focusOut="txtQuestionFocus(event, 0);"
+							textInput="textArea_textInput(event);"
+							change="_catValidator.validate();"/>
+						<mx:Spacer width="100%" height="90%"/>
+						<mx:HBox width="100%" horizontalAlign="right">
+							<mx:Button label="OK" id="btnCategoryOk" enabled="true" click="editCategory()"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+						</mx:HBox>
+					</mx:VBox>
+				</mx:VBox>
+			</mx:AddChild>
+			<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+   	
+	   	<mx:State name="String">
+	   		<mx:AddChild relativeTo="{questionPanel}">
+	   		<mx:VBox width="100%" height="100%" styleName="previewPanel" keyUp="onKeyUp_quest(event, Question.QUESTION_STRING)" verticalGap="0">
+					<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'STRING')}" styleName="clearText" fontWeight="bold"/>
+					</mx:ApplicationControlBar>
+					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
+		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblQuestion" enabled="true"/>
+		   			<mx:TextArea id="txtQuestion" width="100%" height="56"	text=""
+						wordWrap="true" editable="true"
+						enabled="true" fontSize="12"
+						click="txtQuestionFocus(event, Question.QUESTION_STRING);"
+						focusIn="txtQuestionFocus(event, Question.QUESTION_STRING);"
+						focusOut="txtQuestionFocus(event, Question.QUESTION_STRING);"
+						textInput="textArea_textInput(event);"
+						change="isQuestionValid(Question.STRING_TYPE)"/>
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion_Length" enabled="true"/>
+					<mx:TextInput id="txtQuestionString_Length" width="80" height="20" editable="true" enabled="true" change="isQuestionValid(Question.STRING_TYPE)" />
+					<mx:HRule width="100%"/>
+					<mx:TextArea id="lblFirstQuestion_str" width="100%" height="35"
+						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
+						enabled="false" styleName="editorFirstQuestion"/>
+					<mx:Spacer width="100%" height="100%"/>
+					<mx:HBox width="100%" horizontalAlign="right">
+						<mx:Button label="OK" id="btnOk_StringQuestion" enabled="true" click="editStringQuestion()"
+							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+					</mx:HBox>
+				</mx:VBox>
+				</mx:VBox>
+			</mx:AddChild>
+	   		<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+
+		<mx:State name="ChoiceExclusive">
+			<mx:AddChild relativeTo="{questionPanel}">
+				<mx:VBox width="100%" height="100%" verticalGap="0" styleName="previewPanel" 
+					keyUp="onKeyUp_quest(event, Question.QUESTION_CHOICE)">
+					<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+						<mx:Label id="panelMultQuest" styleName="clearText" fontWeight="bold"
+							text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}"/>
+					</mx:ApplicationControlBar>
+					<mx:Canvas width="100%" height="100%">
+						<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10"
+							paddingRight="10" paddingBottom="10" paddingTop="10" x="0" y="0">
+							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}"/>
+							<mx:TextArea id="txtQuestionExclusive" width="100%" height="56"
+								wordWrap="true" editable="true" enabled="true"
+								click="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
+								focusIn="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
+								focusOut="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
+								textInput="textArea_textInput(event);"
+								change="isQuestionValid(Question.CHOICE_TYPE)"/>
+							<mx:HRule width="100%"/>
+							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'ALTERNATIVES')}"/>
+							<mx:List id="lstChoices"  width="100%" height="80" rollOverColor="#eef9ff"
+							  	doubleClickEnabled="true" doubleClick="showChoiceItem()" 
+							  	change="{vboxAlternative.visible = false}"/>
+							<mx:HBox width="100%" horizontalAlign="center">
+								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'ADD')}"
+									click="addChoiceItem()" width="70"/>
+								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'DEL')}"
+									click="deleteChoiceItem()" width="70"/>
+								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'EDIT')}"
+									click="showChoiceItem()" width="70"/>
+							</mx:HBox>
+							<mx:HRule width="100%"/>
+							<mx:TextArea id="lblFirstQuestion_choice" width="100%" height="35"
+								text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
+								enabled="false" styleName="editorFirstQuestion"/>
+							<mx:HBox width="100%" height="100%" horizontalAlign="right" verticalAlign="bottom">
+								<mx:Button label="OK" id="btnOK_EditChoiceQuestion" click="editChoiceQuestion()"
+									toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+							</mx:HBox>							
+							<mx:CheckBox label="Exclusive" id="ckBox_ChoiceExclusive" visible="false" includeInLayout="false"/>
+						</mx:VBox>
+						<mx:ViewStack id="vboxAlternative" x="49" y="100" visible="false" show="onMultipleChoiceShow()">
+							<sharedViews:Multiple id="multipleChoice" creationComplete="initMultipleChoice()"/>
+						</mx:ViewStack>
+					</mx:Canvas>
+				</mx:VBox>
+			</mx:AddChild>
+			<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+	
+		<mx:State name="Integer">
+			<mx:AddChild relativeTo="{questionPanel}">
+			<mx:VBox width="100%" height="100%" styleName="previewPanel" keyUp="onKeyUp_quest(event, Question.QUESTION_INTEGER)" verticalGap="0">
+					<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'INTEGER')}" styleName="clearText" fontWeight="bold"/>
+					</mx:ApplicationControlBar>
+					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion" enabled="true"/>
+					<mx:TextArea id="txtQuestionInteger" width="100%" height="56"	text=""
+					wordWrap="true" editable="true" 
+					enabled="true" fontSize="12"
+					click="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
+					focusIn="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
+					focusOut="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
+					textInput="textArea_textInput(event);"
+					change="isQuestionValid(Question.INTEGER_TYPE)"/>
+					<mx:HBox width="100%">
+						<mx:RadioButton groupName="numbertype" value="int" id="radioInt" fontSize="11" fontFamily="Arial"
+						    label="{ConfigI18n.getInstance().getStringFile('editorResources', 'NUMBER_INT')}" width="73"/>
+						<mx:RadioButton groupName="numbertype" value="decimal" id="radioDecimal" fontSize="11" fontFamily="Arial"
+						    label="{ConfigI18n.getInstance().getStringFile('editorResources', 'NUMBER_DECIMAL')}" width="73"/>
+					</mx:HBox>
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblStringQuestion_Length" enabled="true"/>
+					<mx:TextInput id="txtQuestionInteger_Length" width="80" height="20"	text=""
+					editable="true" 
+					enabled="true"
+					change="isQuestionValid(Question.INTEGER_TYPE)"				
+					/>
+					<mx:HRule width="100%"/>
+					<mx:HBox width="100%">
+						<mx:Tile width="100%" height="100%" direction="vertical">
+							<mx:CheckBox id="ckBoxMinRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MIN_RANGE')}" click="minRangeClick_int()" fontFamily="Arial" fontSize="11"/>
+							<mx:TextInput id="txtMinRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
+							<mx:CheckBox id="ckBoxMaxRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MAX_RANGE')}" click="maxRangeClick_int()" fontFamily="Arial" fontSize="11"/>
+							<mx:TextInput id="txtMaxRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
+						</mx:Tile>
+					</mx:HBox>
+					<mx:HRule width="100%"/>
+					<mx:TextArea id="lblFirstQuestion_int" width="100%" height="35"
+						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
+						enabled="false" styleName="editorFirstQuestion"/>
+					<mx:Spacer width="100%" height="100%"/>
+					<mx:HBox width="100%" horizontalAlign="right">
+						<mx:Button label="OK" id="btnOk_IntegerQuestion" enabled="true" click="editIntegerQuestion()"
+							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+					</mx:HBox>
+					<mx:RadioButtonGroup id="numbertype" itemClick="handleNumberTypeChange(event)"/>
+				</mx:VBox>
+				</mx:VBox>
+			</mx:AddChild>	
+			<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+	
+		<mx:State name="Date">
+			<mx:AddChild relativeTo="{questionPanel}">
+			<mx:VBox width="100%" height="100%" styleName="previewPanel" keyUp="onKeyUp_quest(event, Question.QUESTION_DATE)" verticalGap="0">
+					<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'DATE')}" styleName="clearText" fontWeight="bold"/>
+					</mx:ApplicationControlBar>
+					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblDateQuestion" enabled="true"/>
+					<mx:TextArea id="txtQuestionDate" width="100%" height="56"	text=""
+					wordWrap="true" editable="true" 
+					enabled="true" fontSize="12"
+					click="txtQuestionFocus(event, Question.QUESTION_DATE);"
+					focusIn="txtQuestionFocus(event, Question.QUESTION_DATE);"
+					focusOut="txtQuestionFocus(event, Question.QUESTION_DATE);"
+					textInput="textArea_textInput(event);"
+					change="isQuestionValid(Question.DATE_TYPE)"/>
+					<mx:HRule width="100%"/>
+					<mx:CheckBox id="ckBoxMinRange_date" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MIN_RANGE')}" click="minRangeClick_date()"/>
+					<mx:DateField id="txtMinRange_date" height="20" width="90" enabled="false"
+						yearNavigationEnabled="true" formatString="DD/MM/YYYY"/>
+					<mx:CheckBox id="ckBoxMaxRange_date" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MAX_RANGE')}" click="maxRangeClick_date()"/>
+					<mx:DateField id="txtMaxRange_date" height="20" width="90" enabled="false"
+						yearNavigationEnabled="true" formatString="DD/MM/YYYY"/>
+					<mx:HRule width="100%"/>
+					<mx:TextArea id="lblFirstQuestion_date" width="100%" height="35"
+						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
+						enabled="false" styleName="editorFirstQuestion"/>					
+					<mx:Spacer width="100%" height="100%"/>
+					<mx:HBox width="100%" horizontalAlign="right">
+						<mx:Button label="OK" id="btnOk_DateQuestion" enabled="true" click="editDateQuestion()"
+							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+					</mx:HBox>
+				</mx:VBox>
+				</mx:VBox>
+			</mx:AddChild>
+			<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+		
+		<mx:State name="Image">
+	   		<mx:AddChild relativeTo="{questionPanel}">
+	   		<mx:VBox width="100%" height="100%" styleName="previewPanel" keyUp="onKeyUp_quest(event, Question.QUESTION_IMAGE)" verticalGap="0">
+					<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'IMAGE')}" styleName="clearText" fontWeight="bold"/>
+					</mx:ApplicationControlBar>
+					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
+		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblQuestion_img" enabled="true"/>
+		   			<mx:TextArea id="txtQuestion_img" width="100%" height="56"	text=""
+						wordWrap="true" editable="true"
+						enabled="true" fontSize="12"
+						click="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
+						focusIn="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
+						focusOut="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
+						textInput="textArea_textInput(event);"
+						change="isQuestionValid(Question.IMAGE_TYPE)"/>
+					<mx:HRule width="100%"/>
+					<mx:TextArea id="lblFirstQuestion_img" width="100%" height="35"
+						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
+						enabled="false" styleName="editorFirstQuestion"/>	
+					<mx:Spacer width="100%" height="100%"/>
+					<mx:HBox width="100%" horizontalAlign="right">
+						<mx:Button label="OK" id="btnOk_ImageQuestion" enabled="true" click="editImageQuestion()"
+							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+					</mx:HBox>
+				</mx:VBox>
+				</mx:VBox>
+			</mx:AddChild>
+	   		<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+	</mx:states>
+	<!--states-->
+
+
+	<mx:Script source="../../../controller/editor/EditorEditSurveysController.as" />
+
+	<mx:HBox width="100%" styleName="functionalitiesBar" verticalAlign="bottom">
+		<mx:Button height="43" width="63" click="backToSurveysList(event)"
+			label="{ConfigI18n.getInstance().getString('btnDetailsBack')}">
+			<mx:icon>@Embed(source='main/resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+		</mx:Button>	
+		<mx:VBox verticalAlign="middle" verticalGap="0">		
+			<mx:HBox verticalAlign="middle" horizontalGap="4">
+				<mx:Label styleName="darkTitle" id="lblTitle"/>
+			</mx:HBox>
+			<mx:HBox verticalAlign="middle" horizontalGap="2">
+				<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MENU_SAVE')}" height="22"
+					id="saveSurvey" width="100" click="save()"/>
+				<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MENU_DUPLICATE')}" height="22" 
+					id="duplicateSurvey" width="100" click="saveAs()"/>
+				<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD')}" height="22" 
+					id="makeAvailableSurvey" click="makeAvailable()" width="100"/>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:HRule width="100%" visible="false"/>
+		<mx:HBox horizontalGap="2" verticalAlign="middle" fontSize="10">
+			<mx:Label text="{ConfigI18n.getInstance().getString('lblSearch')}" fontWeight="bold"/>
+			<mx:TextInput id="txtSearch" enter="onEnter_search(event)" height="22"/>
+			<mx:Button id="btnSearchGo" click="onEnter_search(event)" styleName="iconButton" width="22" height="22">
+				<mx:icon>@Embed(source='main/resources/images/SEARCH_TRANSP.png')</mx:icon>
+			</mx:Button>
+		</mx:HBox>
+	</mx:HBox>	
+
+
+	<mx:VBox id="surveyNamePanel" width="100%" height="30" verticalAlign="middle"
+		paddingLeft="5" paddingRight="5">
+		<mx:HBox id="boxName" verticalAlign="middle" horizontalGap="2">
+			<mx:HBox verticalAlign="middle" horizontalGap="0">
+				<mx:Label text="*" includeInLayout="{bModifiedSurvey}" visible="{bModifiedSurvey}" width="10"/>
+				<mx:Label id="lblSurveyName" styleName="darkTitle" maxWidth="538"
+					text="{ConfigI18n.getInstance().getStringFile('editorResources', 'SURVEY_NAME')}"/>
+				<mx:Label id="lblReadOnly" includeInLayout="{deployed}" visible="{deployed}" 
+					text="{ConfigI18n.getInstance().getStringFile('editorResources', 'READ_ONLY')}"/>
+			</mx:HBox>
+			<mx:VRule height="15"/>
+			<mx:Label id="lblSurveyId" styleName="darkTitle" text="Survey ID"/>
+			<mx:VRule height="15"/>
+			<mx:LinkButton label="{ConfigI18n.getInstance().getStringFile('editorResources', 'EDIT_SURVEY_NAME')}"
+				click="{clickSurveyName()}"/>
+		</mx:HBox>
+		<mx:HBox id="boxEditName" visible="false" includeInLayout="false">
+			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'SURVEY_NAME')}"/>		
+			<mx:TextInput id="txtSurveyName" enter="okSurveyName()" height="22" width="162" maxChars="255"/>
+			<mx:Button label="OK" click="okSurveyName()"
+				toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+			<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'CANCEL')}"
+				toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_CANCEL_CHANGES')}"
+				click="cancelEditSurveyName()"/>
+		</mx:HBox>
+	</mx:VBox>
+
+
+
+	<mx:HBox width="100%" height="100%" horizontalGap="8" styleName="gridPanel">
+		<mx:VBox height="100%" styleName="previewPanel" width="318" cornerRadius="6">
+			<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+				<mx:Label styleName="clearText" fontWeight="bold"
+					text="{ConfigI18n.getInstance().getStringFile('editorResources', 'SURVEY_QUEST_PANEL')}"/>
+			</mx:ApplicationControlBar>
+			<mx:VBox width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+				<mx:HBox width="100%" horizontalGap="0">
+					<mx:VBox height="100%" width="98">
+						<mx:Button id="btnNewCategory" width="85" height="22"
+							icon="@Embed(source='main/resources/images/editor/add_folder.png')"
+							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_CATEGORY')}"
+							label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_CATEGORY')}"
+							click="questTree.onItemClick(this, 0)"/>
+					</mx:VBox>
+					<mx:VBox>
+						<mx:HBox horizontalGap="13" width="209">
+							<mx:Button id="_str" width="22" height="22"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_STRING')}"
+								click="questTree.onItemClick(this, Question.QUESTION_STRING)" styleName="iconButton">
+								<mx:overSkin>@Embed(source='main/resources/images/editor/string-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/string-tmp.png')</mx:skin>
+							</mx:Button>
+							<mx:Button id="_int" width="22" height="22"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_INTEGER')}"
+								click="questTree.onItemClick(this, Question.QUESTION_INTEGER)" styleName="iconButton">
+								<mx:overSkin>@Embed(source='main/resources/images/editor/int-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/int-tmp.png')</mx:skin>
+							</mx:Button>
+							<mx:Button id="_choice" width="22" height="22"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_MULTIPLE')}"
+								click="questTree.onItemClick(this, Question.QUESTION_CHOICE)" styleName="iconButton">
+								<mx:overSkin>@Embed(source='main/resources/images/editor/choice-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/choice-tmp.png')</mx:skin>
+							</mx:Button>
+							<mx:Button id="_choiceExclusive" width="22" height="22"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_MULTIPLE_EXCL')}"
+								click="questTree.onItemClick(this, Question.QUESTION_CHOICE_EXCLUSIVE)" styleName="iconButton">	
+								<mx:overSkin>@Embed(source='main/resources/images/editor/choice-excl-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/choice-excl-tmp.png')</mx:skin>
+							</mx:Button>
+							<mx:Button id="_date" width="22" height="22"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_DATE')}"
+								click="questTree.onItemClick(this, Question.QUESTION_DATE)" styleName="iconButton">
+								<mx:overSkin>@Embed(source='main/resources/images/editor/date-new_tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/date-new_tmp.png')</mx:skin>
+							</mx:Button>
+						   <!-- <mx:Button id="_time" width="22" height="22"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_TIME')}"
+								click="questTree.onItemClick(this, Question.QUESTION_TIME)" styleName="iconButton">
+								<mx:overSkin>@Embed(source='main/resources/images/editor/time-new_tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/time-new_tmp.png')</mx:skin>
+							</mx:Button>-->
+							<mx:Button id="_img" width="22" height="22" 
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_IMAGE')}"
+								click="questTree.onItemClick(this, Question.QUESTION_IMAGE)" styleName="iconButton">
+								<mx:overSkin>@Embed(source='main/resources/images/editor/icon_image_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/icon_image.png')</mx:skin>
+							</mx:Button>
+						</mx:HBox>
+						<mx:HBox horizontalGap="3">
+							<mx:Button height="22" width="64" click="moveDownQuestion()"
+								label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_MOVEDOWN')}"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_MOVEDOWN')}">
+								<mx:icon>@Embed(source='main/resources/images/editor/down.png')</mx:icon>
+							</mx:Button>
+							<mx:Button height="22" width="64" click="moveUpQuestion()"
+								label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_MOVEUP')}"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_MOVEUP')}">
+								<mx:icon>@Embed(source='main/resources/images/editor/up.png')</mx:icon>
+							</mx:Button>
+							<mx:Button height="22" width="64" click="removeQuestion()"
+								label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_DELETE')}"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_DELETE')}">
+								<mx:icon>@Embed(source='main/resources/images/editor/delete_item.png')</mx:icon>
+							</mx:Button>
+						</mx:HBox>
+					</mx:VBox>
+				</mx:HBox>
+				<sharedViews:TreeViewSurvey id="questTree" width="100%" height="100%"
+					dragDrop="questTree.onDragDrop(event, this)" iconFunction="setIcons"
+					dragEnter="questTree.onDragEnter(event)" dragOver="questTree.onDragOver(event)"
+					doubleClickEnabled="true" doubleClick="tree_ItemDbClick(event)"
+					change="tree_ItemClick(event)" itemClose="tree_ItemClose(event)" 
+				    disclosureClosedIcon="@Embed(source='main/resources/images/editor/plus-8.png')"
+	                disclosureOpenIcon="@Embed(source='main/resources/images/editor/minus-8.png')"/>
+			</mx:VBox>
+		</mx:VBox>
+		
+		<mx:VBox id="questionPanel" width="318" height="100%" styleName="previewPanel" cornerRadius="6">
+			<mx:VBox width="100%" height="100%" styleName="previewPanel" id="vbox4">
+				<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar" id="applicationcontrolbar2">
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'EDIT_PANEL')}" 
+						styleName="clearText" fontWeight="bold"/>
+				</mx:ApplicationControlBar>
+				<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10"
+					paddingRight="10" paddingBottom="10" paddingTop="10"/>
+			</mx:VBox>
+		</mx:VBox>	
+				
+		<mx:VBox width="100%" height="100%" id="pnlPreview" verticalGap="0" styleName="previewPanel" cornerRadius="6">
+			<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar" id="applicationcontrolbar1">
+				<mx:Label styleName="clearText" fontWeight="bold"
+					text="{ConfigI18n.getInstance().getStringFile('editorResources', 'PREVIEW')}"/>
+			</mx:ApplicationControlBar>
+			<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="25" paddingLeft="10" paddingRight="10"
+				paddingBottom="10" paddingTop="10">
+				<mx:HBox width="100%" verticalAlign="middle">
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'DEVICE')}" id="lbDevice"/>
+					<mx:ComboBox styleName="paginationCombo" id="cmbDevice" width="80"
+						openDuration="0" closeDuration="0" change="cmbDeviceOnChange()" selectedIndex="1">
+						[E61,E71]
+					</mx:ComboBox>
+					<mx:Button click="showPreviewWindow()"
+						label="{ConfigI18n.getInstance().getStringFile('editorResources', 'RUN_SURVEY')}"
+						toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_RUN_SURVEY')}"/>
+				</mx:HBox>
+				<mx:VBox width="100%" horizontalAlign="center" borderColor="#FFFFFF" borderThickness="2">
+					<sharedViews:Previewer id="previewQuestion" scaleX=".6" scaleY=".6"
+						creationComplete="{previewQuestion.showMain(cmbDevice.text)}"/>
+				</mx:VBox>
+			</mx:VBox>
+		</mx:VBox>				
+
+	</mx:HBox>
+	
+
+	
+	
+	<!--validators-->
+	<!-- Category Type-->
+	<mx:StringValidator id="_catValidator" source="{txtCategory}" property="text" 
+    	requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_SHORT_ERROR_CAT')}"
+    	tooLongError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_LONG_ERROR_CAT')}" 
+    	minLength="1" maxLength="200"
+    	valid="{btnCategoryOk.enabled = true}" 
+     	invalid="{btnCategoryOk.enabled = false}"
+    />
+	
+	<!-- String Question Type-->
+	<mx:StringValidator id="_strValidator_question" source="{txtQuestion}" property="text" 
+    	requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+    	tooLongError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_LONG_ERROR')}" 
+    	minLength="1" maxLength="200"
+    	valid="{btnOk_StringQuestion.enabled = true}" 
+     	invalid="{btnOk_StringQuestion.enabled = false}"
+    />
+        
+    <mx:NumberValidator id="_strValidator_length" source="{txtQuestionString_Length}" property="text"
+     	minValue="1" maxValue="250" allowNegative="false" domain="int"
+     	exceedsMaxError="{ConfigI18n.getInstance().getStringFile('editorResources', 'EXCEEDS_RANGE_ERROR') + ' 150'}"
+        lowerThanMinError="{ConfigI18n.getInstance().getStringFile('editorResources', 'EXCEEDS_RANGE_ERROR') + ' 150'}"
+        negativeError="{ConfigI18n.getInstance().getStringFile('editorResources', 'EXCEEDS_RANGE_ERROR') + ' 150'}"
+        invalidCharError="{ConfigI18n.getInstance().getStringFile('editorResources', 'INVALID_CHAR_ERROR')}"
+        requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+        integerError="{ConfigI18n.getInstance().getStringFile('editorResources', 'NOT_INTEGER_ERROR')}"
+     	valid="{btnOk_StringQuestion.enabled = true}" 
+     	invalid="{btnOk_StringQuestion.enabled = false}"
+    />
+    
+	<!-- Integer Question Type-->
+    <mx:StringValidator id="_intValidator_question" source="{txtQuestionInteger}" property="text" 
+        requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+        tooLongError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_LONG_ERROR')}"
+    	minLength="1" maxLength="200"
+    	valid="{btnOk_IntegerQuestion.enabled = true}" 
+     	invalid="{btnOk_IntegerQuestion.enabled = false}"
+    />
+     	
+    <mx:NumberValidator id="_intValidator_length" source="{txtQuestionInteger_Length}" property="text"
+     	minValue="1" maxValue="10" allowNegative="false" domain="int"
+     	exceedsMaxError="{ConfigI18n.getInstance().getStringFile('editorResources', 'EXCEEDS_RANGE_ERROR') + ' 10'}"
+     	lowerThanMinError="{ConfigI18n.getInstance().getStringFile('editorResources', 'EXCEEDS_RANGE_ERROR') + ' 10'}"
+     	negativeError="{ConfigI18n.getInstance().getStringFile('editorResources', 'EXCEEDS_RANGE_ERROR') + ' 10'}"
+     	invalidCharError="{ConfigI18n.getInstance().getStringFile('editorResources', 'INVALID_CHAR_ERROR')}"
+        requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+        integerError="{ConfigI18n.getInstance().getStringFile('editorResources', 'NOT_INTEGER_ERROR')}"
+     	valid="{btnOk_IntegerQuestion.enabled = true}" 
+     	invalid="{btnOk_IntegerQuestion.enabled = false}"
+    />
+    
+	<mx:NumberValidator id="_intValidator_minRange" source="{txtMinRange_int}" property="text"
+     	allowNegative="true" domain="int" required="false"
+     	invalidCharError="{ConfigI18n.getInstance().getStringFile('editorResources', 'INVALID_CHAR_ERROR')}"
+     	integerError="{ConfigI18n.getInstance().getStringFile('editorResources', 'NOT_INTEGER_ERROR')}"
+     	valid="{btnOk_IntegerQuestion.enabled = true}" 
+     	invalid="{btnOk_IntegerQuestion.enabled = false}"
+     	triggerEvent=""
+    />
+    
+    <mx:NumberValidator id="_intValidator_maxRange" source="{txtMaxRange_int}" property="text"
+     	allowNegative="true" domain="int" required="false"
+     	invalidCharError="{ConfigI18n.getInstance().getStringFile('editorResources', 'INVALID_CHAR_ERROR')}"
+     	integerError="{ConfigI18n.getInstance().getStringFile('editorResources', 'NOT_INTEGER_ERROR')}"
+     	valid="{btnOk_IntegerQuestion.enabled = true}" 
+     	invalid="{btnOk_IntegerQuestion.enabled = false}"
+     	triggerEvent=""
+    />
+    
+    <mx:NumberValidator id="_intValidator_minRange_Decimal" source="{txtMinRange_int}" property="text"
+        allowNegative="true" domain="real" required="false"
+        invalidCharError="{ConfigI18n.getInstance().getStringFile('editorResources', 'INVALID_CHAR_ERROR')}"
+        valid="{btnOk_IntegerQuestion.enabled = true}" 
+        invalid="{btnOk_IntegerQuestion.enabled = false}"
+       triggerEvent=""
+    />
+    
+    <mx:NumberValidator id="_intValidator_maxRange_Decimal" source="{txtMaxRange_int}" property="text"
+        allowNegative="true" domain="real" required="false"
+        invalidCharError="{ConfigI18n.getInstance().getStringFile('editorResources', 'INVALID_CHAR_ERROR')}"
+        valid="{btnOk_IntegerQuestion.enabled = true}" 
+        invalid="{btnOk_IntegerQuestion.enabled = false}"
+        triggerEvent=""
+    />
+    
+    <!-- Choice Question Type-->
+    <mx:StringValidator id="_choiceValidator_question" source="{txtQuestionExclusive}" property="text" 
+        requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+        tooLongError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_LONG_ERROR')}"
+    	minLength="1" maxLength="200"
+    	valid="{btnOK_EditChoiceQuestion.enabled = true}" 
+     	invalid="{btnOK_EditChoiceQuestion.enabled = false}"
+    />
+    
+	<!-- Date Question Type-->
+    <mx:StringValidator id="_dateValidator_question" source="{txtQuestionDate}" property="text" 
+        requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+        tooLongError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_LONG_ERROR')}"
+    	minLength="1" maxLength="200"
+    	valid="{btnOk_DateQuestion.enabled = true}" 
+     	invalid="{btnOk_DateQuestion.enabled = false}"
+    />
+    
+    <!-- Image Question Type-->
+    <mx:StringValidator id="_imageValidator_question" source="{txtQuestion_img}" property="text" 
+        requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+        tooLongError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_LONG_ERROR')}"
+    	minLength="1" maxLength="200"
+    	valid="{btnOk_ImageQuestion.enabled = true}" 
+     	invalid="{btnOk_ImageQuestion.enabled = false}"
+    />
+	<!--validators-->
+	
+	
+	<mx:Script>
+		<![CDATA[
+			public function getMainGUI():EditorEditSurveys
+			{
+				return this;
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Module>

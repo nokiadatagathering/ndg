@@ -12,11 +12,13 @@
 	
 	
 	<mx:Array id="validators">
+		<!--
 		<mx:StringValidator source="{inputImei}" property="text"
 			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
 			maxLength="15" tooLongError="{getMaxLengthMsg('15')}"
 			minLength="15" tooShortError="{getMinLengthMsg('15')}"
 			triggerEvent="change"/>
+		-->
 		<mx:StringValidator source="{inputPhoneNumber}" property="text" 
 			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
 			maxLength="50" tooLongError="{getMaxLengthMsg('50')}"
@@ -27,10 +29,12 @@
 	</mx:Array>
 	
 	<mx:Form id="form" paddingLeft="0" paddingRight="0" paddingBottom="5" paddingTop="0">
+		<!--
 		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldImeiImei')}" fontWeight="bold">
 			<mx:TextInput id="inputImei" text="{dto.imei}" fontWeight="normal" width="160" enabled="false" restrict="[0-9]"
 				styleName="formTextInput"/>
 		</mx:FormItem>
+		-->
 		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldImeilPhoneNumber')}" fontWeight="bold">
 			<mx:TextInput id="inputPhoneNumber" text="{dto.msisdn}" fontWeight="normal" width="160" enabled="false"
 				styleName="formTextInput" restrict="[0-9]"/>
@@ -49,7 +53,7 @@
 	</mx:Form>
 	
 	<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="3" visible="{hasBalanceCheck}">
-		<mx:Image width="16" height="14" source="main/resources/images/BALANCE.png" id="balanceIcon"/>
+		<mx:Image width="16" height="14" source="@Embed('main/resources/images/BALANCE.png')" id="balanceIcon"/>
 		<mx:Label text="{userBalanceMessage}"/>
 	</mx:HBox>
 	
@@ -67,9 +71,14 @@
 				paddingLeft="3" paddingRight="3" click="remove()" enabled="{!(editMode || (dto == null))}"/>
 	</mx:HBox>
 
-
+	<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnDownloadJad')}"
+		click="jadDownload(inputPhoneNumber.text)" enabled="{!(editMode || (dto == null))}"/>
+	
+	<mx:VRule visible="false" height="20"/>
 	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnAssociatedSurveys')}"
 		enabled="{!(editMode || (dto == null))}" click="showAssociatedSurveys()"/>
+	
+	
 
 	
 	

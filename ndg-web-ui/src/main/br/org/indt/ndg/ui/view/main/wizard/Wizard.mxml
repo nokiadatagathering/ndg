@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module layout="vertical" styleName="wizardModule" width="800" height="383"
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:wizard="main.br.org.indt.ndg.ui.view.main.wizard.*">
+	
+	<mx:Script source="../../../../controller/main/wizard/WizardController.as" />
+
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="738" y="-1" click="closeWizard(event)">
+            <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>
+    
+    <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+        <mx:Label text="{wizardTitle}" styleName="clearTitle3"/>
+        <mx:HRule width="100%" visible="false"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizardStep')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="{stepText}" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        <mx:Label text="{ConfigI18n.getInstance().getString('lblWizardStepOf')}" styleName="clearSmallText" fontWeight="bold"/>
+        <mx:Label text="4" styleName="clearSmallText" fontWeight="bold" width="10"/>
+        
+        <mx:ApplicationControlBar id="stp1" styleName="wizardProgress" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp2" styleName="wizardBlank" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp3" styleName="wizardBlank" width="35" height="7"/>
+        <mx:ApplicationControlBar id="stp4" styleName="wizardBlank" width="35" height="7"/>
+    </mx:ApplicationControlBar>
+    
+    <mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
+    <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>
+    
+	<mx:ViewStack id="viewStackWizard" width="100%" height="100%" selectedIndex="0" change="updateSteps()">
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}" creationComplete="updateSteps()">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardWelcomeMessage')}" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">			
+				<mx:Button id="btnWelcome" width="280" height="150" click="nextStep(event)"  >
+					<mx:downSkin>@Embed(source='../../../../../../../../resources/images/NDG_WELCOME_OVER.png')</mx:downSkin>
+					<mx:skin>@Embed(source='../../../../../../../../resources/images/NDG_WELCOME.png')</mx:skin>
+					<mx:overSkin>@Embed(source='../../../../../../../../resources/images/NDG_WELCOME_OVER.png')</mx:overSkin>
+				</mx:Button>		
+			</mx:HBox>
+			
+			<mx:HBox width="100%" height="52" horizontalAlign="left" verticalAlign="middle">
+				<mx:CheckBox label="{ConfigI18n.getInstance().getString('btnWizardCloseWarn')}" width="75%" paddingLeft="10" paddingRight="10" id="chkFirstTimeUser"/>
+			</mx:HBox>
+		</mx:VBox>	
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}" horizontalScrollPolicy="off">
+			
+			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="2" paddingBottom="4" paddingTop="5" height="36">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardDownloadMessage')}" styleName="darkTitle" height="16"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardDownloadMessage2')}" styleName="darkTitle" height="16"/>
+			</mx:HBox>
+			<mx:Canvas id="containerDevices" width="798" height="100%">
+				<mx:HBox width="798" height="156" styleName="wizardCenterPanel" 
+					x="-1" y="20" horizontalGap="46" paddingLeft="40" creationComplete="createDevicesBox()">
+				</mx:HBox>								
+			</mx:Canvas>			
+			<mx:HBox width="100%" height="36" horizontalAlign="center" verticalAlign="top">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardNext')}" click="saveAndSend(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="100" id="btnSaveAndSend" enabled="false">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
+			</mx:VBox>
+			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
+				<mx:Label y="10" text="{ConfigI18n.getInstance().getString('lblWizardInstallSuccess')}" styleName="darkTitle"  fontSize="18" fontWeight="normal" horizontalCenter="0"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallCongratQuest')}" horizontalCenter="0" fontSize="16" y="118"/>
+				<mx:Image y="51" source="@Embed('main/resources/images/ICON_SUCCESS.png')" horizontalCenter="0"/>
+			</mx:Canvas>
+			
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardInstallNo')}" click="pcInstructions(event)"
+					paddingLeft="10" paddingRight="10" width="150">
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardInstallYes')}" click="smsInstructions(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="150">
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
+			</mx:VBox>
+			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
+				<mx:HBox x="105" width="285" height="138" borderColor="#1B314C" borderStyle="solid" cornerRadius="6" backgroundColor="#FFFFFF" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5" verticalCenter="0">
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallSMSTip')}" width="100%" height="100%" fontSize="12"/>
+				</mx:HBox>
+				<mx:Image x="471" source="@Embed('main/resources/images/SMS_INSTALL.png')" verticalCenter="0"/>
+			</mx:Canvas>
+			
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10" width="130">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardStartInst')}" click="nextStep(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="130">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>	
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="38">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
+			</mx:VBox>
+			<mx:Canvas id="containerSteps" width="100%" height="100%">
+				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
+			</mx:HBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep1')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep1Detail')}" width="100%"/>
+				</mx:VBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step2.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep2')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep2Detail')}" width="100%"/>
+				</mx:VBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep3')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep3Detail')}" width="100%"/>
+				</mx:VBox>
+			</mx:Canvas>
+			<mx:HBox width="100%" height="45" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardNext')}" click="nextStep(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="38">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
+			</mx:VBox>
+			<mx:Canvas id="containerSteps2" width="100%" height="100%">
+				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
+			</mx:HBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep4')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep4Detail')}" width="100%"/>
+				</mx:VBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step2.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep5')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep5Detail')}" width="100%"/>
+				</mx:VBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep6')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep6Detail')}" width="100%"/>
+				</mx:VBox>
+			</mx:Canvas>
+			<mx:HBox width="100%" height="45" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardNext')}" click="nextStep(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+
+		</mx:VBox>						
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="38">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
+			</mx:VBox>
+			<mx:Canvas id="containerSteps3" width="100%" height="100%">
+				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
+			</mx:HBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep7')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep7Detail')}" width="100%"/>
+				</mx:VBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step2.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep8')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep8Detail')}" width="100%"/>
+				</mx:VBox>
+				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
+					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep9')}" fontWeight="bold" fontSize="12"/>
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep9Detail')}" width="100%"/>
+				</mx:VBox>
+			</mx:Canvas>
+			<mx:HBox width="100%" height="45" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardNext')}" click="nextStep(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+
+		</mx:VBox>						
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
+			</mx:VBox>
+			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
+				<mx:Label y="96" text="{ConfigI18n.getInstance().getString('lblWizardInstallCongrat')}" styleName="darkTitle"  fontSize="18" fontWeight="normal" horizontalCenter="0"/>
+				<mx:Image y="19" source="@Embed('main/resources/images/ICON_SUCCESS.png')" horizontalCenter="0"/>
+				<mx:Text y="133" text="{ConfigI18n.getInstance().getString('lblWizardInstallFinishMsg')}" styleName="darkTitle" fontWeight="normal" fontSize="14" horizontalCenter="0" width="426" height="59" textAlign="center"/>
+			</mx:Canvas>
+			
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backFinishStep(event)"
+					paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardClose')}" click="closeWizard(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="98">
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
+			</mx:VBox>
+			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
+				<mx:HBox x="105" width="285" height="138" borderColor="#1B314C" borderStyle="solid" cornerRadius="6" backgroundColor="#FFFFFF" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5" verticalCenter="0">
+					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallPCTip')}" width="100%" height="100%" fontSize="12"/>
+				</mx:HBox>
+				<mx:Image x="471" source="@Embed('main/resources/images/PC_INSTALL.png')" verticalCenter="0"/>
+			</mx:Canvas>
+			
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="messageConfirmation(event)"
+					paddingLeft="10" paddingRight="10" width="130">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardStartInst')}" click="nextStep(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="130">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>								
+
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" styleName="wizardCenterPanel">			
+				<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallPCDesc')}" width="779" styleName="darkTitle" fontSize="12" fontWeight="bold" textAlign="center"/>
+				<mx:Text text="1. {ConfigI18n.getInstance().getString('lblWizardInstallPCInstTitle1')}" width="700" styleName="darkTitle" fontSize="12" fontWeight="bold"/>
+				<mx:Text text="     {ConfigI18n.getInstance().getString('lblWizardInstallPCInst1')}" width="700" styleName="darkTitle" fontSize="12" fontWeight="normal"/>
+				<mx:Text text="2. {ConfigI18n.getInstance().getString('lblWizardInstallPCInstTitle2')}" width="700" styleName="darkTitle" fontSize="12" fontWeight="bold"/>
+				<mx:Text text="     {ConfigI18n.getInstance().getString('lblWizardInstallPCInst2')}" width="700" styleName="darkTitle" fontSize="12" fontWeight="normal"/>
+			</mx:VBox>
+			
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardNext')}" click="finishStep(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>		
+								
+	</mx:ViewStack>
+	
+</mx:Module>

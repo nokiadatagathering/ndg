@@ -171,6 +171,16 @@ HBox.wizardCenterPanel
 	paddingTop: 5;
 	vertical-align: middle;
 }
+HBox.wizardStepPanel
+{
+	vertical-gap: 1;
+	border-color: #1B314C;
+	border-style: solid;
+	corner-radius: 4;
+	backgroundColor: #FFFFFF;
+	padding-left: 2;
+	padding-top: 2;
+}
 Button.wizardClearButton
 {
 	borderColor: #051F7D;
@@ -205,10 +215,18 @@ ApplicationControlBar.previewCtrlBar
 	shadow-distance: 1;
 	horizontal-gap: 2;
 }
-TextArea.previewTextArea
+VBox.previewArea
 {
 	backgroundColor: #DFECFF;
 	borderStyle: none;
+	vertical-gap: 0;
+}
+VBox.imagePanel
+{
+	borderStyle: solid;
+	cornerRadius: 5;
+	borderColor: #051F7D;
+	borderThickness: 1;
 }
 Module.previewPanel
 {
@@ -342,7 +360,7 @@ Button
 	font-size: 10;
 	textRollOverColor: #051F7D;
 	textSelectedColor: #051f7d;
-	disabledColor: #C3C4C8;
+	disabledColor: #29469F;
 	leading: 0;
 	fontWeight: bold;
 	fontStyle: normal;
@@ -390,6 +408,16 @@ ComboBox
 	font-size: 10;
 	iconColor: #051f7d;
 }
+RadioButton
+{
+	borderColor: #051F7D;
+	cornerRadius: 4;
+	fillAlphas: 1,1,1,1;
+	fillColors: #FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF;
+	color: #051F7D;
+	textRollOverColor: #051F7D;
+	textSelectedColor: #29469F;
+}
 CheckBox
 {
 	borderColor: #051F7D;
@@ -398,8 +426,10 @@ CheckBox
 	fillColors: #FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF;
 	color: #051F7D;
 	textRollOverColor: #051F7D;
+	textSelectedColor: #29469F;
 }
-VScrollBar {
+VScrollBar
+{
    cornerRadius: 4;
    highlightAlphas: 0, 0;
    fillAlphas: 1, 1, 1, 1;
@@ -410,12 +440,13 @@ VScrollBar {
    iconColor: #000000;
    thumbOffset: 0;
 }
-HScrollBar {
+HScrollBar
+{
    cornerRadius: 4;
    highlightAlphas: 0, 0;
    fillAlphas: 1, 1, 1, 1;
-   fillColors: #FFFFFF, #3687FF, #FFFFFF, #DEEEF9;
-   trackColors: #3687FF, #FFFFFF;
+   fillColors: #DEEEF9, #DEEEF9, #FFFFFF, #DEEEF9;
+   trackColors: #FFFFFF, #FFFFFF;
    themeColor: #051F7D;
    borderColor: #051F7D;
    iconColor: #000000;
@@ -447,7 +478,8 @@ DataGrid
 	headerStyleName: "dataGridHeaderStyle";
 	font-size: 10;
 }
-.dataGridHeaderStyle {
+.dataGridHeaderStyle
+{
 	color: #FFFFFF;
 	font-weight: bold;
 	font-size: 10;
@@ -457,15 +489,43 @@ VRule
 	strokeColor: #051F7D;
 	themeColor: #051F7D;
 }
-
-
-
-
-
-
-
-
-
-
+Alert
+{
+	backgroundColor: #FFFFFF;
+	borderColor: 666666;
+	borderStyle: solid;
+	borderThickness: 1;
+	cornerRadius: 7;
+	verticalAlign: middle;
+	verticalGap: 0;
+	color: #051F7D;
+	background-alpha: 1.0;
+}
+Alert.alertButtonStyle
+{
+	borderColor: #051F7D;
+	color: #FFFFFF;
+	fillAlphas: 1.0, 1.0;
+	fillColors: #3687FF, #051F7D, #DFECFF, #3687FF;
+	paddingLeft: 2;
+	paddingRight: 2;
+	themeColor: #051F7D;
+	font-size: 10;
+	textRollOverColor: #051F7D;
+	textSelectedColor: #051f7d;
+	disabledColor: #C3C4C8;
+	leading: 0;
+	fontWeight: bold;
+	fontStyle: normal;
+	textAlign: center;
+}
+TextArea.editorFirstQuestion
+{
+	backgroundDisabledColor: #ECECEC;
+	borderStyle: none;
+	disabledColor: #969696;
+	fontWeight: bold;
+	textAlign: center;
+}
 
 

@@ -18,10 +18,12 @@
 package main.br.org.indt.ndg.model {
 	
 	
-	[RemoteClass(alias='br.org.indt.ndg.client.dto.common.Survey')]
+	[RemoteClass(alias='br.org.indt.ndg.client.dto.surveys.SPreview')]
 	[Bindable]	
 	public class SurveyPreviewDTO {
 		
+		public var htmlText:String = null;
+		public var isImage:Boolean = false;
 				
 		public function SurveyPreviewDTO() {
 		}

@@ -41,6 +41,8 @@
 	[Bindable] public var remoteListImeis:RemoteObject = new RemoteObject(REMOTE_SERVICE);
 	[Bindable] private var deviceList:Array = null;
 	[Bindable] private var stepText:int = 1;
+	[Bindable] private var searchOptionsLabels:ArrayCollection = null;
+    [Bindable] private var searchOptionsFields:ArrayCollection = null;
 
 	private var transmissionMode:String;
 	private var imeiDTO:ImeiDTO;
@@ -60,7 +62,7 @@
 		remoteListImeis.listImeisByUser(SessionClass.getInstance().
 				loggedUser.username, event.page, event.pageSize, 
 				event.filterText, event.filterFields,
-				event.sortField, event.sortDescending);
+				event.sortField, event.sortDescending, false, true);
 		SessionTimer.getInstance().resetTimer();
 	}
 
@@ -161,13 +163,15 @@
 	
 	private function deviceSelected(event:MouseEvent):void{
 		if (deviceCombo.selectedIndex == 0) {
-			Alert.show(ConfigI18n.getInstance().getString('lblSendSurveySelectWarn'));
+			Alert.show(ConfigI18n.getInstance().getString('lblSendSurveySelectWarn'),
+					ConfigI18n.getInstance().getString("lblWarning"));
 		} else if (imeiDTO != null) {
 			selectedImeisList = new ArrayCollection();
 			selectedImeisList.addItem(imeiDTO);
 			goToConfirmationScreen();
 		} else {
-			Alert.show(ConfigI18n.getInstance().getString('driveIsNotMobile'));
+			Alert.show(ConfigI18n.getInstance().getString('driveIsNotMobile'),
+					ConfigI18n.getInstance().getString("lblWarning"));
 		}
 	}
 
@@ -176,12 +180,14 @@
 		selectedImeisList.refresh();
 		if (selectedImeisList.length > 0) {
 			if ((transmissionMode == MODE_CABLE) && (selectedImeisList.length > 1)) {
-				Alert.show(ConfigI18n.getInstance().getString('lblChosenOnlyOneImei'));
+				Alert.show(ConfigI18n.getInstance().getString('lblChosenOnlyOneImei'),
+					ConfigI18n.getInstance().getString("lblWarning"));
 			} else {
 				nextStep(event);	
 			}
 		} else {
-			Alert.show(ConfigI18n.getInstance().getString('lblChosenImeis'));
+			Alert.show(ConfigI18n.getInstance().getString('lblChosenImeis'),
+					ConfigI18n.getInstance().getString("lblWarning"));
 		}
 	}
 	
@@ -219,7 +225,7 @@
 		}
 	}
 	
-	private function loadDevices():void{
+	private function loadDevices():void {
 		btnDeviceSelect.enabled = false;
 		deviceList = new Array();
 		deviceList.push(ConfigI18n.getInstance().getString("selectDrive"));
@@ -240,7 +246,8 @@
 		}
 		
 		function onFault(event:FaultEvent):void	{
-			Alert.show(ConfigI18n.getInstance().getString('lblCantLoadDrives'));		
+			Alert.show(ConfigI18n.getInstance().getString('lblCantLoadDrives'),
+					   ConfigI18n.getInstance().getString("lblError"));		
 		}
 	}
 	
@@ -335,6 +342,16 @@
 		}
 	}
 	
+	private function loadSearch():void{
+		searchOptionsLabels = new ArrayCollection();
+		searchOptionsLabels.addItem(ConfigI18n.getInstance().getString("comboSearchAll"));
+		searchOptionsLabels.addItem(ConfigI18n.getInstance().getString("colSendSurveyImei"));
+		searchOptionsLabels.addItem(ConfigI18n.getInstance().getString("colSendSurveyPhone"));
+		searchOptionsFields = new ArrayCollection();
+		searchOptionsFields.addItem(new Array("imei", "msisdn"));
+		searchOptionsFields.addItem(new Array("imei"));
+		searchOptionsFields.addItem(new Array("msisdn"));
+	}
 	
 	
 	

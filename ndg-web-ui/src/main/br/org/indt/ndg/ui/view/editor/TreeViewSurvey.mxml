@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Tree xmlns:mx="http://www.adobe.com/2006/mxml"
+    creationComplete="init()"
+    dropEnabled="false"    
+    maxHorizontalScrollPosition="700"
+    rollOverColor="#eef9ff"
+    selectionDuration="100"
+    editable="false" 
+    enabled="true"
+    allowMultipleSelection="true" 
+    labelFunction="treeLabel"    
+    dataDescriptor="{new MyCustomTreeDataDescriptor()}"
+	horizontalScrollPolicy="auto">
+
+<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import mx.events.DragEvent;
+		import mx.core.EdgeMetrics;
+		
+		import mx.core.DragSource;
+		import mx.managers.DragManager;
+		import mx.events.*;
+		import mx.core.UIComponent;
+		import mx.containers.Canvas;
+		
+		import main.br.org.indt.ndg.controller.editor.*;
+		import main.br.org.indt.ndg.ui.view.editor.EditorEditSurveys;
+		
+		//SHOULD be static
+		public const NODE_CATEGORY:String = "category";
+		public const NODE_DESCRIPTION:String = "description";
+		
+		public var lastSelectedItem:Object = null;
+		private var flag:Boolean = true;
+		
+		
+		private function init():void{
+			setStyle("selectionDuration", 100);	
+		}
+		
+		public function populateTree(): void {
+		    dataProvider = Survey.getInstance().getContentList();
+		}
+		
+		public function resetView():void{
+			Survey.getInstance().reset();
+			dataProvider = Survey.getInstance().getContentList();
+		}
+		
+		public function treeLabel(item:Object):String {
+			var node:XML = XML(item);
+		    var nodeName:String = node.localName() as String;
+		     	
+		    if(nodeName == "category"){     
+		    	return node.@name;
+		    } else if (nodeName == "question"){
+		        return (node.description);
+		    } else if (nodeName == "description" || nodeName == "length" 
+		    	|| nodeName == "low" || nodeName == "high" 
+		    	|| nodeName == "select" || nodeName == "item"){
+		       	return nodeName;
+			}else return node.toString();
+		}
+
+		public function onDragDrop(event:DragEvent, mainView:EditorEditSurveys): void{
+			var payload:Payload = new Payload();
+			payload.setView(this);
+			payload.setExtraView(mainView);
+			payload.setEvent(event);
+					    
+		    var controllerEvent:ControllerEvent = new ControllerEvent(EventTypes.TREE_DRAGDROP_EVENT, payload);//this, event);
+			FrontController.getInstance().dispatch(controllerEvent);			
+		}
+		
+		public function onDragEnter(event:DragEvent): void{
+			// Get the drop target component from the event object.
+	        var dropTarget:Tree=Tree(event.currentTarget);
+	        // Accept the drag only if the user is dragging data
+			// identified by the 'color' format value.
+	        if (event.dragSource.hasFormat('qType')) {
+	        	mx.managers.DragManager.acceptDragDrop(dropTarget);
+	        }
+		}
+		
+		public function onDragOver(event:DragEvent): void {
+			var dropTarget:Tree = Tree(event.currentTarget);
+	     	var r:int = dropTarget.calculateDropIndex(event);
+	        selectedIndex = r;
+		}	
+			
+		public function	onItemClick(mainView:EditorEditSurveys, nIndex:int):void {
+			var payload:Payload = new Payload();
+			payload.setView(this);
+			payload.setExtraView(mainView);
+			switch (nIndex) {
+				case 0: payload.setCategoryText("category"); break;
+				case Question.QUESTION_STRING: payload.setCategoryText(Question.STRING_TYPE); break;
+				case Question.QUESTION_INTEGER: payload.setCategoryText(Question.INTEGER_TYPE); break;
+				case Question.QUESTION_DATE: payload.setCategoryText(Question.DATE_TYPE); break;
+				case Question.QUESTION_CHOICE_EXCLUSIVE: payload.setCategoryText(Question.CHOICE_EXCLUSIVE_TYPE); break;
+				case Question.QUESTION_CHOICE: payload.setCategoryText(Question.CHOICE_TYPE); break;
+				case Question.QUESTION_IMAGE: payload.setCategoryText(Question.IMAGE_TYPE); break;
+			}
+		    var controllerEvent:ControllerEvent = new ControllerEvent(EventTypes.ADD_ITEMTREE_EVENT, payload);
+			FrontController.getInstance().dispatch(controllerEvent);
+		}
+	]]>
+</mx:Script>
+
+
+</mx:Tree>
+

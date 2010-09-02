@@ -40,11 +40,13 @@
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
+	import mx.utils.Base64Decoder;
 	import mx.validators.Validator;
 		
+		
+	private var strFileContent:String = null;
 	public var pagination:PowerDataPagination = null;
 	public var selectedUser:UserDTO = null;
-	public var aaa:String = null;
 		
 	[Bindable] public var comboDevicesDataProvider:Array = null;
 	[Bindable] private var comboDevicesSelectedIndex:int = -1;
@@ -145,6 +147,13 @@
 		}
 		
 		function onCreateSuccess(event:ResultEvent):void{
+			if (SessionClass.getInstance().hasSmsSupport){
+				Alert.show(ConfigI18n.getInstance().getString("smsLinkJad"),
+					ConfigI18n.getInstance().getString("lblWarning"));
+			} else{
+				jadDownload(inputPhoneNumber.text);	
+			}
+			updateFirstTimeUser();
 			updatetUserBalanceUI();
 			pagination.refresh();
 			onSuccess();
@@ -178,7 +187,7 @@
 		if ((pagination.grid.dataProvider.source as Array).length > 0){
 			if (newModeCopy){
 				if (dtoAux == null){
-					inputImei.text = "";
+					//inputImei.text = "";
 					inputPhoneNumber.text = "";
 					comboModels.selectedIndex = -1;
 				}				
@@ -225,24 +234,24 @@
 	}
 	
 	private function setEditModeStyle(edit:Boolean, neew:Boolean):void{
-		inputImei.enabled = (edit && neew);
+		//inputImei.enabled = (edit && neew);
 		inputPhoneNumber.enabled = edit;
 		comboModels.enabled = edit;
 		if (edit){
-			if (neew){
-				inputImei.setFocus();
-			} else{
+			//if (neew){
+			//	inputImei.setFocus();
+			//} else{
 				inputPhoneNumber.setFocus();
-			}
+			//}
 		} else{
-			inputImei.errorString = "";
+			//inputImei.errorString = "";
 			inputPhoneNumber.errorString = "";
 			comboModels.errorString = "";
 		}			
 	}
 	
 	private function getTypedDto(dto:ImeiDTO):void{
-		dto.imei = inputImei.text;
+		//dto.imei = inputImei.text;
 		dto.msisdn = inputPhoneNumber.text;
 		dto.userName = selectedUser.username;
 		dto.device = comboModels.selectedItem as DeviceDTO;
@@ -309,7 +318,63 @@
 		}
 	}
 	
-
+	private function updateFirstTimeUser():void{
+		if (SessionClass.getInstance().loggedUser.firstTimeUse.toLocaleUpperCase() == 'Y') {
+			var userDTO:UserDTO = new UserDTO();
+			userDTO = SessionClass.getInstance().loggedUser;
+			userDTO.password = "";
+			userDTO.firstTimeUse = 'N';
+			
+			var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+			remoteObject.showBusyCursor = true;
+			remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+			remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+			remoteObject.saveUser(SessionClass.getInstance().loggedUser.username, userDTO, true);
+			
+			function onFault(event:FaultEvent):void{
+				Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
+						ConfigI18n.getInstance().getString("lblError"));
+			}
+			
+			function onSuccess(event:ResultEvent):void{
+				
+			}
+			
+		}
+	}
+	
+	
+	private function jadDownload(phoneNumber:String):void{		
+		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+		remoteObject.showBusyCursor = true;
+		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+		remoteObject.jadDownload(phoneNumber);
+		SessionTimer.getInstance().resetTimer();
+				
+		function onSuccess(event:ResultEvent):void {
+			if (event.result != null) {
+				strFileContent = event.result as String;
+				Alert.show(ConfigI18n.getInstance().getString("saveDownloadJad"),
+					ConfigI18n.getInstance().getString("lblWarning"),
+					Alert.OK, null, afterConfirmation);
+			}
+		}
+		
+		function afterConfirmation(event:CloseEvent):void{
+			var fileName:String = "ndg_" + phoneNumber + ".jad";
+			var de:Base64Decoder = new Base64Decoder();
+			de.decode(strFileContent);
+			var byteArr:ByteArray = de.toByteArray();
+			var fr:FileReference = new FileReference();
+			fr.save(byteArr, fileName);
+		}
+			
+		function onFault(event:FaultEvent):void	{
+			Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
+					ConfigI18n.getInstance().getString("lblError"));
+		}
+	}
 	
 	
 	

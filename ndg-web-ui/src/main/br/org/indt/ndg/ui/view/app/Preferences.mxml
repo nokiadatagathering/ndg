@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module layout="vertical" styleName="wizardModule" verticalAlign="top" 
+	xmlns:mx="http://www.adobe.com/2006/mxml" width="640" height="480"
+	creationComplete="init()">
+    
+   	<mx:Script source="../../../controller/app/Preferences.as" />
+
+	<!--<mx:Array id="validators">
+		<mx:RegExpValidator expression="(^true(?!.))|(^false(?!.))" id="field0"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:NumberValidator id="field3"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxValue="4" exceedsMaxError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:EmailValidator property="text" id="field4"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			invalidCharError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidCharEmailErrorMsg')}"
+			invalidDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidDomainEmailErrorMsg')}"
+			invalidIPDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidIPDomainEmailErrorMsg')}"
+			invalidPeriodsInDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'invalidPeriodsInDomainEmailErrorMsg')}"
+			missingAtSignError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingAtSignEmailErrorMsg')}"
+			missingPeriodInDomainError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingPeriodInDomainEmailErrorMsg')}"
+			missingUsernameError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'missingUsernameEmailErrorMsg')}"
+			tooManyAtSignsError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'tooManyAtSignsEmailErrorMsg')}"
+			triggerEvent="change"/>
+		<mx:NumberValidator id="field5"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			maxValue="4" exceedsMaxError="{getMaxLengthMsg('50')}"
+			triggerEvent="change"/>
+		<mx:RegExpValidator expression="(^true(?!.))|(^false(?!.))" id="field7"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:RegExpValidator expression="(^true(?!.))|(^false(?!.))" id="field8"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:RegExpValidator expression="(^true(?!.))|(^false(?!.))" id="field9"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+		<mx:RegExpValidator expression="\b(?:\d{1,3}\.){3}\d{1,3}\b" id="field10"
+			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
+			triggerEvent="change"/>
+	</mx:Array>-->
+
+    <mx:Canvas width="100%" height="25">
+        <mx:Button width="38" height="14" styleName="iconButton" x="590" y="-1" click="close(event)">
+            <mx:skin>@Embed(source='../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+        </mx:Button>
+    </mx:Canvas>	
+	
+	<mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
+		<mx:Label text="{ConfigI18n.getInstance().getString('lblPrefTitle')}" styleName="clearTitle3"/>
+	</mx:ApplicationControlBar>
+	
+	<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top">
+		<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+			<mx:Label text="{ConfigI18n.getInstance().getString('lblModifyPreferences')}" styleName="darkTitle" height="16"/>
+		</mx:VBox>
+		<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+			
+			<mx:DataGrid id="preferencesGrid" width="98%" height="98%" borderColor="#000000" borderThickness="1"
+				borderStyle="solid" dataProvider="{arrayListPreferences}" editable="true">
+				<mx:columns>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colPrefPreferences')}"
+						dataField="preference" editable="false" sortable="false"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colPrefValue')}"
+						dataField="value" editable="true" sortable="false"/>	
+				</mx:columns>
+			</mx:DataGrid>
+			
+		</mx:HBox>
+		<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+			<mx:Button label="{ConfigI18n.getInstance().getString('btnPrefSave')}" click="savePreferences(event)" width="60"/>
+			<mx:Button label="{ConfigI18n.getInstance().getString('btnPrefReset')}" click="resetPreferences(event)" width="60"/>
+		</mx:HBox>
+	</mx:VBox>
+
+</mx:Module>

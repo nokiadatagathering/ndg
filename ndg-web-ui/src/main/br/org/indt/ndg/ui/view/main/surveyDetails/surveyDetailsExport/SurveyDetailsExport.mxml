@@ -59,7 +59,7 @@
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportDetailExporting')}" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="35" height="35" source="main/resources/images/POPUP_ICON_LOADING.gif"/>
+				<mx:Image width="35" height="35" source="@Embed('main/resources/images/POPUP_ICON_LOADING.gif')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportDetailPleaseWait')}" styleName="darkTitle"/>
 				<mx:Text text="{waitStr}" textAlign="center"/>
 			</mx:VBox>
@@ -75,7 +75,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_SUCCESS.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportDetailSuccess')}" styleName="darkTitle"/>
 				<mx:LinkButton label="{successStr}" click="download()"/>
 			</mx:VBox>
@@ -92,7 +92,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>				
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_FAIL.png"/>
+				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_FAIL.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportDetailFail')}" styleName="darkTitle"/>
 				<mx:Text text="{failStr}" textAlign="center"/>
 			</mx:VBox>				

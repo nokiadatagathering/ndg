@@ -15,20 +15,17 @@
 *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
 */
 
-package main.br.org.indt.ndg.i18n {
-	
+package main.br.org.indt.ndg.i18n
+{
 	import mx.resources.ResourceManager;
-	
-	
-	
-	
+
 	[ResourceBundle("locale")]
 	[ResourceBundle("requestAccount")]
-	[Bindable]
-	public class ConfigI18n {
-	
+	[ResourceBundle("editorResources")]
+	[Bindable] public class ConfigI18n
+	{
 		private static var instance:ConfigI18n;
-	
+
 		public static const LOCALE_FILE:String = "locale";
 		public static const en_US:String = "en_US";
 		public static const pt_BR:String = "pt_BR";
@@ -36,38 +33,52 @@ package main.br.org.indt.ndg.i18n {
 		
 		public var locales:Array = [ConfigI18n.en_US, ConfigI18n.pt_BR, ConfigI18n.es_ES];
 		private var currentLocale:String = "en_US";
-		
-		
-		public function ConfigI18n(enforcer:SingletonEnforcer) {
-			if (enforcer == null){
+
+		public function ConfigI18n(enforcer:SingletonEnforcer)
+		{
+			if (enforcer == null)
+			{
 				throw new Error("");
 			}
 		}
-		
-		public static function getInstance():ConfigI18n{
+
+		public static function getInstance():ConfigI18n
+		{
 			instance = (instance == null) ? new ConfigI18n(new SingletonEnforcer()) : instance;
+
 			return instance;
 		}
 		
-		
-		public function setCurrentLocale(currentLocale:String):void {
+		public function setCurrentLocale(currentLocale:String):void
+		{
 			this.currentLocale = currentLocale;
+
 			ResourceManager.getInstance().localeChain = [this.currentLocale];
 		}
 		
-		public function getCurrentLocale():String{
+		public function getCurrentLocale():String
+		{
 			return this.currentLocale;
 		}
 		
-		public function getString(key:String):String{
+		public function getString(key:String):String
+		{
 			return ResourceManager.getInstance().getString(ConfigI18n.LOCALE_FILE, key);
 		}
+
+		public function getClass(key:String):Class
+		{
+			return ResourceManager.getInstance().getClass(ConfigI18n.LOCALE_FILE, key);
+		}
 		
-		public function getStringFile(file:String, key:String):String{
+		public function getStringFile(file:String, key:String):String
+		{
 			return ResourceManager.getInstance().getString(file, key);
-		}		
-		
-	}
-	
+		}			
+	}	
 }
-class SingletonEnforcer{}
+
+class SingletonEnforcer
+{
+	// empty
+}

@@ -35,6 +35,7 @@
 	private static var FILENAME:String = null;
 	private static const CSV:String = ".CSV";
 	private static const XLS:String = ".XLS";
+	private static const ZIP:String = ".ZIP";
 			
 	private var exportedFileName:String = null;
 	[Bindable]private var failStr:String = null;
@@ -44,7 +45,8 @@
 	private var strFileContent:String = null;
 	[Bindable] private var stepText:int = 1;
 			
-			
+	private var surveyHasImages:Boolean = false;
+	private var exportFormat:String;
 			
 	private function init():void{
 		FILENAME = ConfigI18n.getInstance().getString("resultFileName");
@@ -55,38 +57,44 @@
 	}
 			
 			
-	private function export(format:String):void{
+	private function export(format:String, exportWithImages:Boolean):void{
 		if (format == CSV){
 			modeIcon.source = "main/resources/images/ICON_HEADER_EXPORT_CSV.png";
 		} else if (format == XLS){
 			modeIcon.source = "main/resources/images/ICON_HEADER_EXPORT_XLS.png";
 		}
+		
 		modeIcon.visible = true;	
 		
 		exportedFileName = FILENAME + surveyDTO.idSurvey + format.toLowerCase();
 		waitStr = ConfigI18n.getInstance().getString("exportWaitMessage01") + exportedFileName +
 				ConfigI18n.getInstance().getString("exportWaitMessage02");
 		
-		viewStack.selectedIndex = 1;
+		viewStack.selectedIndex = 2;
 		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
 		remoteObject.showBusyCursor = true;
 		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
 		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
 		remoteObject.exportResults(SessionClass.getInstance().loggedUser.username, 
-				format, surveyDTO.idSurvey);
+				format, surveyDTO.idSurvey, exportWithImages);
 		SessionTimer.getInstance().resetTimer();
 				
 		function onSuccess(event:ResultEvent):void {
 			if (event.result != null) {
+				if (exportWithImages == true) {
+					format = ZIP;
+					exportedFileName = FILENAME + surveyDTO.idSurvey + format.toLowerCase();
+				}
+
 				strFileContent = event.result as String;
 				successStr = ConfigI18n.getInstance().getString("exportSaveMessage01") + exportedFileName +
 						ConfigI18n.getInstance().getString("exportSaveMessage02");
-				viewStack.selectedIndex = 2;
+				viewStack.selectedIndex = 3;
 			}
 		}
 				
 		function onFault(event:FaultEvent):void	{
-			viewStack.selectedIndex = 3;
+			viewStack.selectedIndex = 4;
 			failStr = ExceptionUtil.getMessage(event.fault.faultString);
 		}
 	}
@@ -100,28 +108,72 @@
 	}
 	
 	private function updateSteps():void{
-		if (viewStack.selectedIndex == 0){
+		if (viewStack.selectedIndex == 0){ //Format Type
 			modeIcon.visible = false;
 			stp1.styleName = "wizardProgress";
 			stp2.styleName = "wizardBlank";
 			stp3.styleName = "wizardBlank";
+			if (surveyHasImages == true)
+				stp4.styleName = "wizardBlank";
+			
 			stepText = 1;
-		} else if(viewStack.selectedIndex == 1){
+		} else if(viewStack.selectedIndex == 1){ //Accept exporting Images
 			stp1.styleName = "wizardProgress";
 			stp2.styleName = "wizardProgress";
 			stp3.styleName = "wizardBlank";
+			if (surveyHasImages == true)
+				stp4.styleName = "wizardBlank";
 			stepText = 2;			
-		} else if(viewStack.selectedIndex == 2){
+		} else if(viewStack.selectedIndex == 2){ //Loading
+			stp1.styleName = "wizardProgress";
+			stp2.styleName = "wizardProgress";
+			stp3.styleName = "wizardBlank";
+			if (surveyHasImages == true) {
+				stp3.styleName = "wizardProgress";
+				stp4.styleName = "wizardBlank";
+				stepText = 3;
+			}
+			else
+				stepText = 2;
+		} else if(viewStack.selectedIndex == 3){ //Success
 			stp1.styleName = "wizardProgress";
 			stp2.styleName = "wizardProgress";
 			stp3.styleName = "wizardProgress";
-			stepText = 3;
-		} else if(viewStack.selectedIndex == 3){
+			if (surveyHasImages == true) {
+				stp4.styleName = "wizardProgress";
+				stepText = 4;
+			}
+			else
+				stepText = 3;				
+		} else if(viewStack.selectedIndex == 4){ //Fail
 			stp1.styleName = "wizardProgress";
 			stp2.styleName = "wizardProgress";
 			stp3.styleName = "wizardProgress";
-			stepText = 3;
+			if (surveyHasImages == true) {
+				stp4.styleName = "wizardProgress";
+				stepText = 4;
+			}
+			else
+				stepText = 3;
+		}
+		
+	}
+
+	public function exportWithImages(format:String):void {
+		if (surveyHasImages == false) {
+			export(format, false);
+		}
+		else {
+			exportFormat = format;
+			viewStack.selectedIndex = 1;
 		}
 	}
 	
-	
+	public function renderasExportImages(surveyHasImages:Boolean):void {
+		if (surveyHasImages == true) {
+			stp4.visible = true;
+			stp4.includeInLayout = true;
+			maxSteps.text = "4";
+			this.surveyHasImages = true;
+		}
+	}

@@ -42,22 +42,24 @@
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertSelectPhone')}" styleName="darkTitle" height="16"/>
 				<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="3" visible="{hasBalanceCheck}"
 					height="0" id="balancePanel">
-					<mx:Image width="16" height="14" source="main/resources/images/BALANCE.png" id="balanceIcon"/>
+					<mx:Image width="16" height="14" source="@Embed('main/resources/images/BALANCE.png')" id="balanceIcon"/>
 					<mx:Label text="{userBalanceMessage}" height="15"/>
 				</mx:HBox>
 			</mx:VBox>
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
-				<mx:VBox width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<mx:VBox width="30%" height="100%" horizontalAlign="center" verticalAlign="middle">
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblCheckSelUsers')}" fontWeight="bold"/>
 					<mx:DataGrid id="usersGrid" dataProvider="{selectedUsersList}" width="90%" height="140" itemClick="loadImeis(event)"
 						styleName="wizardGrid">
 						<mx:columns>
-						    <mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserName')}" dataField="username"/>
-							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUserPhoneNumber')}" dataField="phoneNumber"/>							
+						    <mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendAlertUsername')}" dataField="username"/>
+							<!--
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendAlertPhoneNumber')}" dataField="phoneNumber"/>							
+							-->
 						</mx:columns>
 					</mx:DataGrid>
 				</mx:VBox>
-				<mx:VBox width="50%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<mx:VBox width="70%" height="100%" horizontalAlign="center" verticalAlign="middle">
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblCheckSelImeis')}" fontWeight="bold"/>
 					<mx:DataGrid id="imeiGrid" dataProvider="{imeiList}" width="90%" height="140" itemClick="itemClick(event)"
 						styleName="wizardGrid">
@@ -65,8 +67,8 @@
 							<render:CheckBoxHeaderColumn dataField="selected" id="customCheck" width="25" sortable="false"
 								headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
 								itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer" />
-							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyImei')}" dataField="imei"/>
-							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendSurveyPhone')}" dataField="msisdn"/>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendAlertPhoneNumber')}" dataField="msisdn"/>
+							<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colSendAlertImei')}" dataField="imei"/>
 						</mx:columns>
 					</mx:DataGrid>
 				</mx:VBox>
@@ -108,7 +110,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_SUCCESS.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertSuccess')}" styleName="darkTitle"/>
 				<mx:Text text="{ConfigI18n.getInstance().getString('lblSendAlertSent')}" textAlign="center"/>
 			</mx:VBox>
@@ -124,7 +126,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="middle" height="100%" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_FAIL.png"/>
+				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_FAIL.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertFail')}" styleName="darkTitle"/>
 				<mx:Text text="{ConfigI18n.getInstance().getString('lblSendAlertNotSent')}" textAlign="center"/>
 			</mx:VBox>

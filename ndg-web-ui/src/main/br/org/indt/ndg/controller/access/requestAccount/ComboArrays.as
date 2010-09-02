@@ -21,19 +21,19 @@
 	import mx.controls.Alert;
 	
 	private var arrayCountries:Array;
-	private var arrayCompanyType:Array;
+	//private var arrayCompanyType:Array;
 	private var arrayIndustry:Array;
 	private var arrayCompanySize:Array;
 	
 	[Bindable] public var countriesAC:ArrayCollection;
-	[Bindable] public var companyTypeAC:ArrayCollection;
+	//[Bindable] public var companyTypeAC:ArrayCollection;
 	[Bindable] public var industryAC:ArrayCollection;
-	[Bindable] public var companySizeAC:ArrayCollection;
+	[Bindable] public var industrySizeAC:ArrayCollection;
 	
 	private var cbCountrySelectedIndex:int;
-	private var cbCompanyTypeSelectedIndex:int;
-	private var cbFieldIndustrySelectedIndex:int;
-	private var cbCompanySizeSelectedIndex:int;
+	//private var cbCompanyTypeSelectedIndex:int;
+	private var cbIndustrySelectedIndex:int;
+	private var cbIndustrySizeSelectedIndex:int;
 
 	private function updateCombos():void{
 		arrayCountries =
@@ -41,9 +41,7 @@
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAfghanistan"), data:"AF"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAlbania"), data:"AL"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAlgeria"), data:"DZ"},
-			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboSamoaAmerican"), data:"AS"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAndorra"), data:"AD"},
-			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAntigua&Barbuda"), data:"AG"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAnguilla"), data:"AI"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAntigua&Barbuda"), data:"AG"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboArgentina"), data:"AR"},
@@ -115,14 +113,13 @@
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboFrance"), data:"FR"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboFrenchGuiana"), data:"GF"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboFrenchPolynesia"), data:"PF"},
-			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboFrenchSouthern Ter"), data:"FS"},
+			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboFrenchSouthernTer"), data:"FS"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGabon"), data:"GA"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGambia"), data:"GM"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGeorgia"), data:"GE"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGermany"), data:"DE"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGhana"), data:"GH"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGibraltar"), data:"GI"},
-			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboUnitedKingdom"), data:"GB"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGreece"), data:"GR"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGreenland"), data:"GL"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGrenada"), data:"GD"},
@@ -176,7 +173,6 @@
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMartinique"), data:"MQ"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMauritania"), data:"MR"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMauritius"), data:"MU"},
-			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboRepublicofMontenegro"), data:"ME"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMexico"), data:"MX"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMidwayIslands"), data:"MI"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMoldova"), data:"MD"},
@@ -285,6 +281,7 @@
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboZambia"), data:"ZM"},
 			{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboZimbabwe"), data:"ZW"}];
 
+		/*
 		arrayCompanyType =
 			[{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboPleaseSelect"), data:""},
 			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboCorporation"), data:"Corporation"},
@@ -295,32 +292,39 @@
 			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboProfessional"), data:"Association - Professional"},
 			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboSchoolLab"), data:"Educational - L"},
 			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboStudent"), data:"Educational - S"}];
-
+		*/
+		
 		arrayIndustry =
 			[{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboPleaseSelect"), data:""},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboArchitecture"), data:"Architecture"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboCabinetry"), data:"Cabinetry"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboCarpentry"), data:"Carpentry"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboCityPlanning"), data:"City Planning"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboCivilEngineering"), data:"Civil Engineering"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboComputerConsulting"), data:"Consulting PC"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAccounting"), data:"Accounting"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAdminstration"), data:"Adminstration"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboAdvert"), data:"Advert./Media/Entertain."},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboBanking"), data:"Banking & Fin. Services"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboCallCenter"), data:"Call Center/Cust. Service"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboCommunity"), data:"Community & Sport"},
 			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboConstruction"), data:"Construction"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboContractor"), data:"Contractor"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboEntertainment"), data:"Entertainment"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboFacilitiesManagement"), data:"Facilities Management"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGaming"), data:"Gaming"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGIS"), data:"GIS"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGraphicDesign"), data:"Graphic Design"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboHobbyist"), data:"Hobbyist"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboHomeBuilding"), data:"Home Building"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboInteriorDesign"), data:"Interior Design"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboLandscapeArchitect"), data:"Landscape Architect"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMarketing"), data:"Marketing"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMechanicalEngineering"), data:"Mech Engineering"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboMultimedia"), data:"Multimedia"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboSoftware"), data:"Software"},
-			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboSurvey"), data:"Survey"}];
-	
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboConsulting"), data:"Consulting & Corp. Strategy"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboEducation"), data:"Education & Training"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboEngineering"), data:"Engineering"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboGovernment"), data:"Government/Defence"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboHealthcare"), data:"Healthcare & Medical"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboHospitality"), data:"Hospitality & Tourism"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboRecruitment"), data:"HR & Recruitment"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboITT"), data:"I.T. & T."},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboInsurance"), data:"Insurance & Superannuation"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboLegal"), data:"Legal"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboManufacturing"), data:"Manufacturing/Operations"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboOilGas"), data:"Mining. Oil & Gas"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboPrimaryIndustry"), data:"Primary Industry"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboRealState"), data:"Real State & Property"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboRetail"), data:"Retail & Consumer Prods."},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboSales"), data:"Sales & Marketing"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboScience"), data:"Science & Technology"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboSelfEmployment"), data:"Self-Employment"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboTrades"), data:"Trades & Services"},
+			 {label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboTransport"), data:"Trasnport & Logistics"}];
+			 		 
+			 	
 		arrayCompanySize =
 			[{label:ConfigI18n.getInstance().getStringFile("requestAccount", "comboPleaseSelect"), data:""},
 			 {label:"1", data:"1"},
@@ -333,19 +337,19 @@
 
 		
 		cbCountrySelectedIndex = cbCountry.selectedIndex;
-		cbCompanyTypeSelectedIndex = cbCompanyType.selectedIndex;
-		cbFieldIndustrySelectedIndex = cbFieldIndustry.selectedIndex;
-		cbCompanySizeSelectedIndex = cbCompanySize.selectedIndex;
+		//cbCompanyTypeSelectedIndex = cbCompanyType.selectedIndex;
+		cbIndustrySelectedIndex = cbIndustry.selectedIndex;
+		cbIndustrySizeSelectedIndex = cbIndustrySize.selectedIndex;
 		
 		countriesAC = new ArrayCollection(arrayCountries);
-		companyTypeAC =  new ArrayCollection(arrayCompanyType);
+		//companyTypeAC =  new ArrayCollection(arrayCompanyType);
 		industryAC =  new ArrayCollection(arrayIndustry);
-		companySizeAC =  new ArrayCollection(arrayCompanySize);
+		industrySizeAC =  new ArrayCollection(arrayCompanySize);
 		
 		cbCountry.selectedIndex = cbCountrySelectedIndex;
-		cbCompanyType.selectedIndex = cbCompanyTypeSelectedIndex;
-		cbFieldIndustry.selectedIndex = cbFieldIndustrySelectedIndex;
-		cbCompanySize.selectedIndex = cbCompanySizeSelectedIndex;
+		//cbCompanyType.selectedIndex = cbCompanyTypeSelectedIndex;
+		cbIndustry.selectedIndex = cbIndustrySelectedIndex;
+		cbIndustrySize.selectedIndex = cbIndustrySizeSelectedIndex;
 	}
 
 	

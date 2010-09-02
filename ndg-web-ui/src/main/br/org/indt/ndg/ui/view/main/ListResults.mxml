@@ -3,11 +3,22 @@
 	width="956" height="460" styleName="mainAreaModule"
 	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
 	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
+	<mx:Script>
+		<![CDATA[
+			import main.br.org.indt.ndg.controller.access.SessionClass;
+		]]>
+	</mx:Script>
 
 
 	<mx:Script source="../../../controller/main/ResultListController.as" />
 
-	<mx:HBox width="100%" styleName="functionalitiesBar">
+	<mx:WipeUp id="image_addedEffect" startDelay="100" />
+    <mx:Parallel id="image_removedEffect">
+        <mx:Zoom />
+        <mx:Fade />
+    </mx:Parallel>
+        
+	<mx:HBox width="100%" styleName="functionalitiesBar" verticalAlign="bottom">
 		<mx:Button height="43" width="63" click="showSurveys(event)"
 			label="{ConfigI18n.getInstance().getString('btnDetailsBack')}">
 			<mx:icon>@Embed(source='../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
@@ -15,19 +26,20 @@
 		<mx:VBox verticalAlign="middle" verticalGap="0">
 			<mx:HBox verticalAlign="middle" horizontalGap="4">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblResultsSurveyTitle')}" styleName="darkTitle"/>
-				<mx:Label id="surveyTitle" styleName="darkTitle" maxWidth="300"/>
+				<mx:Label id="surveyTitle" styleName="darkTitle" maxWidth="220"/>
 			</mx:HBox>
 			<mx:HBox verticalAlign="middle" horizontalGap="2">
-				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMap')}" height="22" id="btnMap" width="70"
-					click="showMap()"/>
-				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMapAll')}" height="22" id="btnMapAll" width="70"
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMap')}" height="22" id="btnMap" width="80"
+					click="showMap()" enabled="{pagination.selectedAllItems.length == 1}"/>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMapAll')}" height="22" id="btnMapAll" width="80"
 					click="showMapAll()"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExport')}" height="22" id="btnExport"
-					click="export()" width="70"/>
+					click="export()" width="80"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsImport')}" height="22" id="btnImport"
-					click="showImport()" width="70"/>
+					click="showImport()" width="80" visible="{!SessionClass.getInstance().isHostedMode}"/>
 			</mx:HBox>
 		</mx:VBox>
+		
 		<mx:HRule width="100%" visible="false"/>
 		<comp:PowerSearch id="search" optionsLabels="{searchOptionsLabels}" optionsFields="{searchOptionsFields}"
 			searchLabel="{ConfigI18n.getInstance().getString('lblSearch')}"/>
@@ -49,15 +61,15 @@
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDate')}"
 						dataField="date" sortable="false" width="80"/>
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUser')}"
-						dataField="user" sortable="false" width="130"/>
+						dataField="user" sortable="false" width="115"/>
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colImei')}"
 						dataField="imei" width="130"/>
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colLocation')}"
-						dataField="" sortable="false" width="69">
+						dataField="" sortable="false" width="84">
 						<mx:itemRenderer>
 							<mx:Component>
 								<mx:VBox width="100%" horizontalAlign="center">
-									<mx:Image source="main/resources/images/MAP_STATUS_OK.png" mouseEnabled="true" buttonMode="true"
+									<mx:Image source="@Embed('main/resources/images/MAP_STATUS_OK.png')" mouseEnabled="true" buttonMode="true"
 										visible="{data.lat != 0 || data.lon != 0}" toolTip="[{data.lat},{data.lon}]"/>
 								</mx:VBox>
 							</mx:Component>
@@ -79,7 +91,7 @@
 			<mx:ApplicationControlBar height="23" width="100%" styleName="previewCtrlBar">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblPreviewPanel')}" styleName="clearText" fontWeight="bold"/>
 			</mx:ApplicationControlBar>
-			<mx:TextArea width="100%" height="100%" editable="false" id="preview" styleName="previewTextArea"/>	
+			<mx:VBox width="100%" height="380" id="preview" styleName="previewArea" verticalScrollPolicy="auto"/>	
 		</mx:VBox>
 	</mx:HBox>
 

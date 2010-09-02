@@ -18,18 +18,22 @@
 package main.br.org.indt.ndg.controller.access {
 	
 	import flash.net.URLRequest;
-	import main.br.org.indt.ndg.model.UserDTO;
-	import mx.modules.Module;
-	import flash.net.navigateToURL;  
+	import flash.net.navigateToURL;
+	
+	import main.br.org.indt.ndg.model.UserDTO;  
 	
 	
 	[Bindable]
 	public class SessionClass {
 		
-		private static const ADMIN_ROLE:String = "Admin";
+		private static const ADMIN_ROLE:String = "ADMIN";
+		private static const OPERATOR_ROLE:String = "OPERATOR";
 		private static var instance:SessionClass;
+		
 		public var loggedUser:UserDTO = null;
 		public var isHostedMode:Boolean = false;
+		public var ndgVersion:String = "0.0.0";
+		public var hasSmsSupport:Boolean = false;
 		
 		public function SessionClass(enforcer:SingletonEnforcer) {
 			if (enforcer == null){
@@ -46,7 +50,15 @@ package main.br.org.indt.ndg.controller.access {
 		
 		public function isAdmin():Boolean{
 			var boo:Boolean = false;
-			if (loggedUser.role.name == ADMIN_ROLE){
+			if (loggedUser.role.name.toUpperCase() == ADMIN_ROLE){
+				boo = true;
+			}
+			return boo;
+		}
+		
+		public function isOperator():Boolean{
+			var boo:Boolean = false;
+			if (loggedUser.role.name.toUpperCase() == OPERATOR_ROLE){
 				boo = true;
 			}
 			return boo;

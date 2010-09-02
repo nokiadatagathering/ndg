@@ -116,7 +116,8 @@
 				viewStackSendAlert.selectedIndex = 1;
 			}
 		} else {
-			Alert.show(ConfigI18n.getInstance().getString("selectOneMoreImeis"));
+			Alert.show(ConfigI18n.getInstance().getString("selectOneMoreImeis"),
+					   ConfigI18n.getInstance().getString("lblWarning"));
 		}
 	}
 
@@ -135,7 +136,8 @@
 		remoteListImeis.showBusyCursor = true;
 		remoteListImeis.addEventListener(FaultEvent.FAULT, onFault);
 		remoteListImeis.addEventListener(ResultEvent.RESULT, onSuccess);
-		remoteListImeis.listImeisByUser(selectedUser.username, null, null, null, null, null, false);
+		remoteListImeis.listImeisByUser(selectedUser.username, null, null, null, null,
+				null, false, false, false);
 		SessionTimer.getInstance().resetTimer();
 		 
 		function onSuccess(event:ResultEvent):void {
@@ -225,7 +227,8 @@
 	private function sendAlert():void {
 		
 		if (message.length == 0) {
-			Alert.show(ConfigI18n.getInstance().getString("lblValidateMessage"));
+			Alert.show(ConfigI18n.getInstance().getString("lblValidateMessage"),
+					   ConfigI18n.getInstance().getString("lblError"));
 			return;
 		} 
 		var listOfImeis:ArrayCollection = new ArrayCollection();

@@ -28,12 +28,26 @@ package main.br.org.indt.ndg.model {
 		public var status:String = null;
 		public var qtdeResults:int = 0;
 		public var device:DeviceDTO = null;
+		public var realImei:String = null;
 				
 		public function ImeiDTO() {
 		}
 
 		public function getId():String{
 			return imei;
+		}
+		
+		public function clone():ImeiDTO{
+			var clone:ImeiDTO = new ImeiDTO();
+			clone.selected = this.selected;
+			clone.imei = this.imei;
+			clone.msisdn = this.msisdn;
+			clone.userName = this.userName;
+			clone.status = this.status;
+			clone.qtdeResults = this.qtdeResults;
+			clone.device = this.device.clone();
+			clone.realImei = this.realImei;
+			return clone;
 		}
 	}
 }	

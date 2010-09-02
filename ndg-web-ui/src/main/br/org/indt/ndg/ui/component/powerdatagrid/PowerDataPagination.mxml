@@ -62,9 +62,12 @@
 					search.addEventListener(SearchEvent.EVENT_NAME, searching);
 				}
 				if (checkable == false){
-					this.removeChild(selectedItemsLbl01);
-					this.removeChild(selectedItemsLbl02);
-					this.removeChild(selectedItemsRule);
+					selectedItemsLbl01.visible = false;
+					selectedItemsLbl02.visible = false;
+					selectedItemsRule.visible = false;
+					selectedItemsLbl01.includeInLayout = false;
+					selectedItemsLbl02.includeInLayout = false;
+					selectedItemsRule.includeInLayout = false;
 				}
 			}
 			
@@ -253,9 +256,11 @@
 	<mx:ApplicationControlBar height="22" styleName="paginationCtrlBar">
 		<mx:Button click="firstPage()" enabled="false" id="firstBtn" width="13" height="10" styleName="iconButton">
 			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_BACK_ALL_TRANSP.png')</mx:skin>
+			<mx:disabledSkin>@Embed(source='../../../../../../../resources/images/SETA_BACK_ALL_DIS.png')</mx:disabledSkin>
 		</mx:Button>
 		<mx:Button click="previousPage()" enabled="false" id="previousBtn" width="10" height="10" styleName="iconButton">
 			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:skin>
+			<mx:disabledSkin>@Embed(source='../../../../../../../resources/images/SETA_BACK_DIS.png')</mx:disabledSkin>
 		</mx:Button>
 		<mx:Label text="{pageLabel}" styleName="clearSmallText"/>
 		<mx:TextInput width="36" height="15" maxChars="5" text="0" id="pageInput" restrict="0-9" styleName="paginationTextInput"
@@ -264,12 +269,15 @@
 		<mx:Label text="{pageCount}" styleName="clearSmallText"/>
 		<mx:Button click="nextPage()" enabled="false" id="nextBtn" width="10" height="10" styleName="iconButton">
 			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:skin>
+			<mx:disabledSkin>@Embed(source='../../../../../../../resources/images/SETA_NEXT_DIS.png')</mx:disabledSkin>
 		</mx:Button>
 		<mx:Button click="lastPage()" enabled="false" id="lastBtn" width="13" height="10" styleName="iconButton">
 			<mx:skin>@Embed(source='../../../../../../../resources/images/SETA_NEXT_ALL_TRANSP.png')</mx:skin>
+			<mx:disabledSkin>@Embed(source='../../../../../../../resources/images/SETA_NEXT_ALL_DIS.png')</mx:disabledSkin>
 		</mx:Button>
 		<mx:Button click="refresh()" id="refreshBtn" width="10" height="10" styleName="iconButton">
 			<mx:skin>@Embed(source='../../../../../../../resources/images/RELOAD_TRANSP.png')</mx:skin>
+			<mx:disabledSkin>@Embed(source='../../../../../../../resources/images/RELOAD_DIS.png')</mx:disabledSkin>
 		</mx:Button>
 	</mx:ApplicationControlBar>
 

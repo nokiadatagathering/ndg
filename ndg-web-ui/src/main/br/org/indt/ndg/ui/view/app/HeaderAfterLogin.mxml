@@ -3,35 +3,29 @@
 	layout="horizontal" width="970" height="25"
 	verticalAlign="middle" horizontalAlign="left" horizontalGap="2"
 	creationComplete="init()">
-	<mx:Script>
-		<![CDATA[
-			import main.br.org.indt.ndg.controller.access.SessionTimer;
-		]]>
-	</mx:Script>
-	
 
+	
 	<mx:Metadata>
 		[Event(name="logout", type="main.br.org.indt.ndg.controller.app.LogoutEvent")]
 	</mx:Metadata>
 
 	<mx:Script source="../../../controller/app/HeaderAfterLoginController.as" />
 	
+	<mx:HRule width="100%" visible="false"/>
 	
 	<mx:Label id="userMessage" styleName="clearText"/>
 	<mx:VRule height="12"/>
-	<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnLogout')}" click="logout(event)" styleName="headerLinkButton"/>
-	
+	<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnLogout')}" click="logout(event)" styleName="headerLinkButton"/>	
 	<mx:VRule height="12"/>
-	<mx:Label text="{SessionTimer.getInstance().timerStr}" styleName="clearText"/>
-	
-	<mx:HRule width="100%" visible="false"/>
 	
 	<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnPreferences')}" styleName="headerLinkButton"
-		id="btnPref" visible="false"/>
-	<mx:VRule height="12" id="rulePref" visible="false"/>
-	<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnHelp')}" styleName="headerLinkButton"/>
+		id="btnPref" visible="false" includeInLayout="false" click="showPreferences(event)"/>
+	<mx:VRule height="12" id="rulePref" visible="false" includeInLayout="false"/>
+	<!--
+	<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnHelp')}" styleName="headerLinkButton" click="goToURL('help/help.html')"/>
 	<mx:VRule height="12"/>
-	<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnAbout')}" styleName="headerLinkButton"/>
+	-->
+	<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnAbout')}" styleName="headerLinkButton" click="showAbout()"/>
 	
 	
 </mx:Module>

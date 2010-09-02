@@ -16,8 +16,8 @@
 */
 
 package main.br.org.indt.ndg.controller.util {
-	import main.br.org.indt.ndg.i18n.ConfigI18n;
 	
+	import main.br.org.indt.ndg.i18n.ConfigI18n;
 	
 	
 	public class ExceptionUtil {
@@ -59,6 +59,10 @@ package main.br.org.indt.ndg.controller.util {
 		private static const MSM_CORE_MSG_IMEI_ALREADY_EXIST:String = "MSM_CORE_MSG_IMEI_ALREADY_EXIST";
 		private static const MSM_CORE_MSG_MSISDN_ALREADY_EXIST:String = "MSM_CORE_MSG_MSISDN_ALREADY_EXIST";
       
+		private static const MSM_CORE_MSG_SURVEY_NOT_RECORDED_EXCEPTION:String = "MSM_CORE_MSG_SURVEY_NOT_RECORDED_EXCEPTION";
+		private static const MSM_CORE_MSG_SURVEY_HAS_RELATIONSHIP:String = "MSM_CORE_MSG_SURVEY_HAS_RELATIONSHIP";
+		private static const MSM_CORE_MSG_JAD_DOWNLOAD_ERROR:String = "MSM_CORE_MSG_JAD_DOWNLOAD_ERROR";
+
       		
 		public static function getMessage(msg:String):String{
 			var result:String = null;
@@ -85,7 +89,7 @@ package main.br.org.indt.ndg.controller.util {
 			return result;
 		}
 		
-		private static function getLocalizedMessage(errorCode:String):String{
+		public static function getLocalizedMessage(errorCode:String):String{
 			var result:String = null;
 			
 			switch(errorCode) {
@@ -169,6 +173,15 @@ package main.br.org.indt.ndg.controller.util {
 	        		break;
 				case ExceptionUtil.MSM_CORE_MSG_MSISDN_ALREADY_EXIST: 		
 	        		result = ConfigI18n.getInstance().getString("msisdnAlreadyExistError");
+	        		break;
+				case ExceptionUtil.MSM_CORE_MSG_SURVEY_NOT_RECORDED_EXCEPTION: 		
+	        		result = ConfigI18n.getInstance().getString("surveyNotRecordedError");
+	        		break;
+				case ExceptionUtil.MSM_CORE_MSG_SURVEY_HAS_RELATIONSHIP: 		
+	        		result = ConfigI18n.getInstance().getString("surveyHasRelationshipError");
+	        		break;
+				case ExceptionUtil.MSM_CORE_MSG_JAD_DOWNLOAD_ERROR: 		
+	        		result = ConfigI18n.getInstance().getString("jadDownloadError");
 	        		break;
 			}
 			

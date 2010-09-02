@@ -19,7 +19,6 @@
 
 
 	import main.br.org.indt.ndg.controller.access.SessionClass;
-	import main.br.org.indt.ndg.controller.access.SessionTimer;
 	import main.br.org.indt.ndg.controller.app.LocaleEvent;
 	import main.br.org.indt.ndg.controller.util.ExceptionUtil;
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
@@ -33,26 +32,12 @@
 
 	
 	private function init():void{
-		this.setFocus();
-		
 		headerBeforeLoginView.addEventListener(LocaleEvent.EVENT_NAME, selectLocale);
 		ConfigI18n.getInstance().setCurrentLocale(ConfigI18n.en_US);
 		
-		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
-		remoteObject.showBusyCursor = true;
-		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
-		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
-		remoteObject.isHostedMode();
-		
-		function onFault(event:FaultEvent):void{
-			Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
-					ConfigI18n.getInstance().getString("lblError"));
-		}
-		function onSuccess(event:ResultEvent):void{
-			if (event.result != null) {
-				SessionClass.getInstance().isHostedMode = event.result as Boolean;
-			}				
-		}
+		remoteGetMode();
+		remoteGetVersion();
+		remoteGetSmsSupport();
 	}
 	
 	private function selectLocale(event:LocaleEvent):void{
@@ -79,7 +64,59 @@
 		}
 	}
 	
+	private function remoteGetMode():void
+	{
+		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+		remoteObject.showBusyCursor = true;
+		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+		remoteObject.isHostedMode();
+		
+		function onFault(event:FaultEvent):void{
+			Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
+					ConfigI18n.getInstance().getString("lblError"));
+		}
+		function onSuccess(event:ResultEvent):void{
+			if (event.result != null) {
+				SessionClass.getInstance().isHostedMode = event.result as Boolean;
+			}				
+		}
+	}
+	
+	private function remoteGetVersion():void {
+		var ndgVersion:String = "0.0.0";
+		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+		remoteObject.showBusyCursor = true;
+		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+		remoteObject.getVersion();
+			
+		function onSuccess(event:ResultEvent):void {
+			if (event.result != null) {
+				ndgVersion = event.result as String;
+				SessionClass.getInstance().ndgVersion = ndgVersion;
+			}
+		}	
+		function onFault(event:FaultEvent):void	{
+		}
+	}
+	
+	private function remoteGetSmsSupport():void{
+		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+		remoteObject.showBusyCursor = true;
+		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+		remoteObject.hasSmsSupport();
 
+		function onSuccess(event:ResultEvent):void {
+			if (event.result != null) {
+				SessionClass.getInstance().hasSmsSupport = event.result as Boolean;
+			}
+		}	
+		function onFault(event:FaultEvent):void	{
+		}
+		
+	}
 
 	
 	

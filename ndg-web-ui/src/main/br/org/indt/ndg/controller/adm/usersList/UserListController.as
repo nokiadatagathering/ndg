@@ -104,7 +104,8 @@
 			PopUpManager.addPopUp(sendAlert, this.parentDocument as DisplayObject,true);
 			PopUpManager.centerPopUp(sendAlert);
 		} else {
-			Alert.show(ConfigI18n.getInstance().getString("selectOneMoreSurveys"));
+			Alert.show(ConfigI18n.getInstance().getString("selectOneMoreSurveys"),
+					   ConfigI18n.getInstance().getString("lblError"));
 		}
 	}
 	

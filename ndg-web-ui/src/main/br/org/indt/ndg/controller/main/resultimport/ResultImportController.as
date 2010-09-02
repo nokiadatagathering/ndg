@@ -21,6 +21,7 @@
 	import main.br.org.indt.ndg.controller.access.SessionTimer;
 	import main.br.org.indt.ndg.controller.main.resultimport.CloseResultImportEvent;
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
+	import main.br.org.indt.ndg.model.ImeiDTO;	
 	import main.br.org.indt.ndg.model.SurveyDTO;
 	
 	import mx.collections.ArrayCollection;
@@ -35,6 +36,8 @@
 	private static const REMOTE_SERVICE:String = "myService";
 
 	public var surveyDTO:SurveyDTO = null;
+	private var imeiDTO:ImeiDTO;
+
 	[Bindable] private var stepText:int = 1;
 
 
@@ -71,7 +74,8 @@
 					surveyDTO.idSurvey, comboArr[driveCombo.selectedIndex]);
 			SessionTimer.getInstance().resetTimer();
 		} else{
-			Alert.show(ConfigI18n.getInstance().getString("wrongDrive"));
+			Alert.show(ConfigI18n.getInstance().getString("wrongDrive"),
+					   ConfigI18n.getInstance().getString("lblError"));
 		}
 		
 		function onSuccess(event:ResultEvent):void {
@@ -107,4 +111,55 @@
 			stepText = 2;
 		}
 	}
+
+	private function checkImei():void{
+		if (driveCombo.selectedIndex == 0) {
+			deviceImeiText.text = "";
+			btnImportNext.enabled = false;
+			return;
+		}
+		
+		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+		remoteObject.showBusyCursor = true;	
+		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+		remoteObject.getImeiFromDrive(driveCombo.text);
+		SessionTimer.getInstance().resetTimer();
+		
+		function onSuccess(event:ResultEvent):void {
+			if (event != null) {
+				btnImportNext.enabled = true;
+				imeiDTO = event.result as ImeiDTO;
+				deviceImeiText.text = ConfigI18n.getInstance().getString('lblSendSurveyImeiDevice') + ' ' + imeiDTO.imei;
+			}
+		}
+		function onFault(event:FaultEvent):void	{
+			deviceImeiText.text = ConfigI18n.getInstance().getString('driveIsNotMobile');
+			btnImportNext.enabled = false;
+		}
+	}
 	
+	private function loadDevices():void{
+		btnImportNext.enabled = false;
+		comboArr = new Array();
+		comboArr.push(ConfigI18n.getInstance().getString("selectDrive"));
+		driveCombo.selectedIndex = 0;
+
+		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+		remoteObject.showBusyCursor = true;		
+		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+		remoteObject.listRoots();
+		SessionTimer.getInstance().resetTimer();
+		
+		function onSuccess(event:ResultEvent):void {
+			var array:ArrayCollection = event.result as ArrayCollection;
+			deviceImeiText.text = "";
+			for (var i:int; i < array.length; i++)
+				comboArr.push(array[i]);
+		}
+		
+		function onFault(event:FaultEvent):void	{
+			Alert.show(ConfigI18n.getInstance().getString('lblCantLoadDrives'));		
+		}
+	}	

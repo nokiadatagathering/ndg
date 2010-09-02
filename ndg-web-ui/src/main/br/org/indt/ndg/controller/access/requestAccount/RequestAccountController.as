@@ -69,9 +69,13 @@
 		remoteObject.requestAccount(getUserDto());
 		
 		function onSuccess(event:ResultEvent):void {
-			goBackLogin();
 			Alert.show(resourceManager.getString("requestAccount", "raCheckYourEmail"),
-				resourceManager.getString("requestAccount", "lblSuccess"));
+				resourceManager.getString("requestAccount", "lblSuccess"),
+				4, null, afterOk);
+		}
+		
+		function afterOk():void{
+			goBackLogin();
 		}
 		
 		function onFault(event:FaultEvent):void {
@@ -96,6 +100,16 @@
 		//raStack.selectedIndex = 0;
 	}
 	
+	private function companyChange():void{
+		if (txCompany.text.length <= 0){
+			cbIndustry.selectedIndex = 0;
+			cbIndustrySize.selectedIndex = 0;
+			txCompany.errorString = "";
+			cbIndustry.errorString = "";
+			cbIndustrySize.errorString = "";
+		}
+	}
+	
 	private function getUserDto():UserDTO{
 		var dto:UserDTO = new UserDTO();
 		dto.firstName = txFirstname.text;
@@ -111,10 +125,10 @@
 		//company
 		var company:CompanyDTO = new CompanyDTO();
 		company.companyCountry = cbCountry.selectedItem.data;
-		company.companyIndustry = cbFieldIndustry.selectedItem.data;
+		company.companyIndustry = cbIndustry.selectedItem.data;
 		company.companyName = txCompany.text;
-		company.companySize = cbCompanySize.selectedItem.data;
-		company.companyType = cbCompanyType.selectedItem.data;;
+		company.companySize = cbIndustrySize.selectedItem.data;
+		company.companyType = "";//cbCompanyType.selectedItem.data;
 		dto.company = company;
 
 		//role
@@ -146,9 +160,10 @@
 		txAreaCode.text = "";
 		txPhoneNumber.text = "";
 		txEmail.text = "";
-		cbCompanyType.selectedIndex = 0;
-		cbFieldIndustry.selectedIndex = 0;
-		cbCompanySize.selectedIndex = 0;
+		//cbCompanyType.selectedIndex = 0;
+		cbIndustry.selectedIndex = 0;
+		cbIndustrySize.selectedIndex = 0;
+		check.selected = false;
 		txFirstname.errorString = "";
 		txLastname.errorString = "";
 		txUsername.errorString = "";
@@ -160,9 +175,9 @@
 		txAreaCode.errorString = "";
 		txPhoneNumber.errorString = "";
 		txEmail.errorString = "";
-		cbCompanyType.errorString = "";
-		cbFieldIndustry.errorString = "";
-		cbCompanySize.errorString = "";
+		//cbCompanyType.errorString = "";
+		cbIndustry.errorString = "";
+		cbIndustrySize.errorString = "";
 	}
 	
 	private function updateLanguage():void{

@@ -20,15 +20,15 @@
 	import flash.events.Event;
 	import flash.net.SharedObject;
 	
-	import main.br.org.indt.ndg.controller.access.QueryString;
 	import main.br.org.indt.ndg.controller.access.SessionClass;
 	import main.br.org.indt.ndg.controller.access.SessionTimer;
 	import main.br.org.indt.ndg.controller.util.ExceptionUtil;
+	import main.br.org.indt.ndg.controller.util.HtmlAttribute;
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
 	import main.br.org.indt.ndg.model.UserDTO;
 	
-	import mx.controls.Alert;
 	import mx.containers.ViewStack;
+	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
@@ -49,19 +49,17 @@
 
 	
 	private function init():void{
-		var qs:QueryString = new QueryString();
+		var qs:HtmlAttribute = new HtmlAttribute();
 		
 		if (qs.parameters.rakey) {
 			remoteValidateKey(qs.parameters.rakey, REQUEST_ACCOUNT);
 			flagValidating = true;
 			loginStack.selectedIndex = 2;
-			//asyncCallScreenTitle.text = ConfigI18n.getInstance().getString("titleRequestAccount01");
 		}
 		if (qs.parameters.rpkey) {
 			remoteValidateKey(qs.parameters.rpkey, REQUEST_PASSWORD);
 			flagValidating = true;
 			loginStack.selectedIndex = 2;
-			//asyncCallScreenTitle.text = ConfigI18n.getInstance().getString("titleRecoverPassword");
 		}		
 		
 		resetView();
@@ -95,15 +93,20 @@
 				var loggedUser:UserDTO = event.result as UserDTO;
 				SessionClass.getInstance().loggedUser = loggedUser;
 				
-				if (chkRemember.selected){
-					cookie.data.user = txLogin.text;
-					cookie.data.password = txPassword.text;
-					cookie.flush();
+				if (SessionClass.getInstance().isAdmin() || SessionClass.getInstance().isOperator()){
+					if (chkRemember.selected){
+						cookie.data.user = txLogin.text;
+						cookie.data.password = txPassword.text;
+						cookie.flush();
+					} else{
+						cookie.clear();
+					}
+					//show application body view
+					myStack.selectedIndex = MainConstants.APPLICATION_BODY_INDEX;
 				} else{
-					cookie.clear();
+					loginErrorMsg.text = ConfigI18n.getInstance().getString("invalidRoleError");
+					txLogin.setFocus();
 				}
-				//show application body view
-				myStack.selectedIndex = MainConstants.APPLICATION_BODY_INDEX;
 			} else{
 				loginErrorMsg.text = ConfigI18n.getInstance().getString("invalidUserPassError");
 				txLogin.setFocus();
@@ -169,12 +172,16 @@
 		function onSuccess(event:ResultEvent):void {
 			if (event.result == true) {
 				Alert.show(ConfigI18n.getInstance().getString("lblRecPassCheckEmail"),
-						   ConfigI18n.getInstance().getString("lblRecPassSuccess"));
-				goBackLogin();				
+						   ConfigI18n.getInstance().getString("lblRecPassSuccess"),
+						   4, null, afterOk);
 			} else {
 				recoverErrorMsg.text = ConfigI18n.getInstance().getString("msgRecPassEmailNotFound");
 				txEmail.setFocus();
 			}
+		}
+		
+		function afterOk():void{
+			goBackLogin();
 		}
 		
 		function onFault(event:FaultEvent):void {
@@ -235,8 +242,12 @@
 		
 		function onSuccess(event:ResultEvent):void {
 				Alert.show(ConfigI18n.getInstance().getString("lblRecPassPasswordUpdated"),
-						   ConfigI18n.getInstance().getString("lblRecPassSuccess"));
-				loginStack.selectedIndex = 0;
+						   ConfigI18n.getInstance().getString("lblRecPassSuccess"),
+						   4, null, afterOk);
+		}
+		
+		function afterOk():void{
+			loginStack.selectedIndex = 0;
 		}
 		
 		function onFault(event:FaultEvent):void {
@@ -285,19 +296,19 @@
 	}
 	
 	public function updateLanguage():void {
-			if (flagValidating) {
-				switch (keyMessage) {
-					case 1: //User validated
-						keyMsg.text = ConfigI18n.getInstance().getString("keyValidated");
-						break;
-					case 2: //User not found
-						keyMsg.text = ConfigI18n.getInstance().getString("userNotFoundError");
-						break;
-					case 3: //Unexpected server exception
-						keyMsg.text = ConfigI18n.getInstance().getString("unexpectedError");
-						break;
-				}
-			}	
+		if (flagValidating) {
+			switch (keyMessage) {
+				case 1: //User validated
+					keyMsg.text = ConfigI18n.getInstance().getString("keyValidated");
+					break;
+				case 2: //User not found
+					keyMsg.text = ConfigI18n.getInstance().getString("userNotFoundError");
+					break;
+				case 3: //Unexpected server exception
+					keyMsg.text = ConfigI18n.getInstance().getString("unexpectedError");
+					break;
+			}
+		}
 	}
 	
 	public function clearValidateMsg():void {

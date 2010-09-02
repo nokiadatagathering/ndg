@@ -252,7 +252,11 @@
 		inputFirstName.enabled = edit;
 		inputLastName.enabled = edit;
 		inputEmail.enabled = (edit && neew);
-		comboRoles.enabled = edit;
+		if (edit && !neew && dto.username == dto.userAdmin){
+			comboRoles.enabled = false;
+		} else{
+			comboRoles.enabled = edit;	
+		}
 		inputCountryCode.enabled = edit;
 		inputAreaCode.enabled = edit;
 		inputPhone.enabled = edit;

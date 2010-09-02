@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel x="0" y="0" width="220" height="173" layout="absolute" title="{ConfigI18n.getInstance().getStringFile('editorResources', 'CHOICE_ITEM')}" borderAlpha="1" dropShadowEnabled="false" 
+		keyUp="onKeyUp(event)"
+		xmlns:mx="http://www.adobe.com/2006/mxml" 
+		initialize="init()"
+		verticalScrollPolicy="off"
+		>
+	<mx:TextInput width="190" id="txtChoiceItem" 
+		maxChars="100" editable="true" 
+		enabled="true" fontStyle="italic" color="#000000" y="4" x="4"/>
+	<mx:Button x="147" y="35" label="OK" height="19" click="editChoiceItem()"/>
+	<mx:Label x="5" y="64" text="{ConfigI18n.getInstance().getStringFile('editorResources', 'SKIP_LOGIC')}" id="lbl_SkipTxt"/>
+	<mx:Label x="5" y="80" enabled="true" width="190" id="lbl_Skip" color="#FD1004"/>
+	<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'ADD')}" click="set_clearSkipLogic()" x="10" y="106" width="80" height="19" id="btn_Add"/>
+	<mx:CheckBox x="10" y="34" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MORE_DETAILS')}" id="ckBox_ItemOtr"/>
+	<mx:CheckBox x="123" y="103" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'INVERSE')}" id="ckBox_Inverse"/>
+	
+	<mx:Script>
+	<![CDATA[
+	import mx.controls.Alert;
+	import main.br.org.indt.ndg.controller.editor.*;
+	import main.br.org.indt.ndg.ui.view.editor.EditorEditSurveys;
+	import main.br.org.indt.ndg.i18n.ConfigI18n;
+		
+	private var mainGUI:EditorEditSurveys;
+	
+	private var labelArray:Array = new Array();
+	
+	public function setMainGUI(mainGUI:Object):void
+	{
+		this.mainGUI = mainGUI as EditorEditSurveys;
+	}
+	
+	private function init():void
+	{
+		labelArray.push(lbl_Skip);
+	}
+
+	private function editChoiceItem(): void 
+	{
+		var attributes:AttributeList = new AttributeList();
+		attributes.setSelectedChoiceItem(mainGUI.lstChoices.selectedIndex);
+		attributes.setDescription(txtChoiceItem.text);
+		attributes.setItemOtr(ckBox_ItemOtr.selected);
+		
+		var payload:Payload = new Payload();
+		payload.setQuestionAttribute(attributes);
+		payload.setView(mainGUI);
+
+		var event:ControllerEvent = new ControllerEvent(EventTypes.EDIT_CHOICEITEM_EVENT, payload);
+		FrontController.getInstance().dispatch(event);		
+	}
+	
+	private function set_clearSkipLogic(): void
+	{
+		if (btn_Add.label == ConfigI18n.getInstance().getStringFile('editorResources', 'ADD')) // Set
+		{
+			setSkipLogic();
+			btn_Add.label = ConfigI18n.getInstance().getStringFile('editorResources', 'CLEAR');
+		}
+		else // clear
+		{
+			clearSkipLogic();
+			btn_Add.label = ConfigI18n.getInstance().getStringFile('editorResources', 'ADD');
+		}
+	}
+	
+	private function setSkipLogic(): void
+	{
+		if (mainGUI.ckBox_ChoiceExclusive.selected)
+		{
+			mainGUI.editChoiceQuestion();
+			editChoiceItem();
+			lbl_Skip.text = "";
+			Alert.show(ConfigI18n.getInstance().getStringFile('editorResources', 'SKIP_TO_QUESTION'), ConfigI18n.getInstance().getStringFile('editorResources', 'SKIP_LOGIC'), Alert.OK, mainGUI);
+			
+			var attributes:AttributeList = new AttributeList();
+			attributes.setSkipLogicOption(mainGUI.lstChoices.selectedIndex);
+			attributes.setItemOtr(ckBox_Inverse.selected);
+					
+			var payload:Payload = new Payload();
+			payload.setQuestionAttribute(attributes);
+			
+			payload.setView(mainGUI);
+			var event:ControllerEvent = new ControllerEvent(EventTypes.SKIP_LOGIC_EVENT, payload);
+			FrontController.getInstance().dispatch(event);
+		}
+		else
+		{
+			Alert.show(ConfigI18n.getInstance().getStringFile('editorResources', 'EXCLUSIVE_QUESTION_WARNING'), ConfigI18n.getInstance().getStringFile('editorResources', 'SKIP_LOGIC'), Alert.OK, mainGUI);
+		}
+	}
+	
+	private function clearSkipLogic():void
+	{
+		var attributes:AttributeList = new AttributeList();
+		attributes.setSkipLogicOption(mainGUI.lstChoices.selectedIndex);
+				
+		var payload:Payload = new Payload();
+		payload.setQuestionAttribute(attributes);
+		
+		payload.setView(mainGUI);
+		var event:ControllerEvent = new ControllerEvent(EventTypes.CLEAR_SKIP_LOGIC_EVENT, payload);
+		FrontController.getInstance().dispatch(event);
+	}
+	
+	public function clearAll():void
+	{
+		txtChoiceItem.text = "";
+		ckBox_ItemOtr.selected = false;
+		lbl_Skip.text = "";
+		ckBox_Inverse.selected = false;
+	}
+	
+	private function onKeyUp(event:KeyboardEvent):void
+	{
+		if (event.keyCode == 13)
+		{
+			editChoiceItem();
+		}
+		else if (event.keyCode == 27)
+		{
+			mainGUI.vboxAlternative.visible = false;
+		}
+	}
+	
+	]]>
+	</mx:Script>
+</mx:Panel>

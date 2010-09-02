@@ -49,12 +49,8 @@
     <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
 	
 	<mx:Canvas width="994" y="0" horizontalCenter="0">
-		<mx:Image x="2" y="98">
-			<mx:source>main/resources/images/SHADOW_LEFT.png</mx:source>
-		</mx:Image>
-		<mx:Image x="980" y="98">
-			<mx:source>main/resources/images/SHADOW_RIGTH.png</mx:source>
-		</mx:Image>
+		<mx:Image x="2" y="98" source="@Embed('main/resources/images/SHADOW_LEFT.png')"/>
+		<mx:Image x="980" y="98" source="@Embed('main/resources/images/SHADOW_RIGTH.png')"/>
 		<vapp:HeaderLogo id="headerLogoView" horizontalCenter="0" y="0"/>
 		
 		<!-- header -->

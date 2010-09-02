@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+			width="142" height="184" borderColor="#1B314C" borderStyle="solid" 
+			cornerRadius="4" backgroundColor="#FFFFFF" creationComplete="loadDevices()" backgroundAlpha="0.3" currentState="add">
+
+	<mx:Script>
+		<![CDATA[
+			import main.br.org.indt.ndg.model.DeviceDTO;
+			import main.br.org.indt.ndg.controller.access.SessionClass;
+			import main.br.org.indt.ndg.model.ImeiDTO;
+			import main.br.org.indt.ndg.controller.main.wizard.RemoveDeviceEvent;
+			import main.br.org.indt.ndg.controller.main.wizard.AddDeviceEvent;
+			import mx.collections.ArrayCollection;
+			import main.br.org.indt.ndg.i18n.ConfigI18n;
+			import main.br.org.indt.ndg.controller.util.ExceptionUtil;
+			import main.br.org.indt.ndg.controller.access.SessionTimer;
+			import mx.rpc.remoting.mxml.RemoteObject;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.controls.Alert;
+            import mx.effects.easing.Bounce;
+
+
+			[Bindable] public var remoteList:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+			private static const REMOTE_SERVICE:String = "myService";
+			[Bindable] public var comboDevicesDataProvider:ArrayCollection = new ArrayCollection();
+			[Bindable] public var imeiDTO:ImeiDTO = null;
+			[Bindable] public var deviceId:String = "1";
+			
+			private function loadDevices():void{
+				remoteList.showBusyCursor = true;
+				remoteList.addEventListener(FaultEvent.FAULT, onFault);
+				remoteList.addEventListener(ResultEvent.RESULT, onSuccess);
+				remoteList.listDevices();
+				SessionTimer.getInstance().resetTimer();
+				
+				function onFault(event:FaultEvent):void{
+					Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
+							ConfigI18n.getInstance().getString("lblError"));
+				}
+					
+				function onSuccess(event:ResultEvent):void{
+					if (event.result != null) {
+						comboDevicesDataProvider = event.result as ArrayCollection;
+					} else{
+						comboDevicesDataProvider = new ArrayCollection();
+					}
+				}						
+			}
+			
+			private function addDevice(event:MouseEvent):void{
+				if (currentState == "add") {
+					imeiDTO = null;
+					comboModels.enabled = true;
+					comboModels.selectedIndex = 0;
+					phoneNumber.enabled = true;
+					phoneNumber.text = "";
+					phoneNumber.setFocus();
+					currentState = "cancel_ok";
+				} else if (currentState == "cancel_ok") {	
+					if (phoneNumber.text.length > 0) {
+						comboModels.enabled = false;
+						phoneNumber.enabled = false;
+						currentState = "remove_edit";
+						
+						// imeiDTO
+						imeiDTO = new ImeiDTO();
+						imeiDTO.msisdn = phoneNumber.text;
+						imeiDTO.userName = SessionClass.getInstance().loggedUser.username;
+						imeiDTO.device = comboModels.selectedItem as DeviceDTO;
+					
+					} else {
+						Alert.show(ConfigI18n.getInstance().getString('btnWizardPhoneNumberAlert'), 
+									ConfigI18n.getInstance().getString("lblWarning"),4,null,setPhoneNumberFocus());
+						
+						function setPhoneNumberFocus():void{
+							phoneNumber.setFocus();	
+						}
+					}
+				} else if (currentState == "remove_edit" || currentState == "problem") {
+					imeiDTO = null;
+					comboModels.enabled = true;
+					phoneNumber.setFocus();
+					phoneNumber.enabled = true;
+					currentState = "cancel_ok";
+				}
+				
+				var addEvent:AddDeviceEvent = new AddDeviceEvent(AddDeviceEvent.EVENT_NAME);
+				dispatchEvent(addEvent);
+			}
+			
+			private function removeDevice(event:MouseEvent):void{
+				
+				if (currentState == "cancel_ok") {
+					imeiDTO = null;
+					comboModels.enabled = false;
+					phoneNumber.enabled = false;
+					comboModels.selectedIndex = 0;
+					phoneNumber.text = ConfigI18n.getInstance().getString('btnWizardPhoneNumberHint');
+					currentState = "add";
+				} else if (currentState == "remove_edit" || currentState == "problem") {
+					imeiDTO = null;
+					comboModels.enabled = false;
+					phoneNumber.enabled = false;
+					comboModels.selectedIndex = 0;
+					phoneNumber.text = ConfigI18n.getInstance().getString('btnWizardPhoneNumberHint');
+					currentState = "add";					
+				}
+				
+				var removeEvent:RemoveDeviceEvent= new RemoveDeviceEvent(RemoveDeviceEvent.EVENT_NAME);
+				dispatchEvent(removeEvent);
+			}
+			
+		]]>
+	</mx:Script>			
+    <mx:transitions>
+       <mx:Transition fromState="remove_edit" toState="problem">
+            <mx:Parallel>
+                <mx:Resize duration="500" easingFunction="Bounce.easeOut"/>
+                <mx:Sequence >
+                    <mx:Blur duration="200" blurYFrom="1.0" blurYTo="20.0" />            
+                    <mx:Blur duration="200" blurYFrom="20.0" blurYTo="1" />            
+                </mx:Sequence>
+            </mx:Parallel>
+        </mx:Transition>
+    </mx:transitions>
+			
+	<mx:states>
+		<mx:State name="add">
+			<mx:RemoveChild target="{buttonRemove}"/>
+			<mx:SetProperty target="{buttonAdd}" name="width" value="80"/>
+			<mx:SetProperty target="{buttonAdd}" name="label">
+				<mx:value>{ConfigI18n.getInstance().getString('btnWizardAddDevice')}</mx:value>
+			</mx:SetProperty>
+		</mx:State>
+		<mx:State name="cancel_ok">
+			<mx:SetProperty target="{buttonRemove}" name="label">
+				<mx:value>{ConfigI18n.getInstance().getString('btnWizardCancelDevice')}</mx:value>
+			</mx:SetProperty>
+			<mx:SetProperty target="{buttonAdd}" name="label">
+				<mx:value>{ConfigI18n.getInstance().getString('btnWizardOkDevice')}</mx:value>
+			</mx:SetProperty>
+			<mx:AddChild position="lastChild">
+				<mx:Image x="108" y="11" width="22" height="22" source="@Embed('main/resources/images/ICON_EDITING.png')" autoLoad="true"/>
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="remove_edit">
+			<mx:SetProperty target="{buttonAdd}" name="label">
+				<mx:value>{ConfigI18n.getInstance().getString('btnWizardEditDevice')}</mx:value>
+			</mx:SetProperty>
+			<mx:AddChild position="lastChild">
+				<mx:Image x="108" y="11" width="23" height="23" source="@Embed('main/resources/images/ICON_OK.png')" autoLoad="true"/>
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="problem">
+			<mx:SetProperty target="{buttonAdd}" name="label">
+				<mx:value>{ConfigI18n.getInstance().getString('btnWizardEditDevice')}</mx:value>
+			</mx:SetProperty>
+			<mx:AddChild position="lastChild">
+				<mx:Image x="108" y="11" width="23" height="23" source="@Embed('main/resources/images/ICON_PROBLEM.png')" autoLoad="true"/>
+			</mx:AddChild>
+			<mx:SetProperty name="height" value="204"/>
+			<mx:AddChild position="lastChild">
+				<mx:Text x="6" y="167" color="#B40522"  width="130" maxWidth="130" fontWeight="bold"
+					height="32" maxHeight="130" textAlign="center" id="lblError"/>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	
+	<mx:Canvas x="0" y="13" width="140" height="18" backgroundColor="#3A53B2" id="canvas1">
+		<mx:Label id="deviceID" x="10" y="-2" text="{ConfigI18n.getInstance().getString('btnWizardDeviceId') + deviceId}" fontSize="14" color="#FFFFFF" fontWeight="bold" maxWidth="120"/>	
+	</mx:Canvas>
+	<mx:ComboBox x="13" y="58" id="comboModels"  width="117" dataProvider="{comboDevicesDataProvider}" 
+			labelField="deviceModel" styleName="formComboBox" height="22" enabled="false"/>
+	
+	<mx:TextInput id="phoneNumber" x="13" text="{ConfigI18n.getInstance().getString('btnWizardPhoneNumberHint')}" y="105" width="117" maxChars="20" height="22" styleName="formTextInput" restrict="[0-9]" enabled="false"/>
+			
+	<mx:HBox  x="3" y="139" horizontalAlign="center" width="135" horizontalGap="3" id="hbox1" verticalAlign="middle">
+		<mx:Button id="buttonRemove" label="{ConfigI18n.getInstance().getString('btnWizardRemoveDevice')}" click="removeDevice(event)" maxWidth="60"/>
+		<mx:Button id="buttonAdd" label="{ConfigI18n.getInstance().getString('btnWizardNewDevice')}" click="addDevice(event)" maxWidth="60"/>
+	</mx:HBox>			
+	<mx:Label x="11" y="41" text="{ConfigI18n.getInstance().getString('lblWizardDeviceModel')}"/>
+	<mx:Label x="11" y="86" text="{ConfigI18n.getInstance().getString('lblWizardDeviceNumber')}"/>
+</mx:Canvas>

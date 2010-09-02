@@ -4,7 +4,7 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	updateComplete="updateLanguage()"
 	creationComplete="init()">
-	
+
 
 	<mx:Script source="../../../controller/access/LoginController.as" />
 	
@@ -26,12 +26,12 @@
     -->
     
     <mx:HBox width="100%" styleName="loginCenterPanel">
-    	<mx:Image width="471" height="254" source="main/resources/images/login_image.jpg"/>
+    	<mx:Image width="471" height="254" source="@Embed('main/resources/images/login_image.jpg')"/>
     	<mx:ViewStack id="loginStack" width="350" paddingTop="10">
 	    	<!-- Login View -->
 	    	<mx:VBox verticalGap="0" paddingTop="0" updateComplete="resetLoginErrorMsg()">
 	    		<mx:HBox height="20" verticalAlign="middle" horizontalGap="2">
-	    			<mx:Image width="16" height="14" id="modeIcon" visible="false" source = "main/resources/images/BALANCE.png" verticalAlign="bottom"/>
+	    			<mx:Image width="16" height="14" id="modeIcon" visible="false" source = "@Embed('main/resources/images/BALANCE.png')" verticalAlign="bottom"/>
     				<mx:Label width="325" id="keyMsg" height="20" styleName="darkText"/>
     			</mx:HBox>
 	    		<mx:HRule visible="false" height="20"/>
@@ -53,7 +53,7 @@
 	 			<mx:HRule visible="false" height="20"/>
 	 			
 	 			<mx:VBox verticalGap="0" fontSize="10">
-	 				<mx:HBox verticalAlign="middle" horizontalGap="3">
+	 				<mx:HBox verticalAlign="middle" horizontalGap="3" visible="{SessionClass.getInstance().isHostedMode}">
 	 					<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'lblRequestAccount')}" height="16"/>
 	 					<mx:VRule height="10"/>
 	 					<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnRequestAccount')}"
@@ -76,9 +76,9 @@
 				<mx:TextInput id="txEmail" width="208" maxChars="255" enter="requestPassword(event)"/>
 	 			<mx:HBox paddingTop="10" paddingBottom="5">
 	 				<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnRecPassRecover')}"
-	 					click="requestPassword(event)" width="100"/>
+	 					click="requestPassword(event)" width="60"/>
 	 				<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnRecPassBackToLogin')}"
-	 					click="goBackLogin()" width="100"/>
+	 					click="goBackLogin()" width="60"/>
 	 			</mx:HBox>
 	 			<mx:Text styleName="errorText" width="265" id="recoverErrorMsg" height="34"/>
 	    	</mx:VBox>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
-	height="30" horizontalGap="2" verticalAlign="middle"
+	horizontalGap="2" verticalAlign="middle"
 	fontSize="10">
 
 

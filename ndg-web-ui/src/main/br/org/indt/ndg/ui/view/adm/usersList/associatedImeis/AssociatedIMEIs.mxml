@@ -25,10 +25,10 @@
 	<mx:VBox width="100%" height="100%" verticalAlign="middle" horizontalAlign="center" verticalGap="5" styleName="wizardCenterPanel">
 		<mx:DataGrid height="100%" width="98%" id="grid" dataProvider="{imeiList}" styleName="wizardGrid">
 			<mx:columns>
-				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colAssociatedImeiImei')}"
-					dataField="imei" sortable="true" width="200"/>
 				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colAssociatedImeiMsisdn')}"
 					dataField="msisdn" sortable="true" width="150"/>
+				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colAssociatedImeiImei')}"
+					dataField="imei" sortable="true" width="200"/>
 				<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colAssociatedImeiDevice')}"
 					labelFunction="getDeviceModel" sortable="false" width="150"/>
 			</mx:columns>

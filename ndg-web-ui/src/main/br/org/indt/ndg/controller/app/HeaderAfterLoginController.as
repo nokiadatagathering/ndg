@@ -17,14 +17,21 @@
 
 // ActionScript file
 
+	import flash.events.Event;
+	
 	import main.br.org.indt.ndg.controller.access.SessionClass;
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
 	import main.br.org.indt.ndg.model.UserDTO;
+	import main.br.org.indt.ndg.ui.view.app.Preferences;
+	import main.br.org.indt.ndg.ui.view.main.about.About;
 	
 	import mx.containers.ViewStack;
+	import mx.managers.PopUpManager;
 	
 	public var bodyStack:ViewStack = null;
-	
+
+	private static const MAIN_PAGE:String = "main.html";
+
 	
 	private function init():void{
 		resetView();
@@ -33,16 +40,40 @@
 	private function logout(event:MouseEvent):void{
 		SessionClass.getInstance().logout();
 		//bodyStack.selectedIndex = MainConstants.LOGIN_VIEW_INDEX;//change to Login view
+		//var ref:URLRequest = new URLRequest("javascript:location.reload(true)");
+		var ref:URLRequest = new URLRequest(MAIN_PAGE);
+		navigateToURL(ref, "_self");
 	}
 	
 	public function resetView():void{
 		var user:UserDTO = SessionClass.getInstance().loggedUser;
 		userMessage.text = ConfigI18n.getInstance().getString("lblHelloUser01") +
-				user.firstName + " " + user.lastName +
-				ConfigI18n.getInstance().getString("lblHelloUser02") + user.role.name + ".";
+				user.firstName + " " + user.lastName;
 		
 		if (!SessionClass.getInstance().isHostedMode && SessionClass.getInstance().isAdmin()){
 			btnPref.visible = true;
-			rulePref.visible = true;	
+			btnPref.includeInLayout = true;
+			rulePref.visible = true;
+			rulePref.includeInLayout = true;
 		}
+	}	
+
+	private function showAbout():void {
+		var about:About = new About();
+		
+		PopUpManager.addPopUp(about, this, true);
+		PopUpManager.centerPopUp(about);
 	}
+	
+     public function goToURL(urlStr:String):void {
+         var webPageURL:URLRequest = new URLRequest( urlStr );
+         
+         navigateToURL(webPageURL, '_blank')
+     }	
+     
+     public function showPreferences(event:Event):void {
+     	var preferences:Preferences = new Preferences();
+     	
+		PopUpManager.addPopUp(preferences, this, true);
+		PopUpManager.centerPopUp(preferences);
+     }

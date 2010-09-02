@@ -90,8 +90,9 @@
 		imeiPreview.dto = null;
 		imeiList.source = new Array();
 		remoteImeiList.showBusyCursor = true;
-		remoteImeiList.listImeisByUser(selectedUserDTO.username, event.page, event.pageSize,
-				event.filterText, event.filterFields, event.sortField, event.sortDescending);
+		remoteImeiList.listImeisByUserWithoutPlus(selectedUserDTO.username, event.page, event.pageSize,
+				event.filterText, event.filterFields, event.sortField, event.sortDescending,
+				true, false);
 		SessionTimer.getInstance().resetTimer();
 	}
 		
@@ -119,6 +120,12 @@
 	
 	private function showPreview(event:Event):void{
 		var dto:ImeiDTO = imeiGrid.selectedItem as ImeiDTO;
+		//var dtoClone:ImeiDTO = dto.clone();
+		
+		//var myPattern:RegExp = /\+/;  
+		//dtoClone.msisdn = dtoClone.msisdn.replace(myPattern, "");
+		
+		//imeiPreview.dto = dtoClone;
 		imeiPreview.dto = dto;
 		imeiPreview.setSelectedComboDevicesItem();
 		if (imeiPreview.editMode){
@@ -128,5 +135,14 @@
 
 	private function showUsers(event:Event):void{
 		myStack.selectedIndex = 0;
+	}
+	
+	private function getImei(item:Object, column:DataGridColumn):String{
+		var imei:ImeiDTO = item as ImeiDTO;
+		if (imei.realImei.toUpperCase() == "Y"){
+			return imei.imei;
+		} else{
+			return ConfigI18n.getInstance().getString("gridWaitingImei");
+		}
 	}
 	

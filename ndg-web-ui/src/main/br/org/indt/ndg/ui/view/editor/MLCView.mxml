@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="228" height="160"
+	   	layout="absolute" showCloseButton="false" textAlign="left" 
+		borderColor="#E3E3E3" borderAlpha="1" dropShadowEnabled="false" 
+		roundedBottomCorners="true" cornerRadius="0" initialize="init()">
+	<mx:Label x="10" y="1" text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIELD')}"/>
+	<mx:TextInput id="txtMLCField" x="10" y="19" width="188" text="{txtMLCField_var}"/>
+	<mx:Label x="10" y="44" text="{ConfigI18n.getInstance().getStringFile('editorResources', 'DIRECTION')}"/>
+	<!--<mx:ComboBox id="cbBoxMLCDir" x="10" y="62" dataProvider="{(['in', 'out'])}" width="188" selectedIndex="{cbBoxMLCDir_var}"/>-->
+	<mx:RadioButtonGroup id="directiontype" itemClick="radioItemClick(event)"/>
+    <mx:RadioButton groupName="directiontype" value="in" id="radioIn" selected="{rbtnMLCDirIn_var}"
+        label="{ConfigI18n.getInstance().getStringFile('editorResources', 'IN')}" width="73"  x="10" y="62"/>
+    <mx:RadioButton groupName="directiontype" value="out" id="radioOut" selected="{rbtnMLCDirOut_var}"
+        label="{ConfigI18n.getInstance().getStringFile('editorResources', 'OUT')}" width="73"  x="85" y="62"/>
+	<mx:CheckBox id="ckBoxMLCEditable" x="10" y="92" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'EDITABLE')}" selected="{ckBoxMLCEditable_var}"/>
+	
+	<mx:Script>
+	<![CDATA[
+		import mx.events.ItemClickEvent;
+		import main.br.org.indt.ndg.controller.editor.*;
+		import main.br.org.indt.ndg.i18n.ConfigI18n;
+		
+		[Bindable] public var txtMLCField_var: String;
+		[Bindable] public var rbtnMLCDirIn_var: Boolean;
+		[Bindable] public var rbtnMLCDirOut_var: Boolean;
+		[Bindable] public var ckBoxMLCEditable_var: Boolean;
+		public var rbtnMLCDir_var: String;
+		
+		public function refreshData():void
+		{
+			txtMLCField_var = txtMLCField.text;
+			rbtnMLCDirIn_var = radioIn.selected;
+			rbtnMLCDirOut_var = radioOut.selected;
+			rbtnMLCDir_var = radioIn.selected ? "in" : "out";
+			ckBoxMLCEditable_var = ckBoxMLCEditable.selected;
+		}
+		
+		private function init():void
+		{
+			this.addEventListener(MouseEvent.MOUSE_DOWN, alert_mouseDown, true);	
+		}
+
+        private function alert_mouseDown(evt:MouseEvent):void 
+        {
+        	evt.stopImmediatePropagation();
+        }
+        
+        private function radioItemClick(event:ItemClickEvent):void
+        {
+        	rbtnMLCDir_var = event.currentTarget.selectedValue as String;
+        }
+	]]>
+	</mx:Script>
+	
+</mx:TitleWindow>

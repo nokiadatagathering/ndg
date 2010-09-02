@@ -19,6 +19,7 @@
 
 
 	import main.br.org.indt.ndg.controller.access.SessionClass;
+	import main.br.org.indt.ndg.i18n.ConfigI18n;
 	
 	import mx.containers.ViewStack;
 			
@@ -44,30 +45,30 @@
 			btnMain.y = 12;
 		}
 	}
-	private function setBtnManageState(selected:Boolean):void{
-		if (selected){
-			btnManage.height = 96;
-			btnManage.width = 332;
-			btnManage.x = 318;
-			btnManage.y = 6;
-		} else{
-			btnManage.height = 77;
-			btnManage.width = 319;
-			btnManage.x = 324;
-			btnManage.y = 12;
-		}
-	}			
 	private function setBtnEditorState(selected:Boolean):void{
 		if (selected){
 			btnEditor.height = 96;
 			btnEditor.width = 332;
-			btnEditor.x = 636;
+			btnEditor.x = 318;
 			btnEditor.y = 6;
 		} else{
 			btnEditor.height = 77;
 			btnEditor.width = 319;
-			btnEditor.x = 642;
+			btnEditor.x = 324;
 			btnEditor.y = 12;
+		}
+	}			
+	private function setBtnManagerState(selected:Boolean):void{
+		if (selected){
+			btnManager.height = 96;
+			btnManager.width = 332;
+			btnManager.x = 636;
+			btnManager.y = 6;
+		} else{
+			btnManager.height = 77;
+			btnManager.width = 319;
+			btnManager.x = 642;
+			btnManager.y = 12;
 		}
 	}			
 		
@@ -78,27 +79,27 @@
 			buttonBar.setChildIndex(btnMain, 2);
 			setBtnMainState(true);
 		} else if (index == 2 && selectedButtonIndex != 2){
-			buttonBar.setChildIndex(btnManage, 2);
-			setBtnManageState(true);
-		} else if (index == 3 && selectedButtonIndex != 3){
 			buttonBar.setChildIndex(btnEditor, 2);
 			setBtnEditorState(true);
+		} else if (index == 3 && selectedButtonIndex != 3){
+			buttonBar.setChildIndex(btnManager, 2);
+			setBtnManagerState(true);
 		}
 	}
 	private function mouseOutButton(index:int, event:Event):void{
 		if (index == 1 && selectedButtonIndex != 1){
 			setBtnMainState(false);
 		} else if (index == 2 && selectedButtonIndex != 2){
-			setBtnManageState(false);
-		} else if (index == 3 && selectedButtonIndex != 3){
 			setBtnEditorState(false);
+		} else if (index == 3 && selectedButtonIndex != 3){
+			setBtnManagerState(false);
 		}
 		if (selectedButtonIndex == 1){
 			buttonBar.setChildIndex(btnMain, 2);
 		} else if (selectedButtonIndex == 2){
-			buttonBar.setChildIndex(btnManage, 2);
-		} else if (selectedButtonIndex == 3){
 			buttonBar.setChildIndex(btnEditor, 2);
+		} else if (selectedButtonIndex == 3){
+			buttonBar.setChildIndex(btnManager, 2);
 		}
 	}
 		
@@ -107,41 +108,44 @@
 		selectedButtonIndex = index;
 		if (index == 1){
 			btnMain.selected = true;
-			btnManage.selected = false;
 			btnEditor.selected = false;
-			setBtnManageState(false);
+			btnManager.selected = false;
 			setBtnEditorState(false);
+			setBtnManagerState(false);
 		} else if (index == 2){
 			btnMain.selected = false;
-			btnManage.selected = true;
-			btnEditor.selected = false;
+			btnEditor.selected = true;
+			btnManager.selected = false;
 			setBtnMainState(false);
-			setBtnEditorState(false);
+			setBtnManagerState(false);
 		} else if (index == 3){
 			btnMain.selected = false;
-			btnManage.selected = false;
-			btnEditor.selected = true;
+			btnEditor.selected = false;
+			btnManager.selected = true;
 			setBtnMainState(false);
-			setBtnManageState(false);
+			setBtnEditorState(false);
 		}
 		viewStack.selectedIndex = index - 1
 	}
 	
-	private function updateButtonBarSize():void{
+	private function updateButtonBar():void{
 		buttonBar.width = buttonBar.width + 6;
-		viewStackButtonBar.width = viewStackButtonBar.width + 6;
+		//viewStackButtonBar.width = viewStackButtonBar.width + 6;
+		if (SessionClass.getInstance().isAdmin()){
+			btnManager.visible = true;
+		}		
 	}
 
 	
-	private function getHeight():int{
-		var result:int = 68;
-		viewStackButtonBar.selectedIndex = 1;
-		if (SessionClass.getInstance().isAdmin()){
-			result = 102;
-			viewStackButtonBar.selectedIndex = 0;
-		}
-		return result;
-	}
+	//private function getHeight():int{
+	//	var result:int = 68;
+	//	viewStackButtonBar.selectedIndex = 1;
+	//	if (SessionClass.getInstance().isAdmin()){
+	//		result = 102;
+	//		viewStackButtonBar.selectedIndex = 0;
+	//	}
+	//	return result;
+	//}
 	
 	
 	

@@ -35,6 +35,7 @@ package main.br.org.indt.ndg.model {
 		public var user:String = null;
 		public var survey:String = null;
 		public var resultsSent:int = 0;
+		public var isUploaded:String = null;
 		
 				
 		public function SurveyDTO(){

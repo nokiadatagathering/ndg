@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="406" height="474">
+
+	
+	<mx:Image width="392" height="410" source="@Embed('main/resources/images/editor/preview/e61/e61_3.png')"  
+		scaleContent="false" id="imgMobileE61" y="64" x="11" visible="false"/>
+	<mx:Image width="392" height="410" source="@Embed('main/resources/images/editor/preview/e71/e71_3.png')"  
+		scaleContent="false" id="imgMobileE71" y="64" x="11" visible="true"/>
+			
+	<mx:Canvas x="27" y="23" width="406" height="474" id="cScreen" scaleX="0.84" scaleY="0.84">
+		<mx:Image y="174" width="320" height="240" id="imgBackGrd" 
+			scaleContent="false" autoLoad="true" source="main/resources/images/editor/preview/e61/model1.png" x="46"/>
+		<mx:Image id="imgChoice" x="46" y="216" scaleContent="false" autoLoad="true" source=".main/resources/images/editor/preview/e61/modelchoice7.png" width="313" height="181"/>
+		<mx:Label id="lblCategory" x="65" y="174" text="ABCEDFGHIJKLMNOPQRSTUVWXYZABC" fontSize="12" color="#FFFFFF" fontWeight="bold" width="316" height="20"/>
+		<mx:Text id="lblQuestion" x="48" y="195" text="Quantas pessoas vivem em casa?" fontSize="15" fontWeight="bold" width="290" height="27.5" color="#000000"/>
+		<mx:Label x="95" y="231.5" text="Choice 1" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem1"/>
+		<mx:Label x="95" y="255" text="Choice 2" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem2"/>
+		<mx:Label x="95" y="278.2" text="Choice 3" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem3"/>
+		<mx:Label x="95" y="301.2" text="Choice 4" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem4"/>
+		<mx:Label x="95" y="324" text="Choice 5" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem5"/>
+		<mx:Label x="95" y="348" text="Choice 6" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem6"/>
+		<mx:Label x="95" y="370.6" text="Choice 7" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem7"/>
+	</mx:Canvas>			
+			
+			
+
+	<mx:Script><![CDATA[
+
+	import mx.core.DragSource;
+	import mx.managers.DragManager;
+	import mx.events.*;
+	import mx.core.UIComponent;
+	import mx.controls.Tree;
+	import mx.containers.Canvas;
+
+	public function showMain(strDevice:String):void
+	{
+		imgBackGrd.load(resourceManager.getClass("editorResources", "main2.png"));
+		lblCategory.visible = false;
+		lblQuestion.visible = false;
+		imgChoice.visible = false;
+		visibleItens([0,0,0,0,0,0,0]);
+	}
+	
+	public function showSimpleQuestion(node:XML, strDevice:String):void
+	{
+		imgBackGrd.load(resourceManager.getClass("editorResources", getModelByLength(node)));
+		writeQuestion(node);
+		visibleItens([0,0,0,0,0,0,0]);
+		imgChoice.visible = false;
+	}
+	
+	public function showMultipleChoiceQuestion(node:XML, strDevice:String):void
+	{
+		var aVal:Array = new Array();
+		var i:int;
+		var count:int = 0;
+		var children:XMLList = node.children();
+		var length:int = children.length();
+		for(i = 0; i < length; i++)
+		{
+			if (children[i].localName() == "item")
+			{
+				count++;
+			}
+		} 
+		for(i = 0; i < count; i++)
+		{
+			aVal[i] = 1;
+		}
+		for(i = count; i < 7; i++)
+		{
+			aVal[i] = 0;
+		}
+		
+		imgBackGrd.load(resourceManager.getClass("editorResources", getModelByLength(node)));
+		
+		showMultipleChoiceBack(count, (node.select == "exclusive") ? true : false, node.description, strDevice);
+		var strTemp:String = node.description;
+		visibleItens(aVal, strTemp.length);
+		writeItens(node, aVal);
+		writeQuestion(node);	
+	}
+	
+	private function visibleItens(aVal:Array, iVal:int = 100):void
+	{
+		if (iVal <= 31)
+		{
+			// Gambi
+		}
+		else if (iVal <= 62)
+		{
+			aVal[6] = 0;
+		}
+		else if (iVal <= 93)
+		{
+			aVal[5] = 0;
+			aVal[6] = 0;
+		}
+		else
+		{
+			aVal[4] = 0;
+			aVal[5] = 0;
+			aVal[6] = 0;
+		}
+		
+		lblItem1.visible = (aVal[0] == 1) ? true : false;
+		lblItem2.visible = (aVal[1] == 1) ? true : false;
+		lblItem3.visible = (aVal[2] == 1) ? true : false;
+		lblItem4.visible = (aVal[3] == 1) ? true : false;
+		lblItem5.visible = (aVal[4] == 1) ? true : false;
+		lblItem6.visible = (aVal[5] == 1) ? true : false;
+		lblItem7.visible = (aVal[6] == 1) ? true : false;
+	}
+	
+	private function showMultipleChoiceBack(iVal:int, bExcl:Boolean, strDesc:String, strDevice:String):void
+	{
+		var strBackName:String;
+		
+		switch (iVal)
+		{
+			case 2: strBackName = bExcl ? "modelchoiceexclusive2.png" : "modelchoice2.png"; break;
+			case 3: strBackName = bExcl ? "modelchoiceexclusive3.png" : "modelchoice3.png"; break;
+			case 4: strBackName = bExcl ? "modelchoiceexclusive4.png" : "modelchoice4.png"; break;
+			case 5: strBackName = bExcl ? "modelchoiceexclusive5.png" : "modelchoice5.png"; break;
+			case 6: strBackName = bExcl ? "modelchoiceexclusive6.png" : "modelchoice6.png"; break;
+			case 7: strBackName = bExcl ? "modelchoiceexclusive7.png" : "modelchoice7.png"; break;
+			default: strBackName = bExcl ? "modelchoiceexclusive7.png" : "modelchoice7.png";
+		}
+
+		imgChoice.load(resourceManager.getClass("editorResources", strBackName));
+		imgChoice.visible = true; 
+		
+		setPosition(strDesc.length);
+	}
+	
+	private function setPosition(iVal:int):void
+	{
+		if (iVal <= 31)
+		{
+			imgChoice.y = 216;
+			imgChoice.height = 181; // Limita visão em 7 itens
+			
+			lblItem1.y = 231.5;
+			lblItem2.y = 255;
+			lblItem3.y = 278.2;
+			lblItem4.y = 301.2;
+			lblItem5.y = 324;
+			lblItem6.y = 348;
+			lblItem7.y = 370.6;
+		}
+		else if (iVal <= 62)
+		{
+			imgChoice.y = 238;
+			imgChoice.height = 151; // Limita visão em 6 itens
+			
+			lblItem1.y = 252.5;
+			lblItem2.y = 276;
+			lblItem3.y = 299.2;
+			lblItem4.y = 322.2;
+			lblItem5.y = 345;
+			lblItem6.y = 369;
+			lblItem7.y = 391.6;
+		}
+		else if (iVal <= 93)
+		{
+			imgChoice.y = 260;
+			imgChoice.height = 129; // Limita visão em 5 itens
+			
+			lblItem1.y = 275.5;
+			lblItem2.y = 299;
+			lblItem3.y = 322.2;
+			lblItem4.y = 345.2;
+			lblItem5.y = 368;
+			lblItem6.y = 392;
+			lblItem7.y = 414.6;
+		}
+		else
+		{
+			imgChoice.y = 282;
+			imgChoice.height = 105; // Limita visão em 4 itens
+			
+			lblItem1.y = 297.5;
+			lblItem2.y = 321;
+			lblItem3.y = 344.2;
+			lblItem4.y = 367.2;
+			lblItem5.y = 390;
+			lblItem6.y = 414;
+			lblItem7.y = 436.6;
+		}
+	}
+	
+	private function writeQuestion(node:XML):void
+	{
+		lblCategory.visible = true;
+		var strCategory:String = node.parent().@name; 
+		lblCategory.text = strCategory.toUpperCase();
+		lblQuestion.visible = true;
+		lblQuestion.text = node.description;
+	}
+	
+	private function writeItens(node:XML, aVal:Array):void
+	{
+		lblItem1.text = (aVal[0] == 1) ? node.item[0] : "";
+		lblItem2.text = (aVal[1] == 1) ? node.item[1] : "";
+		lblItem3.text = (aVal[2] == 1) ? node.item[2] : "";
+		lblItem4.text = (aVal[3] == 1) ? node.item[3] : "";
+		lblItem5.text = (aVal[4] == 1) ? node.item[4] : "";
+		lblItem6.text = (aVal[5] == 1) ? node.item[5] : "";
+		lblItem7.text = (aVal[6] == 1) ? node.item[6] : "";
+	}
+	
+	private function getModelByLength(node:XML):String
+	{
+		var strDesc:String = node.description;
+		var strResult:String = "model1.png"; 
+		
+		if (strDesc.length <= 31)
+		{
+			lblQuestion.height = 27.5;
+			strResult = "model1.png"
+		}
+		else if (strDesc.length <= 62)
+		{
+			lblQuestion.height = 51;
+			strResult = "model2.png"
+		}
+		else if (strDesc.length <= 93)
+		{
+			lblQuestion.height = 74.2;
+			strResult = "model3.png"
+		}
+		else
+		{
+			lblQuestion.height = 96.2;
+			strResult = "model4.png";
+		}
+		
+		return strResult;			
+	}
+
+	]]></mx:Script>
+
+	
+</mx:Canvas>
+

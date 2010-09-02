@@ -31,6 +31,14 @@ package main.br.org.indt.ndg.model {
 		public function getId():String{
 			return idDevice as String;
 		}
+		
+		public function clone():DeviceDTO{
+			var clone:DeviceDTO = new DeviceDTO();
+			clone.selected = this.selected;
+			clone.idDevice = this.idDevice;
+			clone.deviceModel = this.deviceModel;
+			return clone;
+		}
 
 	}
 	

@@ -25,6 +25,7 @@
 	import main.br.org.indt.ndg.model.SurveyDTO;
 	import main.br.org.indt.ndg.ui.component.powerdatagrid.ChangePageEvent;
 	import main.br.org.indt.ndg.ui.view.main.sendSurvey.SendSurvey;
+	import main.br.org.indt.ndg.ui.view.main.wizard.Wizard;
 	
 	import mx.collections.ArrayCollection;
 	import mx.containers.ViewStack;
@@ -52,8 +53,11 @@
 		searchOptionsFields.addItem(new Array("idSurvey"));	
 		
 		pagination.refresh();
-		
-		customCheck.addEventListener(MouseEvent.CLICK, selectedAll);		
+		customCheck.addEventListener(MouseEvent.CLICK, selectedAll);	
+		var session:SessionClass = SessionClass.getInstance();
+		if (session.isHostedMode && session.loggedUser.firstTimeUse.toUpperCase() == 'Y' && session.isAdmin()) {
+			showWizard(null);
+		}	
 	}
 	
 	private function selectedAll(event:MouseEvent):void{
@@ -77,7 +81,8 @@
 			PopUpManager.addPopUp(sendSurvey, this.parentDocument as DisplayObject,true);
 			PopUpManager.centerPopUp(sendSurvey);
 		} else {
-			Alert.show(ConfigI18n.getInstance().getString("selectOneMoreSurveys"));
+			Alert.show(ConfigI18n.getInstance().getString("selectOneMoreSurveys"),
+					   ConfigI18n.getInstance().getString("lblError"));
 		}
 	}
 	
@@ -86,7 +91,12 @@
 	}
 	
 	private function showResults(event:Event):void{
-		myStack.selectedIndex = 1;
+		//if (getSelectedSurvey().results <= 0){
+		//	Alert.show(ConfigI18n.getInstance().getString("surveyListNoResults"),
+		//		ConfigI18n.getInstance().getString("lblWarning"));
+		//} else{
+			myStack.selectedIndex = 1;
+		//}
 	}
 	
 	private function listSurveys(event:ChangePageEvent):void{
@@ -94,7 +104,7 @@
 		remoteListSurveys.listSurveys(SessionClass.getInstance().
 				loggedUser.username, event.page, event.pageSize, 
 				event.filterText, event.filterFields,
-				event.sortField, event.sortDescending);
+				event.sortField, event.sortDescending, true);
 		SessionTimer.getInstance().resetTimer();
 	}
 	
@@ -102,5 +112,9 @@
 		return pagination.getSelectedAllItems().getItemAt(0) as SurveyDTO;
 	}
 
-
+	private function showWizard(event:MouseEvent):void{
+		var wizard:Wizard = new Wizard();
+		PopUpManager.addPopUp(wizard, this.parentApplication as DisplayObject, true);
+		PopUpManager.centerPopUp(wizard);		
+	}
 	

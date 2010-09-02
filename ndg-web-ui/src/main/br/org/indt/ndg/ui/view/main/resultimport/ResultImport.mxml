@@ -44,11 +44,19 @@
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportSelectDrive')}" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportDrive')}"/>
-				<mx:ComboBox dataProvider="{comboArr}" width="140" id="driveCombo"/>
+				<mx:VBox height="100%" verticalAlign="middle" horizontalAlign="center">
+					<mx:HBox>
+						<mx:ComboBox dataProvider="{comboArr}" change="checkImei()" width="160" id="driveCombo"/>
+						<mx:Button id="refreshBtn"  click="loadDevices()" styleName="iconButton" width="22" height="22"
+								toolTip="{ConfigI18n.getInstance().getString('lblSendSurveyRefreshTip')}">
+							<mx:icon>@Embed(source='../../../../../../../../resources/images/RELOAD_TRANSP.png')</mx:icon>
+						</mx:Button>
+					</mx:HBox>
+					<mx:Text id="deviceImeiText" text="" width="240" height="33" textAlign="center" />
+				</mx:VBox>
 			</mx:HBox>
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
-				<mx:Button label="{ConfigI18n.getInstance().getString('btnImportImport')}" click="callImport()"/>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnImportImport')}" click="callImport()"  id="btnImportNext" enabled="false"/>
 			</mx:HBox>
 		</mx:VBox>
 
@@ -59,7 +67,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_FAIL.png"/>
+				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_FAIL.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportFail')}" styleName="darkTitle"/>
 				<mx:Text textAlign="center" text="{ConfigI18n.getInstance().getString('lblImportPleaseCheck')}"/>
 			</mx:VBox>
@@ -75,7 +83,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_SUCCESS.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportSuccess')}" styleName="darkTitle"/>
 				<mx:Text textAlign="center" text="{ConfigI18n.getInstance().getString('lblImportResultsImported')}"/>
 			</mx:VBox>
