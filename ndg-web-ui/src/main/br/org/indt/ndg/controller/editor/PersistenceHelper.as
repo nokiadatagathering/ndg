@@ -124,10 +124,13 @@ package main.br.org.indt.ndg.controller.editor {
 		}
 		
 		private function save(action:int, successFunc:Function): void	{
-			Survey.getInstance().prepareSave();
+			
+			var szSurvey:String = Survey.getInstance().prepareSave();
 			var survey:String = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
-			survey += Survey.getInstance().getContent().toXMLString();
-
+			
+			//survey += Survey.getInstance().getContent().toXMLString();
+			survey += szSurvey;
+			
 			var remoteObject:RemoteObject = new RemoteObject("myService");
 			remoteObject.showBusyCursor = true;
 	      	remoteObject.addEventListener(ResultEvent.RESULT, onResult);

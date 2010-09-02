@@ -30,6 +30,10 @@ package main.br.org.indt.ndg.controller.editor {
 		public static const REMOVE_CHOICEITEM_EVENT:String = "Remove Choice Item";
 		public static const SHOW_CHOICEITEM_EVENT:String = "Show Choice Item";
 		public static const SKIP_LOGIC_EVENT:String = "Skip Logic";
+		// Inicio Kivia Ramos - Created Label for Upload and Search CSV File
+		public static const ADD_CSV_ITEM_EVENT:String = "CSV Choice Item";
+		public static const ADD_STRINGITEM_EVENT:String = "Add String Item";
+		//Fim Kívia Ramos
 		public static const CLEAR_SKIP_LOGIC_EVENT:String = "Clear Skip Logic";
 		public static const CANCEL_UPLOAD_FILE_EVENT:String = "Cancel Upload File";
 		public static const SEND_FILE_EVENT:String = "Send File";

@@ -222,6 +222,17 @@ package main.br.org.indt.ndg.controller.editor
 			Survey.getInstance().updateCategory(node, controllerEvent.getPayload().getCategoryText());		   
 			mainView.setModifiedSurvey(true);
 		}
+		
+		public function handleAddStringItemEvent(mobisusEvent:Event): void
+		{
+			var controllerEvent:ControllerEvent = mobisusEvent as ControllerEvent;
+			mainView = controllerEvent.getPayload().getView() as EditorEditSurveys;
+			var node:XML = TreeHelper.getInstance().getSelectedNode();
+			var nIndex:int = Question.getChoiceItensCountByQuestion(node);
+			var szString:String = controllerEvent.getPayload().getChoice(); 
+			Question.addStringItem(node, nIndex, szString);
+			Question.populateList(node);
+		}
 
 	}
 }

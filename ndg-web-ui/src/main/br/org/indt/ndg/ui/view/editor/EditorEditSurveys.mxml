@@ -57,6 +57,18 @@
 					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion_Length" enabled="true"/>
 					<mx:TextInput id="txtQuestionString_Length" width="80" height="20" editable="true" enabled="true" change="isQuestionValid(Question.STRING_TYPE)" />
 					<mx:HRule width="100%"/>
+					<!-- Inicio Editado Por Kivia Ramos-->
+							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD_CSV')}"/>
+							<mx:HBox width="280" height="22" horizontalAlign="center">
+							<mx:TextArea id="txtPathStringFile" width="200" height="20"
+								wordWrap="false" editable="false" enabled="true"
+								textInput="textArea_textInput(event)"/>
+						    <mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'SEARCH_CSV')}"
+									click="searchStringCSV()" width="70"
+									toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SEARCH_CSV')}"/>
+							</mx:HBox>
+					<!--Fim Editado Por Kivia Ramos-->
+                    <mx:HRule width="100%"/>
 					<mx:TextArea id="lblFirstQuestion_str" width="100%" height="35"
 						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 						enabled="false" styleName="editorFirstQuestion"/>
@@ -83,7 +95,7 @@
 						<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10"
 							paddingRight="10" paddingBottom="10" paddingTop="10" x="0" y="0">
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}"/>
-							<mx:TextArea id="txtQuestionExclusive" width="100%" height="56"
+							<mx:TextArea id="txtQuestionExclusive" width="100%" height="40"
 								wordWrap="true" editable="true" enabled="true"
 								click="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
 								focusIn="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
@@ -92,22 +104,37 @@
 								change="isQuestionValid(Question.CHOICE_TYPE)"/>
 							<mx:HRule width="100%"/>
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'ALTERNATIVES')}"/>
-							<mx:List id="lstChoices"  width="100%" height="80" rollOverColor="#eef9ff"
+							<mx:List id="lstChoices"  width="100%" height="70" rollOverColor="#eef9ff"
 							  	doubleClickEnabled="true" doubleClick="showChoiceItem()" 
 							  	change="{vboxAlternative.visible = false}"/>
 							<mx:HBox width="100%" horizontalAlign="center">
 								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'ADD')}"
-									click="addChoiceItem()" width="70"/>
+									click="addChoiceItem()" width="65"/>
 								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'DEL')}"
-									click="deleteChoiceItem()" width="70"/>
+									click="deleteChoiceItem()" width="65"/>
 								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'EDIT')}"
-									click="showChoiceItem()" width="70"/>
+									click="showChoiceItem()" width="65"/>
+								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'CLEAR')}"
+									click="clearChoiceItem()" width="65"/>
 							</mx:HBox>
+							
+							<!-- Inicio Editado Por Kivia Ramos-->
+							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD_CSV')}"/>
+							<mx:HBox width="280" height="22" horizontalAlign="center">
+							<mx:TextArea id="txtPathFile" width="200" height="20"
+								wordWrap="false" editable="false" enabled="true"
+								textInput="textArea_textInput(event)"/>
+						    <mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'SEARCH_CSV')}"
+									click="searchCSV()" width="70"
+									toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SEARCH_CSV')}"/>
+							</mx:HBox>
+							<!-- Fim Editado Por Kivia Ramos-->
+							
 							<mx:HRule width="100%"/>
 							<mx:TextArea id="lblFirstQuestion_choice" width="100%" height="35"
 								text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 								enabled="false" styleName="editorFirstQuestion"/>
-							<mx:HBox width="100%" height="100%" horizontalAlign="right" verticalAlign="bottom">
+							<mx:HBox width="100%" height="22" horizontalAlign="right" verticalAlign="bottom">
 								<mx:Button label="OK" id="btnOK_EditChoiceQuestion" click="editChoiceQuestion()"
 									toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
 							</mx:HBox>							
@@ -213,6 +240,42 @@
 			<mx:RemoveChild target="{vbox4}"/>
 		</mx:State>
 		
+		<mx:State name="Time">
+			<mx:AddChild relativeTo="{questionPanel}">
+			<mx:VBox width="100%" height="100%" styleName="previewPanel" keyUp="onKeyUp_quest(event, Question.QUESTION_TIME)" verticalGap="0">
+					<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIME')}" styleName="clearText" fontWeight="bold"/>
+					</mx:ApplicationControlBar>
+					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblTimeQuestion" enabled="true"/>
+					<mx:TextArea id="txtQuestionTime" width="100%" height="56"	text=""
+					wordWrap="true" editable="true" 
+					enabled="true" fontSize="12"
+					click="txtQuestionFocus(event, Question.QUESTION_TIME);"
+					focusIn="txtQuestionFocus(event, Question.QUESTION_TIME);"
+					focusOut="txtQuestionFocus(event, Question.QUESTION_TIME);"
+					textInput="textArea_textInput(event);"
+					change="isQuestionValid(Question.TIME_TYPE)"/>
+					<mx:HRule width="100%"/>
+                    <mx:HBox horizontalGap="30">					
+					   <mx:RadioButton id="ckBox24_time" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIME_24')}"/>
+					   <mx:RadioButton id="ckBoxAMPM_time" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIME_AMPM')}"/>
+			        </mx:HBox>	
+					<mx:HRule width="100%"/>
+					<mx:TextArea id="lblFirstQuestion_time" width="100%" height="35" 
+						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
+						enabled="false" styleName="editorFirstQuestion"/>					
+					<mx:Spacer width="100%" height="100%"/>
+					<mx:HBox width="100%" horizontalAlign="right">
+						<mx:Button label="OK" id="btnOk_TimeQuestion" enabled="true" click="editTimeQuestion()"
+							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
+					</mx:HBox>
+				</mx:VBox>
+				</mx:VBox>
+			</mx:AddChild>
+			<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+		
 		<mx:State name="Image">
 	   		<mx:AddChild relativeTo="{questionPanel}">
 	   		<mx:VBox width="100%" height="100%" styleName="previewPanel" keyUp="onKeyUp_quest(event, Question.QUESTION_IMAGE)" verticalGap="0">
@@ -308,12 +371,12 @@
 
 
 	<mx:HBox width="100%" height="100%" horizontalGap="8" styleName="gridPanel">
-		<mx:VBox height="100%" styleName="previewPanel" width="318" cornerRadius="6">
+		<mx:VBox height="120%" styleName="previewPanel" width="318" cornerRadius="6">
 			<mx:ApplicationControlBar height="22" width="100%" styleName="previewCtrlBar">
 				<mx:Label styleName="clearText" fontWeight="bold"
 					text="{ConfigI18n.getInstance().getStringFile('editorResources', 'SURVEY_QUEST_PANEL')}"/>
 			</mx:ApplicationControlBar>
-			<mx:VBox width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+			<mx:VBox width="100%" height="354" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
 				<mx:HBox width="100%" horizontalGap="0">
 					<mx:VBox height="100%" width="98">
 						<mx:Button id="btnNewCategory" width="85" height="22"
@@ -323,7 +386,7 @@
 							click="questTree.onItemClick(this, 0)"/>
 					</mx:VBox>
 					<mx:VBox>
-						<mx:HBox horizontalGap="13" width="209">
+						<mx:HBox horizontalGap="7">
 							<mx:Button id="_str" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_STRING')}"
 								click="questTree.onItemClick(this, Question.QUESTION_STRING)" styleName="iconButton">
@@ -354,12 +417,12 @@
 								<mx:overSkin>@Embed(source='main/resources/images/editor/date-new_tmp_pressed.png')</mx:overSkin>
 								<mx:skin>@Embed(source='main/resources/images/editor/date-new_tmp.png')</mx:skin>
 							</mx:Button>
-						   <!-- <mx:Button id="_time" width="22" height="22"
+							<mx:Button id="_time" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_TIME')}"
 								click="questTree.onItemClick(this, Question.QUESTION_TIME)" styleName="iconButton">
-								<mx:overSkin>@Embed(source='main/resources/images/editor/time-new_tmp_pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/time-new_tmp.png')</mx:skin>
-							</mx:Button>-->
+								<mx:overSkin>@Embed(source='main/resources/images/editor/time_icon-pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='main/resources/images/editor/time_icon-tmp.png')</mx:skin>
+							</mx:Button>
 							<mx:Button id="_img" width="22" height="22" 
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_IMAGE')}"
 								click="questTree.onItemClick(this, Question.QUESTION_IMAGE)" styleName="iconButton">
@@ -538,6 +601,15 @@
     	minLength="1" maxLength="200"
     	valid="{btnOk_DateQuestion.enabled = true}" 
      	invalid="{btnOk_DateQuestion.enabled = false}"
+    />
+    
+    <!-- Time Question Type-->
+    <mx:StringValidator id="_timeValidator_question" source="{txtQuestionTime}" property="text" 
+        requiredFieldError="{ConfigI18n.getInstance().getStringFile('editorResources', 'REQUIRED_FIELD')}"
+        tooLongError="{ConfigI18n.getInstance().getStringFile('editorResources', 'TOO_LONG_ERROR')}"
+    	minLength="1" maxLength="200"
+    	valid="{btnOk_TimeQuestion.enabled = true}" 
+     	invalid="{btnOk_TimeQuestion.enabled = false}"
     />
     
     <!-- Image Question Type-->

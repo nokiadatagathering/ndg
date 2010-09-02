@@ -20,7 +20,7 @@ package main.br.org.indt.ndg.controller.editor
 	import flash.events.Event;
 	
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
-	import main.br.org.indt.ndg.ui.view.editor.*;	
+	import main.br.org.indt.ndg.ui.view.editor.*;
 
 	public class ChoiceItemHelper
 	{
@@ -48,8 +48,24 @@ package main.br.org.indt.ndg.controller.editor
 			mainView.lstChoices.dataProvider = Question.populateList(node);
 		}
 		
+
+		//Inicio Kivia Ramos
+		
+		public function handleAddCSVItemEvent(mobisusEvent:Event): void
+		{
+			var controllerEvent:ControllerEvent = mobisusEvent as ControllerEvent;
+			mainView = controllerEvent.getPayload().getView() as EditorEditSurveys;
+			var node:XML = TreeHelper.getInstance().getSelectedNode();
+			var nIndex:int = Question.getChoiceItensCountByQuestion(node);
+			var szChoice:String = controllerEvent.getPayload().getChoice(); 
+			Question.addCSVItem(node, nIndex, szChoice);
+			mainView.lstChoices.dataProvider = Question.populateList(node);
+		}
+		
+		//Fim Kivia Ramos
+		
 		public function handleEditChoiceItemEvent(mobisusEvent:Event): void
-		{		
+		{	
 			var controllerEvent:ControllerEvent = mobisusEvent as ControllerEvent;
 			mainView = controllerEvent.getPayload().getView() as EditorEditSurveys;
 

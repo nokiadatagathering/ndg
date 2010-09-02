@@ -40,7 +40,6 @@
 	
 	<mx:Script source="MainController.as"/>
 	
-	
 	<mx:Canvas x="0" y="0" width="100%" height="248">
 		<mx:borderSkin>@Embed(source='main/resources/images/HEADER_1PX_LINE.png')</mx:borderSkin>
 	</mx:Canvas>

@@ -78,7 +78,7 @@
             		node = Category.getQuestion(catIndex, questIndex);
             		if (node != null)
             		{
-	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE) )
+	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.TIME_TYPE) || (node.@type == Question.IMAGE_TYPE) )
 	            		{
 	            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
 	            		}
@@ -123,7 +123,7 @@
 	            	node = Category.getQuestion(catIndex, questIndex);
 	        		if (node != null)
 	        		{
-	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE) )
+	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.TIME_TYPE) || (node.@type == Question.IMAGE_TYPE) )
 	            		{
 	            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
 	            		}
@@ -160,7 +160,7 @@
 	            	node = Category.getQuestion(catIndex, questIndex);
 	        		if (node != null)
 	        		{
-	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE) )
+	            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.TIME_TYPE) || (node.@type == Question.IMAGE_TYPE) )
 	            		{
 	            			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
 	            		}
@@ -184,7 +184,7 @@
             	
         		if (node != null)
         		{
-            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE))
+            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.TIME_TYPE) || (node.@type == Question.IMAGE_TYPE))
             		{
             			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
             		}
@@ -208,7 +208,7 @@
 
         		if (node != null)
         		{
-            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.IMAGE_TYPE))
+            		if ( (node.@type == Question.STRING_TYPE) || (node.@type == Question.INTEGER_TYPE) || (node.@type == Question.DECIMAL_TYPE) || (node.@type == Question.DATE_TYPE) || (node.@type == Question.TIME_TYPE) || (node.@type == Question.IMAGE_TYPE))
             		{
             			previewQuestion.showSimpleQuestion(node, mainView.cmbDevice.text);
             		}

@@ -32,12 +32,18 @@
 
 	
 	private function init():void{
+		
 		headerBeforeLoginView.addEventListener(LocaleEvent.EVENT_NAME, selectLocale);
 		ConfigI18n.getInstance().setCurrentLocale(ConfigI18n.en_US);
 		
 		remoteGetMode();
 		remoteGetVersion();
 		remoteGetSmsSupport();
+		
+		//Kivia Ramos - Deixar que passe todo dominio
+        //Security.allowDomain();
+        //Security.allowInsecureDomain();
+     
 	}
 	
 	private function selectLocale(event:LocaleEvent):void{

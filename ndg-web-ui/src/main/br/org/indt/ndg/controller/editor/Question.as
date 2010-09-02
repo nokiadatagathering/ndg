@@ -17,9 +17,8 @@
 
 package main.br.org.indt.ndg.controller.editor
 {
-	import mx.collections.ArrayCollection;
-	import main.br.org.indt.ndg.controller.editor.*;
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
+	import mx.collections.ArrayCollection;
 	
 	public class Question
 	{
@@ -29,15 +28,16 @@ package main.br.org.indt.ndg.controller.editor
 		public static const INTEGER_TYPE:String = "_int";
 		public static const DECIMAL_TYPE:String = "_decimal";
 		public static const DATE_TYPE:String = "_date";
+		public static const TIME_TYPE:String = "_time";
 		public static const IMAGE_TYPE:String = "_img";
 		
 		public static const QUESTION_STRING:int = 1;
 		public static const QUESTION_INTEGER:int = 2;
 		public static const QUESTION_DATE:int = 3;
-		public static const QUESTION_CHOICE:int = 4;
-		public static const QUESTION_CHOICE_EXCLUSIVE:int = 5;
-		public static const QUESTION_IMAGE:int = 6;
-		//public static const QUESTION_TIME:int = 7;
+		public static const QUESTION_TIME:int = 4;
+		public static const QUESTION_CHOICE:int = 5;
+		public static const QUESTION_CHOICE_EXCLUSIVE:int = 6;
+		public static const QUESTION_IMAGE:int = 7;
 		
 		public static const QUESTION_DEFAULT_DISPLAY_NAME:String = ConfigI18n.getInstance().getStringFile("editorResources", "NEW_QUESTION");
 		
@@ -58,6 +58,7 @@ package main.br.org.indt.ndg.controller.editor
         	var editable:Boolean = true;
         	var min:String = "";
         	var max:String = "";
+        	var convention:String = "";
         	var description:String = Question.QUESTION_DEFAULT_DISPLAY_NAME;
         	var choice_item:String = ConfigI18n.getInstance().getStringFile("editorResources", "CHOICE");
         	
@@ -99,6 +100,12 @@ package main.br.org.indt.ndg.controller.editor
 					        	<description>{description}</description>
 					      </question>;				
 			}
+			else if (type == TIME_TYPE)
+			{
+				content = <question id={index} type={type} field={""} direction={"in"} editable={editable} convention={convention}>
+					        	<description>{description}</description>
+					      </question>;				
+			}
 			else if (type == IMAGE_TYPE)
 			{
 				content = <question id={index} type={type} field={""} direction={"in"} editable={editable}>
@@ -135,6 +142,10 @@ package main.br.org.indt.ndg.controller.editor
 			else if(questionType ==  DATE_TYPE)
 			{
 				editDateQuestion(question, attributes);
+			}
+			else if(questionType ==  TIME_TYPE)
+			{
+				editTimeQuestion(question, attributes);
 			}
 			else if(questionType ==  IMAGE_TYPE)
 			{
@@ -192,6 +203,16 @@ package main.br.org.indt.ndg.controller.editor
         	question.@min = attributes.getMinRange();
         	question.@max = attributes.getMaxRange();        	
         	/* question.@field = attributes.getMLCField();
+        	question.@direction = attributes.getMLCDirection(); */
+        	question.@editable = (attributes.getMLCEditable() == true) ? "true" : "false";
+        }
+        
+        private static function editTimeQuestion(question:XML, attributes:AttributeList):void
+        {
+        	question.description = attributes.getDescription();
+        	//Inicio Kivia Ramos mudar
+        	question.@convention = attributes.getFormatTime();
+            /* question.@field = attributes.getMLCField();
         	question.@direction = attributes.getMLCDirection(); */
         	question.@editable = (attributes.getMLCEditable() == true) ? "true" : "false";
         }
@@ -283,6 +304,20 @@ package main.br.org.indt.ndg.controller.editor
 			node.item[nIndex].@otr = "0";
 		}
 		
+		//Inicio Kivia Ramos
+		public static function addCSVItem(node:XML, nIndex:int, szChoice:String):void
+		{
+			node.item[nIndex] = szChoice.toString();
+			node.item[nIndex].@otr = "0";
+		}
+		
+		public static function addStringItem(node:XML, nIndex:int, szString:String):void
+		{
+			node.item[nIndex] = szString.toString();
+			node.item[nIndex].@otr = "0";
+		}
+		//Fim Kivia Ramos
+		
 		public static function editChoiceItem(node:XML, choiceIndex:int, txtChoiceItem:String, intOtr:int):void 
 		{
 			node.item[choiceIndex] = txtChoiceItem;
@@ -308,6 +343,7 @@ package main.br.org.indt.ndg.controller.editor
 				  }
 		     } 
 		}
+		
 		
 		public static function populateList(question: XML):ArrayCollection
 		{

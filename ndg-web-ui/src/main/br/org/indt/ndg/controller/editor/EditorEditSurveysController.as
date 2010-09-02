@@ -31,7 +31,7 @@
 	import mx.events.*;
 	import mx.managers.PopUpManager;
 	import mx.utils.StringUtil;
-
+	
 	[Bindable] private var searchOptionsFields:ArrayCollection = null;
 	[Bindable] private var searchOptionsLabels:ArrayCollection = null;
 	
@@ -43,20 +43,27 @@
 	private var lastState:String = ""; // hold the last state
 	private var win:PreviewWin = null; // run survey preview window
 	
+	
 	public static const CATEGORY_STATE:String = "Category";
 	public static const CHOICE_EXCLUSIVE_STATE:String = "ChoiceExclusive";
 	public static const DATE_STATE:String = "Date";
+	public static const TIME_STATE:String = "Time";
 	public static const INTEGER_STATE:String = "Integer";
 	public static const IMAGE_STATE:String = "Image";
 	public static const STRING_STATE:String = "String";
 	public static const SURVEYNAME_STATE:String = "EditSurveyName";
 	
 	public var selectedAlternative:String = "";
+	public var editClean:Boolean = false;
 	public var myStack:ViewStack = null;
 
+    private var fileRef:FileReference = new FileReference();
+    //private var szValueTime:String = "";
+    public static var szChoice:String = "";
 
 
 	private function init(mainGUIReference:Object):void {
+		
 		searchOptionsLabels = new ArrayCollection();
 		searchOptionsLabels.addItem(ConfigI18n.getInstance().getStringFile("editorResources", "comboSearchAll"));
 		searchOptionsLabels.addItem(ConfigI18n.getInstance().getStringFile("editorResources", "colResultId"));
@@ -72,6 +79,7 @@
 		Alert.noLabel = ConfigI18n.getInstance().getStringFile("editorResources", "NO");
 		Alert.cancelLabel = ConfigI18n.getInstance().getStringFile("editorResources", "CANCEL");
 		Alert.buttonWidth = 80;
+		
 	}		
 	
 	public function editSurvey(survey:SurveyDTO):void{
@@ -126,6 +134,7 @@
 	}
 	
 	private function resetView():void{
+		
 		setModifiedSurvey(false);
 		
 		//reset tree
@@ -400,6 +409,8 @@
 		var attributes:AttributeList = new AttributeList();
 		attributes.setDescription(txtQuestion.text);
 		attributes.setLength(txtQuestionString_Length.text);
+		
+		this.txtPathStringFile.text = "";
 				
 		var payload:Payload = new Payload();
 		payload.setQuestionAttribute(attributes);
@@ -410,10 +421,12 @@
 	
 	public function editChoiceQuestion(): void{
 		cmbDeviceOnChange();
-		
+
 		var attributes:AttributeList = new AttributeList();
 		attributes.setDescription(txtQuestionExclusive.text);
 		attributes.setExclusivity(ckBox_ChoiceExclusive.selected);
+		
+		this.txtPathFile.text = "";
 		
 		var payload:Payload = new Payload();
 		payload.setQuestionAttribute(attributes);
@@ -447,6 +460,27 @@
 		attributes.setMinRange(DateField.dateToString(txtMinRange_date.selectedDate, "DD/MM/YYYY"));
 		attributes.setMaxRange(DateField.dateToString(txtMaxRange_date.selectedDate, "DD/MM/YYYY"));
 				
+		var payload:Payload = new Payload();
+		payload.setQuestionAttribute(attributes);
+		payload.setView(this);
+		
+		dispatchControllerEvent(EventTypes.EDIT_QUESTION_EVENT, payload);	
+	}
+	
+	
+	private function editTimeQuestion(): void{
+		cmbDeviceOnChange();
+		
+		var attributes:AttributeList = new AttributeList();
+		attributes.setDescription(txtQuestionTime.text);
+
+		if (ckBox24_time.selected)
+		   attributes.setFormatTime("24");
+		else if (ckBoxAMPM_time.selected)
+		   attributes.setFormatTime("12");
+		else
+		   attributes.setFormatTime("24");
+
 		var payload:Payload = new Payload();
 		payload.setQuestionAttribute(attributes);
 		payload.setView(this);
@@ -526,7 +560,8 @@
 		}
 	}
 	
-	private function addChoiceItem():void{		
+	private function addChoiceItem():void
+	{		
 		var payload:Payload = new Payload();
 		payload.setView(this);
 		var event:ControllerEvent = new ControllerEvent(EventTypes.ADD_CHOICEITEM_EVENT, payload);
@@ -534,12 +569,170 @@
 		
 	}
 	
+	//Inicio Kivia Ramos - Search, Upload CSV File and Clear List
+	
+    private function searchCSV():void
+	{		
+		import flash.net.FileReference;
+
+        var csvTypes:FileFilter = new FileFilter("CSV Files (*.csv)", "*.csv");
+        var allTypes:Array = new Array(csvTypes);
+        fileRef.browse(allTypes);
+        // rdiniz
+		fileRef.addEventListener(Event.SELECT, handleSelectedFile);
+		fileRef.addEventListener(Event.COMPLETE, completeHandler);
+    } 	
+    
+    private function searchStringCSV():void
+	{		
+		import flash.net.FileReference;
+
+        var csvStringTypes:FileFilter = new FileFilter("CSV Files (*.csv)", "*.csv");
+        var allStringTypes:Array = new Array(csvStringTypes);
+        fileRef.browse(allStringTypes);
+        // rdiniz
+		fileRef.addEventListener(Event.SELECT, handleSelectedFile);
+		fileRef.addEventListener(Event.COMPLETE, completeStringHandler);
+    }
+    
+    private function completeStringHandler(event:Event):void 
+    { 
+       this.txtPathStringFile.text = fileRef.name;
+       
+       var importFileLines:Array = event.target.data.toString().split("\r\n");
+       var szData:String = "";
+       for (var i:int = 0; i < importFileLines.length; i++) 
+       {
+       	  szData = importFileLines[i].toString();
+       	  
+       	  if ( szData.charCodeAt(0) == 34 )
+       	  {
+            szChoice = szData.substr(1,szData.length-2);
+       	  }
+       	  else if ( szData == "" )
+       	  {
+       	  	break;
+       	  }
+       	  else
+       	  {
+       	    szChoice = szData;
+       	  }
+       	  
+       	  addStringItem(szChoice);
+       	  
+       }
+    }  
+    
+	//rdiniz
+	private function handleSelectedFile(event:Event):void 
+	{
+       try 
+       {
+          fileRef.load(); 
+       }
+       catch (error:IOError) 
+       {
+          trace ("IOError to load requested document."); 
+       }  
+       catch (error:Error) 
+       {
+          trace ("Unable to load requested document."); 
+       } 
+	}
+
+	
+    private function completeHandler(event:Event):void 
+    { 
+       // ";" deve ser um constante
+       this.txtPathFile.text = fileRef.name;
+       
+       var importFileLines:Array = event.target.data.toString().split("\r\n");
+       var szData:String = "";
+       for (var i:int = 0; i < importFileLines.length; i++) 
+       {
+       	  szData = importFileLines[i].toString();
+       	  
+       	  if ( szData.charCodeAt(0) == 34 )
+       	  {
+            szChoice = szData.substr(1,szData.length-2);
+       	  }
+       	  else if ( szData == "" )
+       	  {
+       	  	break;
+       	  }
+       	  else
+       	  {
+       	    szChoice = szData;
+       	  }
+       	  
+       	  addCSVItem(szChoice);
+       }
+       
+       for (var x:int = 0; x < 2; x++)
+       {
+          if (lstChoices.dataProvider[0].toString().substr(0,6) == "Choice")
+          {
+		     var attributes:AttributeList = new AttributeList();
+		     attributes.setSelectedChoiceItem(0);
+			
+		     var payload:Payload = new Payload();
+		     payload.setQuestionAttribute(attributes);
+		     payload.setView(this);
+	
+		     var event1:ControllerEvent = new ControllerEvent(EventTypes.REMOVE_CHOICEITEM_EVENT, payload);
+		     FrontController.getInstance().dispatch(event1);
+          }
+       }
+       
+    } 
+    
+    private function addCSVItem(szChoice:String):void
+	{		
+		var payload:Payload = new Payload();
+		payload.setView(this);
+		payload.setChoice(szChoice);
+		var event:ControllerEvent = new ControllerEvent(EventTypes.ADD_CSV_ITEM_EVENT, payload);
+		FrontController.getInstance().dispatch(event);
+	}
+	
+	private function addStringItem(szString:String):void
+	{		
+		var payload:Payload = new Payload();
+		payload.setView(this);
+		payload.setChoice(szString);
+		var event:ControllerEvent = new ControllerEvent(EventTypes.ADD_STRINGITEM_EVENT, payload);
+		FrontController.getInstance().dispatch(event);
+	}
+	
+	private function clearChoiceItem():void
+	{
+		for (var i:int = lstChoices.dataProvider.length; i >= 0; i--) 
+		{
+			var attributes:AttributeList = new AttributeList();
+			attributes.setSelectedChoiceItem(i);
+			
+			var payload:Payload = new Payload();
+			payload.setQuestionAttribute(attributes);
+			payload.setView(this);
+	
+			var event:ControllerEvent = new ControllerEvent(EventTypes.REMOVE_CHOICEITEM_EVENT, payload);
+			FrontController.getInstance().dispatch(event);
+		}
+		
+		addChoiceItem();
+		addChoiceItem();
+	}
+	
+	//Fim Kivia Ramos
+	
 	private function showChoiceItem():void{
 		if (lstChoices.selectedIndex >= 0){
 			selectedAlternative = lstChoices.selectedItem.toString();
-			
+
 			var attributes:AttributeList = new AttributeList();
 			attributes.setSelectedChoiceItem(lstChoices.selectedIndex);
+			editClean = true;
+			//attributes.setDescription(selectedAlternative);
 			
 			// Get mouse position
 			var point1:Point = new Point();
@@ -550,9 +743,11 @@
 			var payload:Payload = new Payload();
 			payload.setQuestionAttribute(attributes);
 			payload.setView(this);
-	
-			var event:ControllerEvent = new ControllerEvent(EventTypes.SHOW_CHOICEITEM_EVENT, payload);
-			FrontController.getInstance().dispatch(event);
+			
+			//var event:ControllerEvent = new ControllerEvent(EventTypes.SHOW_CHOICEITEM_EVENT, payload);
+			//FrontController.getInstance().dispatch(event);
+			
+			dispatchControllerEvent(EventTypes.SHOW_CHOICEITEM_EVENT, payload);
 		} else {
 			Alert.show(ConfigI18n.getInstance().getStringFile("editorResources", "CHOICEITEM_NOT_SELECTED"), 
 				ConfigI18n.getInstance().getStringFile("editorResources", "lblError"), 4, this);
@@ -593,15 +788,14 @@
 	private function maxRangeClick_date():void{
 		txtMaxRange_date.enabled = ckBoxMaxRange_date.selected;
 		txtMaxRange_date.enabled ? txtMaxRange_date.setFocus() : txtMaxRange_date.selectedDate = null;
-	}	
-	
-	
+	}
 	
 	/* icons --------------------------- */
 	
 	[Embed("../../../../../../../resources/images/editor/string-tmp-16x16.png")] private var icoStrType:Class;
 	[Embed("../../../../../../../resources/images/editor/int-tmp-16x16.png")] private var icoIntType:Class;
 	[Embed("../../../../../../../resources/images/editor/date-tmp-16x16.png")] private var icoDateType:Class;
+	[Embed("../../../../../../../resources/images/editor/time-tmp-16x16.png")] private var icoTimeType:Class;
 	[Embed("../../../../../../../resources/images/editor/image-tmp-16x16.png")] private var icoImageType:Class;
 	[Embed("../../../../../../../resources/images/editor/choice-tmp-16x16.png")] private var icoChoiceMultType:Class;
 	[Embed("../../../../../../../resources/images/editor/choice-excl-tmp-16x16.png")] private var icoChoiceExclType:Class;
@@ -614,6 +808,8 @@
 			return icoIntType;
 		} else if (questType == Question.DATE_TYPE) {
 			return icoDateType;
+        } else if (questType == Question.TIME_TYPE) {
+			return icoTimeType;			
 		} else if (questType == Question.IMAGE_TYPE) {
 			return icoImageType;
 		} else if (questType == Question.CHOICE_TYPE) {
@@ -645,6 +841,8 @@
 					if (isQuestionValid(selectedNode.@type)) editIntegerQuestion();
 				} else if (selectedNode.@type == Question.DATE_TYPE) {
 					if (isQuestionValid(selectedNode.@type)) editDateQuestion();
+				} else if (selectedNode.@type == Question.TIME_TYPE) {
+					if (isQuestionValid(selectedNode.@type)) editTimeQuestion();	
 				} else if (selectedNode.@type == Question.IMAGE_TYPE){
 					if (isQuestionValid(selectedNode.@type)) editImageQuestion();
 				}
@@ -660,15 +858,11 @@
 	
 	private function dispatchControllerEvent(type:String, payload:Payload):void	{
 		var event:ControllerEvent = new ControllerEvent(type, payload);
-		FrontController.getInstance().dispatch(event);		
+		FrontController.getInstance().dispatch(event);
 	}
 
 
-	
 
-	
-
-	
 	private function onKeyUp_quest(event:KeyboardEvent, nIndex:int):void
 	{
 		if (event.keyCode == 13) // Enter KEY
@@ -680,6 +874,7 @@
 				case Question.QUESTION_CHOICE: if (btnOK_EditChoiceQuestion.enabled) editChoiceQuestion(); break;
 				case Question.QUESTION_INTEGER: if (btnOk_IntegerQuestion.enabled) editIntegerQuestion(); break;
 				case Question.QUESTION_DATE: if (btnOk_DateQuestion.enabled) editDateQuestion(); break;
+				case Question.QUESTION_TIME: if (btnOk_TimeQuestion.enabled) editTimeQuestion(); break;
 				case Question.QUESTION_IMAGE: if (btnOk_ImageQuestion.enabled) editImageQuestion(); break;
 			}
 		}
@@ -719,6 +914,7 @@
 				case Question.QUESTION_CHOICE: if (txtQuestionExclusive.text == Question.QUESTION_DEFAULT_DISPLAY_NAME) EditorEditSurveys.TextAreaSelectField(txtQuestionExclusive); break;
 				case Question.QUESTION_INTEGER: if (txtQuestionInteger.text == Question.QUESTION_DEFAULT_DISPLAY_NAME) EditorEditSurveys.TextAreaSelectField(txtQuestionInteger); break;
 				case Question.QUESTION_DATE: if (txtQuestionDate.text == Question.QUESTION_DEFAULT_DISPLAY_NAME) EditorEditSurveys.TextAreaSelectField(txtQuestionDate); break;
+				case Question.QUESTION_TIME: if (txtQuestionTime.text == Question.QUESTION_DEFAULT_DISPLAY_NAME) EditorEditSurveys.TextAreaSelectField(txtQuestionTime); break;
 				case Question.QUESTION_IMAGE: if (txtQuestion_img.text == Question.QUESTION_DEFAULT_DISPLAY_NAME) EditorEditSurveys.TextAreaSelectField(txtQuestion_img); break;
 			}
     	}
@@ -731,6 +927,7 @@
 				case Question.QUESTION_CHOICE: if (StringUtil.trim(txtQuestionExclusive.text).length == 0) txtQuestionExclusive.text = Question.QUESTION_DEFAULT_DISPLAY_NAME; break;
 				case Question.QUESTION_INTEGER: if (StringUtil.trim(txtQuestionInteger.text).length == 0) txtQuestionInteger.text = Question.QUESTION_DEFAULT_DISPLAY_NAME; break;
 				case Question.QUESTION_DATE: if (StringUtil.trim(txtQuestionDate.text).length == 0) txtQuestionDate.text = Question.QUESTION_DEFAULT_DISPLAY_NAME; break;
+				case Question.QUESTION_TIME: if (StringUtil.trim(txtQuestionTime.text).length == 0) txtQuestionTime.text = Question.QUESTION_DEFAULT_DISPLAY_NAME; break;
 				case Question.QUESTION_IMAGE: if (StringUtil.trim(txtQuestion_img.text).length == 0) txtQuestion_img.text = Question.QUESTION_DEFAULT_DISPLAY_NAME; break;
 			}
     	}
@@ -805,6 +1002,15 @@
                 result = true;
             }
         }
+        else if (type == Question.TIME_TYPE)
+        {
+            _timeValidator_question.validate();
+            
+            if (btnOk_TimeQuestion.enabled)
+            {
+                result = true;
+            }
+        }
         else if (type == Question.IMAGE_TYPE)
         {
             _imageValidator_question.validate();
@@ -818,8 +1024,6 @@
 		return result;
 	}
 	
-
-    
     private function handleNumberTypeChange(event:ItemClickEvent):void
     {
     	if (event.currentTarget.selectedValue == "int") 

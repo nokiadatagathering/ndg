@@ -35,6 +35,7 @@ package main.br.org.indt.ndg.controller.editor
 		private var minRange:String;
 		private var maxRange:String;
 		private var decimalAllowed:Boolean;
+		private var formatTime:String;
 		
 		public function AttributeList()
 		{}
@@ -157,6 +158,16 @@ package main.br.org.indt.ndg.controller.editor
 		public function getMinRange():String
 		{
 			return minRange;
+		}
+		
+		public function setFormatTime(val:String):void
+		{
+			formatTime = val;
+		}
+		
+		public function getFormatTime():String
+		{
+			return formatTime;
 		}
 		
 		public function setMaxRange(val:String):void

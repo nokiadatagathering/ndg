@@ -20,7 +20,6 @@ package main.br.org.indt.ndg.controller.editor {
 	
 	import flash.events.Event;
 	
-	
 	public class Payload{
 		
 		private var view:Object;
@@ -28,7 +27,19 @@ package main.br.org.indt.ndg.controller.editor {
 		private var event:Event;
 		private var questionAttributes:AttributeList;
 		private var categoryText:String;
+		private var choice:String;
 				
+		
+		//Inicio Kivia Ramos
+		
+		public function setChoice(szChoice:String):void {
+			this.choice =  szChoice;
+		}
+		
+		public function getChoice():String {
+			return choice;
+		}
+		//Fim Kivia Ramos
 		
 		public function getView():Object{
 			return view;

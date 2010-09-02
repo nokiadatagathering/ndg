@@ -77,12 +77,11 @@ package main.br.org.indt.ndg.controller.editor
 			{
 				// selectedNode = event.itemRenderer.data as XML;
 				selectedNode = mainView.questTree.selectedItem as XML;
-				
 				// handle tree click for Skip Logic			
 				if (QuestionHelper.getInstance().isSkipLogicEnabled())
 				{
 					QuestionHelper.getInstance().handleSkipLogicSelection(currentSelection);
-				}				
+				}
 					
 				if (selectedNode.@type == Question.STRING_TYPE)
 				{
@@ -181,6 +180,33 @@ package main.br.org.indt.ndg.controller.editor
 					//Preview
 					mainView.previewQuestion.showSimpleQuestion(selectedNode, mainView.cmbDevice.text);
 				}
+				else if(selectedNode.@type == Question.TIME_TYPE)
+				{
+					mainView.currentState = EditorEditSurveys.TIME_STATE;
+					mainView.txtQuestionTime.text = selectedNode.description;
+					
+					var strConvention:String = selectedNode.@convention;
+					
+					if (strConvention == "12")
+					   mainView.ckBoxAMPM_time.selected = true;
+					else
+					   mainView.ckBox24_time.selected = true;
+  
+  
+					//Kivia Ramos - Valor do Campo Time
+					/*var strValue:String = selectedNode.@value;
+					
+					if (mainView.ckBoxAMPM_time.selected)
+					   mainView.txt_time.text = strValue + " " + strConvention;
+					else
+						mainView.txt_time.text = strValue;*/
+					
+					//Create and fill MLC Attributes
+					/* mainView.initPopUpButton_date();
+					setMLCAttributes(mainView.titleWin_date); */
+					//Preview
+					mainView.previewQuestion.showSimpleQuestion(selectedNode, mainView.cmbDevice.text);
+				}
 				else if(selectedNode.@type == Question.IMAGE_TYPE)
 				{
 					mainView.currentState = EditorEditSurveys.IMAGE_STATE;
@@ -237,6 +263,12 @@ package main.br.org.indt.ndg.controller.editor
 				mainView.lblFirstQuestion_date.visible = false;
 				if ( (questionID == '1') && (catID == '1') )
 					mainView.lblFirstQuestion_date.visible = true;
+			}
+			else if (questionType == Question.TIME_TYPE)
+			{
+				mainView.lblFirstQuestion_time.visible = false;
+				if ( (questionID == '1') && (catID == '1') )
+					mainView.lblFirstQuestion_time.visible = true;
 			}
 			else if (questionType == Question.IMAGE_TYPE)
 			{
@@ -395,6 +427,11 @@ package main.br.org.indt.ndg.controller.editor
 				{
 					mainView.txtQuestionDate.setFocus();
 					EditorEditSurveys.TextAreaSelectField(mainView.txtQuestionDate);
+				}
+				else if (questionType == Question.TIME_TYPE)
+				{
+					mainView.txtQuestionTime.setFocus();
+					EditorEditSurveys.TextAreaSelectField(mainView.txtQuestionTime);
 				}
 				else if (questionType == Question.IMAGE_TYPE)
 				{

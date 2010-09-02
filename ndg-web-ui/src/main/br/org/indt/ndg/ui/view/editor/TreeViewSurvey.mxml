@@ -98,6 +98,7 @@
 				case Question.QUESTION_STRING: payload.setCategoryText(Question.STRING_TYPE); break;
 				case Question.QUESTION_INTEGER: payload.setCategoryText(Question.INTEGER_TYPE); break;
 				case Question.QUESTION_DATE: payload.setCategoryText(Question.DATE_TYPE); break;
+				case Question.QUESTION_TIME: payload.setCategoryText(Question.TIME_TYPE); break;
 				case Question.QUESTION_CHOICE_EXCLUSIVE: payload.setCategoryText(Question.CHOICE_EXCLUSIVE_TYPE); break;
 				case Question.QUESTION_CHOICE: payload.setCategoryText(Question.CHOICE_TYPE); break;
 				case Question.QUESTION_IMAGE: payload.setCategoryText(Question.IMAGE_TYPE); break;

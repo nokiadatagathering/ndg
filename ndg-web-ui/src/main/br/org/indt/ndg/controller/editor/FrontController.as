@@ -40,6 +40,10 @@ package main.br.org.indt.ndg.controller.editor {
 			addEventListener(EventTypes.REMOVE_CHOICEITEM_EVENT, ChoiceItemHelper.getInstance().handleRemoveChoiceItemEvent);
 			addEventListener(EventTypes.SHOW_CHOICEITEM_EVENT, ChoiceItemHelper.getInstance().handleShowChoiceItemEvent);			
 			addEventListener(EventTypes.SKIP_LOGIC_EVENT, QuestionHelper.getInstance().handleSkipLogicEvent);
+			//Inicio Kivia Ramos
+			addEventListener(EventTypes.ADD_CSV_ITEM_EVENT, ChoiceItemHelper.getInstance().handleAddCSVItemEvent);
+			addEventListener(EventTypes.ADD_STRINGITEM_EVENT, QuestionHelper.getInstance().handleAddStringItemEvent);
+			//Fim Kivia Ramos
 			addEventListener(EventTypes.CLEAR_SKIP_LOGIC_EVENT, QuestionHelper.getInstance().handleClearSkipLogicEvent);
 			addEventListener(EventTypes.MOVEDOWN_QUESTION_EVENT, TreeHelper.getInstance().handleMoveDownQuestionEvent);
 			addEventListener(EventTypes.MOVEUP_QUESTION_EVENT, TreeHelper.getInstance().handleMoveUpQuestionEvent);

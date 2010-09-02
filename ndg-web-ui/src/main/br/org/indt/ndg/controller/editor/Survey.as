@@ -19,7 +19,7 @@ package main.br.org.indt.ndg.controller.editor {
 	
 	
 	import flash.utils.ByteArray;
-	
+	import mx.controls.Alert;
 	import mx.collections.XMLListCollection;
 	
 	
@@ -97,23 +97,68 @@ package main.br.org.indt.ndg.controller.editor {
 			return questionary.@deployed == "true" ? true : false;
 		}
 		
-		public function prepareSave():void {
+		public function prepareSave():String {
 			questionary.@checksum = "";
-				
+			
+			//Kivia Ramos - Gambi para retirar item xmlns
+			var szQuestionary:String = questionary.toXMLString();
+			var szResult:String = "";
+			
+			for (var y:int = 0; y < szQuestionary.length; y++)
+		    {
+		    	if ( (szQuestionary.charCodeAt(y)==32)
+                   &&(szQuestionary.charCodeAt(y+1)==120)
+		    	   &&(szQuestionary.charCodeAt(y+2)==109)
+		    	   &&(szQuestionary.charCodeAt(y+3)==108)
+		    	   &&(szQuestionary.charCodeAt(y+4)==110)
+		    	   &&(szQuestionary.charCodeAt(y+5)==115) )
+		    	{
+		    		y = y + 56;
+		    	}
+		    	
+		    	szResult += szQuestionary.charAt(y);
+		    }
+		    
+		    szQuestionary = szResult;
 			var byteArr:ByteArray = new ByteArray();
-			byteArr.writeUTFBytes(questionary.toXMLString());
+			byteArr.writeUTFBytes(szResult.toString());
 			var strBuf: String = "";
 			for (var i: int = 0; i < byteArr.length; i++){
+				
 				strBuf += String.fromCharCode(byteArr[i]);
 			}
 				
+			
 			var objMD5:ChecksumMD5 = new ChecksumMD5();
 			var strMD5:String = objMD5.calcMD5(strBuf);
-				
+			
 			questionary.@checksum = strMD5;
+			
+			szResult = "";
+			for (var z:int = 0; z < szQuestionary.length; z++)
+		    {
+		    	if ( (szQuestionary.charCodeAt(z)==115)
+                   &&(szQuestionary.charCodeAt(z+1)==117)
+		    	   &&(szQuestionary.charCodeAt(z+2)==109)
+		    	   &&(szQuestionary.charCodeAt(z+3)==61)
+		    	   &&(szQuestionary.charCodeAt(z+4)==34) )
+		    	{
+		    		szResult += szQuestionary.charAt(z);
+		    		szResult += szQuestionary.charAt(z+1);
+		    		szResult += szQuestionary.charAt(z+2);
+		    		szResult += szQuestionary.charAt(z+3);
+		    		szResult += szQuestionary.charAt(z+4);
+		    		szResult += strMD5;
+		    		z = z + 5;
+		    	}
+		    	
+		    	szResult += szQuestionary.charAt(z);
+		    }
+			
 			// var strMD5:String = objMD5.calcMD5("The quick brown fox jumps over the lazy dog");
 			// MD5("The quick brown fox jumps over the lazy dog") 
 			// 9e107d9d372bb6826bd81d3542a419d6
+			return szResult;
 		}
 		
 		// the range of values represented by the uint class is 0 to 4,294,967,295 (2^32-1)
