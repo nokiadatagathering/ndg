@@ -15,6 +15,7 @@
 *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
 */
 
+package br.org.indt.ndg.server.mail;
 
 /**
  * @author samourao
