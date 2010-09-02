@@ -26,5 +26,5 @@ import java.io.Serializable;
  * @created 05-Jun-2007 9:15:02 AM
  */
 public enum FieldType implements Serializable{
-	STR, INT, CHOICE, DATE, EXCLUSIVE, MULTIPLE, DECIMAL, IMAGE
+	STR, INT, CHOICE, DATE, TIME, EXCLUSIVE, MULTIPLE, DECIMAL, IMAGE
 }

@@ -129,6 +129,12 @@ public class ResultWriter
 				answerElement.setAttributeNS(null, "id", String.valueOf(question.getId()));
 				answerElement.setAttributeNS(null, "visited", "false");
 				Field answer = result.getCategories().get(categoryId).getFieldById(question.getId());
+				
+				if (question.getFieldType() == FieldType.TIME) 
+				{
+			       answerElement.setAttributeNS(null, "convention", question.getConvention());
+			       //answerElement.setAttributeNS(null, "value", question.getValueTime());
+				}
 
 				if (question.getFieldType() == FieldType.CHOICE)
 				{

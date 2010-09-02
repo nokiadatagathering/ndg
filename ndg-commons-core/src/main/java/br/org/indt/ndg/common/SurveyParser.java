@@ -115,6 +115,15 @@ public class SurveyParser {
 				question.setId(Integer.parseInt(questionId));
 				String questionType = questionAttr.getNamedItem("type").getNodeValue();
 				question.setXmlType(questionType);
+				
+				if (question.getFieldType() == FieldType.TIME) 
+				{
+					String convention = "";
+					if (questionAttr.getNamedItem("convention") != null)
+						convention = questionAttr.getNamedItem("convention").getNodeValue();
+					question.setConvention(convention);
+				}
+				
 				String field = null;
 				if (questionAttr.getNamedItem("field") != null)
 					field = questionAttr.getNamedItem("field").getNodeValue();

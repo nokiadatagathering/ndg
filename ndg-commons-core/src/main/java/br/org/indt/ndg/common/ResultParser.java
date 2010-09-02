@@ -108,6 +108,13 @@ public class ResultParser {
 			answer.setId(Integer.parseInt(answerId));
 			String answerType = answerAttr.getNamedItem("type").getNodeValue();
 			answer.setXmlType(answerType);
+			
+			if (answer.getXmlType().equals("_time"))
+			{
+			   String answerConvention = answerAttr.getNamedItem("convention").getNodeValue();
+			   answer.setConvention(answerConvention);
+			}
+			
 			if ( answer.getXmlType().equals("_choice") ){
 				NodeList answerChild = nodesAnswer.item(a).getChildNodes();
 				Choice choice = new Choice();

@@ -116,4 +116,18 @@ public class Resources implements Serializable{
 
 		return Resources.toDate(date);
 	}
+	
+	public static String toTime(String szTime, String szConvention)
+	{
+		if (szConvention.toLowerCase().contains("pm"))
+		{
+			szTime = szTime + " PM";
+		}
+		else if (szConvention.toLowerCase().contains("am"))
+		{
+			szTime = szTime + " AM";
+		}
+			
+		return szTime;
+	}
 }

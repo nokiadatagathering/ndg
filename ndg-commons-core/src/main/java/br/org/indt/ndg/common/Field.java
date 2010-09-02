@@ -35,7 +35,7 @@ public class Field implements Serializable
 	private String description;
 	private FieldType fieldType;
 	private String printvalue;
-
+	private String convention;
 	private Choice choice;
 
 	public String getXmlType()
@@ -66,6 +66,11 @@ public class Field implements Serializable
 		{
 			this.elementName = "date";
 			this.type = FieldType.DATE;
+		}
+		else if (xmlType.equals("_time"))
+		{
+			this.elementName = "time";
+			this.type = FieldType.TIME;
 		}
 		else if (xmlType.equals("_decimal"))
 		{
@@ -102,6 +107,11 @@ public class Field implements Serializable
 		{
 			this.elementName = "date";
 			this.xmlType = "_date";
+		}
+		else if (fieldType == FieldType.TIME)
+		{
+			this.elementName = "time";
+			this.xmlType = "_time";
 		}
 		else if (fieldType == FieldType.DECIMAL)
 		{
@@ -187,4 +197,11 @@ public class Field implements Serializable
 		this.printvalue = printvalue;
 	}
 
+	public void setConvention(String convention) {
+		this.convention = convention;
+	}
+
+	public String getConvention() {
+		return convention;
+	}
 }
