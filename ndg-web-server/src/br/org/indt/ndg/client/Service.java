@@ -23,12 +23,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -840,6 +842,8 @@ public class Service {
 					value = field.getValue() == null ? "" : field.getValue();
 				} else if (field.getFieldType() == FieldType.DATE){
 					value = field.getValue() == null ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
+				} else if (field.getFieldType() == FieldType.TIME){
+					value = field.getValue() == null ? "" : Resources.toTime(field.getValue(),field.getConvention());					
 				} else if (field.getFieldType() == FieldType.INT){
 					value = field.getValue() == null ? "0" : field.getValue();	
 				} else if (field.getFieldType() == FieldType.DECIMAL){
@@ -1261,7 +1265,5 @@ public class Service {
 			throw new NDGServerException(UNEXPECTED_SERVER_EXCEPTION);
 		}
 	}
-	
-	
 	
 }

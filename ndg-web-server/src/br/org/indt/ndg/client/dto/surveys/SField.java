@@ -29,6 +29,7 @@ public class SField {
 	private String direction;
 	private String elementName;
 	private String description;
+	private String convention;
 	
 	private SChoice choice; 
 	
@@ -46,6 +47,8 @@ public class SField {
 	    	this.elementName = "item";
 	    } else if (xmlType.equals("_date")) {
 	    	this.elementName = "date";
+	    } else if (xmlType.equals("_time")) {
+	    	this.elementName = "time";	    	
 	    } else if (xmlType.equals("_decimal")) {
 	    	this.elementName = "decimal";
 	    } else if (xmlType.equals("_img")) {
@@ -115,7 +118,13 @@ public class SField {
 	public void setElementName(String elementName) {
 		this.elementName = elementName;
 	}
-	
-	
-	
+
+	public void setConvention(String convention) {
+		this.convention = convention;
+	}
+
+	public String getConvention() {
+		return convention;
+	}
+
 }

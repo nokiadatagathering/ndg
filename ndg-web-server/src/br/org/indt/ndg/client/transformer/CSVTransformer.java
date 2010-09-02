@@ -97,6 +97,8 @@ public class CSVTransformer extends Transformer {
 							value = field.getValue() == null ? "" : field.getValue();
 						} else if (field.getFieldType() == FieldType.DATE){
 							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
+						} else if (field.getFieldType() == FieldType.TIME){
+							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());							
 						} else if (field.getFieldType() == FieldType.INT){
 							value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
 						} else if (field.getFieldType() == FieldType.DECIMAL){
@@ -179,6 +181,8 @@ public class CSVTransformer extends Transformer {
 						value = field.getValue() == null ? "" : field.getValue();
 					} else if (field.getFieldType() == FieldType.DATE){
 						value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
+					} else if (field.getFieldType() == FieldType.TIME){
+						value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());						
 					} else if (field.getFieldType() == FieldType.INT){
 						value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
 					} else if (field.getFieldType() == FieldType.DECIMAL){
