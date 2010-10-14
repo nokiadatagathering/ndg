@@ -684,11 +684,11 @@ public class Service {
 		}
 	}
 	
-	public void sendSurveyGPRS(String username, ArrayList<String> surveys, ArrayList<String> devices) 
+	public void sendSurveyGPRS(String username, ArrayList<String> surveys, ArrayList<String> devices, ArrayList<String> titles) 
 		throws NDGServerException{ 
 	
 		try {
-			msmBD.rationSurveybyGPRS(username, surveys, devices);
+			msmBD.rationSurveybyGPRS(username, surveys, devices, titles);
 		} catch (MSMApplicationException e) {
 			e.printStackTrace();
 			throw new NDGServerException(e.getErrorCode());

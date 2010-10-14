@@ -74,10 +74,12 @@
 	private function sendSurveys(event:MouseEvent):void{
 		var size:int;
 		var surveysIdToSend:Array = new Array();
+        var surveysTitlesToSend:Array = new Array();
 		var msisdnToSend:Array = new Array();
 		var imeisToSend:Array = new Array();
 		var imeiToSend:String;
 		var surveyId:String;
+        var surveyTitle:String;
 		var msisdn:String;
 		var imei:String;
 		var i:int;
@@ -86,7 +88,9 @@
 		size = selectedSurveyList.length;
 		for (i = 0; i<size; i++){
 			surveyId = (selectedSurveyList.getItemAt(i) as SurveyDTO).idSurvey;
+            surveyTitle = (selectedSurveyList.getItemAt(i) as SurveyDTO).title;
 			surveysIdToSend.push(surveyId);
+            surveysTitlesToSend.push(surveyTitle);
 		}
 		
 		// Add all phone nulmber of the selected imeis on list
@@ -112,7 +116,7 @@
     			remoteObject.sendSurveySMS(SessionClass.getInstance().loggedUser.username, surveysIdToSend, msisdnToSend);
         		break;
     		case MODE_GPRS:
-        		remoteObject.sendSurveyGPRS(SessionClass.getInstance().loggedUser.username, surveysIdToSend, imeisToSend);
+        		remoteObject.sendSurveyGPRS(SessionClass.getInstance().loggedUser.username, surveysIdToSend, imeisToSend, surveysTitlesToSend);
         		break;
 		}
 		SessionTimer.getInstance().resetTimer();
@@ -352,6 +356,3 @@
 		searchOptionsFields.addItem(new Array("imei"));
 		searchOptionsFields.addItem(new Array("msisdn"));
 	}
-	
-	
-	

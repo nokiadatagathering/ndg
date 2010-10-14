@@ -547,24 +547,24 @@ public class MSMBusinessDelegate {
 
 	// Send one Survey to N mobiles
 	public void rationSurveybyGPRS(String username,
-			ArrayList<String> listOfSurveys, ArrayList<String> listOfDevices)
+			ArrayList<String> listOfSurveys, ArrayList<String> listOfDevices, ArrayList<String> listOfTitles)
 			throws MSMApplicationException, MSMSystemException {
 		log.debug("listOfSurveys :" + listOfSurveys.toString());
 
 		NdgUser userlogged = findNdgUserByName(username);
 
-		for (String idSurvey : listOfSurveys) {
-			log.debug(">>> Provisionando Survey: " + idSurvey);
+		for (int i = 0; i < listOfSurveys.size(); i++) {
+			log.debug(">>> Provisionando Survey: " + listOfSurveys.get(i) + " - " + listOfTitles.get(i));
 
 			ArrayList<String> devicesToGetNewSurvey = new ArrayList<String>();
 			devicesToGetNewSurvey = surveyHandler.rationSurveybyGPRS(
-					userlogged, idSurvey, listOfDevices);
+					userlogged, listOfSurveys.get(i), listOfDevices);
 
 			if (devicesToGetNewSurvey.size() > 0) {
 				Thread sendNotificationSms = new SendTextSms(
-						SMS_NEW_SURVEY_NOTIFICATION + idSurvey,
+						SMS_NEW_SURVEY_NOTIFICATION + listOfTitles.get(i),
 						devicesToGetNewSurvey, SMSModemHandler.SMS_NORMAL_PORT);
-				sendNotificationSms.setName(idSurvey);
+				sendNotificationSms.setName(listOfTitles.get(i));
 				sendNotificationSms.start();
 			}
 		}
