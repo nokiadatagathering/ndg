@@ -18,7 +18,7 @@
 					click="showEditSurveys(event)" enabled="{pagination.selectedAllItems.length == 1}" buttonMode="true" width="100"/>
 				<mx:Button id="btnDeleteSurvey" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'DELETE_BUTTON')}"
 					height="22"	click="deleteSurvey()" buttonMode="true" width="100"
-					enabled="{!(!(pagination.selectedAllItems.length == 1) || !(getSelectedSurvey().isUploaded == 'N'))}"/>
+					enabled="{pagination.selectedAllItems.length == 1}"/>
 				<mx:Button id="btnMakeAvailableSurvey" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD')}"
 					height="22"	click="makeAvailableSurvey()" buttonMode="true" width="100"
 					enabled="{!(!(pagination.selectedAllItems.length == 1) || !(getSelectedSurvey().isUploaded == 'N'))}"/>

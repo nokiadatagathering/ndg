@@ -106,7 +106,7 @@
 	
 	private function deleteSurvey():void{
 		var dto:SurveyDTO = getSelectedSurvey();
-		if (dto.isUploaded != null && dto.isUploaded.toUpperCase() == "N"){
+		if (dto.isUploaded != null){
 			Alert.yesLabel = ConfigI18n.getInstance().getString("btnYes");
 			Alert.noLabel = ConfigI18n.getInstance().getString("btnNo");
 			Alert.show(ConfigI18n.getInstance().getStringFile("editorResources", "deleteSurveyMessage"),
