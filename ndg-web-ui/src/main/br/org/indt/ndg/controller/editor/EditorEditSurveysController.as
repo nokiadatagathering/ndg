@@ -599,7 +599,7 @@
     { 
        this.txtPathStringFile.text = fileRef.name;
        
-       var importFileLines:Array = event.target.data.toString().split("\r\n");
+       var importFileLines:Array = event.target.data.toString().split("\n");
        var szData:String = "";
        for (var i:int = 0; i < importFileLines.length; i++) 
        {
@@ -646,7 +646,7 @@
        // ";" deve ser um constante
        this.txtPathFile.text = fileRef.name;
        
-       var importFileLines:Array = event.target.data.toString().split("\r\n");
+       var importFileLines:Array = event.target.data.toString().split("\n");
        var szData:String = "";
        for (var i:int = 0; i < importFileLines.length; i++) 
        {
