@@ -251,7 +251,7 @@
 		inputUser.enabled = (edit && neew);
 		inputFirstName.enabled = edit;
 		inputLastName.enabled = edit;
-		inputEmail.enabled = (edit && neew);
+		inputEmail.enabled = (edit);
 		if (edit && !neew && dto.username == dto.userAdmin){
 			comboRoles.enabled = false;
 		} else{

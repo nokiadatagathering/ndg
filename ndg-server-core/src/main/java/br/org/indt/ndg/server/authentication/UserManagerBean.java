@@ -339,6 +339,9 @@ class UserManagerBean implements UserManager {
 			if (userToUpdate.getLastName() != null){
 				user.setLastName(userToUpdate.getLastName());
 			}
+			if (userToUpdate.getEmail() != null) {
+				user.setEmail(userToUpdate.getEmail());
+			}
 			if (userToUpdate.getCountryCode() != null){
 				user.setCountryCode(userToUpdate.getCountryCode());
 			}
