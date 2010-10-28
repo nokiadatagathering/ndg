@@ -135,7 +135,7 @@
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep2Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('main/resources/images/steps/img-step3.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep3')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep3Detail')}" width="100%"/>
 				</mx:VBox>
@@ -162,17 +162,17 @@
 				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
 			</mx:HBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('main/resources/images/steps/img-step4.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep4')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep4Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step2.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('main/resources/images/steps/img-step5.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep5')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep5Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('main/resources/images/steps/img-step6.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep6')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep6Detail')}" width="100%"/>
 				</mx:VBox>
@@ -199,17 +199,17 @@
 				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
 			</mx:HBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('main/resources/images/steps/img-step7.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep7')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep7Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step2.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('main/resources/images/steps/img-step8.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep8')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep8Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('main/resources/images/steps/img-step9.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep9')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep9Detail')}" width="100%"/>
 				</mx:VBox>
