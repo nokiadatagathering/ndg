@@ -1,6 +1,5 @@
 MIDlet-1: Nokia Data Gathering,/resources/images/icon.png,br.org.indt.ndg.mobile.AppMIDlet
 MIDlet-Jar-Size: 612713
-#MIDlet-Jar-URL: ndg.jar
 MIDlet-Name: Nokia Data Gathering
 MIDlet-Permissions-Opt: javax.microedition.io.Connector.file.read, javax.microedition.io.Connector.file.write, javax.microedition.io.PushRegistry, javax.microedition.location.Location, javax.microedition.io.Connector.http, javax.microedition.io.Connector.https, javax.microedition.io.Connector.sms, javax.microedition.location.Orientation, javax.microedition.location.ProximityListener, javax.wireless.messaging.sms.receive, javax.wireless.messaging.sms.send, javax.microedition.media.control.VideoControl.getSnapshot
 MIDlet-Push-1: sms://:50001,br.org.indt.ndg.mobile.AppMIDlet,*
@@ -14,7 +13,6 @@ server-servlet_Context: /ndg-servlets/
 server-servlet_PostResults: PostResults
 server-servlet_ReceiveSurveys: ReceiveSurveys
 server-servlet_RegisterIMEI: RegisterIMEI
-#server-url: http://extindt02.indt.org:13001
 sms-area_code: 92
 sms-country_code: 55
 sms-delay: 10000
