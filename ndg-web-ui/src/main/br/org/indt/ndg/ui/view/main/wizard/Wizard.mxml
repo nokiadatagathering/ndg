@@ -271,7 +271,29 @@
 					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
 				</mx:Button>
 			</mx:HBox>
-		</mx:VBox>								
+		</mx:VBox>
+		
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+				
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallPCDownJadTitle')}" styleName="darkTitle" height="18" fontSize="16" fontWeight="normal"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" styleName="wizardCenterPanel">			
+				<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallPCDownJad')}" width="779" styleName="darkTitle" fontSize="12" fontWeight="bold" textAlign="center"/>
+			</mx:VBox>
+			
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
+					paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+				</mx:Button>
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardNext')}" click="nextStep(event)"
+					labelPlacement="left" paddingLeft="10" paddingRight="10" width="100">
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>									
 
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
@@ -297,7 +319,7 @@
 					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
 				</mx:Button>
 			</mx:HBox>
-		</mx:VBox>		
+		</mx:VBox>	
 								
 	</mx:ViewStack>
 	
