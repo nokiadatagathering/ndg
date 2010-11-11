@@ -150,6 +150,11 @@
 			if (SessionClass.getInstance().hasSmsSupport){
 				Alert.show(ConfigI18n.getInstance().getString("smsLinkJad"),
 					ConfigI18n.getInstance().getString("lblWarning"));
+				
+				var jadURL:String = "http://agile.indt.org:8080/ndg-ota/client/dyn/" + inputPhoneNumber.text +
+					"/ndg.jad"; 
+			    img.source = "http://chart.apis.google.com/chart?cht=qr&chs=170x170&chl=" + 
+					jadURL; 
 			} else{
 				jadDownload(inputPhoneNumber.text);	
 			}
@@ -230,6 +235,7 @@
 			newMode = false;
 			editMode = false;
 			setEditModeStyle(false, false);
+			img.source="";
 		}
 	}
 	
@@ -361,8 +367,8 @@
 					
 					var jadURL:String = "http://agile.indt.org:8080/ndg-ota/client/dyn/" + phoneNumber +
 					"/ndg.jad"; 
-					img.source = "http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=" + 
-					jadURL + "&chld=H|0"; 		
+					img.source = "http://chart.apis.google.com/chart?cht=qr&chs=170x170&chl=" + 
+					jadURL; 		
 			}
 		}
 		

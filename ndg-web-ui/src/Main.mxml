@@ -6,8 +6,7 @@
 	xmlns:requestAccount="main.br.org.indt.ndg.ui.view.access.requestAccount.*"
 	creationComplete="init()"	
 	pageTitle="Nokia Data Gathering"
-	layout="absolute" width="100%" height="100%"
-	horizontalScrollPolicy="off">
+	layout="absolute" width="100%" height="100%">
 	
 	<mx:Style>
 		@font-face{
