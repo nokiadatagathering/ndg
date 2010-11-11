@@ -358,6 +358,11 @@
 				Alert.show(ConfigI18n.getInstance().getString("saveDownloadJad"),
 					ConfigI18n.getInstance().getString("lblWarning"),
 					Alert.OK, null, afterConfirmation);
+					
+					var jadURL:String = "http://agile.indt.org:8080/ndg-ota/client/dyn/" + phoneNumber +
+					"/ndg.jad"; 
+					img.source = "http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=" + 
+					jadURL + "&chld=H|0"; 		
 			}
 		}
 		
@@ -375,7 +380,6 @@
 					ConfigI18n.getInstance().getString("lblError"));
 		}
 	}
-	
 	
 	
 	

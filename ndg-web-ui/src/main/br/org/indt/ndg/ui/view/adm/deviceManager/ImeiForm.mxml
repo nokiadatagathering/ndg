@@ -78,8 +78,6 @@
 	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnAssociatedSurveys')}"
 		enabled="{!(editMode || (dto == null))}" click="showAssociatedSurveys()"/>
 	
-	
-
-	
+	<mx:Image id="img" />	
 	
 </mx:Module>
