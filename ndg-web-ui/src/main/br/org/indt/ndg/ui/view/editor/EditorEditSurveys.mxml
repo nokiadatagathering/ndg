@@ -58,7 +58,7 @@
 					<mx:TextInput id="txtQuestionString_Length" width="80" height="20" editable="true" enabled="true" change="isQuestionValid(Question.STRING_TYPE)" />
 					<mx:HRule width="100%"/>
 					<!-- Inicio Editado Por Kivia Ramos-->
-							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD_CSV')}"/>
+					<!--	<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD_CSV')}"/>
 							<mx:HBox width="280" height="22" horizontalAlign="center">
 							<mx:TextArea id="txtPathStringFile" width="200" height="20"
 								wordWrap="false" editable="false" enabled="true"
@@ -66,7 +66,7 @@
 						    <mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'SEARCH_CSV')}"
 									click="searchStringCSV()" width="70"
 									toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SEARCH_CSV')}"/>
-							</mx:HBox>
+							</mx:HBox> -->
 					<!--Fim Editado Por Kivia Ramos-->
                     <mx:HRule width="100%"/>
 					<mx:TextArea id="lblFirstQuestion_str" width="100%" height="35"

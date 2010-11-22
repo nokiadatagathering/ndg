@@ -410,7 +410,7 @@
 		attributes.setDescription(txtQuestion.text);
 		attributes.setLength(txtQuestionString_Length.text);
 		
-		this.txtPathStringFile.text = "";
+		//this.txtPathStringFile.text = "";
 				
 		var payload:Payload = new Payload();
 		payload.setQuestionAttribute(attributes);
@@ -597,7 +597,7 @@
     
     private function completeStringHandler(event:Event):void 
     { 
-       this.txtPathStringFile.text = fileRef.name;
+       //this.txtPathStringFile.text = fileRef.name;
        
        var importFileLines:Array = event.target.data.toString().split("\n");
        var szData:String = "";
