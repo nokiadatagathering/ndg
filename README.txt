@@ -79,13 +79,9 @@ ndg-server-core/build/ndg-core.ear              $JBOSS_HOME/server/default/deplo
 ndg-server-servlets/build/ndg-servlets.war      $JBOSS_HOME/server/default/deploy
 ndg-web-server/deploy/ndgFlex.war               $JBOSS_HOME/server/default/deploy
 
-conf/email_verification_link.vm                 $JBOSS_HOME/server/default/conf
-conf/mobisus.properties                         $JBOSS_HOME/server/default/conf
 conf/msm-core.properties                        $JBOSS_HOME/server/default/conf
 conf/msm-settings.properties                    $JBOSS_HOME/server/default/conf
 conf/ndg.jad                                    $JBOSS_HOME/server/default/conf
-conf/properties                                 $JBOSS_HOME/server/default/conf
-conf/survey.xml                                 $JBOSS_HOME/server/default/conf
 conf/survey_protocol.properties                 $JBOSS_HOME/server/default/conf
 conf/version.properties                         $JBOSS_HOME/server/default/conf
 
