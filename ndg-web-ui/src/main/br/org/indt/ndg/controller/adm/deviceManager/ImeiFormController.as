@@ -151,7 +151,11 @@
 				Alert.show(ConfigI18n.getInstance().getString("smsLinkJad"),
 					ConfigI18n.getInstance().getString("lblWarning"));
 				
-				var jadURL:String = "http://agile.indt.org:8080/ndg-ota/client/dyn/" + inputPhoneNumber.text +
+				var preUrl:String = ExternalInterface.call("window.location.href.toString");
+				
+				var baseUrl:Array = preUrl.split("/ndgFlex/swf/main.html");
+				
+				var jadURL:String = baseUrl[0] + "/ndg-ota/client/dyn/" + inputPhoneNumber.text +
 					"/ndg.jad"; 
 			    img.source = "http://chart.apis.google.com/chart?cht=qr&chs=170x170&chl=" + 
 					jadURL; 
@@ -365,9 +369,13 @@
 					ConfigI18n.getInstance().getString("lblWarning"),
 					Alert.OK, null, afterConfirmation);
 					
-					var jadURL:String = "http://agile.indt.org:8080/ndg-ota/client/dyn/" + phoneNumber +
-					"/ndg.jad"; 
-					img.source = "http://chart.apis.google.com/chart?cht=qr&chs=170x170&chl=" + 
+				var preUrl:String = ExternalInterface.call("window.location.href.toString");
+				
+				var baseUrl:Array = preUrl.split("/ndgFlex/swf/main.html");
+				
+				var jadURL:String = baseUrl[0] + "/ndg-ota/client/dyn/" + inputPhoneNumber.text +
+					"/ndg.jad";
+			    img.source = "http://chart.apis.google.com/chart?cht=qr&chs=170x170&chl=" + 
 					jadURL; 		
 			}
 		}
