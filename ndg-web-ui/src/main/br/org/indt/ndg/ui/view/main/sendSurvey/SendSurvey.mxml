@@ -55,8 +55,8 @@
 				</mx:Button>
 				<mx:Button id="sms" label="{ConfigI18n.getInstance().getString('btnModeSMS')}" width="110" height="60"
 					click="modeSelected(event)" styleName="wizardClearButton"
-					visible="{SessionClass.getInstance().hasSmsSupport}"
-					includeInLayout="{SessionClass.getInstance().hasSmsSupport}">
+					visible="false"
+					includeInLayout="false">
 					<mx:icon>@Embed(source='/main/resources/images/POPUP_SMS_ICON.png')</mx:icon>
 				</mx:Button>
 				<mx:Button id="gprs" label="{ConfigI18n.getInstance().getString('btnModeInternet')}" width="110" height="60"
