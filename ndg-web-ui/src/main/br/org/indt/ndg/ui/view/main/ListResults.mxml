@@ -30,7 +30,7 @@
 			</mx:HBox>
 			<mx:HBox verticalAlign="middle" horizontalGap="2">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMap')}" height="22" id="btnMap" width="80"
-					click="showMap()" enabled="{pagination.selectedAllItems.length == 1}"/>
+					click="showMap()" enabled="{pagination.selectedAllItems.length >= 1}"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMapAll')}" height="22" id="btnMapAll" width="80"
 					click="showMapAll()"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExport')}" height="22" id="btnExport"
