@@ -18,6 +18,7 @@
 	
 	import flash.events.Event;
 	import flash.geom.Point;
+	import flash.net.getClassByAlias;
 	
 	import main.br.org.indt.ndg.controller.access.SessionTimer;
 	import main.br.org.indt.ndg.controller.editor.*;
@@ -28,6 +29,7 @@
 	import mx.collections.ArrayCollection;
 	import mx.containers.ViewStack;
 	import mx.controls.Alert;
+	import mx.controls.List;
 	import mx.events.*;
 	import mx.managers.PopUpManager;
 	import mx.utils.StringUtil;
@@ -46,6 +48,8 @@
 	
 	public static const CATEGORY_STATE:String = "Category";
 	public static const CHOICE_EXCLUSIVE_STATE:String = "ChoiceExclusive";
+	public static const CHOICE_EXCLUSIVE_RADIO_STATE:String = "ChoiceExRadio";
+	public static const CHOICE_EXCLUSIVE_CHECK_STATE:String = "ChoiceExCheckBox";
 	public static const DATE_STATE:String = "Date";
 	public static const TIME_STATE:String = "Time";
 	public static const INTEGER_STATE:String = "Integer";
@@ -60,6 +64,8 @@
     private var fileRef:FileReference = new FileReference();
     //private var szValueTime:String = "";
     public static var szChoice:String = "";
+
+	public var lstChoices:List  = null;
 
 
 	private function init(mainGUIReference:Object):void {
@@ -81,6 +87,15 @@
 		Alert.buttonWidth = 80;
 		
 	}		
+
+	public function setChoiceList(isExclusive:Boolean) :void {
+		if(isExclusive){
+			lstChoices = lstChoicesRadio;
+		}
+		else{
+			lstChoices = lstChoicesCheck;
+		}
+	}
 	
 	public function editSurvey(survey:SurveyDTO):void{
 		lblTitle.text = ConfigI18n.getInstance().getStringFile('editorResources', 'EDIT_SURVEY_STATUS');
@@ -493,6 +508,7 @@
 		
 		var attributes:AttributeList = new AttributeList();
 		attributes.setDescription(txtQuestion_img.text);
+		attributes.setImageMaxCount(numericImageCount.value);
 				
 		var payload:Payload = new Payload();
 		payload.setQuestionAttribute(attributes);

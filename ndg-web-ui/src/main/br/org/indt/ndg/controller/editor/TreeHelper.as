@@ -20,12 +20,15 @@ package main.br.org.indt.ndg.controller.editor
 	import flash.events.Event;
 	
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
+	import main.br.org.indt.ndg.ui.component.renderes.*;
 	import main.br.org.indt.ndg.ui.view.editor.*;
 	
 	import mx.controls.Alert;
 	import mx.controls.DateField;
+	import mx.core.ClassFactory;
 	import mx.core.DragSource;
-	import mx.events.DragEvent;	
+	import mx.events.DragEvent;
+	import mx.events.InvalidateRequestData;
 	
 	public class TreeHelper
 	{
@@ -55,6 +58,17 @@ package main.br.org.indt.ndg.controller.editor
 			return instance;
 		}
 		
+		public function getListItemRenderer(): ClassFactory{
+			var bVal:Boolean = Question.isExclusiveChoice(TreeHelper.getInstance().getSelectedNode());
+			if(bVal){
+				return new ClassFactory(ListRadioButtonRenderer);
+			}else{
+				return new ClassFactory(ListCheckBoxRenderer);
+			}
+		}
+
+
+
 		public function handleTreeClickEvent(mobisusEvent:Event):void
 		{
 			var controllerEvent:ControllerEvent = mobisusEvent as ControllerEvent;
@@ -77,6 +91,8 @@ package main.br.org.indt.ndg.controller.editor
 			{
 				// selectedNode = event.itemRenderer.data as XML;
 				selectedNode = mainView.questTree.selectedItem as XML;
+
+
 				// handle tree click for Skip Logic			
 				if (QuestionHelper.getInstance().isSkipLogicEnabled())
 				{
@@ -94,30 +110,33 @@ package main.br.org.indt.ndg.controller.editor
 					setMLCAttributes(mainView.titleWin_str);
 					 */
 					//Preview
+
 					mainView.previewQuestion.showSimpleQuestion(selectedNode, mainView.cmbDevice.text);
 				}
 				else if(selectedNode.@type == Question.CHOICE_TYPE)
 				{
-					mainView.currentState = EditorEditSurveys.CHOICE_EXCLUSIVE_STATE;
-					
-					mainView.txtQuestionExclusive.text = selectedNode.description;
-					mainView.ckBox_ChoiceExclusive.selected = Question.isExclusiveChoice(selectedNode);
-					if (mainView.ckBox_ChoiceExclusive.selected)
-					{
+					if(Question.isExclusiveChoice(selectedNode)){
+						mainView.currentState = EditorEditSurveys.CHOICE_EXCLUSIVE_RADIO_STATE;
 						mainView.panelMultQuest.text = ConfigI18n.getInstance().getStringFile("editorResources", "EXCLUSIVE_CHOICE");
-						
 					}
-					else
-					{
+					else{
+						mainView.currentState = EditorEditSurveys.CHOICE_EXCLUSIVE_CHECK_STATE;
 						mainView.panelMultQuest.text = ConfigI18n.getInstance().getStringFile("editorResources", "MULTIPLE_CHOICE");
 					}
 					
+					mainView.ckBox_ChoiceExclusive.selected = Question.isExclusiveChoice(selectedNode);
+					mainView.setChoiceList(mainView.ckBox_ChoiceExclusive.selected);
+					mainView.txtQuestionExclusive.text = selectedNode.description;
+					mainView.ckBox_ChoiceExclusive.selected = Question.isExclusiveChoice(selectedNode);
+
 					mainView.lstChoices.dataProvider = Question.populateList(selectedNode);
 					mainView.multipleChoice.clearAll();
+
 					//Create and set MLC Attributes
 					/* mainView.initPopUpButton_choice();
 					setMLCAttributes(mainView.titleWin_choice); */
 					//Preview
+
 					mainView.previewQuestion.showMultipleChoiceQuestion(selectedNode, mainView.cmbDevice.text);
 				}
 				else if(selectedNode.@type == Question.INTEGER_TYPE)
@@ -211,11 +230,10 @@ package main.br.org.indt.ndg.controller.editor
 				{
 					mainView.currentState = EditorEditSurveys.IMAGE_STATE;
 					mainView.txtQuestion_img.text = selectedNode.description;
-										
+					mainView.numericImageCount.value = selectedNode.@maxCount;
 					//Create and fill MLC Attributes
 					/* mainView.initPopUpButton_image();
 					setMLCAttributes(mainView.titleWin_image); */
-					
 					//Preview
 					mainView.previewQuestion.showSimpleQuestion(selectedNode, mainView.cmbDevice.text);
 				}

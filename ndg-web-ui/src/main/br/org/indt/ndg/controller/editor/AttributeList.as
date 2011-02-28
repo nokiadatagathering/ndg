@@ -36,10 +36,19 @@ package main.br.org.indt.ndg.controller.editor
 		private var maxRange:String;
 		private var decimalAllowed:Boolean;
 		private var formatTime:String;
-		
+		private var imageMaxCount:int;
+
 		public function AttributeList()
 		{}
 		
+		public function getImageMaxCount():int{
+			return imageMaxCount;
+		}
+
+		public function setImageMaxCount(val:int):void{
+			imageMaxCount = val;
+		}
+
 		public function setDescription(text:String):void
 		{
 			description = text;

@@ -22,6 +22,7 @@ public class SItem {
 	
 	
 	String otr;
+	String def;
 	String value;
 	int index;
 	
@@ -29,8 +30,9 @@ public class SItem {
 		
 	}
 	
-	public SItem(String otr, String value) {
+	public SItem(String otr, String def, String value) {
 		this.otr = otr;
+		this.def = def;
 		this.value = value;
 	}
 	
@@ -40,6 +42,14 @@ public class SItem {
 	public void setOtr(String otr) {
 		this.otr = otr;
 	}
+
+	public void setDef(String def){
+		this.def = def;
+	}
+	public String getDef(){
+		return def;
+	}
+
 	public String getValue() {
 		return value;
 	}

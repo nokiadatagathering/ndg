@@ -46,6 +46,7 @@ package main.br.org.indt.ndg.controller.editor {
 		public static const SAVE_DATA_EVENT:String = "Save Data";
 		public static const LOAD_DATA_EVENT:String = "Open Data";
 		public static const LOAD_DATA_EVENT_COMPLETED:String = "Open Data Completed";
+		public static const CHOICE_ITEM_CLICK:String = "Click on choice list item";
 	}
 	
 	

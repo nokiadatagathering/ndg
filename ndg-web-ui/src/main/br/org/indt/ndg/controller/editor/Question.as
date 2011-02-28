@@ -18,7 +18,10 @@
 package main.br.org.indt.ndg.controller.editor
 {
 	import main.br.org.indt.ndg.i18n.ConfigI18n;
+
 	import mx.collections.ArrayCollection;
+	import mx.controls.List;
+	import mx.controls.RadioButtonGroup;
 	
 	public class Question
 	{
@@ -31,6 +34,7 @@ package main.br.org.indt.ndg.controller.editor
 		public static const TIME_TYPE:String = "_time";
 		public static const IMAGE_TYPE:String = "_img";
 		
+
 		public static const QUESTION_STRING:int = 1;
 		public static const QUESTION_INTEGER:int = 2;
 		public static const QUESTION_DATE:int = 3;
@@ -41,6 +45,9 @@ package main.br.org.indt.ndg.controller.editor
 		
 		public static const QUESTION_DEFAULT_DISPLAY_NAME:String = ConfigI18n.getInstance().getStringFile("editorResources", "NEW_QUESTION");
 		
+		public static const TRUE_STRING:String = "1";
+		public static const FALSE_STRING:String = "0";
+
 		private var content:XML;
 		private var type:String;
 		private var lastIndexAvailable:int = 1;
@@ -74,8 +81,8 @@ package main.br.org.indt.ndg.controller.editor
 				content = <question id={index} type={type} field={""} direction={"in"} editable={editable}>
 								<description>{description}</description>
 								<select>multiple</select>
-								<item otr="0">{choice_item + " 1"}</item>
-								<item otr="0">{choice_item + " 2"}</item>
+								<item otr="0" def="0">{choice_item + " 1"}</item>
+								<item otr="0" def="0">{choice_item + " 2"}</item>
 						</question>;
 			}
 			else if(type == CHOICE_EXCLUSIVE_TYPE)
@@ -83,8 +90,8 @@ package main.br.org.indt.ndg.controller.editor
 				content = <question id={index} type={CHOICE_TYPE} field={""} direction={"in"} editable={editable}>
 								<description>{description}</description>
 								<select>exclusive</select>
-								<item otr="0">{choice_item + " 1"}</item>
-								<item otr="0">{choice_item + " 2"}</item>
+								<item otr="0" def="0">{choice_item + " 1"}</item>
+								<item otr="0" def="0">{choice_item + " 2"}</item>
 						</question>;
 			}
 			else if(type == INTEGER_TYPE)
@@ -108,7 +115,7 @@ package main.br.org.indt.ndg.controller.editor
 			}
 			else if (type == IMAGE_TYPE)
 			{
-				content = <question id={index} type={type} field={""} direction={"in"} editable={editable}>
+				content = <question id={index} type={type} field={""} direction={"in"} editable={editable} maxCount={"1"}>
 					        	<description>{description}</description>
 					      </question>;				
 			}
@@ -172,6 +179,7 @@ package main.br.org.indt.ndg.controller.editor
         {
         	question.description = attributes.getDescription();
         	question.select = getChoiceType(attributes);
+
         	/* question.@field = attributes.getMLCField();
         	question.@direction = attributes.getMLCDirection(); */
         	question.@editable = (attributes.getMLCEditable() == true) ? "true" : "false";
@@ -223,6 +231,7 @@ package main.br.org.indt.ndg.controller.editor
         	/* question.@field = attributes.getMLCField();
         	question.@direction = attributes.getMLCDirection(); */
         	question.@editable = (attributes.getMLCEditable() == true) ? "true" : "false";
+			question.@maxCount = attributes.getImageMaxCount();
         }
         
         private static function getChoiceType(attributes:AttributeList):String
@@ -302,6 +311,7 @@ package main.br.org.indt.ndg.controller.editor
 		{
 			node.item[nIndex] = ConfigI18n.getInstance().getStringFile("editorResources", "CHOICE") + " " + (nIndex + 1).toString();
 			node.item[nIndex].@otr = "0";
+			node.item[nIndex].@def = "0";
 		}
 		
 		//Inicio Kivia Ramos
@@ -318,12 +328,49 @@ package main.br.org.indt.ndg.controller.editor
 		}
 		//Fim Kivia Ramos
 		
-		public static function editChoiceItem(node:XML, choiceIndex:int, txtChoiceItem:String, intOtr:int):void 
+		public static function editChoiceItem(node:XML, choiceIndex:int, txtChoiceItem:String, intOtr:int):void
 		{
 			node.item[choiceIndex] = txtChoiceItem;
 			node.item[choiceIndex].@otr = intOtr;
+//			node.item[choiceIndex].@def = intDef;
 		}
-        
+
+		public static function setDefaultAnswer(node:XML, choiceIndex:int):void{
+			if(node.select == "exclusive"){
+				setExclusiveDefaultAnswer(node, choiceIndex);
+			}
+			else{
+				if(node.item[choiceIndex].@def == FALSE_STRING){
+					node.item[choiceIndex].@def = TRUE_STRING;
+				}
+				else{
+					node.item[choiceIndex].@def = FALSE_STRING;
+				}
+			}
+		}
+
+
+		public static function setExclusiveDefaultAnswer(node:XML, choiceIndex:int ):void
+		{
+			if(node.item[choiceIndex].@def == TRUE_STRING)
+			{
+				node.item[choiceIndex].@def = FALSE_STRING;
+			}
+			else
+			{
+				for(var idx:int = 0; idx < node.item.length(); idx++ )
+				{
+					if(idx == choiceIndex ){
+						node.item[idx].@def = TRUE_STRING;
+					}
+					else{
+						node.item[idx].@def = FALSE_STRING;
+					}
+				}
+			}
+		}
+
+
         public static function removeChoiceItem(node:XML, choiceIndex:int): void
 		{
 			 var count:int = 0;
@@ -351,11 +398,19 @@ package main.br.org.indt.ndg.controller.editor
 			if(question.localName() == "question")
 			{
 				var count:int = 0;
-				var children:XMLList = question.children(); 
+				var children:XMLList = question.children();
+
+				var group:RadioButtonGroup = new RadioButtonGroup();
 				for (var i:int=0; i < question.children().length(); i++)
 				{
 					if (children[i].localName() == "item")
-						aItens.addItem(children[i]);
+					{
+						var listItem:ListItemObject = new ListItemObject(
+															children[i].text(),
+															children[i].@def == "1" ? true : false,
+															group);
+						aItens.addItem(listItem);
+					}
 				} 
 			}
 			else

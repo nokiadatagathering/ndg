@@ -26,6 +26,7 @@ public class Item implements Serializable{
 	private static final long serialVersionUID = 1L;
 	String otr;
 	String value;
+	String def;
 	int index;
 	
 	public Item(){
@@ -48,6 +49,14 @@ public class Item implements Serializable{
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public void setDef(String def){
+		this.def = def;
+	}
+
+	public String getDef(){
+		return def;
 	}
 
 	public int getIndex() {

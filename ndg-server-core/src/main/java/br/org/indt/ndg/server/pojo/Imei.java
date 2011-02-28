@@ -34,12 +34,13 @@ import javax.persistence.Table;
 @Table(name = "imei")
 @NamedQueries({
 			@NamedQuery (name = "imei.findByUser", query = "SELECT I FROM Imei I WHERE I.user = :_user"),
-			@NamedQuery (name = "imei.findByMsisdn", query = "SELECT I FROM Imei I WHERE I.msisdn like :msisdn"),
+			@NamedQuery (name = "imei.findByMsisdn", query = "SELECT I FROM Imei I WHERE I.msisdn like :msisdn")
 			})
 public class Imei implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+
 	// Fields
 	private String imei;
 	private String msisdn;

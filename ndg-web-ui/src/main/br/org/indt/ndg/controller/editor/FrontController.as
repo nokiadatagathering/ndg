@@ -49,6 +49,7 @@ package main.br.org.indt.ndg.controller.editor {
 			addEventListener(EventTypes.MOVEUP_QUESTION_EVENT, TreeHelper.getInstance().handleMoveUpQuestionEvent);
 			addEventListener(EventTypes.ADD_ITEMTREE_EVENT, TreeHelper.getInstance().handleAddItemTree);
 			addEventListener(EventTypes.SEARCH_ITEM_EVENT, TreeHelper.getInstance().handleSearchItem);
+			addEventListener(EventTypes.CHOICE_ITEM_CLICK, ChoiceItemHelper.getInstance().handleClickChoiceItemCheckBox);
 		}
 
 		public static function getInstance():FrontController {

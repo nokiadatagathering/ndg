@@ -40,24 +40,12 @@ import br.org.indt.ndg.common.Resources;
 import br.org.indt.ndg.common.ResultXml;
 import br.org.indt.ndg.common.SurveyXML;
 
-public class ExcelTransformer extends Transformer {
-
-	private Boolean exportWithImages;
+public class ExcelTransformer extends ResultsTransformer {
 	
 	public ExcelTransformer(SurveyXML survey, Boolean exportWithImages) {
-		super(survey);
-		this.exportWithImages = exportWithImages;
+		super(survey, exportWithImages);
 	}
 
-	public void write(String path) {
-		ArrayList<ResultXml> results = survey.getResults();
-		processResults(path, results);	
-	}
-
-	public void write(String path, Collection<ResultXml> results) {
-		processResults(path, results);
-	}
-	
 	public byte[] getBytes(){
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ArrayList<ResultXml> results = survey.getResults();
@@ -130,29 +118,8 @@ public class ExcelTransformer extends Transformer {
 						}
 						value = tmp.toString() == null ? "" : tmp.toString();
 					} else if (field.getFieldType() == FieldType.IMAGE) {
-						String imagePath = File.separator + PHOTOS_DIR + File.separator + 
-						   				   result.getResultId() + 
-						   				   UNDERLINE_SEPARATOR + category.getId() + 
-						   				   UNDERLINE_SEPARATOR + field.getId() + JPG_EXTENSION;
-						
-						value = "<img>";
-						
-						if (exportWithImages == true && !field.getValue().equals("")) {
-							
-							value = imagePath;
-							
-							try
-							{
-								FileOutputStream arqImg = new FileOutputStream(result.getSurveyId() + imagePath);
-								
-								arqImg.write(Base64.decode(field.getValue()));
-								arqImg.close();
-							}
-							catch (Exception e)
-							{
-								e.printStackTrace();
-							}
-						}
+						value = storeImagesAndGetValueToExport(result.getSurveyId(), category.getId(),
+									result.getResultId(), field.getId(), field.getImages());
 					}
 					value = value.trim().replaceAll("\n", "");
 					row.createCell((short)fieldcounter++).setCellValue(value);
@@ -172,7 +139,7 @@ public class ExcelTransformer extends Transformer {
 	
 	
 	
-	private void processResults(String path, Collection<ResultXml> results){
+	protected void processResults(String path, Collection<ResultXml> results){
 		String file = path;
 		HSSFWorkbook wb = new HSSFWorkbook();
 	    HSSFSheet sheet = wb.createSheet("Sheet1");

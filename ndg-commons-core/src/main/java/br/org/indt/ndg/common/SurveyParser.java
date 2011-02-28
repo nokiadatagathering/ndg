@@ -141,12 +141,26 @@ public class SurveyParser {
 					for(int i=0; i < questionChild.getLength(); i++) {
 						if (questionChild.item(i).getNodeName().equals("select")) {
 							String select = questionChild.item(i).getTextContent();
-							choice.setChoiceType((select.equals("exclusive") ? ChoiceType.EXCLUSIVE : ChoiceType.MULTIPLE));
-						} else if (questionChild.item(i).getNodeName().equals("item")) {
-							NamedNodeMap itemAttr = questionChild.item(i).getAttributes();
-							String otr = itemAttr.getNamedItem("otr").getNodeValue();
+						choice.setChoiceType((select.equals("exclusive") ? ChoiceType.EXCLUSIVE
+								: ChoiceType.MULTIPLE));
+					} else if (questionChild.item(i).getNodeName()
+							.equals("item")) {
+						logger.info("parsing item");
+						NamedNodeMap itemAttr = questionChild.item(i)
+								.getAttributes();
+						String otr = itemAttr.getNamedItem("otr")
+								.getNodeValue();
+						logger.info("getting def");
+
+						String def = "0";
+						Node defNode = itemAttr.getNamedItem("def");
+						if( defNode != null){
+							logger.info("setting def");
+							def = defNode.getNodeValue();
+						}
 							String value = questionChild.item(i).getTextContent();
 							Item item = new Item();
+						item.setDef(def);
 							item.setOtr(otr);
 							item.setValue(value);
 							item.setIndex(index++);

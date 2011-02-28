@@ -18,6 +18,7 @@
 package br.org.indt.ndg.common;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class Field implements Serializable
@@ -26,7 +27,7 @@ public class Field implements Serializable
 
 	private int id;
 	private String name;
-	private String value;
+	private ArrayList<TaggedImage> images = new ArrayList<TaggedImage>();
 	private String xmlType;
 	private int categoryId;
 	private String direction;
@@ -35,7 +36,9 @@ public class Field implements Serializable
 	private String description;
 	private FieldType fieldType;
 	private String printvalue;
+	private String value;
 	private String convention;
+
 	private Choice choice;
 
 	public String getXmlType()
@@ -86,7 +89,7 @@ public class Field implements Serializable
 
 	public void setFieldType(FieldType fieldType)
 	{
-		this.fieldType = fieldType;
+		this.type = fieldType;
 		
 		if (fieldType == FieldType.STR)
 		{
@@ -123,6 +126,14 @@ public class Field implements Serializable
 			this.elementName = "img_data";
 			this.xmlType = "_img";
 		}
+	}
+
+	public void setImages(ArrayList<TaggedImage> array){
+		images = array;
+	}
+
+	public ArrayList<TaggedImage> getImages(){
+		return images;
 	}
 
 	public int getId() {

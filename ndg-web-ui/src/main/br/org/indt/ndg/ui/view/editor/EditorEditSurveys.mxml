@@ -103,10 +103,7 @@
 								textInput="textArea_textInput(event);"
 								change="isQuestionValid(Question.CHOICE_TYPE)"/>
 							<mx:HRule width="100%"/>
-							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'ALTERNATIVES')}"/>
-							<mx:List id="lstChoices"  width="100%" height="70" rollOverColor="#eef9ff"
-							  	doubleClickEnabled="true" doubleClick="showChoiceItem()" 
-							  	change="{vboxAlternative.visible = false}"/>
+							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'ALTERNATIVES')}" id="label1"/>
 							<mx:HBox width="100%" horizontalAlign="center">
 								<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'ADD')}"
 									click="addChoiceItem()" width="65"/>
@@ -292,11 +289,15 @@
 						focusOut="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
 						textInput="textArea_textInput(event);"
 						change="isQuestionValid(Question.IMAGE_TYPE)"/>
+
+                   <mx:Label text="Maximum number of images" width="152" id="labelImgCount" textAlign="left"/>
+                   <mx:NumericStepper width="80" id="numericImageCount" minimum="1" maximum="100" click="editImageQuestion()" textAlign="left"/>
+
 					<mx:HRule width="100%"/>
 					<mx:TextArea id="lblFirstQuestion_img" width="100%" height="35"
 						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 						enabled="false" styleName="editorFirstQuestion"/>	
-					<mx:Spacer width="100%" height="100%"/>
+					<mx:Spacer width="100%" height="110"/>
 					<mx:HBox width="100%" horizontalAlign="right">
 						<mx:Button label="OK" id="btnOk_ImageQuestion" enabled="true" click="editImageQuestion()"
 							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
@@ -305,6 +306,22 @@
 				</mx:VBox>
 			</mx:AddChild>
 	   		<mx:RemoveChild target="{vbox4}"/>
+		</mx:State>
+		<mx:State name="ChoiceExRadio" basedOn="ChoiceExclusive">
+			<mx:AddChild relativeTo="{label1}" position="before">
+				<mx:List id="lstChoicesRadio"  width="100%" height="70" rollOverColor="#eef9ff"
+					doubleClickEnabled="true" doubleClick="showChoiceItem()"
+					change="{vboxAlternative.visible = false}"
+					itemRenderer="main.br.org.indt.ndg.ui.component.renderes.ListRadioButtonRenderer" />
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="ChoiceExCheckBox" basedOn="ChoiceExclusive">
+			<mx:AddChild relativeTo="{label1}" position="before">
+				<mx:List id="lstChoicesCheck"  width="100%" height="70" rollOverColor="#eef9ff"
+					doubleClickEnabled="true" doubleClick="showChoiceItem()"
+					change="{vboxAlternative.visible = false}"
+					itemRenderer="main.br.org.indt.ndg.ui.component.renderes.ListCheckBoxRenderer" />
+			</mx:AddChild>
 		</mx:State>
 	</mx:states>
 	<!--states-->
@@ -386,7 +403,7 @@
 							click="questTree.onItemClick(this, 0)"/>
 					</mx:VBox>
 					<mx:VBox>
-						<mx:HBox horizontalGap="7">
+						<mx:HBox horizontalGap="7" height="30">
 							<mx:Button id="_str" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_STRING')}"
 								click="questTree.onItemClick(this, Question.QUESTION_STRING)" styleName="iconButton">

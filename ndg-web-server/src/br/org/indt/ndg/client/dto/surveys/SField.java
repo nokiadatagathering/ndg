@@ -17,6 +17,9 @@
 
 package br.org.indt.ndg.client.dto.surveys;
 
+import java.util.ArrayList;
+
+import br.org.indt.ndg.common.TaggedImage;
 
 public class SField {
 	
@@ -24,6 +27,7 @@ public class SField {
 	private int id;
 	private String name;
 	private String value;
+	private ArrayList<TaggedImage> images = new ArrayList<TaggedImage>();
 	private String xmlType;
 	private int categoryId;
 	private String direction;
@@ -90,6 +94,15 @@ public class SField {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public ArrayList<TaggedImage> getImages() {
+		return images;
+	}
+
+	public void setImages(ArrayList<TaggedImage> value) {
+		this.images = value;
+	}
+
 
 	public String getValue() {
 		return value;

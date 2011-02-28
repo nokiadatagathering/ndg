@@ -20,6 +20,7 @@ package br.org.indt.ndg.common;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -114,7 +116,7 @@ public class ResultParser {
 			   String answerConvention = answerAttr.getNamedItem("convention").getNodeValue();
 			   answer.setConvention(answerConvention);
 			}
-			
+			Node answerNode = nodesAnswer.item(a);
 			if ( answer.getXmlType().equals("_choice") ){
 				NodeList answerChild = nodesAnswer.item(a).getChildNodes();
 				Choice choice = new Choice();
@@ -145,7 +147,34 @@ public class ResultParser {
 					}
 				}
 				answer.setChoice(choice);
-			} else {
+			}else if(answer.getXmlType().equals("_img")){
+				ArrayList<TaggedImage> imageArray = new ArrayList<TaggedImage>();
+				try{
+					Element answerElement = (Element)answerNode;
+					NodeList imageNodeList = answerElement.getElementsByTagName("img_data");
+					logger.info("Parsing images: count: " + imageNodeList.getLength());
+					Node imageNode = null;
+					for(int idx = 0; idx < imageNodeList.getLength(); idx++) { // iterate trough image nodes
+						imageNode = imageNodeList.item(idx);
+						TaggedImage taggedImage = new TaggedImage();
+						taggedImage.setImageData(imageNode.getTextContent());
+						NamedNodeMap imageAttr = imageNode.getAttributes();
+						Node latitudeAtrNode = imageAttr.getNamedItem("latitude");
+						Node longitudeAtrNode = imageAttr.getNamedItem("longitude");
+						if ( null != latitudeAtrNode &&  null != longitudeAtrNode) {
+							String latitude = latitudeAtrNode.getNodeValue();
+							String longitude = longitudeAtrNode.getNodeValue();
+							taggedImage.setLatitude(latitude);
+							taggedImage.setLongitude(longitude);
+						}
+						imageArray.add(taggedImage);
+					}
+				} catch(Exception e) {
+					logger.info("Failed to parse all image data");
+				}
+				answer.setImages(imageArray);
+				logger.info("Parsed image array");
+			}else {
 				String value = null;
 				
 				try {

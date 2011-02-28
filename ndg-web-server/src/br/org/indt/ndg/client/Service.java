@@ -54,6 +54,7 @@ import br.org.indt.ndg.common.Item;
 import br.org.indt.ndg.common.Resources;
 import br.org.indt.ndg.common.ResultXml;
 import br.org.indt.ndg.common.SurveyXML;
+import br.org.indt.ndg.common.TaggedImage;
 import br.org.indt.ndg.common.exception.ImeiFileNotFoundException;
 import br.org.indt.ndg.common.exception.ImeiNotMatchDevice;
 import br.org.indt.ndg.common.exception.MSMApplicationException;
@@ -745,24 +746,32 @@ public class Service {
 						+ "&nbsp;" + sf.getDescription() + "</b></span>";
 				
 				list.add(new SPreview(finalString, false));
-				
+
 				if (survey.getResultsSize() > 0) {
 					SResult r = (SResult) survey.getResults().get(0);
 					SCategory rc = (SCategory) r.getCategories().get(new Integer(sc.getId()));
 					SField rf = rc.getFieldById(sf.getId());
 					String value = "----";
-					boolean emptyValue = true;
 					if (rf.getValue() != null && !rf.getValue().trim().equals("")){
 						value = rf.getValue();
-						emptyValue = false;
 					}
 					
-					if (emptyValue || !sf.getElementName().equals("img_data")) {
-						finalString = "<span id = 'txt-list-answer'><i>" + value + "</i></span>";
-						list.add(new SPreview(finalString, false));
-					} else {
-						finalString = value;
-						list.add(new SPreview(finalString, true));	
+					if(sf.getElementName() != null){
+						if (!sf.getElementName().equals("img_data")) {
+							value = value.trim().replaceAll("\n", "");
+							finalString = "<span id = 'txt-list-answer'><i>"
+									+ value + "</i></span>";
+
+							list.add(new SPreview(finalString, false));
+						} else {
+
+							for( TaggedImage taggedImage : rf.getImages() ){
+								// TODO add GeoTagging preview
+								String imageString = taggedImage.getImageData();
+								finalString = imageString.trim();
+								list.add(new SPreview(finalString, true));
+							}
+						}
 					}
 				}
 			}
@@ -857,12 +866,16 @@ public class Service {
 						if (item.getValue() != null) {
 							if (s != null) tmp.append(": ");
 							tmp.append(item.getValue());
+						} else {
+							String s1 = surveyXml.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
+							if(s1!=null)	tmp.append(s1);
+							tmp.append(" ");
 						}
 						tmp.append("\n");
 					}
 					value = tmp.toString() == null ? "" : tmp.toString().trim();
 				} else if (field.getFieldType() == FieldType.IMAGE) {
-					value = field.getValue() == null ? "" : field.getValue();
+					sField.setImages(field.getImages());
 				}
 				sField.setValue(value);
 				sCategory.addField(sField);

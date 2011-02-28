@@ -78,11 +78,27 @@ package main.br.org.indt.ndg.controller.editor
 			Question.editChoiceItem(node, choiceIndex, txtChoiceItem, (otrChoice == true) ? 1 : 0);
 			mainView.lstChoices.dataProvider = Question.populateList(node);
 			mainView.lstChoices.selectedIndex = choiceIndex;
+			mainView.lstChoices.scrollToIndex(choiceIndex);
+
 			mainView.vboxAlternative.visible = false;
 			if (skipLogicNode != null)
 				skipLogicNode.@operator = int(mainView.multipleChoice.ckBox_Inverse.selected);
 		} 
 		
+		public function handleClickChoiceItemCheckBox(mobisusEvent:Event): void
+		{
+			var controllerEvent:ControllerEvent = mobisusEvent as ControllerEvent;
+			mainView = controllerEvent.getPayload().getView() as EditorEditSurveys;
+
+			var choiceIndex:int = mainView.lstChoices.selectedIndex;
+			var node:XML = TreeHelper.getInstance().getSelectedNode();
+
+			Question.setDefaultAnswer(node, choiceIndex);
+			mainView.lstChoices.dataProvider = Question.populateList(node);
+			mainView.lstChoices.selectedIndex = choiceIndex;
+			mainView.lstChoices.scrollToIndex(choiceIndex);
+		}
+
 		public function handleRemoveChoiceItemEvent(mobisusEvent:Event): void
 		{
 			var controllerEvent:ControllerEvent = mobisusEvent as ControllerEvent;
@@ -109,6 +125,8 @@ package main.br.org.indt.ndg.controller.editor
 			mainView.multipleChoice.txtChoiceItem.text = node.child("item")[choiceIndex];
 			mainView.multipleChoice.ckBox_ItemOtr.selected = (node.child("item")[choiceIndex].@otr == "0") ? false : true;
 			
+			var defTemp:String = node.child("item")[choiceIndex].@def;
+
 			mainView.multipleChoice.lbl_Skip.text = "";
 			mainView.multipleChoice.btn_Add.label = ConfigI18n.getInstance().getStringFile("editorResources", "ADD");
 			mainView.multipleChoice.ckBox_Inverse.selected = false;

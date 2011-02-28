@@ -37,25 +37,14 @@ import br.org.indt.ndg.common.ResultXml;
 import br.org.indt.ndg.common.SurveyXML;
 
 
-public class CSVTransformer extends Transformer {
+public class CSVTransformer extends ResultsTransformer {
 	private String sep = "|";
-	private Boolean exportWithImages;
 	
 	public CSVTransformer(SurveyXML survey, Boolean exportWithImages) {
-		super(survey);
-		this.exportWithImages = exportWithImages;
+		super(survey, exportWithImages);
 	}
 
-	public void write(String path) {
-		ArrayList<ResultXml> results = survey.getResults();
-		processResults(path, results);	
-	}
-
-	public void write(String path, Collection<ResultXml> results) {
-		processResults(path, results);
-	}
-	
-	private void processResults(String path, Collection<ResultXml> results){
+	protected void processResults(String path, Collection<ResultXml> results){
 		String file = path;
 		FileWriter fstream = null;
 		BufferedWriter out = null;
@@ -200,29 +189,8 @@ public class CSVTransformer extends Transformer {
 						}
 						value = tmp.toString() == null ? "" : tmp.toString();
 					} else if (field.getFieldType() == FieldType.IMAGE) {
-						String imagePath = File.separator + PHOTOS_DIR + File.separator + 
-										   result.getResultId() + 
-						   				   UNDERLINE_SEPARATOR + category.getId() + 
-						   				   UNDERLINE_SEPARATOR + field.getId() + JPG_EXTENSION;
-		
-						value = "<img>";
-						
-						if (exportWithImages == true && !field.getValue().equals("")) {
-
-							value = imagePath;
-							
-							try
-							{
-								FileOutputStream arqImg = new FileOutputStream(result.getSurveyId() + imagePath);
-								
-								arqImg.write(Base64.decode(field.getValue()));
-								arqImg.close();
-							}
-							catch (Exception e)
-							{
-								e.printStackTrace();
-							}
-						}
+						value = storeImagesAndGetValueToExport(result.getSurveyId(), category.getId(),
+									result.getResultId(), field.getId(), field.getImages());
 					}
 					value = value.trim().replaceAll("\n", "");
 					buffer.append(value);
