@@ -34,6 +34,7 @@
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
+	import mx.utils.Base64Decoder;
 	
 	[Bindable] public var imeiList:ArrayCollection = new ArrayCollection();
 	[Bindable] public var selectedImeisList:ArrayCollection = new ArrayCollection();
@@ -46,11 +47,14 @@
 
 	private var transmissionMode:String;
 	private var imeiDTO:ImeiDTO;
+	private var fileName:String = null;
+	private	var strFileContent:String;
 
 	private static const REMOTE_SERVICE:String = "myService";
 	private static const MODE_CABLE:String = "cable";
 	private static const MODE_SMS:String = "sms";
 	private static const MODE_GPRS:String = "gprs";
+	private static const MODE_DOWNLOAD:String = "download";
 	private static const IMEI_PAGE_SIZE:int = 5;
 	
 	private function customCheckAddListener():void{
@@ -156,6 +160,10 @@
 			modeIcon.source = "main/resources/images/ICON_HEADER_INTERNET.png";
 			modeText.text = ConfigI18n.getInstance().getString('lblInternetMode');
 			viewStackSendSurvey.selectedIndex = 2;
+		} else if (transmissionMode == MODE_DOWNLOAD){
+			modeIcon.source = "main/resources/images/ICON_HEADER_INTERNET.png";
+			modeText.text = ConfigI18n.getInstance().getString('lblDownloadMode');
+			downloadSurvey();
 		}
 		modeIcon.visible = true;
 		modeText.visible = true;
@@ -275,6 +283,10 @@
 		viewStackSendSurvey.selectedIndex = 5;
 	}
 	
+	private function goToDownloadScreen():void{
+		viewStackSendSurvey.selectedIndex = 6;
+	}
+
 	private function goToConfirmationScreen():void{
 		viewStackSendSurvey.selectedIndex = 3;
 	}
@@ -355,4 +367,53 @@
 		searchOptionsFields.addItem(new Array("imei", "msisdn"));
 		searchOptionsFields.addItem(new Array("imei"));
 		searchOptionsFields.addItem(new Array("msisdn"));
+	}
+
+	private function downloadSurvey():void{
+		var remoteObject:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+		var i:int;
+		var surveyId:String;
+		var size:int;
+		var surveysIdToDownload:Array = new Array();
+
+		size = selectedSurveyList.length;
+
+		for (i = 0; i<size; i++) {
+			surveyId = (selectedSurveyList.getItemAt(i) as SurveyDTO).idSurvey;
+			surveysIdToDownload.push(surveyId);
+		}
+
+		remoteObject.showBusyCursor = true;
+		remoteObject.addEventListener(FaultEvent.FAULT, onFault);
+		remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
+		remoteObject.downloadSurvey(SessionClass.getInstance().loggedUser.username,
+				surveysIdToDownload);
+		SessionTimer.getInstance().resetTimer();
+
+		function onSuccess(event:ResultEvent):void {
+			if (event.result != null) {
+				fileName = "survey.zip";
+				strFileContent = event.result as String;
+				goToDownloadScreen();
+			}
+		}
+
+		function onFault(event:FaultEvent):void	{
+			Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
+					ConfigI18n.getInstance().getString("lblError"));
+			goToFailScreen();
+		}
+	}
+
+	private function close():void{
+		PopUpManager.removePopUp(this);
+	}
+
+	private function downloadPressed():void
+	{
+		var de:Base64Decoder = new Base64Decoder();
+		de.decode(strFileContent);
+		var byteArr:ByteArray = de.toByteArray();
+		var fr:FileReference = new FileReference();
+		fr.save(byteArr, fileName);
 	}

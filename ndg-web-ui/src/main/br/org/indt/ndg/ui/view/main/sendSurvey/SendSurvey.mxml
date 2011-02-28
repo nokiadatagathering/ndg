@@ -63,6 +63,10 @@
 					click="modeSelected(event)" styleName="wizardClearButton">
 					<mx:icon>@Embed(source='/main/resources/images/POPUP_INTERNET_ICON.png')</mx:icon>
 				</mx:Button>
+				<mx:Button id="download" label="{ConfigI18n.getInstance().getString('btnModeDownload')}" width="110" height="60"
+					click="modeSelected(event)" styleName="wizardClearButton">
+					<mx:icon>@Embed(source='/main/resources/images/POPUP_DOWNLOAD_ICON.png')</mx:icon>
+				</mx:Button>
 			</mx:HBox>
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" height="52">
 			</mx:HBox>
@@ -218,6 +222,23 @@
 					<mx:icon>@Embed(source='/main/resources/images/SETA_BACK_TRANSP.png')</mx:icon>
 				</mx:Button>
 			</mx:HBox>								
+		</mx:VBox>
+
+		<!-- download -->
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
+				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
+			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
+				<mx:Label text="" styleName="darkTitle" height="16"/>
+			</mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
+				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_SUCCESS.png')"/>
+				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportSuccess')}" styleName="darkTitle"/>
+				<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnDownloadSurvey')}" click="downloadPressed()"/>
+			</mx:VBox>
+			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button label="{ConfigI18n.getInstance().getString('btnExportClose')}" click="close()"
+					paddingLeft="10" paddingRight="10"/>
+			</mx:HBox>
 		</mx:VBox>
 	</mx:ViewStack>
 

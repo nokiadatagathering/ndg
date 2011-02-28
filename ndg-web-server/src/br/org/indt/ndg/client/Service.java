@@ -1279,4 +1279,74 @@ public class Service {
 		}
 	}
 	
+	/**
+	 *
+	 * @param surveyIds
+	 * @return
+	 * @throws NDGServerException
+	 */
+	public String downloadSurvey(String username, ArrayList<String> surveyIds)
+			throws NDGServerException{
+
+		final String SURVEY = "survey";
+		String strFileContent = null;
+		byte[] fileContent = null;
+		ArrayList<String> arrayStrFileContent;
+
+		try{
+			arrayStrFileContent = new ArrayList<String>();
+
+			for (int i = 0; i < surveyIds.size(); i++) {
+				arrayStrFileContent.add(i, msmBD.loadSurveyFromServerToEditor(username,
+						surveyIds.get(i)));
+			}
+		} catch (MSMApplicationException e){
+			e.printStackTrace();
+			throw new NDGServerException(e.getErrorCode());
+		} catch (Exception e){
+			e.printStackTrace();
+			throw new NDGServerException(UNEXPECTED_SERVER_EXCEPTION);
+		}
+
+		File f = new File(SURVEY + ZIP);
+
+		ZipOutputStream out = null;
+		try {
+			out = new ZipOutputStream(new FileOutputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < surveyIds.size(); i++) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(arrayStrFileContent.get(i));
+
+			File zipDir = new File(SURVEY + surveyIds.get(i));
+
+			ZipEntry e = new ZipEntry(zipDir + File.separator + "survey.xml");
+
+			try {
+				out.putNextEntry(e);
+				byte[] data = sb.toString().getBytes();
+				out.write(data, 0, data.length);
+				out.closeEntry();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		try {
+			out.close();
+			fileContent = getBytesFromFile(f);
+			strFileContent = Base64Encode.base64Encode(fileContent);
+
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		f.delete();
+
+		return strFileContent;
+	}
+
 }
