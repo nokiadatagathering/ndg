@@ -57,6 +57,9 @@ public class ExcelTransformer extends ResultsTransformer {
 		int fieldcounter = 0;
 		row.createCell((short)fieldcounter++).setCellValue("ResultId");
 		row.createCell((short)fieldcounter++).setCellValue("SurveyId");
+		row.createCell((short)fieldcounter++).setCellValue("Title");
+		row.createCell((short)fieldcounter++).setCellValue("Date");
+		row.createCell((short)fieldcounter++).setCellValue("User");
 		row.createCell((short)fieldcounter++).setCellValue("Imei");
 		row.createCell((short)fieldcounter++).setCellValue("PhoneNumber");
 		row.createCell((short)fieldcounter++).setCellValue("Lat");
@@ -79,6 +82,9 @@ public class ExcelTransformer extends ResultsTransformer {
 			fieldcounter = 0;
 			row.createCell((short)fieldcounter++).setCellValue(result.getResultId());
 			row.createCell((short)fieldcounter++).setCellValue(result.getSurveyId());
+			row.createCell((short)fieldcounter++).setCellValue(result.getTitle());
+			row.createCell((short)fieldcounter++).setCellValue(result.getDate());
+			row.createCell((short)fieldcounter++).setCellValue(result.getUser());
 			row.createCell((short)fieldcounter++).setCellValue(result.getImei());
 			row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());
 			row.createCell((short)fieldcounter++).setCellValue(result.getLatitude());
@@ -152,6 +158,9 @@ public class ExcelTransformer extends ResultsTransformer {
 			int fieldcounter = 0;
 			row.createCell((short)fieldcounter++).setCellValue("ResultId");
 			row.createCell((short)fieldcounter++).setCellValue("SurveyId");
+			row.createCell((short)fieldcounter++).setCellValue("Title");
+			row.createCell((short)fieldcounter++).setCellValue("Date");
+			row.createCell((short)fieldcounter++).setCellValue("User");
 			row.createCell((short)fieldcounter++).setCellValue("Imei");
 			row.createCell((short)fieldcounter++).setCellValue("PhoneNumber");
 			row.createCell((short)fieldcounter++).setCellValue("Lat");
@@ -176,6 +185,9 @@ public class ExcelTransformer extends ResultsTransformer {
 				fieldcounter = 0;
 				row.createCell((short)fieldcounter++).setCellValue(result.getResultId());
 				row.createCell((short)fieldcounter++).setCellValue(result.getSurveyId());
+				row.createCell((short)fieldcounter++).setCellValue(result.getTitle());
+				row.createCell((short)fieldcounter++).setCellValue(result.getDate());
+				row.createCell((short)fieldcounter++).setCellValue(result.getUser());
 				row.createCell((short)fieldcounter++).setCellValue(result.getImei());
 				row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());
 				row.createCell((short)fieldcounter++).setCellValue(result.getLatitude());

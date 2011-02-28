@@ -52,7 +52,8 @@ public class CSVTransformer extends ResultsTransformer {
 			fstream = new FileWriter(file, true);
 			out = new BufferedWriter(fstream);
 			/** Header **/
-			out.write("ResultId" + sep + "SurveyId" + sep + "Imei" + sep + "PhoneNumber" + sep + "Lat" + sep + "Lon" + sep);
+			out.write("ResultId" + sep + "SurveyId" + sep + "Title" + sep + "Date" + sep +
+					"User" + sep + "Imei" + sep + "PhoneNumber" + sep + "Lat" + sep + "Lon" + sep);
 						
 			/** Header Fields**/
 			TreeMap<Integer,Category> categories = survey.getCategories();
@@ -75,7 +76,8 @@ public class CSVTransformer extends ResultsTransformer {
 			/** Content **/
 			categorycounter = 0;
 			for (ResultXml result : results) {
-				out.write(result.getResultId() + sep + result.getSurveyId() + sep + result.getImei() + sep +
+				out.write(result.getResultId() + sep + result.getSurveyId() + sep + result.getTitle() + sep +
+						result.getDate() + sep + result.getUser() + sep + result.getImei() + sep +
 						result.getPhoneNumber() + sep + result.getLatitude() + sep + result.getLongitude() + sep);
 				categorycounter++;
 				int fieldcounter = 0;
@@ -134,8 +136,10 @@ public class CSVTransformer extends ResultsTransformer {
 		ArrayList<ResultXml> results = survey.getResults();
 
 		/** Header **/
-		buffer.append("ResultId").append(sep).append("SurveyId").append(sep).append("Imei").append(sep)
-				.append("PhoneNumber").append(sep).append("Lat").append(sep).append("Lon").append(sep);
+		buffer.append("ResultId").append(sep).append("SurveyId").append(sep).append("Title")
+		.append(sep).append("Date") .append(sep).append("User").append(sep).append("Imei")
+		.append(sep).append("PhoneNumber").append(sep).append("Lat").append(sep)
+		.append("Lon").append(sep);
 			
 		/** Header Fields**/
 		TreeMap<Integer,Category> categories = survey.getCategories();
@@ -158,8 +162,10 @@ public class CSVTransformer extends ResultsTransformer {
 		/** Content **/
 		for (ResultXml result : results) {
 			buffer.append(result.getResultId()).append(sep).append(result.getSurveyId()).append(sep)
-					.append(result.getImei()).append(sep).append(result.getPhoneNumber()).append(sep)
-					.append(result.getLatitude()).append(sep).append(result.getLongitude()).append(sep);
+					.append(result.getTitle()).append(sep).append(result.getDate()).append(sep)
+					.append(result.getUser()).append(sep).append(result.getImei()).append(sep)
+					.append(result.getPhoneNumber()).append(sep).append(result.getLatitude()).append(sep)
+					.append(result.getLongitude()).append(sep);
 			categorycounter = 0;
 			for (Category category : result.getCategories().values()) {
 				categorycounter++;

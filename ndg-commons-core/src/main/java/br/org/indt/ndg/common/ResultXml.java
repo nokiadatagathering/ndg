@@ -33,6 +33,7 @@ public class ResultXml implements Serializable{
 	private String imei;
 	private String user;
 	private String time;
+	private String date;
 	private String title;
 	private String latitude;
 	private String longitude;
@@ -71,6 +72,12 @@ public class ResultXml implements Serializable{
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 	public String getImei() {
 		return imei;

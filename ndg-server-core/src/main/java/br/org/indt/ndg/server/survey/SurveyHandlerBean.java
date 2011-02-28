@@ -23,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -843,6 +844,27 @@ class SurveyHandlerBean implements SurveyHandler
 			{
 				throw new ResultNotParsedException();
 			}
+
+			Collection<TransactionLogVO> logs = businessDelegate.getResultReceived(idSurvey,
+					result.getIdResult());
+			HashMap<String, TransactionLogVO> map = new HashMap<String, TransactionLogVO>();
+
+			for (TransactionLogVO rlog : logs)
+			{
+				map.put(rlog.getResultId(), rlog);
+			}
+
+			if (!logs.isEmpty())
+			{
+				TransactionLogVO t = map.get(result.getIdResult());
+
+				if (t != null)
+				{
+					resultXml.setDate(SystemUtils.toDate(t.getDtLog()));
+					resultXml.setUser(t.getUser());
+				}
+			}
+
 		}
 
 		return resultXMLList;
