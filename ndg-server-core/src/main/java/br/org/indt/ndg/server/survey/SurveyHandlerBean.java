@@ -835,6 +835,8 @@ class SurveyHandlerBean implements SurveyHandler
 			try 
 			{
 				resultXml = parser.parseResult(new StringBuffer(result.getResultXml()), "UTF-8");
+				ImeiVO imei = businessDelegate.getImei(resultXml.getImei());
+				resultXml.setPhoneNumber(imei.getMsisdn());
 				resultXMLList.add(resultXml);
 			}
 			catch (Exception e) 
