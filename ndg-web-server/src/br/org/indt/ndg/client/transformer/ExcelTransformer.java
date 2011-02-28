@@ -23,8 +23,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -52,6 +55,9 @@ public class ExcelTransformer extends ResultsTransformer {
 		HSSFWorkbook wb = new HSSFWorkbook();
 	    HSSFSheet sheet = wb.createSheet("Sheet1");
 
+	    DateFormat dateFormat = new SimpleDateFormat("K:mm a, z");
+		Date date = new Date();
+
 	    /** Header **/
 		HSSFRow row = sheet.createRow((short)0);
 		int fieldcounter = 0;
@@ -59,6 +65,7 @@ public class ExcelTransformer extends ResultsTransformer {
 		row.createCell((short)fieldcounter++).setCellValue("SurveyId");
 		row.createCell((short)fieldcounter++).setCellValue("Title");
 		row.createCell((short)fieldcounter++).setCellValue("Date");
+		row.createCell((short)fieldcounter++).setCellValue("Time");
 		row.createCell((short)fieldcounter++).setCellValue("User");
 		row.createCell((short)fieldcounter++).setCellValue("Imei");
 		row.createCell((short)fieldcounter++).setCellValue("PhoneNumber");
@@ -84,6 +91,8 @@ public class ExcelTransformer extends ResultsTransformer {
 			row.createCell((short)fieldcounter++).setCellValue(result.getSurveyId());
 			row.createCell((short)fieldcounter++).setCellValue(result.getTitle());
 			row.createCell((short)fieldcounter++).setCellValue(result.getDate());
+			date.setTime(Long.parseLong(result.getTime()));
+			row.createCell((short)fieldcounter++).setCellValue(dateFormat.format(date));
 			row.createCell((short)fieldcounter++).setCellValue(result.getUser());
 			row.createCell((short)fieldcounter++).setCellValue(result.getImei());
 			row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());
@@ -149,8 +158,11 @@ public class ExcelTransformer extends ResultsTransformer {
 		String file = path;
 		HSSFWorkbook wb = new HSSFWorkbook();
 	    HSSFSheet sheet = wb.createSheet("Sheet1");
-	    FileOutputStream out = null; 
-			
+	    FileOutputStream out = null;
+
+	    DateFormat dateFormat = new SimpleDateFormat("K:mm a, z");
+		Date date = new Date();
+
 		try {
 			out = new FileOutputStream(file);
 			/** Header **/
@@ -160,6 +172,7 @@ public class ExcelTransformer extends ResultsTransformer {
 			row.createCell((short)fieldcounter++).setCellValue("SurveyId");
 			row.createCell((short)fieldcounter++).setCellValue("Title");
 			row.createCell((short)fieldcounter++).setCellValue("Date");
+			row.createCell((short)fieldcounter++).setCellValue("Time");
 			row.createCell((short)fieldcounter++).setCellValue("User");
 			row.createCell((short)fieldcounter++).setCellValue("Imei");
 			row.createCell((short)fieldcounter++).setCellValue("PhoneNumber");
@@ -187,6 +200,8 @@ public class ExcelTransformer extends ResultsTransformer {
 				row.createCell((short)fieldcounter++).setCellValue(result.getSurveyId());
 				row.createCell((short)fieldcounter++).setCellValue(result.getTitle());
 				row.createCell((short)fieldcounter++).setCellValue(result.getDate());
+				date.setTime(Long.parseLong(result.getTime()));
+				row.createCell((short)fieldcounter++).setCellValue(dateFormat.format(date));
 				row.createCell((short)fieldcounter++).setCellValue(result.getUser());
 				row.createCell((short)fieldcounter++).setCellValue(result.getImei());
 				row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());
