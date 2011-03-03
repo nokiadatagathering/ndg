@@ -101,12 +101,14 @@ public class Resources implements Serializable{
 	
 	public static String toDate(Date d)
 	{
+		int month;
+
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(d);
-		calendar.add(Calendar.MONTH, 1);
-		calendar.add(Calendar.DAY_OF_MONTH, 1);
-		String fieldDate = calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH)) + "/" + calendar.get(Calendar.YEAR);
-		
+		month = calendar.get(calendar.MONTH) + 1;
+
+		String fieldDate = calendar.get(Calendar.DAY_OF_MONTH) + "/" + month + "/" + calendar.get(Calendar.YEAR);
+
 		return fieldDate;
 	}
 
