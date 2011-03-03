@@ -29,6 +29,8 @@
 							change="_catValidator.validate();"/>
 						<mx:Spacer width="100%" height="90%"/>
 						<mx:HBox width="100%" horizontalAlign="right">
+							<mx:Button id="btnCloneCategory" enabled="true" click="selectInputCategory()"
+								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_CLONE_CATEGORY')}" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_CLONE')}"/>
 							<mx:Button label="OK" id="btnCategoryOk" enabled="true" click="editCategory()"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
 						</mx:HBox>

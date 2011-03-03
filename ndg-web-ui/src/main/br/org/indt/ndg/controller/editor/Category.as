@@ -30,16 +30,54 @@ package main.br.org.indt.ndg.controller.editor
 		private var aQuestions:Array = new Array();
 		private static var lastIndexAvailable:int = 0;
 		
-		public function Category(name:String, id:int)
+		public function Category()
 		{
-			content = <category id={id} name={name}></category>;
+		}
+
+		public static function create(name:String, id:int):Category
+		{
+			var category:Category = new Category();
+			category.content = <category id={id} name={name}></category>;
+			return category;
 		}
 		
+		public static function clone(node:XML):Category
+		{
+			var self:Category = new Category();
+			self.content = node.copy();
+			self.content.@id = Category.getNewIndexForCategory();
+			self.content.@name = node.@name + self.content.@id;
+			self.updateSkipLogic(node.@id);
+			return self;
+		}
+
+		private function updateSkipLogic(clonedId:int):void
+		{
+			var questions:XMLList = XMLList(content.question);
+			var questionsLength:int = questions.length();
+
+			for (var i:int=0; i < questionsLength; i++)
+			{
+				var skipLogicList:XMLList = questions[i].SkipLogic;
+				if(skipLogicList != null && skipLogicList.length() > 0)
+				{
+					if(skipLogicList[0].@catTo == clonedId)//maintain intercategory skiplogic
+					{
+						skipLogicList[0].@catTo = this.content.@id
+					}
+					else//remove skiplogic to external categories
+					{
+						delete questions[i].SkipLogic;
+					}
+				}
+			}
+		}
+
 		public static function appendQuestion(category:XML, question:Question):void
 		{
 			if (category.localName() == "category")
 			{	
-				question.setContent(Category.getNewIndexForQuestion(category));			
+				question.setContent(Category.getNewIndexForQuestion(category));
 				category.appendChild(question.getContent());
 			}
 			else

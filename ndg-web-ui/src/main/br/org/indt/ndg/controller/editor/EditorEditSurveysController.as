@@ -1092,5 +1092,14 @@
 			win.previewQuestion.cScreen.move(positionX, positionY);
 		}
 	}
+
+	private function selectInputCategory(): void {
+		var payload:Payload = new Payload();
+		payload.setCategoryText(txtCategory.text);
+		payload.setView(this);
+
+		dispatchControllerEvent(EventTypes.CLONE_CATEGORY_EVENT, payload);
+		cmbDeviceOnChange();
+	}
 	
 	

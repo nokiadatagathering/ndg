@@ -50,6 +50,8 @@ package main.br.org.indt.ndg.controller.editor {
 			addEventListener(EventTypes.ADD_ITEMTREE_EVENT, TreeHelper.getInstance().handleAddItemTree);
 			addEventListener(EventTypes.SEARCH_ITEM_EVENT, TreeHelper.getInstance().handleSearchItem);
 			addEventListener(EventTypes.CHOICE_ITEM_CLICK, ChoiceItemHelper.getInstance().handleClickChoiceItemCheckBox);
+
+			addEventListener(EventTypes.CLONE_CATEGORY_EVENT, QuestionHelper.getInstance().handleCloneCategoryEvent);
 		}
 
 		public static function getInstance():FrontController {

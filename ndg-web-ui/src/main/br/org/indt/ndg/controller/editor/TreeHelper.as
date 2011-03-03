@@ -374,8 +374,7 @@ package main.br.org.indt.ndg.controller.editor
 		{
 			if(item == "categ")
 		    {
-		    	Survey.getInstance().appendCategory(new Category(Category.CATEGORY_DEFAULT_DISPLAY_NAME, Category.getNewIndexForCategory()));
-
+				Survey.getInstance().appendCategory(Category.create(Category.CATEGORY_DEFAULT_DISPLAY_NAME, Category.getNewIndexForCategory()));
 				// Select the new category (just created)
 				treeView.selectedIndex = treeView.getItemIndex(Survey.getInstance().getContent().children()[Survey.getInstance().getContent().children().length()-1] as XML);
 				mainView.tree_ItemClick(null);
