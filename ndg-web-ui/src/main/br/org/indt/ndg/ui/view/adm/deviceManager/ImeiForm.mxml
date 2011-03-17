@@ -53,7 +53,7 @@
 	</mx:Form>
 	
 	<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="3" visible="{hasBalanceCheck}">
-		<mx:Image width="16" height="14" source="@Embed('main/resources/images/BALANCE.png')" id="balanceIcon"/>
+		<mx:Image width="16" height="14" source="@Embed('../../../../../../../../resources/images/BALANCE.png')" id="balanceIcon"/>
 		<mx:Label text="{userBalanceMessage}"/>
 	</mx:HBox>
 	

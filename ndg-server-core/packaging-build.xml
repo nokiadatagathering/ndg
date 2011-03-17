@@ -8,6 +8,12 @@
 
 <target name="clean">
     <delete dir="bin"/>
+	<delete dir="build"/>
+	<delete>
+		<fileset dir="." includes="**/*.ear"/>
+		<fileset dir="." includes="**/*.war"/>
+		<fileset dir="." includes="**/*.jar"/>
+	</delete>
 </target>
 
 <target name="prepare" depends="clean">
@@ -16,8 +22,12 @@
 </target>
 
 <target name="compile" depends="prepare">
-    <javac srcdir="." classpathref="classpath" destdir="bin"
-            includes="**/*.java"/>
+    <javac
+		srcdir="."
+		classpathref="classpath"
+		destdir="bin"
+		includes="**/*.java"
+		excludes=".svn"/>
 </target>
 
 <target name="N65582" description="msmjms.jar" depends="compile">
@@ -40,12 +50,18 @@
 		<mkdir dir="build" />
 		<mkdir dir="bin" />
 		<jar destfile="build/ndg-ejb.jar">
-			<zipfileset dir="src/main/java/META-INF" prefix="META-INF" includes="persistence.xml" />
 			<zipfileset dir="bin" includes="**/*.class" excludes="**/jms/*.class, **/sms/SMSMessageVO.class" />
 			<zipfileset dir="src/main/java/META-INF" prefix="META-INF">
+				<include name="persistence.xml" />
 				<include name="survey.xml" />
 				<include name="email_verification_link.txt" />
 				<include name="email_recovery_password_link.txt" />
+			</zipfileset>
+			<zipfileset dir="src/main/java/resources" prefix="resources">
+				<include name="surveyList.xml"/>
+				<include name="openXdataTest.xml"/>
+				<include name="openXdataTest2.xml"/>
+				<include name="openXdataTest3.xml"/>
 			</zipfileset>
 		</jar>
 

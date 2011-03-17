@@ -142,7 +142,7 @@
 				<mx:value>{ConfigI18n.getInstance().getString('btnWizardOkDevice')}</mx:value>
 			</mx:SetProperty>
 			<mx:AddChild position="lastChild">
-				<mx:Image x="108" y="11" width="22" height="22" source="@Embed('main/resources/images/ICON_EDITING.png')" autoLoad="true"/>
+				<mx:Image x="108" y="11" width="22" height="22" source="@Embed('../../../../../../../../resources/images/ICON_EDITING.png')" autoLoad="true"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="remove_edit">
@@ -150,7 +150,7 @@
 				<mx:value>{ConfigI18n.getInstance().getString('btnWizardEditDevice')}</mx:value>
 			</mx:SetProperty>
 			<mx:AddChild position="lastChild">
-				<mx:Image x="108" y="11" width="23" height="23" source="@Embed('main/resources/images/ICON_OK.png')" autoLoad="true"/>
+				<mx:Image x="108" y="11" width="23" height="23" source="@Embed('../../../../../../../../resources/images/ICON_OK.png')" autoLoad="true"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="problem">
@@ -158,7 +158,7 @@
 				<mx:value>{ConfigI18n.getInstance().getString('btnWizardEditDevice')}</mx:value>
 			</mx:SetProperty>
 			<mx:AddChild position="lastChild">
-				<mx:Image x="108" y="11" width="23" height="23" source="@Embed('main/resources/images/ICON_PROBLEM.png')" autoLoad="true"/>
+				<mx:Image x="108" y="11" width="23" height="23" source="@Embed('../../../../../../../../resources/images/ICON_PROBLEM.png')" autoLoad="true"/>
 			</mx:AddChild>
 			<mx:SetProperty name="height" value="204"/>
 			<mx:AddChild position="lastChild">

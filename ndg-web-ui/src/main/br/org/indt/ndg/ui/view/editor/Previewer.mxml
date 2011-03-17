@@ -3,9 +3,9 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="406" height="474">
 
 	
-	<mx:Image width="392" height="410" source="@Embed('main/resources/images/editor/preview/e61/e61_3.png')"  
+	<mx:Image width="392" height="410" source="@Embed('../../../../../../../resources/images/editor/preview/e61/e61_3.png')"
 		scaleContent="false" id="imgMobileE61" y="64" x="11" visible="false"/>
-	<mx:Image width="392" height="410" source="@Embed('main/resources/images/editor/preview/e71/e71_3.png')"  
+	<mx:Image width="392" height="410" source="@Embed('../../../../../../../resources/images/editor/preview/e71/e71_3.png')"
 		scaleContent="false" id="imgMobileE71" y="64" x="11" visible="true"/>
 			
 	<mx:Canvas x="27" y="23" width="406" height="474" id="cScreen" scaleX="0.84" scaleY="0.84">

@@ -30,7 +30,7 @@
 			</mx:HBox>
 			<mx:HBox verticalAlign="middle" horizontalGap="2">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMap')}" height="22" id="btnMap" width="80"
-					click="showMap()" enabled="{pagination.selectedAllItems.length == 1}"/>
+					click="showMap()" enabled="{pagination.selectedAllItems.length >= 1}"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMapAll')}" height="22" id="btnMapAll" width="80"
 					click="showMapAll()"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExport')}" height="22" id="btnExport"
@@ -69,7 +69,7 @@
 						<mx:itemRenderer>
 							<mx:Component>
 								<mx:VBox width="100%" horizontalAlign="center">
-									<mx:Image source="@Embed('main/resources/images/MAP_STATUS_OK.png')" mouseEnabled="true" buttonMode="true"
+									<mx:Image source="@Embed('../../../../../../../resources/images/MAP_STATUS_OK.png')" mouseEnabled="true" buttonMode="true"
 										visible="{data.lat != 0 || data.lon != 0}" toolTip="[{data.lat},{data.lon}]"/>
 								</mx:VBox>
 							</mx:Component>

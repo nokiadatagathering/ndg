@@ -77,7 +77,7 @@
 			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
 				<mx:Label y="10" text="{ConfigI18n.getInstance().getString('lblWizardInstallSuccess')}" styleName="darkTitle"  fontSize="18" fontWeight="normal" horizontalCenter="0"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallCongratQuest')}" horizontalCenter="0" fontSize="16" y="118"/>
-				<mx:Image y="51" source="@Embed('main/resources/images/ICON_SUCCESS.png')" horizontalCenter="0"/>
+				<mx:Image y="51" source="@Embed('../../../../../../../../resources/images/ICON_SUCCESS.png')" horizontalCenter="0"/>
 			</mx:Canvas>
 			
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
@@ -100,7 +100,7 @@
 				<mx:HBox x="105" width="285" height="138" borderColor="#1B314C" borderStyle="solid" cornerRadius="6" backgroundColor="#FFFFFF" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5" verticalCenter="0">
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallSMSTip')}" width="100%" height="100%" fontSize="12"/>
 				</mx:HBox>
-				<mx:Image x="471" source="@Embed('main/resources/images/SMS_INSTALL.png')" verticalCenter="0"/>
+				<mx:Image x="471" source="@Embed('../../../../../../../../resources/images/SMS_INSTALL.png')" verticalCenter="0"/>
 			</mx:Canvas>
 			
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
@@ -125,17 +125,17 @@
 				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
 			</mx:HBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step1.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step1.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep1')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep1Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step2.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step2.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep2')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep2Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step3.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step3.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep3')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep3Detail')}" width="100%"/>
 				</mx:VBox>
@@ -162,17 +162,17 @@
 				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
 			</mx:HBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step4.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step4.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep4')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep4Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step5.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step5.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep5')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep5Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step6.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step6.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep6')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep6Detail')}" width="100%"/>
 				</mx:VBox>
@@ -199,17 +199,17 @@
 				<mx:HBox width="100%" height="80%" styleName="wizardCenterPanel" horizontalAlign="center" verticalAlign="middle" horizontalGap="45" verticalCenter="0">			
 			</mx:HBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="57">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step7.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step7.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep7')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep7Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="294">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step8.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step8.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep8')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep8Detail')}" width="100%"/>
 				</mx:VBox>
 				<mx:VBox width="194" height="100%" styleName="wizardStepPanel" x="539">
-					<mx:Image source="@Embed('main/resources/images/steps/img-step9.jpg')" width="188" height="143"/>
+					<mx:Image source="@Embed('../../../../../../../../resources/images/steps/img-step9.jpg')" width="188" height="143"/>
 					<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallStep9')}" fontWeight="bold" fontSize="12"/>
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallStep9Detail')}" width="100%"/>
 				</mx:VBox>
@@ -233,7 +233,7 @@
 			</mx:VBox>
 			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
 				<mx:Label y="96" text="{ConfigI18n.getInstance().getString('lblWizardInstallCongrat')}" styleName="darkTitle"  fontSize="18" fontWeight="normal" horizontalCenter="0"/>
-				<mx:Image y="19" source="@Embed('main/resources/images/ICON_SUCCESS.png')" horizontalCenter="0"/>
+				<mx:Image y="19" source="@Embed('../../../../../../../../resources/images/ICON_SUCCESS.png')" horizontalCenter="0"/>
 				<mx:Text y="133" text="{ConfigI18n.getInstance().getString('lblWizardInstallFinishMsg')}" styleName="darkTitle" fontWeight="normal" fontSize="14" horizontalCenter="0" width="426" height="59" textAlign="center"/>
 			</mx:Canvas>
 			
@@ -258,7 +258,7 @@
 				<mx:HBox x="105" width="285" height="138" borderColor="#1B314C" borderStyle="solid" cornerRadius="6" backgroundColor="#FFFFFF" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5" verticalCenter="0">
 					<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallPCTip')}" width="100%" height="100%" fontSize="12"/>
 				</mx:HBox>
-				<mx:Image x="471" source="@Embed('main/resources/images/PC_INSTALL.png')" verticalCenter="0"/>
+				<mx:Image x="471" source="@Embed('../../../../../../../../resources/images/PC_INSTALL.png')" verticalCenter="0"/>
 			</mx:Canvas>
 			
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">

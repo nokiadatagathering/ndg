@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xf="http://www.w3.org/2002/xforms"
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <head>
+  <title>Maintenance 2</title>
+  <xf:model>
+    <xf:instance xmlns="" id="document">
+		<Data>
+			<page>info</page>
+			<contact>John Doe</contact>
+			<number>11</number>
+			<date>1914-12-14</date>
+			<ptime>12:12</ptime>
+		</Data>
+    </xf:instance>
+	<xf:bind nodeset="/Data/contact" type="xsd:string"/>
+	<xf:bind nodeset="/Data/number" type="xsd:integer"/>
+	<xf:bind nodeset="/Data/date" type="xsd:date"/>
+	<xf:bind nodeset="/Data/ptime" type="xsd:time"/>
+	<xf:bind nodeset="/Data/photo" format="image" type="xsd:base64Binary"/>
+  </xf:model>
+</head>
+<body>
+  <xf:input ref="/Data/contact">
+   <xf:label>Contact</xf:label>
+  </xf:input>
+  <xf:input ref="/Data/number">
+   <xf:label>Number</xf:label>
+  </xf:input>
+  <xf:input ref="//Data/date">
+   <xf:label>Date</xf:label>
+  </xf:input>
+  <xf:input ref="/Data/ptime">
+   <xf:label>Ptime</xf:label>
+  </xf:input>
+  <upload bind="Photo" mediatype="image/*">
+    <label>Photo</label>
+   </upload>
+
+
+  <xf:select1 ref="/data/sel1" appearance="minimal">
+   <xf:label>Minimal Select1</xf:label>
+      <xf:item>
+        <xf:label>One</xf:label>
+        <xf:value>One</xf:value>
+      </xf:item>
+      <xf:item>
+        <xf:label>Two</xf:label>
+        <xf:value>Two</xf:value>
+      </xf:item>
+      <xf:item>
+        <xf:label>Three</xf:label>
+        <xf:value>Three</xf:value>
+      </xf:item>
+  </xf:select1>
+
+
+  <xf:select1 ref="/data/sel2" appearance="full">
+   <xf:label>Full Select1</xf:label>
+      <xf:item>
+        <xf:label>One</xf:label>
+        <xf:value>One</xf:value>
+      </xf:item>
+      <xf:item>
+        <xf:label>Two</xf:label>
+        <xf:value>Two</xf:value>
+      </xf:item>
+      <xf:item>
+        <xf:label>Three</xf:label>
+        <xf:value>Three</xf:value>
+      </xf:item>
+  </xf:select1>
+
+  <xf:select ref="/data/sel3" >
+      <xf:label>Question6</xf:label>
+      <xf:item id="option4">
+        <xf:label>Option4</xf:label>
+        <xf:value>option4</xf:value>
+      </xf:item>
+      <xf:item id="option5">
+        <xf:label>Option5</xf:label>
+        <xf:value>option5</xf:value>
+      </xf:item>
+      <xf:item id="option6">
+        <xf:label>Option6</xf:label>
+        <xf:value>option6</xf:value>
+      </xf:item>
+      <xf:item id="option8">
+        <xf:label>Option8</xf:label>
+        <xf:value>option8</xf:value>
+      </xf:item>
+   </xf:select>
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@
     
     <mx:Canvas width="100%" height="25">
         <mx:Button width="38" height="14" styleName="iconButton" x="590" y="-1" click="cancelSendSurvey(event)">
-            <mx:skin>@Embed(source='/main/resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
+            <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
         </mx:Button>
     </mx:Canvas>
     
@@ -51,17 +51,17 @@
 					click="modeSelected(event)" styleName="wizardClearButton"
 					visible="{!SessionClass.getInstance().isHostedMode}"
 					includeInLayout="{!SessionClass.getInstance().isHostedMode}">
-					<mx:icon>@Embed(source='/main/resources/images/POPUP_USB_ICON.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_USB_ICON.png')</mx:icon>
 				</mx:Button>
 				<mx:Button id="sms" label="{ConfigI18n.getInstance().getString('btnModeSMS')}" width="110" height="60"
 					click="modeSelected(event)" styleName="wizardClearButton"
 					visible="false"
 					includeInLayout="false">
-					<mx:icon>@Embed(source='/main/resources/images/POPUP_SMS_ICON.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_SMS_ICON.png')</mx:icon>
 				</mx:Button>
 				<mx:Button id="gprs" label="{ConfigI18n.getInstance().getString('btnModeInternet')}" width="110" height="60"
 					click="modeSelected(event)" styleName="wizardClearButton">
-					<mx:icon>@Embed(source='/main/resources/images/POPUP_INTERNET_ICON.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/POPUP_INTERNET_ICON.png')</mx:icon>
 				</mx:Button>
 				<mx:Button id="download" label="{ConfigI18n.getInstance().getString('btnModeDownload')}" width="110" height="60"
 					click="modeSelected(event)" styleName="wizardClearButton">
@@ -86,7 +86,7 @@
 						<mx:ComboBox dataProvider="{deviceList}" id="deviceCombo" change="checkImei()" visible="true"/>
 						<mx:Button id="refreshBtn"  click="loadDevices()" styleName="iconButton" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getString('lblSendSurveyRefreshTip')}">
-							<mx:icon>@Embed(source='/main/resources/images/RELOAD_TRANSP.png')</mx:icon>
+							<mx:icon>@Embed(source='../../../../../../../../resources/images/RELOAD_TRANSP.png')</mx:icon>
 						</mx:Button>
 					</mx:HBox>
 					<mx:Text id="deviceImeiText" text="" width="240" height="33" textAlign="center" />
@@ -95,11 +95,11 @@
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="firstStep()"
 					paddingLeft="10" paddingRight="10" width="80">
-					<mx:icon>@Embed(source='/main/resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
 				</mx:Button>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyNext')}" click="deviceSelected(event)"
 					labelPlacement="left" paddingLeft="10" paddingRight="10" id="btnDeviceSelect" enabled="false" width="80">
-					<mx:icon>@Embed(source='/main/resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
 				</mx:Button>
 			</mx:HBox>				
 		</mx:VBox>
@@ -139,11 +139,11 @@
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="firstStep()"
 					paddingLeft="10" paddingRight="10" width="80">
-					<mx:icon>@Embed(source='/main/resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
 				</mx:Button>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyNext')}" click="imeiSelected(event)"
 					labelPlacement="left" paddingLeft="10" paddingRight="10" width="80">
-					<mx:icon>@Embed(source='/main/resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
 				</mx:Button>
 			</mx:HBox>				
 		</mx:VBox>
@@ -179,11 +179,11 @@
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="backToSelectImei(event)"
 					paddingLeft="10" paddingRight="10" width="80">
-					<mx:icon>@Embed(source='/main/resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
 				</mx:Button>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyNext')}" click="sendSurveys(event)"
 					labelPlacement="left" paddingLeft="10" paddingRight="10" width="80">
-					<mx:icon>@Embed(source='/main/resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_NEXT_TRANSP.png')</mx:icon>
 				</mx:Button>			
 			</mx:HBox>
 		</mx:VBox>
@@ -195,7 +195,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_SUCCESS.png')"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../../resources/images/ICON_SUCCESS.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendingSuccess')}" styleName="darkTitle"/>
 				<mx:Text text="{ConfigI18n.getInstance().getString('lblFinishWarn')}" textAlign="center"/>
 			</mx:VBox>
@@ -212,14 +212,14 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_FAIL.png')"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../../resources/images/ICON_FAIL.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblSendingFail')}" styleName="darkTitle"/>
 				<mx:Text text="{ConfigI18n.getInstance().getString('lblSendingFailWarn')}" textAlign="center"/>
 			</mx:VBox>
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">			
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendSurveyBack')}" click="backFailScreen(event)"
 					paddingLeft="10" paddingRight="10">
-					<mx:icon>@Embed(source='/main/resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+					<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
 				</mx:Button>
 			</mx:HBox>								
 		</mx:VBox>
@@ -231,7 +231,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_SUCCESS.png')"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../../resources/images/ICON_SUCCESS.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblExportSuccess')}" styleName="darkTitle"/>
 				<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnDownloadSurvey')}" click="downloadPressed()"/>
 			</mx:VBox>

@@ -7,7 +7,11 @@
 </path>
 
 <target name="clean">
-    <delete dir="build/classes"/>
+    <delete dir="build"/>
+	<delete dir="bin"/>
+    <delete>
+        <fileset dir="." includes="*.war"/>
+    </delete>
 </target>
 
 <target name="prepare" depends="clean">
@@ -17,7 +21,7 @@
 <target name="compile" depends="prepare">
     <javac srcdir="." classpathref="classpath" destdir="build/classes"
             includes="**/*.java"
-            excludes="src/main/java/com/jcraft/**/*.java"/>
+            excludes="src/main/java/com/jcraft/**/*.java .svn"/>
 </target>
 
 <target name="N65599" description="ndg-core-web.war" depends="compile">

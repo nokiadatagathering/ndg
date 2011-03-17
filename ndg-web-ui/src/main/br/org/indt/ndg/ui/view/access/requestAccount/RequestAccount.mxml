@@ -95,7 +95,7 @@
 			
 			<mx:VBox width="100%" styleName="loginCenterPanel" verticalAlign="top" horizontalAlign="center" height="385" verticalGap="0">			
 				<mx:HBox width="100%" height="15" verticalAlign="middle" horizontalAlign="left" horizontalGap="0">
-					<mx:Image width="7" height="7" source="@Embed('main/resources/images/ASTERISCO_RED.png')"/>
+					<mx:Image width="7" height="7" source="@Embed('../../../../../../../../resources/images/ASTERISCO_RED.png')"/>
 					<mx:Label text="{resourceManager.getString('requestAccount', 'requiredFields')}" height="13" styleName="darkSmallText"/>
 				</mx:HBox>			
 				<mx:HBox width="100%" horizontalGap="30" horizontalAlign="center">

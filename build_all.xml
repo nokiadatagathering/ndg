@@ -1,0 +1,55 @@
+﻿<project name="Build all" default="build_all_and_deploy">
+	<!-- build all projects -->
+    <property name="copyTo.dir" location="jboss-4.2.2.GA/server/default/deploy/"/>
+    <property name="server-core.dir" location="ndg-server-core"/>
+    <property name="commons-core.dir" location="ndg-commons-core"/>
+    <property name="servlets.dir" location="ndg-server-servlets"/>
+    <property name="flex.dir" location="ndg-web-ui"/>
+    <property name="web-server.dir" location="ndg-web-server"/>
+
+    <!-- clean all projects -->
+    <target name="all_clean">
+        <ant antfile="packaging-build.xml" dir="${server-core.dir}" target="clean" />
+        <ant antfile="packaging-build.xml" dir="${commons-core.dir}" target="clean" />
+        <ant antfile="packaging-build.xml" dir="${servlets.dir}" target="clean" />
+        <ant antfile="build.xml" dir="${flex.dir}" target="clean" />
+        <ant antfile="build.xml" dir="${web-server.dir}/deploy/" target="clean" />
+    </target>
+
+    <target name="build_server_core">
+       <ant antfile="packaging-build.xml" dir="${server-core.dir}" />
+    </target>
+    <target name="build_commons_core">
+       <ant antfile="packaging-build.xml" dir="${commons-core.dir}" />
+    </target>
+    <target name="build_servlets">
+       <ant antfile="packaging-build.xml" dir="${servlets.dir}" />
+    </target>
+    <target name="build_web_ui_flex">
+       <ant antfile="build.xml" dir="${flex.dir}" />
+    </target>
+    <target name="build_web_server">
+       <ant antfile="build.xml" dir="${web-server.dir}/deploy/" />
+	</target>
+
+    <!-- deploy to server -->
+	<!-- add all necessary files for deployment here -->
+    <target name="deploy">
+        <copy file="${commons-core.dir}/build/ndg-commons.jar" todir="${copyTo.dir}/../lib"></copy>
+        <copy file="${server-core.dir}/build/msmjms.jar" todir="${copyTo.dir}/../lib/"></copy>
+        <copy file="${server-core.dir}/build/ndg-ejb-client.jar" todir="${copyTo.dir}/../lib/"></copy>
+        <copy file="${server-core.dir}/build/ndg-core.ear" todir="${copyTo.dir}"></copy>
+        <copy file="${servlets.dir}/build/ndg-servlets.war" todir="${copyTo.dir}"></copy>
+        <copy file="${web-server.dir}/deploy/ndgFlex.war" todir="${copyTo.dir}"></copy>
+    </target>
+
+	<!-- build al projects and deploy to server -->
+    <target name="build_all_and_deploy" depends="
+            all_clean,
+            build_server_core,
+            build_commons_core,
+            build_servlets,
+            build_web_ui_flex,
+            build_web_server,
+            deploy" />
+</project>

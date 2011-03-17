@@ -334,7 +334,7 @@
 	<mx:HBox width="100%" styleName="functionalitiesBar" verticalAlign="bottom">
 		<mx:Button height="43" width="63" click="backToSurveysList(event)"
 			label="{ConfigI18n.getInstance().getString('btnDetailsBack')}">
-			<mx:icon>@Embed(source='main/resources/images/SETA_BACK_TRANSP.png')</mx:icon>
+			<mx:icon>@Embed(source='../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
 		</mx:Button>	
 		<mx:VBox verticalAlign="middle" verticalGap="0">		
 			<mx:HBox verticalAlign="middle" horizontalGap="4">
@@ -354,7 +354,7 @@
 			<mx:Label text="{ConfigI18n.getInstance().getString('lblSearch')}" fontWeight="bold"/>
 			<mx:TextInput id="txtSearch" enter="onEnter_search(event)" height="22"/>
 			<mx:Button id="btnSearchGo" click="onEnter_search(event)" styleName="iconButton" width="22" height="22">
-				<mx:icon>@Embed(source='main/resources/images/SEARCH_TRANSP.png')</mx:icon>
+				<mx:icon>@Embed(source='../../../../../../../resources/images/SEARCH_TRANSP.png')</mx:icon>
 			</mx:Button>
 		</mx:HBox>
 	</mx:HBox>	
@@ -399,7 +399,7 @@
 				<mx:HBox width="100%" horizontalGap="0">
 					<mx:VBox height="100%" width="98">
 						<mx:Button id="btnNewCategory" width="85" height="22"
-							icon="@Embed(source='main/resources/images/editor/add_folder.png')"
+							icon="@Embed(source='../../../../../../../resources/images/editor/add_folder.png')"
 							toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_CATEGORY')}"
 							label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_CATEGORY')}"
 							click="questTree.onItemClick(this, 0)"/>
@@ -409,61 +409,61 @@
 							<mx:Button id="_str" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_STRING')}"
 								click="questTree.onItemClick(this, Question.QUESTION_STRING)" styleName="iconButton">
-								<mx:overSkin>@Embed(source='main/resources/images/editor/string-tmp_pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/string-tmp.png')</mx:skin>
+								<mx:overSkin>@Embed(source='../../../../../../../resources/images/editor/string-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='../../../../../../../resources/images/editor/string-tmp.png')</mx:skin>
 							</mx:Button>
 							<mx:Button id="_int" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_INTEGER')}"
 								click="questTree.onItemClick(this, Question.QUESTION_INTEGER)" styleName="iconButton">
-								<mx:overSkin>@Embed(source='main/resources/images/editor/int-tmp_pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/int-tmp.png')</mx:skin>
+								<mx:overSkin>@Embed(source='../../../../../../../resources/images/editor/int-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='../../../../../../../resources/images/editor/int-tmp.png')</mx:skin>
 							</mx:Button>
 							<mx:Button id="_choice" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_MULTIPLE')}"
 								click="questTree.onItemClick(this, Question.QUESTION_CHOICE)" styleName="iconButton">
-								<mx:overSkin>@Embed(source='main/resources/images/editor/choice-tmp_pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/choice-tmp.png')</mx:skin>
+								<mx:overSkin>@Embed(source='../../../../../../../resources/images/editor/choice-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='../../../../../../../resources/images/editor/choice-tmp.png')</mx:skin>
 							</mx:Button>
 							<mx:Button id="_choiceExclusive" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_MULTIPLE_EXCL')}"
 								click="questTree.onItemClick(this, Question.QUESTION_CHOICE_EXCLUSIVE)" styleName="iconButton">	
-								<mx:overSkin>@Embed(source='main/resources/images/editor/choice-excl-tmp_pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/choice-excl-tmp.png')</mx:skin>
+								<mx:overSkin>@Embed(source='../../../../../../../resources/images/editor/choice-excl-tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='../../../../../../../resources/images/editor/choice-excl-tmp.png')</mx:skin>
 							</mx:Button>
 							<mx:Button id="_date" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_DATE')}"
 								click="questTree.onItemClick(this, Question.QUESTION_DATE)" styleName="iconButton">
-								<mx:overSkin>@Embed(source='main/resources/images/editor/date-new_tmp_pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/date-new_tmp.png')</mx:skin>
+								<mx:overSkin>@Embed(source='../../../../../../../resources/images/editor/date-new_tmp_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='../../../../../../../resources/images/editor/date-new_tmp.png')</mx:skin>
 							</mx:Button>
 							<mx:Button id="_time" width="22" height="22"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_TIME')}"
 								click="questTree.onItemClick(this, Question.QUESTION_TIME)" styleName="iconButton">
-								<mx:overSkin>@Embed(source='main/resources/images/editor/time_icon-pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/time_icon-tmp.png')</mx:skin>
+								<mx:overSkin>@Embed(source='../../../../../../../resources/images/editor/time_icon-pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='../../../../../../../resources/images/editor/time_icon-tmp.png')</mx:skin>
 							</mx:Button>
 							<mx:Button id="_img" width="22" height="22" 
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_NEW_IMAGE')}"
 								click="questTree.onItemClick(this, Question.QUESTION_IMAGE)" styleName="iconButton">
-								<mx:overSkin>@Embed(source='main/resources/images/editor/icon_image_pressed.png')</mx:overSkin>
-								<mx:skin>@Embed(source='main/resources/images/editor/icon_image.png')</mx:skin>
+								<mx:overSkin>@Embed(source='../../../../../../../resources/images/editor/icon_image_pressed.png')</mx:overSkin>
+								<mx:skin>@Embed(source='../../../../../../../resources/images/editor/icon_image.png')</mx:skin>
 							</mx:Button>
 						</mx:HBox>
 						<mx:HBox horizontalGap="3">
 							<mx:Button height="22" width="64" click="moveDownQuestion()"
 								label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_MOVEDOWN')}"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_MOVEDOWN')}">
-								<mx:icon>@Embed(source='main/resources/images/editor/down.png')</mx:icon>
+								<mx:icon>@Embed(source='../../../../../../../resources/images/editor/down.png')</mx:icon>
 							</mx:Button>
 							<mx:Button height="22" width="64" click="moveUpQuestion()"
 								label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_MOVEUP')}"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_MOVEUP')}">
-								<mx:icon>@Embed(source='main/resources/images/editor/up.png')</mx:icon>
+								<mx:icon>@Embed(source='../../../../../../../resources/images/editor/up.png')</mx:icon>
 							</mx:Button>
 							<mx:Button height="22" width="64" click="removeQuestion()"
 								label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_DELETE')}"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_DELETE')}">
-								<mx:icon>@Embed(source='main/resources/images/editor/delete_item.png')</mx:icon>
+								<mx:icon>@Embed(source='../../../../../../../resources/images/editor/delete_item.png')</mx:icon>
 							</mx:Button>
 						</mx:HBox>
 					</mx:VBox>
@@ -473,8 +473,8 @@
 					dragEnter="questTree.onDragEnter(event)" dragOver="questTree.onDragOver(event)"
 					doubleClickEnabled="true" doubleClick="tree_ItemDbClick(event)"
 					change="tree_ItemClick(event)" itemClose="tree_ItemClose(event)" 
-				    disclosureClosedIcon="@Embed(source='main/resources/images/editor/plus-8.png')"
-	                disclosureOpenIcon="@Embed(source='main/resources/images/editor/minus-8.png')"/>
+				    disclosureClosedIcon="@Embed(source='../../../../../../../resources/images/editor/plus-8.png')"
+	                disclosureOpenIcon="@Embed(source='../../../../../../../resources/images/editor/minus-8.png')"/>
 			</mx:VBox>
 		</mx:VBox>
 		

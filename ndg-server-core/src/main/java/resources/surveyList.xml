@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xforms xmlns="http://openrosa.org/xforms/xformsList">
+	<xform>
+		<formID>1</formID>
+		<name>openXdataTest</name>
+		<majorMinorVersion>1.0</majorMinorVersion>
+		<downloadUrl>===ndg-server-address===/ndg-servlets/ReceiveSurveys?do=download&amp;deviceID=123456789&amp;formID=1</downloadUrl>
+	</xform>
+	<xform>
+		<formID>2</formID>
+		<name>openXdataTest2</name>
+		<majorMinorVersion>1.0</majorMinorVersion>
+		<downloadUrl>===ndg-server-address===/ndg-servlets/ReceiveSurveys?do=download&amp;deviceID=123456789&amp;formID=2</downloadUrl>
+	</xform>
+	<xform>
+		<formID>3</formID>
+		<name>openXdataTest3</name>
+		<majorMinorVersion>1.0</majorMinorVersion>
+		<downloadUrl>===ndg-server-address===/ndg-servlets/ReceiveSurveys?do=download&amp;deviceID=123456789&amp;formID=3</downloadUrl>
+	</xform>
+</xforms>

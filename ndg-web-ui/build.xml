@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Flex Builder" basedir="." default="generate-start-pages">
+
+<!-- README: It is not 100% sure every line here is neccessary and maybe there are some lines missing
+		so do not hesitate to make some corrections as they indeed might be needed -->
+
+	<taskdef resource="flexTasks.tasks" classpath="${basedir}/libs/flexTasks.jar"/> <!-- flexTasks.jar has to be copied from coresponding SDK -->
+	<property name="FLEX_HOME" value="/home/X/flex_sdk_3.5.0.12683_mpl"/> <!-- set correct path to flex SDK -->
+	<!-- properties below should not be changed unless dir structure is changed -->
+	<property name="SRC_DIR" value="${basedir}/src"/>
+	<property name="DEPLOY_DIR" value="${basedir}/bin-debug"/>
+	<property name="LIBS_DIR" value="${basedir}/libs"/>
+	<property name="SERVICES_CONFIG_FILEPATH" value="${basedir}/../ndg-web-server/WebContent/WEB-INF/flex/services-config.xml"/>
+
+
+	<target name="clean">
+		<delete dir="${DEPLOY_DIR}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${DEPLOY_DIR}" />
+	</target>
+
+       <!-- Build Main.swf and move to DEPLOY_DIR -->
+	<target name="build-flex" depends="init">
+		<mxmlc file="${SRC_DIR}/Main.mxml" output="${DEPLOY_DIR}/Main.swf" services="${SERVICES_CONFIG_FILEPATH}">
+				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+				<locale>en_US</locale>
+				<locale>pt_BR</locale>
+				<locale>es_ES</locale>
+				<source-path path-element="${SRC_DIR}/main/resources/i18n/{locale}"/>
+				<source-path path-element="${FLEX_HOME}/frameworks"/>
+				<library-path dir="${LIBS_DIR}" append="true" >
+					<include name="*.swc" />
+				</library-path>
+				 <!-- some of the libraries might NOT be needed -->
+				<library-path dir="${FLEX_HOME}/frameworks/libs" append="true">
+					<include name="automation.swc" />
+					<include name="automation_agent.swc" />
+					<include name="automation_dmv.swc" />
+					<include name="automation_flashflexkit.swc" />
+					<include name="flex.swc" />
+					<include name="framework.swc" />
+					<include name="qtp.swc" />
+					<include name="rpc.swc" />
+					<include name="utilities.swc" />
+					<include name="player\10\playerglobal.swc"/>
+				</library-path>
+				<allow-source-path-overlap>true</allow-source-path-overlap>
+				<context-root>ndgFlex</context-root>
+		</mxmlc>
+	</target>
+
+	<!-- Generate Main.html and move to DEPLOY_DIR -->
+    <target name="generate-start-pages" depends="build-flex">
+        <html-wrapper
+            title="Nokia Data Gathering"
+            file="main.html"
+            application="app"
+            swf="Main"
+			width="100%"
+			height="100%"
+            version-major="10"
+            version-minor="0"
+            version-revision="0"
+            history="true"
+            template="express-installation"
+            output="${DEPLOY_DIR}"/>
+    </target>
+
+</project>

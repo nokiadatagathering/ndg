@@ -38,11 +38,7 @@ import br.org.indt.ndg.server.util.PropertiesUtil;
 public class ReceiveSurvey extends HttpServlet {
 	private static String DO_COMMAND = "do";
 
-	private static String IMEI_PARAM = "imei";
-
 	private PrintWriter printwrite = null;
-
-	private String imei = null;
 
 	private Commands command = null;
 
@@ -109,16 +105,12 @@ public class ReceiveSurvey extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processDownloadSurvey = new ProcessDownloadSurvey(request
-				.getParameter(IMEI_PARAM));
+		processDownloadSurvey = new ProcessDownloadSurvey(request.getLocalAddr(), request.getLocalPort(), request.getParameterMap());
 		printwrite = new PrintWriter(response.getOutputStream());
 		try {
-			command = Commands.valueOf(request.getParameter(DO_COMMAND));
+			String cmdString = request.getParameter(DO_COMMAND);
+			command = (cmdString == null? Commands.list : Commands.valueOf(cmdString));
 			switch (command) {
-			case list:
-				result = processDownloadSurvey.processListCommand();
-				response.setContentType("text/xml;charset=UTF-8");
-				break;
 			case download:
 				result = processDownloadSurvey.processDownloadCommand();
 				response.setContentType("text/xml;charset=UTF-8");
@@ -127,6 +119,10 @@ public class ReceiveSurvey extends HttpServlet {
 			case ack:
 				result = processDownloadSurvey.processAckCommand();
 				response.setContentType("text/html;charset=UTF-8");
+				break;
+			case list:
+				result = processDownloadSurvey.processListCommand();
+				response.setContentType("text/xml;charset=UTF-8");
 				break;
 			}
 			
@@ -139,7 +135,7 @@ public class ReceiveSurvey extends HttpServlet {
 			printwrite.close();
 		} catch (IllegalArgumentException e) {
 			response
-					.sendError(response.SC_BAD_REQUEST,
+					.sendError(HttpServletResponse.SC_BAD_REQUEST,
 							"Your request cannot be processed. Please check it and send it again .....");
 			/* response.sendRedirect("error.html"); */
 		}

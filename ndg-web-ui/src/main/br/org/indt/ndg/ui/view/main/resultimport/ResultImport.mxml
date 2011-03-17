@@ -67,7 +67,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_FAIL.png')"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../../resources/images/ICON_FAIL.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportFail')}" styleName="darkTitle"/>
 				<mx:Text textAlign="center" text="{ConfigI18n.getInstance().getString('lblImportPleaseCheck')}"/>
 			</mx:VBox>
@@ -83,7 +83,7 @@
 				<mx:Label text="" styleName="darkTitle" height="16"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="5" styleName="wizardCenterPanel">
-				<mx:Image width="59" height="59" source="@Embed('main/resources/images/ICON_SUCCESS.png')"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../../resources/images/ICON_SUCCESS.png')"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblImportSuccess')}" styleName="darkTitle"/>
 				<mx:Text textAlign="center" text="{ConfigI18n.getInstance().getString('lblImportResultsImported')}"/>
 			</mx:VBox>

@@ -26,12 +26,12 @@
     -->
     
     <mx:HBox width="100%" styleName="loginCenterPanel">
-    	<mx:Image width="471" height="254" source="@Embed('main/resources/images/login_image.jpg')"/>
+       <mx:Image width="471" height="254" source="@Embed('../../../../../../../resources/images/login_image.jpg')"/>
     	<mx:ViewStack id="loginStack" width="350" paddingTop="10">
 	    	<!-- Login View -->
 	    	<mx:VBox verticalGap="0" paddingTop="0" updateComplete="resetLoginErrorMsg()">
 	    		<mx:HBox height="20" verticalAlign="middle" horizontalGap="2">
-	    			<mx:Image width="16" height="14" id="modeIcon" visible="false" source = "@Embed('main/resources/images/BALANCE.png')" verticalAlign="bottom"/>
+                   <mx:Image width="16" height="14" id="modeIcon" visible="false" source = "@Embed('../../../../../../../resources/images/BALANCE.png')" verticalAlign="bottom"/>
     				<mx:Label width="325" id="keyMsg" height="20" styleName="darkText"/>
     			</mx:HBox>
 	    		<mx:HRule visible="false" height="20"/>
@@ -42,7 +42,7 @@
 	    		<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldPassword')}"/>
 	    		<mx:HBox>
 	    			<mx:TextInput id="txPassword" displayAsPassword="true" enter="login(event)" maxChars="50"/>
-	    			<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnSignIn')}" click="login(event)" width="50"/>		
+                   <mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnSignIn')}" click="login(event)" width="50"/>
 	    		</mx:HBox>
 	 			<mx:VRule visible="false" height="5"/>
 	 			

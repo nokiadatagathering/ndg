@@ -17,8 +17,10 @@
 
 package br.org.indt.ndg.servlets;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -27,20 +29,57 @@ import br.org.indt.ndg.common.exception.MSMSystemException;
 import br.org.indt.ndg.common.exception.UserNotFoundException;
 import br.org.indt.ndg.server.client.MSMBusinessDelegate;
 import br.org.indt.ndg.server.client.SurveyVO;
+import br.org.indt.ndg.server.client.TemporaryXFormsDataProvider;
 import br.org.indt.ndg.server.client.TransactionLogVO;
 import br.org.indt.ndg.server.pojo.NdgUser;
 
 public class ProcessDownloadSurvey {
-	private String imei = null;
+	// NDG protocol specific query params
+	private static String IMEI_PARAM = "imei";
+	// XForms protocol specific query params as specified by:
+	// https://bitbucket.org/javarosa/javarosa/wiki/FormListAPI
+	private static String DEVICE_ID_PARAM = "deviceID"; // mandatory
+//	private static String FORM_ID_PARAM = "formID"; // optional
+//	private static String VERBOSE_PARAM = "verbose"; // optional
+	private static String FORM_ID_PARAM = "formID"; // non-standard
+
+	private String m_imei = null;
+	Map<String, String[]> m_parameterMap = null;
+	private final boolean m_isNdgProtocolRequest;
 
 	MSMBusinessDelegate mb = null;
+	TemporaryXFormsDataProvider xformsDataProvider = null;
 
 	private static final Logger log = Logger.getLogger("client");
 
 	public ProcessDownloadSurvey(String imei) {
-		this.imei = imei;
-
+		m_imei = imei;
+		m_isNdgProtocolRequest = true;
 		mb = new MSMBusinessDelegate();
+	}
+
+	public ProcessDownloadSurvey( String thisServerAddress, int thisServerPort, Map<String, String[]> parameterMap ) {
+		// determine which kind of request is it - NDG protocol or XForms protocol
+		m_parameterMap = parameterMap;
+		if ( parameterMap.containsKey(IMEI_PARAM) ) {
+			m_isNdgProtocolRequest = true;
+			m_imei = parameterMap.get(IMEI_PARAM)[0];
+			mb = new MSMBusinessDelegate();
+		} else if ( parameterMap.containsKey(DEVICE_ID_PARAM) ) {
+			m_isNdgProtocolRequest = false;
+			m_imei = parameterMap.get(DEVICE_ID_PARAM)[0];
+			xformsDataProvider = new TemporaryXFormsDataProvider(thisServerAddress, thisServerPort);
+		} else {
+			throw new InvalidParameterException();
+		}
+	}
+
+	/**
+	 * Temporary method to determine which protocol is currently processed
+	 * @return	true if it is NDG protocol survey request, false means XForms related survey request
+	 */
+	private boolean isNdgProtocolRequest() {
+		return m_isNdgProtocolRequest;
 	}
 
 	public String processAckCommand() {
@@ -50,7 +89,7 @@ public class ProcessDownloadSurvey {
 		result.append("<head><title>GuestBookServlet</title></head>");
 		result.append("<body>");
 		result.append("Param Do: " + "Ack");
-		result.append("Param Imei: " + imei);
+		result.append("Param Imei: " + m_imei);
 		result.append("</body>");
 		result.append("</html>");
 
@@ -61,78 +100,82 @@ public class ProcessDownloadSurvey {
 
 	public String processDownloadCommand() {
 		StringBuffer result = new StringBuffer();
+		if ( isNdgProtocolRequest() ) {
+			try {
+				for (Iterator iterator = mb.listSurveysByImeiDB(m_imei,
+						TransactionLogVO.STATUS_AVAILABLE).iterator(); iterator
+						.hasNext();) {
+					NdgUser userlogged = mb.getUserByImei(m_imei);
 
-		try {
-			for (Iterator iterator = mb.listSurveysByImeiDB(imei,
-					TransactionLogVO.STATUS_AVAILABLE).iterator(); iterator
-					.hasNext();) {
-				NdgUser userlogged = mb.getUserByImei(imei);
+					if (userlogged != null) {
+						SurveyVO surveyVO = (SurveyVO) iterator.next();
 
-				if (userlogged != null) {
-					SurveyVO surveyVO = (SurveyVO) iterator.next();
+						StringBuffer currentResult = new StringBuffer(surveyVO
+								.getSurvey());
 
-					StringBuffer currentResult = new StringBuffer(surveyVO
-							.getSurvey());
+						// we need to remove last '\n'
+						if (currentResult
+								.charAt(currentResult.toString().length() - 1) == '\n') {
+							currentResult.deleteCharAt(currentResult.toString()
+									.length() - 1);
+						}
 
-					// we need to remove last '\n'
-					if (currentResult
-							.charAt(currentResult.toString().length() - 1) == '\n') {
-						currentResult.deleteCharAt(currentResult.toString()
-								.length() - 1);
+						result.append(currentResult);
+					} else {
+						new UserNotFoundException();
 					}
-
-					result.append(currentResult);
-				} else {
-					new UserNotFoundException();
 				}
+			} catch (MSMApplicationException e) {
+				e.printStackTrace();
+			} catch (MSMSystemException e) {
+				e.printStackTrace();
 			}
-		} catch (MSMApplicationException e) {
-			e.printStackTrace();
-		} catch (MSMSystemException e) {
-			e.printStackTrace();
+		} else {
+			try {
+				result.append( xformsDataProvider.getFormattedSurvey(m_parameterMap.get(FORM_ID_PARAM)[0]) );
+			} catch (Exception e) {
+				// add some default behavior when getting survey was unsuccessful
+				result.append( new String() );
+			}
 		}
-
 		return new String(result);
 	}
 
 	public String processListCommand() {
-		String result = new String();
-		StringBuffer stb = new StringBuffer();
+		StringBuffer result = new StringBuffer();
+		if ( isNdgProtocolRequest() ) {
+			result.append("<surveys>\n");
+			try {
+				ArrayList<SurveyVO> listOfSurveys = (ArrayList<SurveyVO>) mb
+						.listSurveysByImeiDB(m_imei,
+								TransactionLogVO.STATUS_AVAILABLE);
 
-		stb.append("<surveys>\n");
-
-		try {
-			ArrayList<SurveyVO> listOfSurveys = (ArrayList<SurveyVO>) mb
-					.listSurveysByImeiDB(imei,
-							TransactionLogVO.STATUS_AVAILABLE);
-
-			for (Iterator iterator = listOfSurveys.iterator(); iterator
-					.hasNext();) {
-				SurveyVO surveyVO = (SurveyVO) iterator.next();
-				String linha = "<survey id=\"" + surveyVO.getIdSurvey() + "\""
-						+ " title=\"" + surveyVO.getTitle() + "\"/>";
-				stb.append(linha + "\n");
+				for (Iterator<SurveyVO> iterator = listOfSurveys.iterator(); iterator
+						.hasNext();) {
+					SurveyVO surveyVO = iterator.next();
+					String linha = "<survey id=\"" + surveyVO.getIdSurvey() + "\""
+							+ " title=\"" + surveyVO.getTitle() + "\"/>";
+					result.append(linha + "\n");
+				}
+				result.append("</surveys>");
+			} catch (MSMApplicationException e) {
+				e.printStackTrace();
+			} catch (MSMSystemException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			stb.append("</surveys>");
-
-			result = stb.toString();
-		} catch (MSMApplicationException e) {
-			e.printStackTrace();
-		} catch (MSMSystemException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			result.append( xformsDataProvider.getFormattedSurveyAvailableToDownloadList() );
 		}
-
-		return result;
+		return new String(result);
 	}
 
 	private void updateStatusSendingSurvey(String status) {
 		try {
-			mb.updateStatusSendingSurvey(imei, status);
+			mb.updateStatusSendingSurvey(m_imei, status);
 
-			log.debug("Processing Ack Command to Imei " + imei);
+			log.debug("Processing Ack Command to Imei " + m_imei);
 			log
 					.debug("############################################################");
 		} catch (MSMApplicationException e) {
