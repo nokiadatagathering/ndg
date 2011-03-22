@@ -7,26 +7,42 @@
     <script src="http://api.maps.ovi.com/jsl.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body scroll="no">
-    <div id="map" style="width:900px; height:440px;"></div>
+    <div id="map" style="width: 100%; height:445px;"></div>
     <script type="text/javascript">
+      var infobubbles = new ovi.mapsapi.map.component.InfoBubbles();
       var map = new ovi.mapsapi.map.Display(document.getElementById("map"), {
             components: [ new ovi.mapsapi.map.component.Behavior(), //behavior collection 
                           new ovi.mapsapi.map.component.ZoomBar(),
                           new ovi.mapsapi.map.component.Overview(),
-                          new ovi.mapsapi.map.component.TypeSelector(),     
+                          new ovi.mapsapi.map.component.TypeSelector(),
+                          new ovi.mapsapi.map.component.ViewControl(),
                           new ovi.mapsapi.map.component.ScaleBar(),
-                          new ovi.mapsapi.map.component.InfoBubbles() ],
+                          infobubbles ],
             zoomLevel: 10,
             center: [sessvars.listOfPOIs[0].lat, sessvars.listOfPOIs[0].lon]
           });
+
+      var defaultHandler = function (evt) {
+              var html = "<div class=\"myHtmlContent\">" +
+                "<h2>Result information</h2>" +
+                "<br/><h3>Title: " + evt.target.text + "</h3>" +
+                "<br/><h3>Cord: " + evt.target.coordinate + "</h3></div>";
+    
+               infobubbles.addBubble(html, evt.target.coordinate);
+          };
+
+      var myListener = {
+              "click": [defaultHandler, false, null]
+      };
 
       for( var i = 0, len = sessvars.listOfPOIs.length; i < len; i++) {
 
           var marker = new ovi.mapsapi.map.StandardMarker([sessvars.listOfPOIs[i].lat, sessvars.listOfPOIs[i].lon], {
                 text: sessvars.listOfPOIs[i].title, //small label
-                brush: "#C8FF6E",
-                textPen: "#000000",
-                draggable: false
+                brush: "#1496F0",
+                textPen: "#FFFFFF",
+                draggable: false,
+                eventListener: myListener
           });
           map.objects.add(marker);
       }
