@@ -28,12 +28,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -46,6 +50,7 @@ import br.org.indt.ndg.client.transformer.CSVTransformer;
 import br.org.indt.ndg.client.transformer.DevicesTransformer;
 import br.org.indt.ndg.client.transformer.ExcelTransformer;
 import br.org.indt.ndg.common.Category;
+import br.org.indt.ndg.common.CategoryAnswer;
 import br.org.indt.ndg.common.CreateXml;
 import br.org.indt.ndg.common.Deploy;
 import br.org.indt.ndg.common.Field;
@@ -72,6 +77,10 @@ import br.org.indt.ndg.server.controller.QueryInputOutputVO;
 import br.org.indt.ndg.server.controller.UserBalanceVO;
 import br.org.indt.ndg.util.Base64Encode;
 
+
+import org.apache.commons.logging.Log;
+
+
 public class Service {
 	
 	
@@ -81,6 +90,7 @@ public class Service {
 	public static final String XLS = ".xls";
 	public static final String ZIP = ".zip";
 	
+	private static Log log = LogFactory.getLog(Service.class);
 	
 	// EDITOR - BEGIN
 	public void saveSurveyFromEditorToServer(String userName, String surveyContent)
@@ -724,60 +734,84 @@ public class Service {
 	
 	public ArrayList<SPreview> getPreview(String username, String surveyId, String resultId)
 		throws NDGServerException{
-		
 		SSurvey survey = this.getSSurvey(username, surveyId, resultId);
 		String finalString = "";
 		ArrayList<SPreview> list = new ArrayList<SPreview>();
 		
-		Iterator iCategory = survey.getCategories().values().iterator();
-		
+
+		Set categoryKeys = ((SResult)survey.getResults().get(0)).getCategories().keySet();
+		Iterator iCategory = categoryKeys.iterator();
 		while(iCategory.hasNext()){	
-			SCategory sc = (SCategory) iCategory.next();
 			
+			SCategory sc = (SCategory) ((SResult)survey.getResults().get(0)).getCategories().get( iCategory.next() );
 			finalString = "<span id='txt-list-top'><b>" + sc.getId()+ " - "
 					+ sc.getName().toUpperCase() + "</b></span>";
-			
-			list.add(new SPreview(finalString, false));
-			
-			Iterator iFields = sc.getFields().iterator();
-			while(iFields.hasNext()) {
-				SField sf = (SField) iFields.next();
-				finalString = "<span id='txt-list-down'><b>" + sc.getId() + "." + sf.getId()
-						+ "&nbsp;" + sf.getDescription() + "</b></span>";
-				
-				list.add(new SPreview(finalString, false));
 
-				if (survey.getResultsSize() > 0) {
-					SResult r = (SResult) survey.getResults().get(0);
-					SCategory rc = (SCategory) r.getCategories().get(new Integer(sc.getId()));
-					SField rf = rc.getFieldById(sf.getId());
-					String value = "----";
-					if (rf.getValue() != null && !rf.getValue().trim().equals("")){
-						value = rf.getValue();
+			list.add(new SPreview(finalString, false));
+
+			String[] sortedKeys = new String[sc.getSubCategories().keySet().size()];
+			sc.getSubCategories().keySet().toArray(sortedKeys);
+			java.util.Arrays.sort( sortedKeys, String.CASE_INSENSITIVE_ORDER );
+
+			for (int i = 0; i< sortedKeys.length; i++ ) {
+				String subCatId = sortedKeys[i];
+				log.info("SubCategory" + subCatId );
+				Vector<SField> fields = sc.getSubCategories().get(subCatId);
+
+				if(sc.getSubCategories().keySet().size() > 1 ) {
+					finalString = "<span id='txt-list-down'><b>" + sc.getId() + "." + subCatId + "</b></span>";
+					list.add(new SPreview(finalString, false));
+				}
+				
+				Iterator<SField> iFields = fields.iterator();//sc.getFields().iterator();
+				while(iFields.hasNext())
+				{
+					SField sf = (SField) iFields.next();
+
+					if(sc.getSubCategories().keySet().size() > 1 ) {
+						finalString = "<span id='txt-list-down'><b>" + sc.getId() + "." + subCatId + "."+ sf.getId()
+						+ "&nbsp;" + sf.getDescription() + "</b></span>";
+					} else {
+						finalString = "<span id='txt-list-down'><b>" + sc.getId() + "."+ sf.getId()
+						+ "&nbsp;" + sf.getDescription() + "</b></span>";
 					}
 					
-					if(sf.getElementName() != null){
-						if (!sf.getElementName().equals("img_data")) {
-							value = value.trim().replaceAll("\n", "");
-							finalString = "<span id = 'txt-list-answer'><i>"
-									+ value + "</i></span>";
+					list.add(new SPreview(finalString, false));
 
-							list.add(new SPreview(finalString, false));
-						} else {
+					if (survey.getResultsSize() > 0) {
+						SResult r = (SResult) survey.getResults().get(0);
+						SCategory rc = (SCategory) r.getCategories().get(sc.getId());
 
-							for( TaggedImage taggedImage : rf.getImages() ){
-								// TODO add GeoTagging preview
-								String imageString = taggedImage.getImageData();
-								finalString = imageString.trim();
-								list.add(new SPreview(finalString, true));
+						SField rf = rc.getField(subCatId, sf.getId());
+						String value = "----";
+						if (rf.getValue() != null && !rf.getValue().trim().equals("")){
+							value = rf.getValue();
+						}
+
+						if(sf.getElementName() != null){
+							if (!sf.getElementName().equals("img_data")) {
+								value = value.trim().replaceAll("\n", "");
+								finalString = "<span id = 'txt-list-answer'><i>"
+										+ value + "</i></span>";
+
+								list.add(new SPreview(finalString, false));
+							} else {
+
+								for( TaggedImage taggedImage : rf.getImages() ){
+									// TODO add GeoTagging preview
+									String imageString = taggedImage.getImageData();
+									finalString = imageString.trim();
+									list.add(new SPreview(finalString, true));
+								}
 							}
 						}
 					}
 				}
+				finalString = "<br>";
+				list.add(new SPreview(finalString, false));
 			}
-			finalString = "<br><br>";
+			finalString = "<br>";
 			list.add(new SPreview(finalString, false));
-			
 		}
 		return list;
 	}	
@@ -818,14 +852,6 @@ public class Service {
 			SCategory sCategory = new SCategory();
 			sCategory.setId(c.getId());
 			sCategory.setName(c.getName());
-			for (Field f : c.getFields()){
-				SField sField = new SField();
-				sField.setCategoryId(f.getCategoryId());
-				sField.setId(f.getId());
-				sField.setDescription(f.getDescription());
-				sField.setXmlType(f.getXmlType());
-				sCategory.addField(sField);
-			}
 			survey.addCategory(new Integer(c.getId()), sCategory);
 		}
 		return survey;
@@ -836,51 +862,59 @@ public class Service {
 	 */
 	private SResult getSResult(SurveyXML surveyXml, ResultXml resultXml){
 		SResult sResult = new SResult();
-		for (Category c : resultXml.getCategories().values()) {
+		for (CategoryAnswer c : resultXml.getCategories().values()) {
 			SCategory sCategory = new SCategory();
 			sCategory.setId(c.getId());
 			sCategory.setName(c.getName());
-			for (Field field : c.getFields()){
-				SField sField = new SField();
-				sField.setCategoryId(field.getCategoryId());
-				sField.setId(field.getId());
-				sField.setDescription(field.getDescription());
-				sField.setXmlType(field.getXmlType());
-				String value = null;
-				if (field.getFieldType() == FieldType.STR) {
-					value = field.getValue() == null ? "" : field.getValue();
-				} else if (field.getFieldType() == FieldType.DATE){
-					value = field.getValue() == null ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
-				} else if (field.getFieldType() == FieldType.TIME){
-					value = field.getValue() == null ? "" : Resources.toTime(field.getValue(),field.getConvention());					
-				} else if (field.getFieldType() == FieldType.INT){
-					value = field.getValue() == null ? "0" : field.getValue();	
-				} else if (field.getFieldType() == FieldType.DECIMAL){
-					value = field.getValue() == null ? "0" : field.getValue();	
-				} else if (field.getFieldType() == FieldType.CHOICE){
-					StringBuffer tmp = new StringBuffer();
-					for(Item item : field.getChoice().getItems()) {
-						String s = surveyXml.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-						if (s != null) tmp.append(s.trim());
-						
-						if (item.getValue() != null) {
-							if (s != null) tmp.append(": ");
-							tmp.append(item.getValue());
-						} else {
-							String s1 = surveyXml.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-							if(s1!=null)	tmp.append(s1);
-							tmp.append(" ");
+
+			Iterator<String> subCatIterator = c.getSubCategories().keySet().iterator();
+
+			while( subCatIterator.hasNext() ) {
+
+				String subCatId = subCatIterator.next();
+				Vector<Field> fields = c.getSubCategories().get(subCatId);
+
+				Iterator<Field> fieldIterator = fields.iterator();
+
+				while( fieldIterator.hasNext() ) {
+					Field field = fieldIterator.next();
+					SField sField = new SField();
+					sField.setCategoryId(field.getCategoryId());
+					sField.setId(field.getId());
+					sField.setDescription(surveyXml.getField(field.getCategoryId(), field.getId()).getDescription());
+					sField.setXmlType(field.getXmlType());
+					String value = null;
+					if (field.getFieldType() == FieldType.STR) {
+						value = field.getValue() == null ? "" : field.getValue();
+					} else if (field.getFieldType() == FieldType.DATE){
+						value = field.getValue() == null ? "" : Resources.toDate(Long.parseLong(field.getValue()));
+					} else if (field.getFieldType() == FieldType.TIME){
+						value = field.getValue() == null ? "" : Resources.toTime(field.getValue(),field.getConvention());
+					} else if (field.getFieldType() == FieldType.INT){
+						value = field.getValue() == null ? "0" : field.getValue();
+					} else if (field.getFieldType() == FieldType.DECIMAL){
+						value = field.getValue() == null ? "0" : field.getValue();
+					} else if (field.getFieldType() == FieldType.CHOICE){
+						StringBuffer tmp = new StringBuffer();
+						for(Item item : field.getChoice().getItems()) {
+							String s = surveyXml.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
+							if (s != null) tmp.append(s.trim());
+
+							if (item.getValue() != null) {
+								if (s != null) tmp.append(": ");
+								tmp.append(item.getValue());
+							}
+							tmp.append("\n");
 						}
-						tmp.append("\n");
+						value = tmp.toString() == null ? "" : tmp.toString().trim();
+					} else if (field.getFieldType() == FieldType.IMAGE) {
+						sField.setImages(field.getImages());
 					}
-					value = tmp.toString() == null ? "" : tmp.toString().trim();
-				} else if (field.getFieldType() == FieldType.IMAGE) {
-					sField.setImages(field.getImages());
+					sField.setValue(value);
+				sCategory.addField(subCatId,sField);
 				}
-				sField.setValue(value);
-				sCategory.addField(sField);
-			}
-			sResult.addCategory(new Integer(c.getId()), sCategory);
+			}//while
+			sResult.addCategory(c.getId(), sCategory);
 		}
 		return sResult;
 	}

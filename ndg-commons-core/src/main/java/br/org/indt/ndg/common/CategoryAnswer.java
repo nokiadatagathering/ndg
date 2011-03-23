@@ -3,7 +3,7 @@
 *
 *  NDG is free software; you can redistribute it and/or
 *  modify it under the terms of the GNU Lesser General Public
-*  License as published by the Free Software Foundation; either 
+*  License as published by the Free Software Foundation; either
 *  version 2.1 of the License, or (at your option) any later version.
 *
 *  NDG is distributed in the hope that it will be useful,
@@ -11,43 +11,47 @@
 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 *  Lesser General Public License for more details.
 *
-*  You should have received a copy of the GNU Lesser General Public 
-*  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
+*  You should have received a copy of the GNU Lesser General Public
+*  License along with NDG.  If not, see <http://www.gnu.org/licenses/
 */
 
-package br.org.indt.ndg.client.dto.surveys;
+package br.org.indt.ndg.common;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
 
-public class SCategory {
-	
+public  class CategoryAnswer implements Serializable{
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
-	private HashMap<String, Vector<SField>> subCategories;
-	
-	public SCategory() {
-		subCategories = new HashMap<String, Vector<SField>>();
+	private HashMap<String, Vector<Field>> subCategories;
+
+	public CategoryAnswer() {
+		subCategories = new HashMap<String, Vector<Field>>();
 	}
-	
-	public void addField(String subCatId, SField field) {
-		Vector<SField> answers = subCategories.get(subCatId);
+
+	public void addField(String subCatId, Field field) {
+		Vector<Field> answers = subCategories.get(subCatId);
 		if( answers == null ) {
-			answers = new Vector<SField>();
+			answers = new Vector<Field>();
 			subCategories.put(subCatId, answers);
 		}
 		answers.add(field);
 	}
-	
-	public SField getField(String subCateId, int answerId) {
-		return subCategories.get(subCateId).get(answerId-1);
+
+	public Field getField(String subCateId, int answerId) {
+		return subCategories.get(subCateId).get(answerId);
 	}
-	
-	public HashMap<String, Vector<SField>> getSubCategories() {
+
+	public HashMap<String, Vector<Field>> getSubCategories() {
 		return subCategories;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -63,5 +67,4 @@ public class SCategory {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 }

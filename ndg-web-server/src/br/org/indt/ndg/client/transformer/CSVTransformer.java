@@ -18,8 +18,6 @@
 package br.org.indt.ndg.client.transformer;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -28,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.TreeMap;
-
-import org.jboss.util.Base64;
+import java.util.Vector;
 
 import br.org.indt.ndg.common.Category;
+import br.org.indt.ndg.common.CategoryAnswer;
 import br.org.indt.ndg.common.Field;
 import br.org.indt.ndg.common.FieldType;
 import br.org.indt.ndg.common.Item;
@@ -61,11 +59,11 @@ public class CSVTransformer extends ResultsTransformer {
 			/** Header **/
 			out.write("ResultId" + sep + "SurveyId" + sep + "Title" + sep + "Date" + sep + "Time" + sep +
 					"User" + sep + "Imei" + sep + "PhoneNumber" + sep + "Lat" + sep + "Lon" + sep);
-						
+
 			/** Header Fields**/
 			TreeMap<Integer,Category> categories = survey.getCategories();
 			int categorycounter = 0;
-			
+
 			for (Category category : categories.values()) {
 				categorycounter++;
 				int fieldcounter = 0;
@@ -89,41 +87,35 @@ public class CSVTransformer extends ResultsTransformer {
 						result.getPhoneNumber() + sep + result.getLatitude() + sep + result.getLongitude() + sep);
 				categorycounter++;
 				int fieldcounter = 0;
-				for (Category category : result.getCategories().values()) {
-					for (Field field : category.getFields()) {
-						String value = null;
-						if (field.getFieldType() == FieldType.STR) {
-							value = field.getValue() == null ? "" : field.getValue();
-						} else if (field.getFieldType() == FieldType.DATE){
-							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
-						} else if (field.getFieldType() == FieldType.TIME){
-							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());							
-						} else if (field.getFieldType() == FieldType.INT){
-							value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
-						} else if (field.getFieldType() == FieldType.DECIMAL){
-							value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
-						} else if (field.getFieldType() == FieldType.CHOICE){
-							StringBuffer tmp = new StringBuffer();
-							for(Item item : field.getChoice().getItems()) {
-								if (item.getValue() != null) {
-									tmp.append(item.getValue());
-								} else {
-									String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-									tmp.append(s);
-									tmp.append(" ");
+				for (CategoryAnswer category : result.getCategories().values()) {
+					categorycounter++;
+
+					int subCatSize = category.getSubCategories().values().size();
+
+					Object[] subcategories = category.getSubCategories().values().toArray();
+
+					if( subCatSize > 0 ) {
+						StringBuffer localBuffer = new StringBuffer();
+						for (int fieldIndex = 0; fieldIndex < categories.get( category.getId()).getFields().size(); fieldIndex++ ) {
+							for( int subCatIndex = 0; subCatIndex< category.getSubCategories().size(); subCatIndex++ ) {
+								Field field = ((Vector<Field>)(subcategories[subCatIndex])).get(fieldIndex);
+								String value = getStringValue(result, category, field );
+								value = value.trim().replaceAll("\n", "");
+								localBuffer.append(value);
+								out.write(value);
+								if( subCatSize > 1 ) {
+									localBuffer.append("##");
 								}
 							}
-							value = tmp.toString() == null ? "" : tmp.toString();
+							localBuffer.append(sep);
 						}
-						out.write(value);
-						if(categorycounter < categories.size()) {
-							out.write(sep);
-						} else {
-							out.write( (++fieldcounter < category.getFields().size() ? sep : "") );
+						out.append(localBuffer.toString());
+					} else {
+						for( int fieldIndex = 0; fieldIndex < categories.get( category.getId()).getFields().size(); fieldIndex++ ) {
+							out.append(sep);
 						}
 					}
 				}
-								
 				out.newLine();
 			}	
 		} catch (IOException e) {
@@ -151,7 +143,7 @@ public class CSVTransformer extends ResultsTransformer {
 		.append(sep).append("Date").append(sep).append("Time").append(sep).append("User")
 		.append(sep).append("Imei").append(sep).append("PhoneNumber").append(sep).append("Lat")
 		.append(sep).append("Lon").append(sep);
-			
+
 		/** Header Fields**/
 		TreeMap<Integer,Category> categories = survey.getCategories();
 		int categorycounter = 0;
@@ -169,7 +161,7 @@ public class CSVTransformer extends ResultsTransformer {
 			}
 		}
 		buffer.append("\n");
-			
+
 		/** Content **/
 		for (ResultXml result : results) {
 			time.setTime(Long.parseLong(result.getTime()));
@@ -179,49 +171,67 @@ public class CSVTransformer extends ResultsTransformer {
 					.append(result.getImei()).append(sep).append(result.getPhoneNumber()).append(sep)
 					.append(result.getLatitude()).append(sep).append(result.getLongitude()).append(sep);
 			categorycounter = 0;
-			for (Category category : result.getCategories().values()) {
+			for (CategoryAnswer category : result.getCategories().values()) {
 				categorycounter++;
-				int fieldcounter = 0;
-				for (Field field : category.getFields()) {
-					String value = null;
-					if (field.getFieldType() == FieldType.STR) {
-						value = field.getValue() == null ? "" : field.getValue();
-					} else if (field.getFieldType() == FieldType.DATE){
-						value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
-					} else if (field.getFieldType() == FieldType.TIME){
-						value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());						
-					} else if (field.getFieldType() == FieldType.INT){
-						value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
-					} else if (field.getFieldType() == FieldType.DECIMAL){
-						value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
-					} else if (field.getFieldType() == FieldType.CHOICE){
-						StringBuffer tmp = new StringBuffer();
-						for(Item item : field.getChoice().getItems()) {
-							if (item.getValue() != null) {
-								tmp.append(item.getValue());
-							} else {
-								String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-								tmp.append(s);
-								tmp.append(" ");
+
+				int subCatSize = category.getSubCategories().values().size();
+
+				Object[] subcategories = category.getSubCategories().values().toArray();
+
+				if( subCatSize > 0 ) {
+					StringBuffer localBuffer = new StringBuffer();
+					for (int fieldIndex = 0; fieldIndex < categories.get( category.getId()).getFields().size(); fieldIndex++ ) {
+						for( int subCatIndex = 0; subCatIndex< category.getSubCategories().size(); subCatIndex++ ) {
+							Field field = ((Vector<Field>)(subcategories[subCatIndex])).get(fieldIndex);
+							String value = getStringValue(result, category, field );
+							value = value.trim().replaceAll("\n", "");
+							localBuffer.append(value);
+							if( subCatSize > 1 ) {
+								localBuffer.append("##");
 							}
 						}
-						value = tmp.toString() == null ? "" : tmp.toString();
-					} else if (field.getFieldType() == FieldType.IMAGE) {
-						value = storeImagesAndGetValueToExport(result.getSurveyId(), category.getId(),
-									result.getResultId(), field.getId(), field.getImages());
+						localBuffer.append(sep);
 					}
-					value = value.trim().replaceAll("\n", "");
-					buffer.append(value);
-					if(categorycounter < categories.size()) {
+					buffer.append(localBuffer.toString());
+				} else {
+					for( int fieldIndex = 0; fieldIndex < categories.get( category.getId()).getFields().size(); fieldIndex++ ) {
 						buffer.append(sep);
-					} else {
-						buffer.append((++fieldcounter < category.getFields().size() ? sep : ""));
 					}
 				}
 			}
 			buffer.append("\n");
-		}	
+		}
 		return buffer.toString().getBytes();
 	}
 
+	private String getStringValue(ResultXml result, CategoryAnswer category, Field field) {
+		String value = null;
+		if (field.getFieldType() == FieldType.STR) {
+			value = field.getValue() == null ? "" : field.getValue();
+		} else if (field.getFieldType() == FieldType.DATE){
+			value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));
+		} else if (field.getFieldType() == FieldType.TIME){
+			value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());
+		} else if (field.getFieldType() == FieldType.INT){
+			value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();
+		} else if (field.getFieldType() == FieldType.DECIMAL){
+			value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();
+		} else if (field.getFieldType() == FieldType.CHOICE){
+			StringBuffer tmp = new StringBuffer();
+			for(Item item : field.getChoice().getItems()) {
+				if (item.getValue() != null) {
+					tmp.append(item.getValue());
+				} else {
+					String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
+					tmp.append(s);
+					tmp.append(" ");
+				}
+			}
+			value = tmp.toString() == null ? "" : tmp.toString();
+		} else if (field.getFieldType() == FieldType.IMAGE) {
+			value = storeImagesAndGetValueToExport(result.getSurveyId(), category.getId(),
+												result.getResultId(), field.getId(), field.getImages());
+		}
+		return value;
+	}
 }

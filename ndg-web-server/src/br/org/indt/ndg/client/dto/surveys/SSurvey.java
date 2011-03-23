@@ -107,15 +107,4 @@ public class SSurvey{
 	public void addCategory(int categoryId, SCategory category){
 		this.categories.put(new Integer(categoryId), category);
 	}
-	
-	public String getItemValue(int categoryId, int FieldId, int itemIndex) {
-		SCategory category = (SCategory) categories.get(new Integer(categoryId));
-		SField field = category.getFieldById(FieldId);
-		SChoice choice = field.getChoice();
-		String value = choice.getItem(itemIndex).getValue();
-		return value;
-	}
-	
-
-
 }

@@ -64,7 +64,7 @@ public class ResultParser {
 	}
 
 	private ResultXml processResult() {
-		TreeMap<Integer, Category> categories;
+		TreeMap<Integer, CategoryAnswer> categories;
 		ResultXml result = new ResultXml();
 		result.setXmldoc(document);
 
@@ -75,6 +75,11 @@ public class ResultParser {
 		result.setSurveyId(resultAttr.getNamedItem("s_id").getNodeValue());
 		result.setImei(resultAttr.getNamedItem("u_id").getNodeValue());
 		result.setTime(resultAttr.getNamedItem("time").getNodeValue());
+
+		String version = null;
+		if ( resultAttr.getNamedItem("version") != null ) {
+			version = resultAttr.getNamedItem("version").getNodeValue();
+		}
 
 		NodeList resultChild = nodeSurvey.item(0).getChildNodes();
 		for(int i=0; i < resultChild.getLength(); i++) {
@@ -88,11 +93,11 @@ public class ResultParser {
 		}
 
 		logger.info("loading categories attributes");
-		categories = new TreeMap<Integer, Category>();
+		categories = new TreeMap<Integer, CategoryAnswer>();
 		NodeList nodesCategory = document.getElementsByTagName("category");
 		int countCategory = nodesCategory.getLength();
 		for (int c=0; c < countCategory; ++c) {
-			Category category = new Category();
+			CategoryAnswer category = new CategoryAnswer();
 			NamedNodeMap categoryAttr = nodesCategory.item(c).getAttributes();
 			category.setId(Integer.parseInt(categoryAttr.getNamedItem("id").getNodeValue()));
 			category.setName(categoryAttr.getNamedItem("name").getNodeValue());
@@ -102,7 +107,6 @@ public class ResultParser {
 		logger.info("loading answers attributes");
 		NodeList nodesAnswer = document.getElementsByTagName("answer");
 		int countAnswer = nodesAnswer.getLength();
-		logger.info("countAnswer = "+ nodesAnswer);
 		for (int a=0; a < countAnswer; ++a) {
 			NamedNodeMap answerAttr = nodesAnswer.item(a).getAttributes();
 			Field answer = new Field();
@@ -193,13 +197,24 @@ public class ResultParser {
 				answer.setValue(value);
 				logger.info("Value = "+ value);
 			}
-			String categoryName = nodesAnswer.item(a).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
-			int categoryId = Integer.parseInt(nodesAnswer.item(a).getParentNode().getAttributes().getNamedItem("id").getNodeValue());
+			String categoryName = null;
+			int categoryId;
+			String subCategoryName = "1";
+			if( version == null || version.equals("1") ) {
+				categoryName = nodesAnswer.item(a).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
+				categoryId = Integer.parseInt(nodesAnswer.item(a).getParentNode().getAttributes().getNamedItem("id").getNodeValue());
+			} else {
+				categoryName = nodesAnswer.item(a).getParentNode().getParentNode().getAttributes().getNamedItem("name").getNodeValue();
+				categoryId = Integer.parseInt(nodesAnswer.item(a).getParentNode().getParentNode().getAttributes().getNamedItem("id").getNodeValue());
+				subCategoryName = nodesAnswer.item(a).getParentNode().getAttributes().getNamedItem("id").getNodeValue();
+			}
+
 			logger.debug(categoryName+" | "+answerId+ " | " + answerType);
-			Category category = categories.get(categoryId); 
+			CategoryAnswer category = categories.get(categoryId);
 			logger.debug("category name: " + category.getName());
 			answer.setCategoryId(categoryId);
-			category.addField(answer);
+
+			category.addField(subCategoryName, answer);
 			categories.put(categoryId, category);
 		}
 		result.setCategories(categories);

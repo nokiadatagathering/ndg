@@ -70,6 +70,7 @@ public class ResultWriter
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		DOMImplementation impl = builder.getDOMImplementation();
 		Element answerElement = null;
+		Element subCategoryElement = null;
 		Element categoryElement = null;
 		Element text = null;
 		Element title = null;
@@ -122,68 +123,82 @@ public class ResultWriter
 			Integer categoryId = new Integer(category.getId());
 			Vector<Field> questions = category.getFields();
 			
-			for(Field question : questions)
-			{
-				answerElement = xmldoc.createElementNS(null, "answer");
-				answerElement.setAttributeNS(null, "type", question.getXmlType());
-				answerElement.setAttributeNS(null, "id", String.valueOf(question.getId()));
-				answerElement.setAttributeNS(null, "visited", "false");
-				Field answer = result.getCategories().get(categoryId).getFieldById(question.getId());
-				
-				if (question.getFieldType() == FieldType.TIME) 
-				{
-			       answerElement.setAttributeNS(null, "convention", question.getConvention());
-			       //answerElement.setAttributeNS(null, "value", question.getValueTime());
-				}
+			int subCatSize = result.getCategories().get( categoryId ).getSubCategories().size();
 
-				if (question.getFieldType() == FieldType.CHOICE)
+			Iterator<String> subCatIterator = result.getCategories().get( categoryId ).getSubCategories().keySet().iterator();
+			subCategoryElement = xmldoc.createElementNS(null, "subcategory" );
+
+			CategoryAnswer categoryAnwser = result.getCategories().get(categoryId);
+
+			while( subCatIterator.hasNext() ) {
+				String currentSubCatId = subCatIterator.next();
+				subCategoryElement.setAttribute("id", currentSubCatId );
+
+
+				for(Field question : questions)
 				{
-					ArrayList<Item> items = answer.getChoice().getItems();
+					answerElement = xmldoc.createElementNS(null, "answer");
+					answerElement.setAttributeNS(null, "type", question.getXmlType());
+					answerElement.setAttributeNS(null, "id", String.valueOf(question.getId()));
+					answerElement.setAttributeNS(null, "visited", "false");
+
+					Field answer = categoryAnwser.getField(currentSubCatId, question.getId());
 					
-					for(Item item : items )
+					if (question.getFieldType() == FieldType.TIME)
 					{
-						if (answer.getValue().contains(item.getIndex() + "^"))
+					answerElement.setAttributeNS(null, "convention", question.getConvention());
+			       //answerElement.setAttributeNS(null, "value", question.getValueTime());
+					}
+					if (question.getFieldType() == FieldType.CHOICE)
+					{
+						ArrayList<Item> items = answer.getChoice().getItems();
+
+						for(Item item : items )
 						{
-							if (item.getOtr() == null || item.getOtr().equals("0"))
-							{ 
-								if (answer.getValue().contains(item.getIndex() + "^"))
-								{
-									nodeStr = xmldoc.createTextNode("" + item.getIndex());
-									text = xmldoc.createElementNS(null, question.getElementName());
-									text.appendChild(nodeStr);
-									answerElement.appendChild(text);
-									categoryElement.appendChild(answerElement);
-								}
-							} 
-							else 
+							if (answer.getValue().contains(item.getIndex() + "^"))
 							{
-								String value = answer.getValue();
-								System.out.println(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
-								nodeStr = xmldoc.createTextNode(item.getValue());
-								nodeStr = xmldoc.createTextNode(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
-								other = xmldoc.createElementNS(null, "other");
-								other.setAttributeNS(null, "index", "" + item.getIndex());
-								other.appendChild(nodeStr);
-								answerElement.appendChild(other);
-								categoryElement.appendChild(answerElement);	
+								if (item.getOtr() == null || item.getOtr().equals("0"))
+								{
+									if (answer.getValue().contains(item.getIndex() + "^"))
+									{
+										nodeStr = xmldoc.createTextNode("" + item.getIndex());
+										text = xmldoc.createElementNS(null, question.getElementName());
+										text.appendChild(nodeStr);
+										answerElement.appendChild(text);
+										subCategoryElement.appendChild(answerElement);
+									}
+								}
+								else
+								{
+									String value = answer.getValue();
+									System.out.println(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
+									nodeStr = xmldoc.createTextNode(item.getValue());
+									nodeStr = xmldoc.createTextNode(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
+									other = xmldoc.createElementNS(null, "other");
+									other.setAttributeNS(null, "index", "" + item.getIndex());
+									other.appendChild(nodeStr);
+									answerElement.appendChild(other);
+									subCategoryElement.appendChild(answerElement);
+								}
 							}
 						}
 					}
-				}
-				else
-				{
-					nodeStr = xmldoc.createTextNode((answer.getValue() == null ? "" : answer.getValue()));
-					text = xmldoc.createElementNS(null, question.getElementName());
-					text.appendChild(nodeStr);
-					answerElement.appendChild(text);
-					categoryElement.appendChild(answerElement);
-				}
+					else
+					{
+						nodeStr = xmldoc.createTextNode((answer.getValue() == null ? "" : answer.getValue()));
+						text = xmldoc.createElementNS(null, question.getElementName());
+						text.appendChild(nodeStr);
+						answerElement.appendChild(text);
+						subCategoryElement.appendChild(answerElement);
+					}
 
-				if ((question.getCategoryId() == survey.getDisplayCategory()) && (question.getId() == survey.getDisplayQuestion()))
-				{
-					(root.getElementsByTagName("title")).item(0).setTextContent(answer.getValue());				
+					if ((question.getCategoryId() == survey.getDisplayCategory()) && (question.getId() == survey.getDisplayQuestion()))
+					{
+						(root.getElementsByTagName("title")).item(0).setTextContent(answer.getValue());
+					}
 				}
-			}
+				categoryElement.appendChild(subCategoryElement);
+			}//subcategory
 		}
 		
 		return xmldoc;

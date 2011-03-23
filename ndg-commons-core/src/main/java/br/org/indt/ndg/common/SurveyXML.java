@@ -129,6 +129,11 @@ public class SurveyXML implements Serializable{
 		return value;
 	}
 
+	public Field getField(int categoryId, int FieldId) {
+		Category category = categories.get(new Integer(categoryId));
+		return category.getFieldById(FieldId);
+	}
+
 	public String getDeployed() 
 	{
 		return deployed;

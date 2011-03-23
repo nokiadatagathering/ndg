@@ -17,11 +17,8 @@
 
 package br.org.indt.ndg.client.transformer;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,13 +26,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.TreeMap;
+import java.util.Vector;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jboss.util.Base64;
 
 import br.org.indt.ndg.common.Category;
+import br.org.indt.ndg.common.CategoryAnswer;
 import br.org.indt.ndg.common.Field;
 import br.org.indt.ndg.common.FieldType;
 import br.org.indt.ndg.common.Item;
@@ -53,12 +52,12 @@ public class ExcelTransformer extends ResultsTransformer {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ArrayList<ResultXml> results = survey.getResults();
 		HSSFWorkbook wb = new HSSFWorkbook();
-	    HSSFSheet sheet = wb.createSheet("Sheet1");
+		HSSFSheet sheet = wb.createSheet("Sheet1");
 
-	    DateFormat dateFormat = new SimpleDateFormat("K:mm a, z");
+		DateFormat dateFormat = new SimpleDateFormat("K:mm a, z");
 		Date date = new Date();
 
-	    /** Header **/
+		/** Header **/
 		HSSFRow row = sheet.createRow((short)0);
 		int fieldcounter = 0;
 		row.createCell((short)fieldcounter++).setCellValue("ResultId");
@@ -71,19 +70,18 @@ public class ExcelTransformer extends ResultsTransformer {
 		row.createCell((short)fieldcounter++).setCellValue("PhoneNumber");
 		row.createCell((short)fieldcounter++).setCellValue("Lat");
 		row.createCell((short)fieldcounter++).setCellValue("Lon");
-		
+
 		/** Header - Fields **/
 		TreeMap<Integer,Category> categories = survey.getCategories();
-		
 		for (Category category : categories.values()) {
 			for (Field field : category.getFields()) {
 				row.createCell((short)fieldcounter++).setCellValue(field.getDescription());
 			}
 		}
-						
+
 		int countrow = 0;
 		row = sheet.createRow((short)++countrow);
-		
+
 		/** Content **/
 		for (ResultXml result : results) {
 			fieldcounter = 0;
@@ -98,48 +96,68 @@ public class ExcelTransformer extends ResultsTransformer {
 			row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());
 			row.createCell((short)fieldcounter++).setCellValue(result.getLatitude());
 			row.createCell((short)fieldcounter++).setCellValue(result.getLongitude());
-			for (Category category : result.getCategories().values()) {
-				for (Field field : category.getFields()) {
-					String value = null;
-					if (field.getFieldType() == FieldType.STR) {
-						value = field.getValue() == null ? "" : field.getValue();
-					} else if (field.getFieldType() == FieldType.DATE){
-						value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
-					} else if (field.getFieldType() == FieldType.TIME){
-						value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());						
-					} else if (field.getFieldType() == FieldType.INT){
-						value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
-					} else if (field.getFieldType() == FieldType.DECIMAL){
-						value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();		
-					} else if (field.getFieldType() == FieldType.CHOICE){
-						StringBuffer tmp = new StringBuffer();
-						int countitem = 0;
-						for(Item item : field.getChoice().getItems()) {
-							if (item.getValue() != null) {
-								if(item.getOtr() != null) {
-									if (item.getOtr().equals("1")) {
-										String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-										tmp.append(s + " " + item.getValue());
-										tmp.append( (++countitem < field.getChoice().getItems().size() ? ", " : "") );
+			int categoryBegin = fieldcounter;
+			int fieldOffset = 0;
+			for (CategoryAnswer category : result.getCategories().values()) {
+				if( category.getSubCategories().values().size() == 0 ) {
+					int skip = categories.get(category.getId()).getFields().size();
+					categoryBegin+=skip;
+					continue;
+				}
+				for( Vector<Field> subCategory: category.getSubCategories().values()) {
+					fieldOffset = 0;
+					for (Field field : subCategory ) {
+						String value = null;
+						if (field.getFieldType() == FieldType.STR) {
+							value = field.getValue() == null ? "" : field.getValue();
+						} else if (field.getFieldType() == FieldType.DATE){
+							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));
+						} else if (field.getFieldType() == FieldType.TIME){
+							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());
+						} else if (field.getFieldType() == FieldType.INT){
+							value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();
+						} else if (field.getFieldType() == FieldType.DECIMAL){
+							value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();
+						} else if (field.getFieldType() == FieldType.CHOICE){
+							StringBuffer tmp = new StringBuffer();
+							int countitem = 0;
+							for(Item item : field.getChoice().getItems()) {
+								if (item.getValue() != null) {
+									if(item.getOtr() != null) {
+										if (item.getOtr().equals("1")) {
+											String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
+											tmp.append(s + " " + item.getValue());
+											tmp.append( (++countitem < field.getChoice().getItems().size() ? ", " : "") );
+										}
+									} else {
+										tmp.append(item.getValue());
 									}
 								} else {
-									tmp.append(item.getValue());
+									String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
+									tmp.append(s);
+									tmp.append(" ");
 								}
-							} else {
-								String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-								tmp.append(s);
-								tmp.append(" ");
 							}
+							value = tmp.toString() == null ? "" : tmp.toString();
+						} else if (field.getFieldType() == FieldType.IMAGE) {
+							value = storeImagesAndGetValueToExport(result.getSurveyId(), category.getId(),
+																result.getResultId(), field.getId(), field.getImages());
 						}
-						value = tmp.toString() == null ? "" : tmp.toString();
-					} else if (field.getFieldType() == FieldType.IMAGE) {
-						value = storeImagesAndGetValueToExport(result.getSurveyId(), category.getId(),
-									result.getResultId(), field.getId(), field.getImages());
-					}
-					value = value.trim().replaceAll("\n", "");
-					row.createCell((short)fieldcounter++).setCellValue(value);
-				}
-			}
+						value = value.trim().replaceAll("\n", "");
+						HSSFCell currentCell = row.getCell((short)(categoryBegin +  fieldOffset));
+						if( currentCell == null ) {
+							currentCell = row.createCell((short)(categoryBegin + fieldOffset));
+							currentCell.setCellValue(value);
+						} else {
+							String currentValue = currentCell.getStringCellValue();
+							currentCell.setCellValue(currentValue + value + "##");
+						}
+						++fieldOffset;
+
+					}//field
+				}//subcategory
+				categoryBegin+=fieldOffset;
+			}//category
 			row = sheet.createRow((short)++countrow);
 		}
 		try {
@@ -147,7 +165,6 @@ public class ExcelTransformer extends ResultsTransformer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		return out.toByteArray();
 	}
 	
@@ -207,47 +224,65 @@ public class ExcelTransformer extends ResultsTransformer {
 				row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());
 				row.createCell((short)fieldcounter++).setCellValue(result.getLatitude());
 				row.createCell((short)fieldcounter++).setCellValue(result.getLongitude());
-				
-				
-				for (Category category : result.getCategories().values()) {
-					for (Field field : category.getFields()) {
-						String value = null;
-						if (field.getFieldType() == FieldType.STR) {
-							value = field.getValue() == null ? "" : field.getValue();
-						} else if (field.getFieldType() == FieldType.DATE){
-							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));	
-						} else if (field.getFieldType() == FieldType.TIME){
-							value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());							
-						} else if (field.getFieldType() == FieldType.INT){
-							value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();	
-						} else if (field.getFieldType() == FieldType.DECIMAL){
-							value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();		
-						} else if (field.getFieldType() == FieldType.CHOICE){
-							StringBuffer tmp = new StringBuffer();
-							int countitem = 0;
-							for(Item item : field.getChoice().getItems()) {
-								if (item.getValue() != null) {
-									if(item.getOtr() != null) {
-										if (item.getOtr().equals("1")) {
-											String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-											tmp.append(s + " " + item.getValue());
-											tmp.append( (++countitem < field.getChoice().getItems().size() ? ", " : "") );
+
+				int categoryBegin = fieldcounter;
+				int fieldOffset = 0;
+				for (CategoryAnswer category : result.getCategories().values()) {
+					if( category.getSubCategories().values().size() == 0 ) {
+						int skip = categories.get(category.getId()).getFields().size();
+						categoryBegin+=skip;
+						continue;
+					}
+					for( Vector<Field> subCategory: category.getSubCategories().values()) {
+						fieldOffset = 0;
+						for (Field field : subCategory ) {
+							String value = null;
+							if (field.getFieldType() == FieldType.STR) {
+								value = field.getValue() == null ? "" : field.getValue();
+							} else if (field.getFieldType() == FieldType.DATE){
+								value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toDate(Long.parseLong(field.getValue()));
+							} else if (field.getFieldType() == FieldType.TIME){
+								value = (field.getValue() == null || field.getValue() == "") ? "" : Resources.toTime(field.getValue(),field.getConvention());
+							} else if (field.getFieldType() == FieldType.INT){
+								value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();
+							} else if (field.getFieldType() == FieldType.DECIMAL){
+								value = (field.getValue() == null || field.getValue() == "") ? "0" : field.getValue();
+							} else if (field.getFieldType() == FieldType.CHOICE){
+								StringBuffer tmp = new StringBuffer();
+								int countitem = 0;
+								for(Item item : field.getChoice().getItems()) {
+									if (item.getValue() != null) {
+										if(item.getOtr() != null) {
+											if (item.getOtr().equals("1")) {
+												String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
+												tmp.append(s + " " + item.getValue());
+												tmp.append( (++countitem < field.getChoice().getItems().size() ? ", " : "") );
+											}
+										} else {
+											tmp.append(item.getValue());
 										}
 									} else {
-										tmp.append(item.getValue());
+										String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
+										tmp.append(s);
+										tmp.append(" ");
 									}
-								} else {
-									String s = survey.getItemValue(field.getCategoryId(), field.getId(), item.getIndex());
-									tmp.append(s);
-									tmp.append(" ");
 								}
+								value = tmp.toString() == null ? "" : tmp.toString();
 							}
-							value = tmp.toString() == null ? "" : tmp.toString();
-						}						
-						row.createCell((short)fieldcounter++).setCellValue(value);
-					}
+
+							HSSFCell currentCell = row.getCell((short)(categoryBegin +  fieldOffset));
+							if( currentCell == null ) {
+								currentCell = row.createCell((short)(categoryBegin + fieldOffset));
+								currentCell.setCellValue(value);
+							} else {
+								String currentValue = currentCell.getStringCellValue();
+								currentCell.setCellValue(currentValue + value + "##");
+							}
+							++fieldOffset;
+						}
+					}//subcategories
+					categoryBegin+=fieldOffset;
 				}
-								
 				row = sheet.createRow((short)++countrow);
 			}
 			wb.write(out);
@@ -261,6 +296,5 @@ public class ExcelTransformer extends ResultsTransformer {
 				e.printStackTrace();
 			}	
 		}
-
 	}
 }

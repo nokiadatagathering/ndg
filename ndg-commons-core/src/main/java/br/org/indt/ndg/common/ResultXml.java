@@ -39,20 +39,20 @@ public class ResultXml implements Serializable{
 	private String longitude;
 	private Document xmldoc;
 	
-	private TreeMap<Integer, Category> categories;
+	private TreeMap<Integer, CategoryAnswer> categories;
 	
 	public ResultXml() {
-		categories = new TreeMap<Integer, Category>();
+		categories = new TreeMap<Integer, CategoryAnswer>();
 	}
 	
 	
-	public TreeMap<Integer, Category> getCategories() {
+	public TreeMap<Integer, CategoryAnswer> getCategories() {
 		return categories;
 	}
-	public void setCategories(TreeMap<Integer, Category> categories) {
+	public void setCategories(TreeMap<Integer, CategoryAnswer> categories) {
 		this.categories = categories;
 	}
-	public void addCategory(int categoryId, Category category){
+	public void addCategory(int categoryId, CategoryAnswer category){
 		this.categories.put(new Integer(categoryId), category);
 	}
 	public String getResultId() {

@@ -237,222 +237,222 @@ public class MessageProtocolHandler
 
 	private void createResultXML(ResultMessageHeaderVO header, String body, SMSMessageVO smsMessage) 
 	{
-		InitialContext ctx = null;
-		IMEIManager imeiManager = null;
-		SurveyHandler surveyHandler = null;
-		ResultHandler resultHandler = null;
-		UserManager userManager = null;
-
-		try 
-		{
-			ctx = new InitialContext();
-			imeiManager = (IMEIManager) ctx.lookup("ndg-core/IMEIManagerBean/remote");
-			surveyHandler = (SurveyHandler) ctx.lookup("ndg-core/SurveyHandlerBean/remote");
-			resultHandler = (ResultHandler) ctx.lookup("ndg-core/ResultHandlerBean/remote");
-			userManager = (UserManager) ctx.lookup("ndg-core/UserManagerBean/remote");
-		}
-		catch (NamingException e1) 
-		{
-			System.out.println("InitialContext Hard Coded");
-			Hashtable<String, String> env = new Hashtable<String, String>();
-			env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
-			env.put(Context.PROVIDER_URL, properties.getProperty("java.naming.provider.url"));
-			
-			try 
-			{
-				ctx = new InitialContext(env);
-				userManager = (UserManager) ctx.lookup("ndg-core/UserManagerBean/remote");
-				surveyHandler = (SurveyHandler) ctx.lookup("ndg-core/SurveyHandlerBean/remote");
-				resultHandler = (ResultHandler) ctx.lookup("ndg-core/ResultHandlerBean/remote");
-				imeiManager = (IMEIManager) ctx.lookup("ndg-core/IMEIManagerBean/remote");
-				System.err.println("InitialContext - using Hashtable");
-			}
-			catch (NamingException e2) 
-			{
-				e2.printStackTrace();
-			}
-		}
-
-		String loggedUserAdmin = "";
-
-		try 
-		{
-			loggedUserAdmin = surveyHandler.getUserBySurvey(surveyId).getIdUserAdmin().getUsername();
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-
-		if (userManager.userAdminHasPositiveBalance(UserVO.RESULT_LIMIT, loggedUserAdmin)) 
-		{
-			String resultString = null;
-			SurveyXML survey = null;
-			ResultXml resultReceived = new ResultXml();
-			resultReceived.setSurveyId(header.surveyId);
-			resultReceived.setResultId(header.resultId);
-			
-			String _imei = header.imei;
-
-			if (body.contains("{")) 
-			{
-				String latlgt = body.substring(body.indexOf("{") + 1, body.indexOf("}"));
-				resultReceived.setLatitude(latlgt.substring(0, latlgt.indexOf(";")));
-				resultReceived.setLongitude(latlgt.substring(latlgt.indexOf(";") + 1));
-			}
-
-			try 
-			{
-				Survey surveyToGetUser = null;
-				Pattern regex = Pattern.compile("<(.*?)>", Pattern.CANON_EQ);
-
-				surveyToGetUser = surveyHandler.getUserBySurvey(surveyId);
-
-				if (surveyToGetUser != null) 
-				{
-					resultReceived.setUser(surveyToGetUser.getIdUserAdmin().getUsername());
-				}
-				else 
-				{
-					log.debug("surveyToGetUser = null");
-				}
-
-				MSMBusinessDelegate msmBD = new MSMBusinessDelegate();
-				
-				survey = msmBD.loadSurvey(surveyToGetUser.getIdUserAdmin().getUsername(), surveyId);
-				resultReceived.setTitle(survey.getTitle());
-
-				ImeiVO imei = null;
-
-				if (imeiManager != null) 
-				{
-					imei = imeiManager.getIMEI(_imei);
-					
-					if (imei != null) 
-					{
-						resultReceived.setImei(imei.getImei());
-					}
-					else 
-					{
-						throw new ImeiNotFoundException();
-					}
-				}
-
-				Matcher regexMatcher = regex.matcher(body);
-
-				while (regexMatcher.find()) 
-				{
-					resultString = regexMatcher.group();
-					Pattern r1 = Pattern.compile("[^<].*[^>]", Pattern.CASE_INSENSITIVE);
-					Matcher m1 = r1.matcher(resultString);
-
-					while (m1.find()) 
-					{
-						resultString = m1.group();
-						Pattern r2 = Pattern.compile("[^|]*.", Pattern.CASE_INSENSITIVE);
-						Matcher m2 = r2.matcher(resultString);
-						Category c = null;
-
-						int catAnswersCount = 0;
-
-						while (m2.find()) 
-						{
-							resultString = m2.group();
-							Pattern r3 = Pattern.compile(".*[^|]", Pattern.CASE_INSENSITIVE);
-							Matcher m3 = r3.matcher(resultString);
-
-							while (m3.find()) 
-							{
-								resultString = m3.group();
-
-								if (!resultString.contains(".")) 
-								{
-									c = new Category();
-									int categoryId = new Integer(resultString).intValue();
-									c.setId(categoryId);
-									c.setName(survey.getCategories().get(categoryId).getName());
-								}
-								else 
-								{
-									if (c != null) 
-									{
-										String answer = resultString.substring(resultString.indexOf(".") + 1).trim();
-										catAnswersCount++;
-
-										int answerId = new Integer(resultString.substring(0, resultString.indexOf(".")).trim()).intValue();
-
-										Field answer1 = new Field();
-										answer1.setCategoryId(c.getId());
-										Field surveyField = survey.getCategories().get(c.getId()).getFieldById(answerId);
-										answer1.setFieldType(surveyField.getFieldType());
-
-										if (surveyField.getFieldType().equals(FieldType.CHOICE)) 
-										{
-											Choice choice = surveyField.getChoice();
-											choice.setItems(surveyField.getChoice().getItems());
-											answer1.setChoice(choice);
-										}
-
-										answer1.setId(answerId);
-										answer1.setValue(answer);
-										c.addField(answer1);
-									}
-								}
-							}
-						}
-
-						// adiciona a categoria no result
-						if (catAnswersCount > 0) 
-						{
-							resultReceived.addCategory(c.getId(), c);
-						}
-					}
-				}
-
-				StringBuffer surveyString = new StringBuffer();
-
-				String line = null;
-
-				// grava
-				ResultWriter writer = new ResultWriter(survey, resultReceived);
-				
-				String xmlString = writer.write();
-				
-				BufferedReader bufferedReader = new BufferedReader(new StringReader(xmlString));
-
-				while ((line = bufferedReader.readLine()) != null) 
-				{
-					surveyString.append(line.trim());
-				}
-
-				TransactionLogVO transactionLogVO = createTransactionLogVO(resultReceived);
-				transactionLogVO.setAddress(smsMessage.from);
-				resultHandler.postResult(surveyString, transactionLogVO);
-				resultReceived.setPhoneNumber(smsMessage.from);
-
-				if (sendACK) 
-				{
-					log.debug("Sending Result Received ACK To: " + smsMessage.to);
-					sendSMS(smsMessage.to, imei.getMsisdn(), header.defaultString);
-					sendACK = false;
-				}
-			}
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				setResultReceived(resultReceived, false);
-			}
-
-			log.debug(">>> Result: " + resultReceived.getResultId() + " From Imei: " 
-			+ resultReceived.getImei() + " : Ok!");
-			
-			userManager.updateUserAdminBalance(UserVO.RESULT_LIMIT, loggedUserAdmin);
-		}
-		else 
-		{
-			log.debug(">>>>>> Result '" + header.resultId + "' from Survey '" + header.surveyId
-			+ "' was ignored due trial limitation! <<<<<<");
-		}
+//		InitialContext ctx = null;
+//		IMEIManager imeiManager = null;
+//		SurveyHandler surveyHandler = null;
+//		ResultHandler resultHandler = null;
+//		UserManager userManager = null;
+//
+//		try
+//		{
+//			ctx = new InitialContext();
+//			imeiManager = (IMEIManager) ctx.lookup("ndg-core/IMEIManagerBean/remote");
+//			surveyHandler = (SurveyHandler) ctx.lookup("ndg-core/SurveyHandlerBean/remote");
+//			resultHandler = (ResultHandler) ctx.lookup("ndg-core/ResultHandlerBean/remote");
+//			userManager = (UserManager) ctx.lookup("ndg-core/UserManagerBean/remote");
+//		}
+//		catch (NamingException e1)
+//		{
+//			System.out.println("InitialContext Hard Coded");
+//			Hashtable<String, String> env = new Hashtable<String, String>();
+//			env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+//			env.put(Context.PROVIDER_URL, properties.getProperty("java.naming.provider.url"));
+//
+//			try
+//			{
+//				ctx = new InitialContext(env);
+//				userManager = (UserManager) ctx.lookup("ndg-core/UserManagerBean/remote");
+//				surveyHandler = (SurveyHandler) ctx.lookup("ndg-core/SurveyHandlerBean/remote");
+//				resultHandler = (ResultHandler) ctx.lookup("ndg-core/ResultHandlerBean/remote");
+//				imeiManager = (IMEIManager) ctx.lookup("ndg-core/IMEIManagerBean/remote");
+//				System.err.println("InitialContext - using Hashtable");
+//			}
+//			catch (NamingException e2)
+//			{
+//				e2.printStackTrace();
+//			}
+//		}
+//
+//		String loggedUserAdmin = "";
+//
+//		try
+//		{
+//			loggedUserAdmin = surveyHandler.getUserBySurvey(surveyId).getIdUserAdmin().getUsername();
+//		}
+//		catch (Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//		if (userManager.userAdminHasPositiveBalance(UserVO.RESULT_LIMIT, loggedUserAdmin))
+//		{
+//			String resultString = null;
+//			SurveyXML survey = null;
+//			ResultXml resultReceived = new ResultXml();
+//			resultReceived.setSurveyId(header.surveyId);
+//			resultReceived.setResultId(header.resultId);
+//
+//			String _imei = header.imei;
+//
+//			if (body.contains("{"))
+//			{
+//				String latlgt = body.substring(body.indexOf("{") + 1, body.indexOf("}"));
+//				resultReceived.setLatitude(latlgt.substring(0, latlgt.indexOf(";")));
+//				resultReceived.setLongitude(latlgt.substring(latlgt.indexOf(";") + 1));
+//			}
+//
+//			try
+//			{
+//				Survey surveyToGetUser = null;
+//				Pattern regex = Pattern.compile("<(.*?)>", Pattern.CANON_EQ);
+//
+//				surveyToGetUser = surveyHandler.getUserBySurvey(surveyId);
+//
+//				if (surveyToGetUser != null)
+//				{
+//					resultReceived.setUser(surveyToGetUser.getIdUserAdmin().getUsername());
+//				}
+//				else
+//				{
+//					log.debug("surveyToGetUser = null");
+//				}
+//
+//				MSMBusinessDelegate msmBD = new MSMBusinessDelegate();
+//
+//				survey = msmBD.loadSurvey(surveyToGetUser.getIdUserAdmin().getUsername(), surveyId);
+//				resultReceived.setTitle(survey.getTitle());
+//
+//				ImeiVO imei = null;
+//
+//				if (imeiManager != null)
+//				{
+//					imei = imeiManager.getIMEI(_imei);
+//
+//					if (imei != null)
+//					{
+//						resultReceived.setImei(imei.getImei());
+//					}
+//					else
+//					{
+//						throw new ImeiNotFoundException();
+//					}
+//				}
+//
+//				Matcher regexMatcher = regex.matcher(body);
+//
+//				while (regexMatcher.find())
+//				{
+//					resultString = regexMatcher.group();
+//					Pattern r1 = Pattern.compile("[^<].*[^>]", Pattern.CASE_INSENSITIVE);
+//					Matcher m1 = r1.matcher(resultString);
+//
+//					while (m1.find())
+//					{
+//						resultString = m1.group();
+//						Pattern r2 = Pattern.compile("[^|]*.", Pattern.CASE_INSENSITIVE);
+//						Matcher m2 = r2.matcher(resultString);
+//						Category c = null;
+//
+//						int catAnswersCount = 0;
+//
+//						while (m2.find())
+//						{
+//							resultString = m2.group();
+//							Pattern r3 = Pattern.compile(".*[^|]", Pattern.CASE_INSENSITIVE);
+//							Matcher m3 = r3.matcher(resultString);
+//
+//							while (m3.find())
+//							{
+//								resultString = m3.group();
+//
+//								if (!resultString.contains("."))
+//								{
+//									c = new Category();
+//									int categoryId = new Integer(resultString).intValue();
+//									c.setId(categoryId);
+//									c.setName(survey.getCategories().get(categoryId).getName());
+//								}
+//								else
+//								{
+//									if (c != null)
+//									{
+//										String answer = resultString.substring(resultString.indexOf(".") + 1).trim();
+//										catAnswersCount++;
+//
+//										int answerId = new Integer(resultString.substring(0, resultString.indexOf(".")).trim()).intValue();
+//
+//										Field answer1 = new Field();
+//										answer1.setCategoryId(c.getId());
+//										Field surveyField = survey.getCategories().get(c.getId()).getFieldById(answerId);
+//										answer1.setFieldType(surveyField.getFieldType());
+//
+//										if (surveyField.getFieldType().equals(FieldType.CHOICE))
+//										{
+//											Choice choice = surveyField.getChoice();
+//											choice.setItems(surveyField.getChoice().getItems());
+//											answer1.setChoice(choice);
+//										}
+//
+//										answer1.setId(answerId);
+//										answer1.setValue(answer);
+//										c.addField(answer1);
+//									}
+//								}
+//							}
+//						}
+//
+//						// adiciona a categoria no result
+//						if (catAnswersCount > 0)
+//						{
+//							resultReceived.addCategory(c.getId(), c);
+//						}
+//					}
+//				}
+//
+//				StringBuffer surveyString = new StringBuffer();
+//
+//				String line = null;
+//
+//				// grava
+//				ResultWriter writer = new ResultWriter(survey, resultReceived);
+//
+//				String xmlString = writer.write();
+//
+//				BufferedReader bufferedReader = new BufferedReader(new StringReader(xmlString));
+//
+//				while ((line = bufferedReader.readLine()) != null)
+//				{
+//					surveyString.append(line.trim());
+//				}
+//
+//				TransactionLogVO transactionLogVO = createTransactionLogVO(resultReceived);
+//				transactionLogVO.setAddress(smsMessage.from);
+//				resultHandler.postResult(surveyString, transactionLogVO);
+//				resultReceived.setPhoneNumber(smsMessage.from);
+//
+//				if (sendACK)
+//				{
+//					log.debug("Sending Result Received ACK To: " + smsMessage.to);
+//					sendSMS(smsMessage.to, imei.getMsisdn(), header.defaultString);
+//					sendACK = false;
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//				setResultReceived(resultReceived, false);
+//			}
+//
+//			log.debug(">>> Result: " + resultReceived.getResultId() + " From Imei: "
+//			+ resultReceived.getImei() + " : Ok!");
+//
+//			userManager.updateUserAdminBalance(UserVO.RESULT_LIMIT, loggedUserAdmin);
+//		}
+//		else
+//		{
+//			log.debug(">>>>>> Result '" + header.resultId + "' from Survey '" + header.surveyId
+//			+ "' was ignored due trial limitation! <<<<<<");
+//		}
 	}
 
 	public void sendSMS(String from, String to, String text)
