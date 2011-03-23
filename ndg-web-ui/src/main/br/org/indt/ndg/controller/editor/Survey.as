@@ -66,8 +66,16 @@ package main.br.org.indt.ndg.controller.editor {
 			var categoryList:XMLList = questionary.category;
 			return categoryList.length();
 		}
-		public function updateCategory(category:XML, updatedText:String):void{
-			category.@name = updatedText;
+
+		public function updateCategory(category:XML, payload:Payload):void{
+			category.@name = payload.getCategoryText();
+			if( payload.getCategoryConditionText() != null ) {
+				category.@condition = payload.getCategoryConditionText();
+			}
+			else
+			{
+				delete category.@condition;
+			}
 		}	
 		
 		public function setSurveyName(strName:String):void{

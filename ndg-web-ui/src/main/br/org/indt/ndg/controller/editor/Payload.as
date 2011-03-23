@@ -28,6 +28,7 @@ package main.br.org.indt.ndg.controller.editor {
 		private var questionAttributes:AttributeList;
 		private var categoryText:String;
 		private var choice:String;
+		private var categoryConditionText:String;
 				
 		
 		//Inicio Kivia Ramos
@@ -65,10 +66,19 @@ package main.br.org.indt.ndg.controller.editor {
 		public function setCategoryText(text:String):void{
 			this.categoryText = text;
 		}
+
 		public function getCategoryText():String{
 			return categoryText;
 		}
-		
+
+		public function setCategoryConditionText(text:String):void{
+			this.categoryConditionText = text;
+		}
+
+		public function getCategoryConditionText():String{
+			return categoryConditionText;
+		}
+
 		public function getEvent():Event{
 			return event;
 		}

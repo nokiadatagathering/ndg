@@ -520,6 +520,13 @@
 	private function editCategory(): void{
 		var payload:Payload = new Payload();
 		payload.setCategoryText(txtCategory.text);
+		if( conditionDisabledRadioButton.selected ) {
+			payload.setCategoryConditionText(null);
+		}
+		else
+		{
+			payload.setCategoryConditionText(conditionQuestion.text);
+		}
 		payload.setView(this);
 		
 		dispatchControllerEvent(EventTypes.EDIT_CATEGORY_EVENT, payload);
@@ -1102,4 +1109,8 @@
 		cmbDeviceOnChange();
 	}
 	
-	
+
+	private function conditionalCategoryClickHandler(event:ItemClickEvent):void
+	{
+		conditionQuestion.enabled = conditionEnabledRadioButton.selected;
+	}

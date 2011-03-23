@@ -27,7 +27,17 @@
 							focusOut="txtQuestionFocus(event, 0);"
 							textInput="textArea_textInput(event);"
 							change="_catValidator.validate();"/>
-						<mx:Spacer width="100%" height="90%"/>
+						<mx:VBox height="100%">
+							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CONDITION')}" width="80"/>
+							<mx:HBox width="100%">
+								<mx:RadioButtonGroup id="conditionalCategoryGroup" itemClick="conditionalCategoryClickHandler(event)"/>
+								<mx:RadioButton label="{ConfigI18n.getInstance().getStringFile('editorResources', 'CONDITION_DISABLED')}" groupName="conditionalCategoryGroup" selected="true" id="conditionDisabledRadioButton" enabled="true"/>
+								<mx:RadioButton label="{ConfigI18n.getInstance().getStringFile('editorResources', 'CONDITION_ENABLED')}" groupName="conditionalCategoryGroup" selected="false" id="conditionEnabledRadioButton" enabled="true"/>
+							</mx:HBox>
+							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'NEW_QUESTION')}"/>
+							<mx:TextArea width="298" enabled="false" height="62" id="conditionQuestion"/>
+						</mx:VBox>
+						<mx:Spacer width="100%" height="60"/>
 						<mx:HBox width="100%" horizontalAlign="right">
 							<mx:Button id="btnCloneCategory" enabled="true" click="selectInputCategory()"
 								toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_CLONE_CATEGORY')}" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'BTN_CLONE')}"/>

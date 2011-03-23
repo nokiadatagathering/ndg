@@ -219,7 +219,7 @@ package main.br.org.indt.ndg.controller.editor
 			//var node:XML = mainView.questTree.selectedItem as XML;
 			var node:XML = TreeHelper.getInstance().getSelectedNode();
 			
-			Survey.getInstance().updateCategory(node, controllerEvent.getPayload().getCategoryText());		   
+			Survey.getInstance().updateCategory(node, controllerEvent.getPayload());
 			mainView.setModifiedSurvey(true);
 		}
 

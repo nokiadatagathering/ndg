@@ -328,7 +328,21 @@ package main.br.org.indt.ndg.controller.editor
 		public function updateScreenWithCategoryInformation(node:XML):void
 		{
 			mainView.currentState = EditorEditSurveys.CATEGORY_STATE;//"Category";
-			mainView.txtCategory.text = node.@name;				
+			mainView.txtCategory.text = node.@name;
+			if( node.hasOwnProperty('@condition') ){
+				var conditionQuestion:String = node.@condition;
+				mainView.conditionQuestion.enabled = true;
+				mainView.conditionQuestion.text = node.@condition;
+				mainView.conditionDisabledRadioButton.selected = false;
+				mainView.conditionEnabledRadioButton.selected = true;
+			}
+			else
+			{
+				mainView.conditionQuestion.text = "";
+				mainView.conditionQuestion.enabled = false;
+				mainView.conditionDisabledRadioButton.selected = true;
+				mainView.conditionEnabledRadioButton.selected = false
+			}
 		}
 		
 		public function handleTreeDragDropEvent(mobisusEvent:Event): void
