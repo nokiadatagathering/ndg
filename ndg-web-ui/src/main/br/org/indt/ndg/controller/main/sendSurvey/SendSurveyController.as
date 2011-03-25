@@ -56,6 +56,12 @@
 	private static const MODE_GPRS:String = "gprs";
 	private static const MODE_DOWNLOAD:String = "download";
 	private static const IMEI_PAGE_SIZE:int = 5;
+
+	[Embed("../../../../../../../resources/images/ICON_HEADER_USB.png")] private var cableModeIcon:Class;
+	[Embed("../../../../../../../resources/images/ICON_HEADER_SMS.png")] private var smsModeIcon:Class;
+	[Embed("../../../../../../../resources/images/ICON_HEADER_INTERNET.png")] private var gprsModeIcon:Class;
+	[Embed("../../../../../../../resources/images/ICON_HEADER_INTERNET.png")] private var downloadModeIcon:Class;
+
 	
 	private function customCheckAddListener():void{
 		customCheck.addEventListener(MouseEvent.CLICK, selectedAll);
@@ -144,24 +150,24 @@
 	private function cancelSendSurvey(event:MouseEvent):void{
 		PopUpManager.removePopUp(this);
 	}
-	
+
 	private function modeSelected(event:MouseEvent):void{
 		// set selected mode
 		transmissionMode = event.target.id;
 		if (transmissionMode == MODE_CABLE){
-			modeIcon.source = "main/resources/images/ICON_HEADER_USB.png";
+			modeIcon.source = cableModeIcon;
 			modeText.text = ConfigI18n.getInstance().getString('lblCableMode');
 			viewStackSendSurvey.selectedIndex = 1;
 		} else if (transmissionMode == MODE_SMS){
-			modeIcon.source = "main/resources/images/ICON_HEADER_SMS.png";
+			modeIcon.source = smsModeIcon;
 			modeText.text = ConfigI18n.getInstance().getString('lblSMSMode');
 			viewStackSendSurvey.selectedIndex = 2;
 		} else if (transmissionMode == MODE_GPRS){
-			modeIcon.source = "main/resources/images/ICON_HEADER_INTERNET.png";
+			modeIcon.source = gprsModeIcon;
 			modeText.text = ConfigI18n.getInstance().getString('lblInternetMode');
 			viewStackSendSurvey.selectedIndex = 2;
 		} else if (transmissionMode == MODE_DOWNLOAD){
-			modeIcon.source = "main/resources/images/ICON_HEADER_INTERNET.png";
+			modeIcon.source = downloadModeIcon;
 			modeText.text = ConfigI18n.getInstance().getString('lblDownloadMode');
 			downloadSurvey();
 		}

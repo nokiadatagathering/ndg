@@ -30,6 +30,7 @@
 				<locale>es_ES</locale>
 				<source-path path-element="${SRC_DIR}/main/resources/i18n/{locale}"/>
 				<source-path path-element="${FLEX_HOME}/frameworks"/>
+				<target-player>10.0.0.0</target-player>
 				<library-path dir="${LIBS_DIR}" append="true" >
 					<include name="*.swc" />
 				</library-path>

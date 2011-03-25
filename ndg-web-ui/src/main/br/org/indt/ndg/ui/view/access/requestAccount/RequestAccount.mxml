@@ -175,7 +175,7 @@
 			</mx:HBox>
 			<mx:VBox width="100%" height="346" styleName="loginCenterPanel" verticalAlign="middle"
 				horizontalAlign="center">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../../resources/images/ICON_SUCCESS.png"/>
 				<mx:Label text="{resourceManager.getString('requestAccount', 'lblRequestAccountSuccess')}"
 					styleName="darkTitle"/>
 				<mx:Label text="{resourceManager.getString('requestAccount', 'raCheckYourEmail')}"/>

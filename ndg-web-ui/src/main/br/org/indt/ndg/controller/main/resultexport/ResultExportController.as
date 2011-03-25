@@ -29,6 +29,7 @@
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
 	import mx.utils.Base64Decoder;
+	import flash.net.FileReference;
 			
 			
 	private static const REMOTE_SERVICE:String = "myService";
@@ -47,6 +48,9 @@
 			
 	private var surveyHasImages:Boolean = false;
 	private var exportFormat:String;
+
+	[Embed("../../../../../../../resources/images/ICON_HEADER_EXPORT_CSV.png")] private var csvIcon:Class;
+	[Embed("../../../../../../../resources/images/ICON_HEADER_EXPORT_XLS.png")] private var xlsIcon:Class;
 			
 	private function init():void{
 		FILENAME = ConfigI18n.getInstance().getString("resultFileName");
@@ -56,12 +60,11 @@
 		PopUpManager.removePopUp(this);
 	}
 			
-			
 	private function export(format:String, exportWithImages:Boolean):void{
 		if (format == CSV){
-			modeIcon.source = "main/resources/images/ICON_HEADER_EXPORT_CSV.png";
+			modeIcon.source = csvIcon;
 		} else if (format == XLS){
-			modeIcon.source = "main/resources/images/ICON_HEADER_EXPORT_XLS.png";
+			modeIcon.source = xlsIcon;
 		}
 		
 		modeIcon.visible = true;	

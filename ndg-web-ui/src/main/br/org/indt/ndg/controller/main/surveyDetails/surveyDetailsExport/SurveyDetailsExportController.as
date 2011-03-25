@@ -33,7 +33,7 @@
 			
 	private static const REMOTE_SERVICE:String = "myService";
 	private static var FILENAME:String = null;
-    //private static const CSV:String = ".csv";
+    private static const CSV:String = ".CSV";
 	private static const XLS:String = ".XLS";
 			
 	private var exportedFileName:String = null;
@@ -44,7 +44,9 @@
 	private var strFileContent:String = null;
 	[Bindable] private var stepText:int = 1;
 	public var header:ArrayCollection = new ArrayCollection();
-			
+
+[Embed("../../../../../../../../resources/images/ICON_HEADER_EXPORT_CSV.png")] private var csvIcon:Class;
+[Embed("../../../../../../../../resources/images/ICON_HEADER_EXPORT_XLS.png")] private var xlsIcon:Class;
 			
 			
 	private function init():void{
@@ -55,13 +57,13 @@
 		PopUpManager.removePopUp(this);
 	}
 			
-			
+
 	private function export(format:String):void{
-		//if (format == CSV){
-		//	modeIcon.source = "main/resources/images/ICON_HEADER_EXPORT_CSV.png";
-		//} else
+		if (format == CSV){
+			modeIcon.source = csvIcon;
+		} else
 		if (format == XLS){
-			modeIcon.source = "main/resources/images/ICON_HEADER_EXPORT_XLS.png";
+			modeIcon.source = xlsIcon;
 		}
 		modeIcon.visible = true;		
 		

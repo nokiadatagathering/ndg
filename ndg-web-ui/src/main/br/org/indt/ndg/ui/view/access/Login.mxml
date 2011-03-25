@@ -84,7 +84,7 @@
 	    	</mx:VBox>
 	    	<!-- Recover Password Success -->
 	    	<!--<mx:VBox horizontalAlign="center" paddingTop="30">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../resources/images/ICON_SUCCESS.png"/>
 				<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'lblRecPassSuccess')}"
 					styleName="darkTitle"/>
 				<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'lblRecPassCheckEmail')}"/>
@@ -95,7 +95,7 @@
 			<mx:VBox horizontalAlign="center" verticalGap="0" paddingTop="30">
 				<mx:Label id="asyncCallScreenTitle" styleName="darkTitle2"/>
 				<mx:VRule height="50" visible="false"/>				
-				<mx:Image width="35" height="35" source="main/resources/images/POPUP_ICON_LOADING.gif"/>
+				<mx:Image width="35" height="35" source="@Embed('../../../../../../../resources/images/POPUP_ICON_LOADING.gif"/>
 				<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'lblWaitWhileValidating')}" styleName="darkTitle2"/>
 			</mx:VBox>
 			<!--Recover Password - Update Password-->
@@ -115,7 +115,7 @@
 			</mx:VBox>
 	    	<!--Recover Password - Update Password Success-->
 	    	<!--<mx:VBox horizontalAlign="center" paddingTop="30">
-				<mx:Image width="59" height="59" source="main/resources/images/ICON_SUCCESS.png"/>
+				<mx:Image width="59" height="59" source="@Embed('../../../../../../../resources/images/ICON_SUCCESS.png"/>
 				<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'lblRecPassSuccess')}"
 					styleName="darkTitle"/>
 				<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'lblRecPassCheckEmail')}"/>

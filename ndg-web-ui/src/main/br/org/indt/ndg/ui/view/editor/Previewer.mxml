@@ -10,8 +10,8 @@
 			
 	<mx:Canvas x="27" y="23" width="406" height="474" id="cScreen" scaleX="0.84" scaleY="0.84">
 		<mx:Image y="174" width="320" height="240" id="imgBackGrd" 
-			scaleContent="false" autoLoad="true" source="main/resources/images/editor/preview/e61/model1.png" x="46"/>
-		<mx:Image id="imgChoice" x="46" y="216" scaleContent="false" autoLoad="true" source=".main/resources/images/editor/preview/e61/modelchoice7.png" width="313" height="181"/>
+			scaleContent="false" autoLoad="true" source="@Embed('../../../../../../../resources/images/editor/preview/e61/model1.png" x="46"/>
+		<mx:Image id="imgChoice" x="46" y="216" scaleContent="false" autoLoad="true" source="@Embed('../../../../../../../resources/images/editor/preview/e61/modelchoice7.png" width="313" height="181"/>
 		<mx:Label id="lblCategory" x="65" y="174" text="ABCEDFGHIJKLMNOPQRSTUVWXYZABC" fontSize="12" color="#FFFFFF" fontWeight="bold" width="316" height="20"/>
 		<mx:Text id="lblQuestion" x="48" y="195" text="Quantas pessoas vivem em casa?" fontSize="15" fontWeight="bold" width="290" height="27.5" color="#000000"/>
 		<mx:Label x="95" y="231.5" text="Choice 1" fontSize="12" width="252" height="20" color="#000000" fontWeight="normal" id="lblItem1"/>
