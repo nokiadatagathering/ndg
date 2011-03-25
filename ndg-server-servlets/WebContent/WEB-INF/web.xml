@@ -24,6 +24,26 @@
 		<url-pattern>/PostResults</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<description>OpenRosa Management</description>
+		<display-name>OpenRosaManagement</display-name>
+		<servlet-name>OpenRosaManagement</servlet-name>
+		<servlet-class>br.org.indt.ndg.servlets.OpenRosaManagement</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OpenRosaManagement</servlet-name>
+		<url-pattern>/OpenRosaManagement</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>Receive OpenRosa results from Devices</description>
+		<display-name>PostResultsOpenRosa</display-name>
+		<servlet-name>PostResultsOpenRosa</servlet-name>
+		<servlet-class>br.org.indt.ndg.servlets.PostResultsOpenRosa</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostResultsOpenRosa</servlet-name>
+		<url-pattern>/PostResultsOpenRosa</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<description>Receive surveys from Editor</description>
 		<display-name>PostSurveys</display-name>
 		<servlet-name>PostSurveys</servlet-name>

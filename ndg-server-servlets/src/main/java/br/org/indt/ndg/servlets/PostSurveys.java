@@ -34,8 +34,8 @@ import org.apache.commons.logging.LogFactory;
 
 import br.org.indt.ndg.common.exception.MSMApplicationException;
 import br.org.indt.ndg.common.exception.MSMSystemException;
-import br.org.indt.ndg.common.exception.SurveyFileAlreadyExistsException;
 import br.org.indt.ndg.server.client.MSMBusinessDelegate;
+import br.org.indt.ndg.server.client.TemporaryOpenRosaBussinessDelegate;
 import br.org.indt.ndg.server.client.TransactionLogVO;
 import br.org.indt.ndg.server.client.UserVO;
 
@@ -52,14 +52,20 @@ public class PostSurveys extends HttpServlet
 
 	private PrintWriter writer = null;
 	private MSMBusinessDelegate msmBD;
+	private TemporaryOpenRosaBussinessDelegate openRosaBD;
 	private static Log log = LogFactory.getLog(PostSurveys.class);
 	private static final String sep = System.getProperty("file.separator");
 	
 	public void init()
 	{
 		msmBD = new MSMBusinessDelegate();
+		openRosaBD = new TemporaryOpenRosaBussinessDelegate();
 	}
 
+	/**
+	 * 1) Call "http://server-address:8080/ndg-servlets/PostSurveys?do=config to get server config
+	 * 2) Call "http://server-address:8080/ndg-servlets/PostSurveys?do=uploadOpenRosa to get upload page for OpenRosa surveys
+	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		writer = response.getWriter();
@@ -85,24 +91,33 @@ public class PostSurveys extends HttpServlet
 					String attr = (String) e.nextElement();
 					htmlPrint("Attribute: " + attr + this.getServletContext().getAttribute(attr));
 				}
+			} else if (request.getParameter("do").equals("uploadOpenRosa")) {
+				getServletConfig().getServletContext().getRequestDispatcher("/OpenRosaSurveyUploader.jsp").forward(request, response);
+			} else {
+				writer.println("PostSurveys Servlet is up and running...");
 			}
-		}
-		else 
-		{
+		} else {
 			writer.println("PostSurveys Servlet is up and running...");
 		}
-		
 		writer.println(this.htmlEnd());
 	}
 
+	/**
+	 * 1) POST with parameters 'user' and 'psw' set to post NDG proprietary surveys, survey as POST body (?)
+	 * 2) POST without parameters and to post OpenRosa surveys, survey as body encoded with "multipart/form-data"
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		InputStreamReader dis = new InputStreamReader(request.getInputStream(), "UTF-8");
-		DataOutputStream dos = new DataOutputStream(response.getOutputStream());
-		
-		if (dis != null) 
-		{
-			BufferedReader reader = new BufferedReader(dis);
+		InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream(), "UTF-8");
+
+		if ( request.getParameter("user") == null ) {
+			openRosaBD.setPortAndAddress(request.getLocalAddr(), request.getLocalPort());
+			boolean success = openRosaBD.parseAndPersistSurvey(inputStreamReader, request.getContentType());
+			request.setAttribute("uploadResult", success);
+			request.getRequestDispatcher("/OpenRosaSurveyUploader.jsp").forward(request, response);
+		} else {
+			DataOutputStream dataOutputStream = new DataOutputStream(response.getOutputStream());
+			BufferedReader reader = new BufferedReader(inputStreamReader);
 			StringBuffer tempBuffer = new StringBuffer();
 			String line = null;
 			
@@ -116,31 +131,26 @@ public class PostSurveys extends HttpServlet
 				try
 				{
 					msmBD.postSurvey(request.getParameter("user"), tempBuffer, createTransactionLogVO(request), false);
-					dos.writeBytes(SUCCESS);
+					dataOutputStream.writeBytes(SUCCESS);
 				}
 				catch (MSMApplicationException e) 
 				{
-					dos.writeBytes(FAILURE);
+					dataOutputStream.writeBytes(FAILURE);
 					e.printStackTrace();
 				}
 				catch (MSMSystemException e) 
 				{
-					dos.writeBytes(FAILURE);
+					dataOutputStream.writeBytes(FAILURE);
 					e.printStackTrace();
 				}
 			}
 			else
 			{
-				dos.writeBytes(USERINVALID);
+				dataOutputStream.writeBytes(USERINVALID);
 			}
 			
 			reader.close();
-			dos.close();
-		} 
-		else
-		{
-			dos.writeBytes(FAILURE);
-			log.info("Failed processing stream from " + request.getRemoteAddr());
+			dataOutputStream.close();
 		}
 	}
 

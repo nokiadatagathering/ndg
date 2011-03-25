@@ -29,7 +29,7 @@ import br.org.indt.ndg.common.exception.MSMSystemException;
 import br.org.indt.ndg.common.exception.UserNotFoundException;
 import br.org.indt.ndg.server.client.MSMBusinessDelegate;
 import br.org.indt.ndg.server.client.SurveyVO;
-import br.org.indt.ndg.server.client.TemporaryXFormsDataProvider;
+import br.org.indt.ndg.server.client.TemporaryOpenRosaBussinessDelegate;
 import br.org.indt.ndg.server.client.TransactionLogVO;
 import br.org.indt.ndg.server.pojo.NdgUser;
 
@@ -48,7 +48,7 @@ public class ProcessDownloadSurvey {
 	private final boolean m_isNdgProtocolRequest;
 
 	MSMBusinessDelegate mb = null;
-	TemporaryXFormsDataProvider xformsDataProvider = null;
+	TemporaryOpenRosaBussinessDelegate xformsDataProvider = null;
 
 	private static final Logger log = Logger.getLogger("client");
 
@@ -68,7 +68,9 @@ public class ProcessDownloadSurvey {
 		} else if ( parameterMap.containsKey(DEVICE_ID_PARAM) ) {
 			m_isNdgProtocolRequest = false;
 			m_imei = parameterMap.get(DEVICE_ID_PARAM)[0];
-			xformsDataProvider = new TemporaryXFormsDataProvider(thisServerAddress, thisServerPort);
+			xformsDataProvider = new TemporaryOpenRosaBussinessDelegate();
+			xformsDataProvider.setPortAndAddress(thisServerAddress, thisServerPort);
+			xformsDataProvider.setDeviceId(m_imei);
 		} else {
 			throw new InvalidParameterException();
 		}
@@ -132,7 +134,7 @@ public class ProcessDownloadSurvey {
 			}
 		} else {
 			try {
-				result.append( xformsDataProvider.getFormattedSurvey(m_parameterMap.get(FORM_ID_PARAM)[0]) );
+				result.append( xformsDataProvider.getFormattedSurvey(m_parameterMap.get(FORM_ID_PARAM)[0], m_imei) );
 			} catch (Exception e) {
 				// add some default behavior when getting survey was unsuccessful
 				result.append( new String() );
@@ -166,7 +168,7 @@ public class ProcessDownloadSurvey {
 				e.printStackTrace();
 			}
 		} else {
-			result.append( xformsDataProvider.getFormattedSurveyAvailableToDownloadList() );
+			result.append( xformsDataProvider.getFormattedSurveyAvailableToDownloadList(m_imei) );
 		}
 		return new String(result);
 	}
