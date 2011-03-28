@@ -515,11 +515,15 @@ public class TemporaryOpenRosaBussinessDelegate {
 		while ((line = reader.readLine()) != null) {
 			tempBuffer.append(line + '\n');
 		}
-		// extract filename
 		String multipartContents = new String(tempBuffer.toString());
-		String filename = multipartContents.substring(multipartContents.indexOf(fileTagName + "=\"") + 20);
-		filename = filename.substring(0, filename.indexOf("\n"));
-		filename = filename.substring(filename.lastIndexOf("\\") + 1,filename.indexOf("\""));
+//		// extract filename
+		int filenameBeginIndex = multipartContents.indexOf(fileTagName + "=\"") + (fileTagName + "=\"").length();
+//		NOTE: uncomment lines below if uploaded file real name is needed
+//		int filenameLineEndIndex = multipartContents.indexOf("\n", filenameBeginIndex);
+//		String filename = multipartContents.substring(filenameBeginIndex, filenameLineEndIndex);
+//		filenameBeginIndex = filename.lastIndexOf("\\") + 1;
+//		int filenameEndIndex = filename.indexOf("\"", filenameBeginIndex);
+//		filename = filename.substring(filenameBeginIndex, filenameEndIndex);;
 
 		// extract content
 		// 1) find bounding strings
@@ -527,7 +531,7 @@ public class TemporaryOpenRosaBussinessDelegate {
 		String boundary = contentType.substring(lastIndex + 1,contentType.length());
 		// 2) drop Content-type and similar stuff
 		int pos;
-		pos = multipartContents.indexOf(fileTagName + "=\"");
+        pos = multipartContents.indexOf(fileTagName + "=\"");
 		pos = multipartContents.indexOf("\n", pos) + 1;
 		pos = multipartContents.indexOf("\n", pos) + 1;
 		pos = multipartContents.indexOf("\n", pos) + 1;
