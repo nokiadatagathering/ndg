@@ -22,11 +22,21 @@
             center: [sessvars.listOfPOIs[0].lat, sessvars.listOfPOIs[0].lon]
           });
 
+      var titleArray = new Array();
+      var dateArray = new Array();
+      var userArray = new Array();
+      var imeiArray = new Array();
+
       var defaultHandler = function (evt) {
+              var index = evt.target.text - 1;
+       
               var html = "<div class=\"myHtmlContent\">" +
                 "<h2>Result information</h2>" +
-                "<br/><h3>Title: " + evt.target.text + "</h3>" +
-                "<br/><h3>Cord: " + evt.target.coordinate + "</h3></div>";
+                "<br/><h3>Title: " + titleArray[index] + "</h3>" +
+                "<br/><h3>Date: " + dateArray[index] + "</h3>" +
+                "<br/><h3>User: " + userArray[index] + "</h3>" +
+                "<br/><h3>IMEI: " + imeiArray[index] + "</h3>" +
+                "<br/><h3>Coord: " + evt.target.coordinate + "</h3></div>";
     
                infobubbles.addBubble(html, evt.target.coordinate);
           };
@@ -37,8 +47,13 @@
 
       for( var i = 0, len = sessvars.listOfPOIs.length; i < len; i++) {
 
+          dateArray[i] = sessvars.listOfPOIs[i].date;
+          titleArray[i] = sessvars.listOfPOIs[i].title;
+          userArray[i] = sessvars.listOfPOIs[i].user;
+          imeiArray[i] = sessvars.listOfPOIs[i].imei;
+
           var marker = new ovi.mapsapi.map.StandardMarker([sessvars.listOfPOIs[i].lat, sessvars.listOfPOIs[i].lon], {
-                text: sessvars.listOfPOIs[i].title, //small label
+                text: i + 1, //small label
                 brush: "#1496F0",
                 textPen: "#FFFFFF",
                 draggable: false,

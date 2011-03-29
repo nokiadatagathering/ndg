@@ -59,7 +59,8 @@
 		
 		for (var i:int=0; i<array.length; i++){
 			if (array[i].lat != 0 || array[i].lon != 0 ) {
-				POIs.push({lat: array[i].lat, lon: array[i].lon, title: array[i].title});
+				POIs.push({lat: array[i].lat, lon: array[i].lon, title: array[i].title, date: array[i].date,
+                                           user: array[i].user, imei: array[i].imei});
 			}
 		}
 	}
@@ -81,7 +82,8 @@
 				var array:Array = result.queryResult.toArray();
 				for (var i:int=0; i<array.length; i++){
 					if (array[i].lat != 0 || array[i].lon != 0 ) {
-						POIs.push({lat: array[i].lat, lon: array[i].lon, title: array[i].title});		
+						POIs.push({lat: array[i].lat, lon: array[i].lon, title: array[i].title, date: array[i].date,
+                                                           user: array[i].user, imei: array[i].imei});		
 					}
 				}
 				setPOIs();
