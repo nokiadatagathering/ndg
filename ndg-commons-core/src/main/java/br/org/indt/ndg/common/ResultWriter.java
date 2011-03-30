@@ -3,7 +3,7 @@
 *
 *  NDG is free software; you can redistribute it and/or
 *  modify it under the terms of the GNU Lesser General Public
-*  License as published by the Free Software Foundation; either 
+*  License as published by the Free Software Foundation; either
 *  version 2.1 of the License, or (at your option) any later version.
 *
 *  NDG is distributed in the hope that it will be useful,
@@ -11,8 +11,8 @@
 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 *  Lesser General Public License for more details.
 *
-*  You should have received a copy of the GNU Lesser General Public 
-*  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
+*  You should have received a copy of the GNU Lesser General Public
+*  License along with NDG.  If not, see <http://www.gnu.org/licenses/
 */
 
 package br.org.indt.ndg.common;
@@ -39,168 +39,168 @@ import org.w3c.dom.Node;
 
 public class ResultWriter
 {
-	private SurveyXML survey;
-	private ResultXml result;
+    private SurveyXML survey;
+    private ResultXml result;
 
-	public ResultWriter(SurveyXML survey, ResultXml result)
-	{
-		this.survey = survey;
-		this.result = result;
-	}
+    public ResultWriter(SurveyXML survey, ResultXml result)
+    {
+        this.survey = survey;
+        this.result = result;
+    }
 
-	public String write() throws ParserConfigurationException, Exception
-	{
-		DOMSource domSource = new DOMSource(getDocument());
-		StreamResult streamResult = new StreamResult(new StringWriter());
-		TransformerFactory tf = TransformerFactory.newInstance();
-		Transformer serializer = tf.newTransformer();
-		serializer.setOutputProperty(OutputKeys.ENCODING, Resources.ENCODING);
-		serializer.setOutputProperty(OutputKeys.INDENT,"yes");
-		serializer.transform(domSource, streamResult);
-		
-		String xmlString = streamResult.getWriter().toString();
+    public String write() throws ParserConfigurationException, Exception
+    {
+        DOMSource domSource = new DOMSource(getDocument());
+        StreamResult streamResult = new StreamResult(new StringWriter());
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer serializer = tf.newTransformer();
+        serializer.setOutputProperty(OutputKeys.ENCODING, Resources.ENCODING);
+        serializer.setOutputProperty(OutputKeys.INDENT,"yes");
+        serializer.transform(domSource, streamResult);
 
-		return xmlString;
-	}
-	
-	public Document getDocument() throws ParserConfigurationException
-	{
-		Document xmldoc = null;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		DOMImplementation impl = builder.getDOMImplementation();
-		Element answerElement = null;
-		Element subCategoryElement = null;
-		Element categoryElement = null;
-		Element text = null;
-		Element title = null;
-		Element lat = null;
-		Element lon = null;
-		Element other = null;
-		Node titleText = null;
-		Node nodeStr = null;
+        String xmlString = streamResult.getWriter().toString();
 
-		xmldoc = impl.createDocument(null, "result", null);
-		
-		Element root = xmldoc.getDocumentElement();
+        return xmlString;
+    }
 
-		root.setAttribute("r_id", result.getResultId());
-		root.setAttribute("s_id", result.getSurveyId());
-		root.setAttribute("u_id", result.getImei());
-		root.setAttribute("time", result.getTime());
-		
-		if (result.getLatitude() != null ) 
-		{
-			lat = xmldoc.createElementNS(null, "latitude");
-			titleText = xmldoc.createTextNode(result.getLatitude());
-			lat.appendChild(titleText);
-			root.appendChild(lat);				
-		}
+    public Document getDocument() throws ParserConfigurationException
+    {
+        Document xmldoc = null;
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        DOMImplementation impl = builder.getDOMImplementation();
+        Element answerElement = null;
+        Element subCategoryElement = null;
+        Element categoryElement = null;
+        Element text = null;
+        Element title = null;
+        Element lat = null;
+        Element lon = null;
+        Element other = null;
+        Node titleText = null;
+        Node nodeStr = null;
 
-		if (result.getLongitude() != null)
-		{
-			lon = xmldoc.createElementNS(null, "longitude");
-			titleText = xmldoc.createTextNode(result.getLongitude());
-			lon.appendChild(titleText);
-			root.appendChild(lon);				
-		}
-		
-		title = xmldoc.createElementNS(null, "title");
-		titleText = xmldoc.createTextNode("");
-		title.appendChild(titleText);
-		root.appendChild(title);
-		
-		TreeMap<Integer, Category> categories = survey.getCategories();
-		Iterator<Category> iteratorCat = categories.values().iterator();
-		
-		while(iteratorCat.hasNext())
-		{
-			Category category = iteratorCat.next();
-			categoryElement = xmldoc.createElementNS(null, "category");
-			categoryElement.setAttribute("name", category.getName() );
-			categoryElement.setAttribute("id", String.valueOf(category.getId()));
-			root.appendChild(categoryElement);
-			Integer categoryId = new Integer(category.getId());
-			Vector<Field> questions = category.getFields();
-			
-			int subCatSize = result.getCategories().get( categoryId ).getSubCategories().size();
+        xmldoc = impl.createDocument(null, "result", null);
 
-			Iterator<String> subCatIterator = result.getCategories().get( categoryId ).getSubCategories().keySet().iterator();
-			subCategoryElement = xmldoc.createElementNS(null, "subcategory" );
+        Element root = xmldoc.getDocumentElement();
 
-			CategoryAnswer categoryAnwser = result.getCategories().get(categoryId);
+        root.setAttribute("r_id", result.getResultId());
+        root.setAttribute("s_id", result.getSurveyId());
+        root.setAttribute("u_id", result.getImei());
+        root.setAttribute("time", result.getTime());
 
-			while( subCatIterator.hasNext() ) {
-				String currentSubCatId = subCatIterator.next();
-				subCategoryElement.setAttribute("id", currentSubCatId );
+        if (result.getLatitude() != null )
+        {
+            lat = xmldoc.createElementNS(null, "latitude");
+            titleText = xmldoc.createTextNode(result.getLatitude());
+            lat.appendChild(titleText);
+            root.appendChild(lat);
+        }
+
+        if (result.getLongitude() != null)
+        {
+            lon = xmldoc.createElementNS(null, "longitude");
+            titleText = xmldoc.createTextNode(result.getLongitude());
+            lon.appendChild(titleText);
+            root.appendChild(lon);
+        }
+
+        title = xmldoc.createElementNS(null, "title");
+        titleText = xmldoc.createTextNode("");
+        title.appendChild(titleText);
+        root.appendChild(title);
+
+        TreeMap<Integer, Category> categories = survey.getCategories();
+        Iterator<Category> iteratorCat = categories.values().iterator();
+
+        while(iteratorCat.hasNext())
+        {
+            Category category = iteratorCat.next();
+            categoryElement = xmldoc.createElementNS(null, "category");
+            categoryElement.setAttribute("name", category.getName() );
+            categoryElement.setAttribute("id", String.valueOf(category.getId()));
+            root.appendChild(categoryElement);
+            Integer categoryId = new Integer(category.getId());
+            Vector<Field> questions = category.getFields();
+
+            int subCatSize = result.getCategories().get( categoryId ).getSubCategories().size();
+
+            Iterator<String> subCatIterator = result.getCategories().get( categoryId ).getSubCategories().keySet().iterator();
+            subCategoryElement = xmldoc.createElementNS(null, "subcategory" );
+
+            CategoryAnswer categoryAnwser = result.getCategories().get(categoryId);
+
+            while( subCatIterator.hasNext() ) {
+                String currentSubCatId = subCatIterator.next();
+                subCategoryElement.setAttribute("subCatId", currentSubCatId );
 
 
-				for(Field question : questions)
-				{
-					answerElement = xmldoc.createElementNS(null, "answer");
-					answerElement.setAttributeNS(null, "type", question.getXmlType());
-					answerElement.setAttributeNS(null, "id", String.valueOf(question.getId()));
-					answerElement.setAttributeNS(null, "visited", "false");
+                for(Field question : questions)
+                {
+                    answerElement = xmldoc.createElementNS(null, "answer");
+                    answerElement.setAttributeNS(null, "type", question.getXmlType());
+                    answerElement.setAttributeNS(null, "id", String.valueOf(question.getId()));
+                    answerElement.setAttributeNS(null, "visited", "false");
 
-					Field answer = categoryAnwser.getField(currentSubCatId, question.getId());
-					
-					if (question.getFieldType() == FieldType.TIME)
-					{
-					answerElement.setAttributeNS(null, "convention", question.getConvention());
-			       //answerElement.setAttributeNS(null, "value", question.getValueTime());
-					}
-					if (question.getFieldType() == FieldType.CHOICE)
-					{
-						ArrayList<Item> items = answer.getChoice().getItems();
+                    Field answer = categoryAnwser.getField(currentSubCatId, question.getId());
 
-						for(Item item : items )
-						{
-							if (answer.getValue().contains(item.getIndex() + "^"))
-							{
-								if (item.getOtr() == null || item.getOtr().equals("0"))
-								{
-									if (answer.getValue().contains(item.getIndex() + "^"))
-									{
-										nodeStr = xmldoc.createTextNode("" + item.getIndex());
-										text = xmldoc.createElementNS(null, question.getElementName());
-										text.appendChild(nodeStr);
-										answerElement.appendChild(text);
-										subCategoryElement.appendChild(answerElement);
-									}
-								}
-								else
-								{
-									String value = answer.getValue();
-									System.out.println(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
-									nodeStr = xmldoc.createTextNode(item.getValue());
-									nodeStr = xmldoc.createTextNode(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
-									other = xmldoc.createElementNS(null, "other");
-									other.setAttributeNS(null, "index", "" + item.getIndex());
-									other.appendChild(nodeStr);
-									answerElement.appendChild(other);
-									subCategoryElement.appendChild(answerElement);
-								}
-							}
-						}
-					}
-					else
-					{
-						nodeStr = xmldoc.createTextNode((answer.getValue() == null ? "" : answer.getValue()));
-						text = xmldoc.createElementNS(null, question.getElementName());
-						text.appendChild(nodeStr);
-						answerElement.appendChild(text);
-						subCategoryElement.appendChild(answerElement);
-					}
+                    if (question.getFieldType() == FieldType.TIME)
+                    {
+                    answerElement.setAttributeNS(null, "convention", question.getConvention());
+                   //answerElement.setAttributeNS(null, "value", question.getValueTime());
+                    }
+                    if (question.getFieldType() == FieldType.CHOICE)
+                    {
+                        ArrayList<Item> items = answer.getChoice().getItems();
 
-					if ((question.getCategoryId() == survey.getDisplayCategory()) && (question.getId() == survey.getDisplayQuestion()))
-					{
-						(root.getElementsByTagName("title")).item(0).setTextContent(answer.getValue());
-					}
-				}
-				categoryElement.appendChild(subCategoryElement);
-			}//subcategory
-		}
-		
-		return xmldoc;
-	}
+                        for(Item item : items )
+                        {
+                            if (answer.getValue().contains(item.getIndex() + "^"))
+                            {
+                                if (item.getOtr() == null || item.getOtr().equals("0"))
+                                {
+                                    if (answer.getValue().contains(item.getIndex() + "^"))
+                                    {
+                                        nodeStr = xmldoc.createTextNode("" + item.getIndex());
+                                        text = xmldoc.createElementNS(null, question.getElementName());
+                                        text.appendChild(nodeStr);
+                                        answerElement.appendChild(text);
+                                        subCategoryElement.appendChild(answerElement);
+                                    }
+                                }
+                                else
+                                {
+                                    String value = answer.getValue();
+                                    System.out.println(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
+                                    nodeStr = xmldoc.createTextNode(item.getValue());
+                                    nodeStr = xmldoc.createTextNode(value.substring(value.indexOf('_') + 1, value.lastIndexOf('_')));
+                                    other = xmldoc.createElementNS(null, "other");
+                                    other.setAttributeNS(null, "index", "" + item.getIndex());
+                                    other.appendChild(nodeStr);
+                                    answerElement.appendChild(other);
+                                    subCategoryElement.appendChild(answerElement);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        nodeStr = xmldoc.createTextNode((answer.getValue() == null ? "" : answer.getValue()));
+                        text = xmldoc.createElementNS(null, question.getElementName());
+                        text.appendChild(nodeStr);
+                        answerElement.appendChild(text);
+                        subCategoryElement.appendChild(answerElement);
+                    }
+
+                    if ((question.getCategoryId() == survey.getDisplayCategory()) && (question.getId() == survey.getDisplayQuestion()))
+                    {
+                        (root.getElementsByTagName("title")).item(0).setTextContent(answer.getValue());
+                    }
+                }
+                categoryElement.appendChild(subCategoryElement);
+            }//subcategory
+        }
+
+        return xmldoc;
+    }
 }
