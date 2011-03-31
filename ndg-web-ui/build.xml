@@ -5,7 +5,7 @@
 		so do not hesitate to make some corrections as they indeed might be needed -->
 
 	<taskdef resource="flexTasks.tasks" classpath="${basedir}/libs/flexTasks.jar"/> <!-- flexTasks.jar has to be copied from coresponding SDK -->
-	<property name="FLEX_HOME" value="/home/X/flex_sdk_3.5.0.12683_mpl"/> <!-- set correct path to flex SDK -->
+	<property name="FLEX_HOME" value="/path/to/flex_sdk_3.4.1.10084"/> <!-- set correct path to flex SDK -->
 	<!-- properties below should not be changed unless dir structure is changed -->
 	<property name="SRC_DIR" value="${basedir}/src"/>
 	<property name="DEPLOY_DIR" value="${basedir}/bin-debug"/>
