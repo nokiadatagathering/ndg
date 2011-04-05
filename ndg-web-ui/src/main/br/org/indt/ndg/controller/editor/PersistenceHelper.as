@@ -59,7 +59,7 @@ package main.br.org.indt.ndg.controller.editor {
 		public function loadSurvey(survey:String):void{//surveyID:String, loadTree:Function):void {
 			Survey.getInstance().setContent(new XML(survey));
 			Category.calculateNewIndex();
-			runActionsAfterLoadSurvey();
+//			runActionsAfterLoadSurvey();  Commenting MD5 Checksum since we do not use a separate editor anymore
 		}
 				
 		
