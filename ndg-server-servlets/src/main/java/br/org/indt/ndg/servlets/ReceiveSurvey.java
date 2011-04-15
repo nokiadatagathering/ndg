@@ -18,6 +18,7 @@
 package br.org.indt.ndg.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Properties;
 
@@ -106,7 +107,6 @@ public class ReceiveSurvey extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		processDownloadSurvey = new ProcessDownloadSurvey(request.getLocalAddr(), request.getLocalPort(), request.getParameterMap());
-		printwrite = new PrintWriter(response.getOutputStream());
 		try {
 			String cmdString = request.getParameter(DO_COMMAND);
 			command = (cmdString == null? Commands.list : Commands.valueOf(cmdString));
@@ -125,11 +125,11 @@ public class ReceiveSurvey extends HttpServlet {
 				response.setContentType("text/xml;charset=UTF-8");
 				break;
 			}
-			
-			response.setBufferSize(result != null ? result.length() : 0);
-			response.setContentLength(result != null ? result.length() : 0);
-			
-			
+			int size = (result != null ? result.getBytes("UTF-8").length : 0);
+			response.setBufferSize(size);
+			response.setContentLength(size);
+
+			OutputStreamWriter printwrite = new OutputStreamWriter(response.getOutputStream(), "UTF-8");
 			printwrite.write(result);
 			printwrite.flush();
 			printwrite.close();

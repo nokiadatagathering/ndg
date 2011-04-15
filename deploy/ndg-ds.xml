@@ -8,7 +8,7 @@ http://www.mysql.com/downloads/api-jdbc-stable.html
 <datasources>
   <local-tx-datasource>
     <jndi-name>NdgDS</jndi-name>
-    <connection-url>jdbc:mysql://localhost:3306/ndg</connection-url>
+    <connection-url>jdbc:mysql://localhost:3306/ndg?useUnicode=true&amp;characterEncoding=UTF-8</connection-url>
     <driver-class>com.mysql.jdbc.Driver</driver-class>
     <user-name>ndg</user-name>
     <password>ndg</password>

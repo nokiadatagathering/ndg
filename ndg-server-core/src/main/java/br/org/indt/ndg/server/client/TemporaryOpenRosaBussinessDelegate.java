@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -329,7 +330,7 @@ public class TemporaryOpenRosaBussinessDelegate {
 		String surveyIdOriginal = null;
 
 		Document surveyDomDocument = null;
-		ByteArrayInputStream streamToParse = new ByteArrayInputStream(surveyString.getBytes());
+		ByteArrayInputStream streamToParse = new ByteArrayInputStream(surveyString.getBytes("UTF-8"));
 		try {
 			surveyDomDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(streamToParse);
 		} catch (SAXException e) {
@@ -418,9 +419,12 @@ public class TemporaryOpenRosaBussinessDelegate {
            insertSurveyStmt = conn.prepareStatement(INSERT_SURVEY_STATEMENT);
            insertSurveyStmt.setString(1, surveyId );
            insertSurveyStmt.setString(2, surveyIdOriginal );
-           insertSurveyStmt.setString(3, surveyString);
+           insertSurveyStmt.setBytes(3, surveyString.getBytes("UTF-8"));
            insertSurveyStmt.executeUpdate();
            result = true;
+       } catch (UnsupportedEncodingException e) {
+           e.printStackTrace();
+           result = false;
        } catch ( SQLException e) {
            e.printStackTrace();
            result = false;
