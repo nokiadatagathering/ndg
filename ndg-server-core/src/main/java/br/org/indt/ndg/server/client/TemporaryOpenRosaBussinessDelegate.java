@@ -499,7 +499,7 @@ public class TemporaryOpenRosaBussinessDelegate {
 	}
 
 	private Connection getDbConnection() throws SQLException {
-		String url = "jdbc:mysql://" + m_surveysServerAddress + "/ndg"; //assuming that database runs on the same host
+		String url = "jdbc:mysql://localhost:3306/ndg"; //assuming that database runs on the same host"jdbc:mysql://localhost:3306/ndg"
        String dbUser = "ndg";
        String dbPwd = "ndg";
        return DriverManager.getConnection(url, dbUser, dbPwd);
