@@ -37,7 +37,7 @@ public class PostResultsOpenRosa extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		m_openRosaBD.setPortAndAddress(request.getLocalAddr(), request.getLocalPort());
+		m_openRosaBD.setPortAndAddress(SystemProperties.getServerAddress());
 
 		InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream(), "UTF-8");
 		boolean success = m_openRosaBD.parseAndPersistResult(inputStreamReader, request.getContentType());

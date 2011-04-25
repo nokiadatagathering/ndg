@@ -111,7 +111,7 @@ public class PostSurveys extends HttpServlet
 		InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream(), "UTF-8");
 
 		if ( request.getParameter("user") == null ) {
-			openRosaBD.setPortAndAddress(request.getLocalAddr(), request.getLocalPort());
+			openRosaBD.setPortAndAddress(SystemProperties.getServerAddress());
 			boolean success = openRosaBD.parseAndPersistSurvey(inputStreamReader, request.getContentType());
 			request.setAttribute("uploadResult", success);
 			request.getRequestDispatcher("/OpenRosaSurveyUploader.jsp").forward(request, response);

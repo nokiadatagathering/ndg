@@ -56,8 +56,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TemporaryOpenRosaBussinessDelegate {
 
 	private static Log log = LogFactory.getLog(TemporaryOpenRosaBussinessDelegate.class);
-	private String m_surveysServerAddress = ""; // address that should be used to download surveys
-	private int m_surveysServerPort = 8080; // port that should be used to download surveys
+	private String m_surveysServerAddress = "http://localhost:8080"; // address that should be used to download surveys
 	private String m_deviceId = null;
 
 	private static final String INSERT_SURVEY_STATEMENT = "INSERT INTO surveysopenrosa (idSurvey, idSurveyOriginal, surveyXML) VALUES(?, ?, ?)";
@@ -78,13 +77,12 @@ public class TemporaryOpenRosaBussinessDelegate {
 	private static final String IMEI_COLUMN = "imei";
 
 	public TemporaryOpenRosaBussinessDelegate() {
-		setPortAndAddress("127.0.0.1", 8080);
+		setPortAndAddress("http://localhost:8080");
 		setDeviceId("1");
 	}
 
-	public void setPortAndAddress(String thisServerAddress, int thisServerPort) {
+	public void setPortAndAddress(String thisServerAddress) {
 		m_surveysServerAddress = thisServerAddress;
-		m_surveysServerPort = thisServerPort;
 	}
 
 	public void setDeviceId(String deviceId) {
@@ -495,7 +493,7 @@ public class TemporaryOpenRosaBussinessDelegate {
 	/********** Helpers **********/
 
 	private String getSurveyDownloadUrl( String deviceId, String formId ) {
-		return "http://" + m_surveysServerAddress +":" + m_surveysServerPort + "/ndg-servlets/ReceiveSurveys?do=download&deviceID=" + deviceId + "&formID=" + formId;
+		return m_surveysServerAddress  + "/ndg-servlets/ReceiveSurveys?do=download&deviceID=" + deviceId + "&formID=" + formId;
 	}
 
 	private Connection getDbConnection() throws SQLException {
