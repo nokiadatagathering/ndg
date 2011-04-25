@@ -106,7 +106,7 @@ public class ReceiveSurvey extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processDownloadSurvey = new ProcessDownloadSurvey(request.getLocalAddr(), request.getLocalPort(), request.getParameterMap());
+		processDownloadSurvey = new ProcessDownloadSurvey(SystemProperties.getServerAddress(), request.getParameterMap());
 		try {
 			String cmdString = request.getParameter(DO_COMMAND);
 			command = (cmdString == null? Commands.list : Commands.valueOf(cmdString));

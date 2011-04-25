@@ -43,7 +43,7 @@ public class OpenRosaManagement extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		m_openRosaBD.setPortAndAddress(request.getLocalAddr(), request.getLocalPort());
+		m_openRosaBD.setPortAndAddress(SystemProperties.getServerAddress());
 		String action = request.getParameter(ACTION_PARAM);
 		if ( action != null ) {
 			if ( SET_AVAILABLE_FOR_USER.equals(action) ) {
@@ -61,7 +61,7 @@ public class OpenRosaManagement extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		m_openRosaBD.setPortAndAddress(request.getLocalAddr(), request.getLocalPort());
+		m_openRosaBD.setPortAndAddress(SystemProperties.getServerAddress());
 
 		String action = request.getParameter(ACTION_PARAM);
 

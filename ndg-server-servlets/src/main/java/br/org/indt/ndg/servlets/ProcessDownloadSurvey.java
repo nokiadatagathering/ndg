@@ -58,7 +58,7 @@ public class ProcessDownloadSurvey {
 		mb = new MSMBusinessDelegate();
 	}
 
-	public ProcessDownloadSurvey( String thisServerAddress, int thisServerPort, Map<String, String[]> parameterMap ) {
+	public ProcessDownloadSurvey( String thisServerAddress, Map<String, String[]> parameterMap ) {
 		// determine which kind of request is it - NDG protocol or XForms protocol
 		m_parameterMap = parameterMap;
 		if ( parameterMap.containsKey(IMEI_PARAM) ) {
@@ -69,7 +69,7 @@ public class ProcessDownloadSurvey {
 			m_isNdgProtocolRequest = false;
 			m_imei = parameterMap.get(DEVICE_ID_PARAM)[0];
 			xformsDataProvider = new TemporaryOpenRosaBussinessDelegate();
-			xformsDataProvider.setPortAndAddress(thisServerAddress, thisServerPort);
+			xformsDataProvider.setPortAndAddress(thisServerAddress);
 			xformsDataProvider.setDeviceId(m_imei);
 		} else {
 			throw new InvalidParameterException();
