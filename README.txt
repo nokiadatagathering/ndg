@@ -52,48 +52,58 @@ Add the following environment variables to your ~/.bashrc file:
     export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
     export PATH=$JAVA_HOME/bin:$PATH
 
-Download the database_script.sql file on https://projects.forum.nokia.com/ndg/attachment/wiki/DevEnv/database_script.sql and run:
+Create the database:
 
-    $ mysql -h localhost -u root -p < PATH_TO/database_script.sql
-    $ mysql -u root -p
-    mysql> grant usage on *.* to ndg@localhost identified by 'ndg';
-    mysql> grant all privileges on ndg.* to ndg@localhost;
+    $ mysql -u root -p < ndg/schema/database_script_openrosa.sql
 
 Now you can login using "ndg" as username and password.
 
-To compile, run the following ant build files:
+To compile, you have the following ant build files:
 
-    $ ant -f ndg-server-core/packaging-build.xml
-    $ ant -f ndg-commons-core/packaging-build.xml
-    $ ant -f ndg-server-servlets/packaging-build.xml
-    $ ant -f ndg-web-server/deploy/build.xml
+* ndg-server-core/packaging-build.xml
+* ndg-commons-core/packaging-build.xml
+* ndg-server-servlets/packaging-build.xml
+* ndg-web-ui/build.xml
+* ndg-web-server/deploy/build.xml
+
+The easiest way to do it is to edit the ndg-web-ui/build.xml file and edit the right location of your flex sdk.
+Currently Nokia Data Gathering supports en_US, es_ES, pt_BR and fi_FI and you also need to add these specific locales to your flex sdk.
+Run the following commands to create them:
+
+    $ ./<flex_sdk_home>/bin/copylocale en_US es_ES
+    $ ./<flex_sdk_home>/bin/copylocale en_US pt_BR
+    $ ./<flex_sdk_home>/bin/copylocale en_US fi_FI
+
+Next, just run:
+
+    $ ant -f build_all.xml
+
+It will compile everything and put the necessary files you need to deploy inside the jboss-4.2.2.GA folder.
 
 You need JBoss-4.2.2.GA to run the server, download and extract it.
 You can get it from http://sourceforge.net/projects/jboss/files/JBoss/JBoss-4.2.2.GA/jboss-4.2.2.GA.zip/download?use_mirror=softlayer
 After the compilation process is over, copy or symbolic links the following files to the following destinations:
 
-ndg-commons-core/build/ndg-commons.jar          $JBOSS_HOME/server/default/lib
-ndg-server-core/build/msmjms.jar                $JBOSS_HOME/server/default/lib
-ndg-server-core/build/ndg-ejb-client.jar        $JBOSS_HOME/server/default/lib
-ndg-server-core/build/ndg-core.ear              $JBOSS_HOME/server/default/deploy
-ndg-server-servlets/build/ndg-servlets.war      $JBOSS_HOME/server/default/deploy
-ndg-web-server/deploy/ndgFlex.war               $JBOSS_HOME/server/default/deploy
+jboss-4.2.2.GA/server/default/lib/ndg-commons.jar           $JBOSS_HOME/server/default/lib
+jboss-4.2.2.GA/server/default/lib/msmjms.jar                $JBOSS_HOME/server/default/lib
+jboss-4.2.2.GA/server/default/lib/ndg-ejb-client.jar        $JBOSS_HOME/server/default/lib
+jboss-4.2.2.GA/server/default/deploy/ndg-core.ear           $JBOSS_HOME/server/default/deploy
+jboss-4.2.2.GA/server/default/deploy/ndg-servlets.war       $JBOSS_HOME/server/default/deploy
+jboss-4.2.2.GA/server/default/deploy/ndgFlex.war            $JBOSS_HOME/server/default/deploy
 
-conf/msm-core.properties                        $JBOSS_HOME/server/default/conf
-conf/msm-settings.properties                    $JBOSS_HOME/server/default/conf
-conf/ndg.jad                                    $JBOSS_HOME/server/default/conf
-conf/survey_protocol.properties                 $JBOSS_HOME/server/default/conf
-conf/version.properties                         $JBOSS_HOME/server/default/conf
+conf/msm-core.properties                                    $JBOSS_HOME/server/default/conf
+conf/msm-settings.properties                                $JBOSS_HOME/server/default/conf
+conf/ndg.jad                                                $JBOSS_HOME/server/default/conf
+conf/survey_protocol.properties                             $JBOSS_HOME/server/default/conf
+conf/version.properties                                     $JBOSS_HOME/server/default/conf
 
-deploy/ndg-ds.xml                               $JBOSS_HOME/server/default/deploy
-deploy/ndg-ota.war                              $JBOSS_HOME/server/default/deploy
+deploy/ndg-ds.xml                                           $JBOSS_HOME/server/default/deploy
+deploy/ndg-ota.war                                          $JBOSS_HOME/server/default/deploy
 
-lib/indt-smslib.jar                             $JBOSS_HOME/server/default/lib
-lib/jboss-common-client.jar                     $JBOSS_HOME/server/default/lib
-lib/mysql-driver.jar                            $JBOSS_HOME/server/default/lib
-lib/poi-3.1-FINAL-20080629.jar                  $JBOSS_HOME/server/default/lib
-lib/smslib-3.3.0.jar                            $JBOSS_HOME/server/default/lib
-lib/velocity-1.6.1-dep.jar                      $JBOSS_HOME/server/default/lib
+lib/indt-smslib.jar                                         $JBOSS_HOME/server/default/lib
+lib/jboss-common-client.jar                                 $JBOSS_HOME/server/default/lib
+lib/mysql-driver.jar                                        $JBOSS_HOME/server/default/lib
+lib/smslib-3.3.0.jar                                        $JBOSS_HOME/server/default/lib
 
 Next, you need to edit msm-settings.properties and msm-core.properties configuration files.
 
@@ -108,4 +118,3 @@ Once the server is up, go to your web browser and type
 
 Username: admin	
 Password: ndg
-
