@@ -27,16 +27,7 @@
 		<mkdir dir="${output.dir}/blaze/WEB-INF/lib"/>
 	</target>
 
-    <target name="copy-flex" depends="create-directories">
-       <copy file="${flex.dir}/bin-debug/Main.swf" todir="./../WebContent/swf/"></copy>
-<!--       <copy file="${flex.dir}/bin-debug/main.html" todir="./../WebContent/swf/"></copy> -->
-       <copy file="${flex.dir}/html-template/AC_OETags.js" todir="./../WebContent/swf/"></copy>
-       <copy file="${flex.dir}/html-template/playerProductInstall.swf" todir="./../WebContent/swf/"></copy>
-       <copy file="${flex.dir}/../ndg-web-ui/src/main/br/org/indt/ndg/ui/component/map/resultMapping.html" todir="./../WebContent/swf/"></copy>
-       <copy file="${flex.dir}/../ndg-web-ui/src/main/br/org/indt/ndg/ui/component/map/sessvars.js" todir="./../WebContent/swf/"></copy>
-    </target>
-
-	<target name="build-blaze" depends="copy-flex">
+	<target name="build-blaze" depends="create-directories">
         <javac srcdir="../src/" classpathref="classpath" destdir="${output.dir}/blaze/WEB-INF/classes"
             includes="**/*.java"
             excludes=".svn"/>

@@ -70,4 +70,13 @@
             output="${DEPLOY_DIR}"/>
     </target>
 
+    <target name="copy-flex" depends="generate-start-pages">
+       <copy file="${basedir}/bin-debug/Main.swf" todir="${basedir}/../ndg-web-server/WebContent/swf/"></copy>
+<!--       <copy file="${basedir}/bin-debug/main.html" todir="${basedir}/../ndg-web-server/WebContent/swf/"></copy> -->
+       <copy file="${basedir}/html-template/AC_OETags.js" todir="${basedir}/../ndg-web-server/WebContent/swf/"></copy>
+       <copy file="${basedir}/html-template/playerProductInstall.swf" todir="${basedir}/../ndg-web-server/WebContent/swf/"></copy>
+       <copy file="${basedir}/src/main/br/org/indt/ndg/ui/component/map/resultMapping.html" todir="${basedir}/../ndg-web-server/WebContent/swf/"></copy>
+       <copy file="${basedir}/src/main/br/org/indt/ndg/ui/component/map/sessvars.js" todir="${basedir}/../ndg-web-server/WebContent/swf/"></copy>
+    </target>
+
 </project>
