@@ -150,7 +150,7 @@ public class ExcelTransformer extends ResultsTransformer {
 							currentCell.setCellValue(value);
 						} else {
 							String currentValue = currentCell.getStringCellValue();
-							currentCell.setCellValue(currentValue + value + "##");
+							currentCell.setCellValue(currentValue + "##" + value + "##");
 						}
 						++fieldOffset;
 
@@ -276,7 +276,7 @@ public class ExcelTransformer extends ResultsTransformer {
 								currentCell.setCellValue(value);
 							} else {
 								String currentValue = currentCell.getStringCellValue();
-								currentCell.setCellValue(currentValue + value + "##");
+								currentCell.setCellValue(currentValue + "##" + value + "##");
 							}
 							++fieldOffset;
 						}
