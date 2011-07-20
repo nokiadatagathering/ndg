@@ -1,4 +1,8 @@
-The NDG project is made up of various modules which combine to make the whole application.
+To set a development environment for NDG on Linux the canonical URL is https://projects.forum.nokia.com/ndg/wiki/DevEnv
+
+The NDG project is made up of various modules which combine to make the whole application. 
+
+** MODULES **
 
 The server modules are:
 
@@ -11,37 +15,14 @@ The web user interface module is:
 
   ndg-web-ui
     
-The release includes the source code to create the .jar files on which NDG depends. 
-  
-Inside the lib directory there are Java .jar files needed for compilation. They provide core functionality which the NDG software uses. For some of these files and which module uses them use we have specified the .jar name, give a short description and the software license: 
 
-1. ndg-commons-core
-  (Required) commons-logging.jar - A modular bridging API with support for most well known logging system - Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
-  
-2. ndg-server-core/lib
-  (Required) indt-smslib.jar - (explained above) HTTP Classes and methods written by INdT which interact with the mobile broker Clickatell (http://www.clickatell.com/) - source code included
-  (Required) mail.jar - provides a platform-independent and protocol-independent API framework to build mail and messaging applications - CDDL license and the GPLv2 with Classpath Exception
-  (Required) smslib-3.3.0.jar - SMSLib is a programmer's library for sending and receiving SMS messages via a GSM modem or mobile phone - Apache License, Version 2.0 
-  
-3. ndg-web-server/WebContent/WEB-INF/lib contains various .jar files which are part of the flex toolkit. These are all released by Adobe under the Mozilla Public License (http://www.mozilla.org/MPL/). The .jars are all (Required) to be able to compile the server UI
+** SHORT INSTRUCTIONS **
 
- cfgatewayadapter.jar
- xalan.jar
- commons-logging.jar
- flex-messaging-core.jar
- flex-messaging-opt.jar
- concurrent.jar
- commons-codec-1.3.jar
- flex-messaging-remoting.jar
- flex-messaging-common.jar
- backport-util-concurrent.jar
- flex-messaging-proxy.jar
- commons-httpclient-3.0.1.jar
+If you are lazy:
 
-4. ndg-server-servlets/WebContent/client/ndg.jar
-  (Optional) the downloadable mobile client which is offered as a download after user registration. This .jar is created by the ndg-mobile-client module
+Download JBoss-4.2.2.GA and then checkout the code. Compile it using ant and copy the files into the correct locations in the server. Start the server listening on all interfaces. 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------
+** LONGER INSTRUCTIONS **
 
 NDG depends on openjdk-6-jre, mysql-server-5.1 and Flash.
 Run
