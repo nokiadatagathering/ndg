@@ -33,8 +33,10 @@
 					click="showMap()" enabled="{pagination.selectedAllItems.length >= 1}"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMapAll')}" height="22" id="btnMapAll" width="80"
 					click="showMapAll()"/>
-				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExport')}" height="22" id="btnExport"
-					click="export()" width="80"/>
+                                <mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExport')}" height="22" id="btnExportSelected"
+                                        click="" enabled="{pagination.selectedAllItems.length >= 1}" width="80"/>
+                                <mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExportAll')}" height="22" id="btnExport"
+                                        click="export()" width="80"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsImport')}" height="22" id="btnImport"
 					click="showImport()" width="80" visible="{!SessionClass.getInstance().isHostedMode}"/>
 			</mx:HBox>
