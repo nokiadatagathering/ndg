@@ -1115,4 +1115,83 @@ class SurveyHandlerBean implements SurveyHandler
 	{
 		return manager.find(Survey.class, surveyId);
 	}
+
+	public SurveyXML loadSelectedResults(ArrayList<String> resultIds, String surveyId) 
+			throws MSMApplicationException, MSMSystemException
+	{
+		SurveyXML surveyXML = null;
+		SurveyParser parser = new SurveyParser();
+		
+		try 
+		{
+			Survey survey = manager.find(Survey.class, surveyId);
+			surveyXML = parser.parseSurvey(new StringBuffer(survey.getSurveyXml()), "UTF-8");
+			surveyXML.setResults(loadSpecificResults(resultIds, surveyId));
+		}
+		catch (ResultNotParsedException e)
+		{
+			throw new ResultNotParsedException();
+		}
+		catch (Exception e)
+		{
+			throw new SurveyNotParsedException();
+		}
+
+		return surveyXML;
+	}
+
+	public ArrayList<ResultXml> loadSpecificResults(ArrayList<String> resultIds, String surveyId) 
+			throws MSMApplicationException, MSMSystemException 
+	{
+		ArrayList<ResultXml> resultXMLList = new ArrayList<ResultXml>();
+		ArrayList<Result> resultsListDB = new ArrayList<Result>();
+		
+		for (int i = 0; i < resultIds.size(); i++) {
+		    Query q = manager.createNamedQuery("result.findByIdResult");
+		    q.setParameter("idResult", resultIds.toArray()[i].toString());
+		    resultsListDB.add((Result)q.getSingleResult());
+		}
+
+		ResultParser parser = new ResultParser();
+
+		for (Result result : resultsListDB) 
+		{
+			ResultXml resultXml = null;
+			
+			try 
+			{
+				resultXml = parser.parseResult(new StringBuffer(result.getResultXml()), "UTF-8");
+				ImeiVO imei = businessDelegate.getImei(resultXml.getImei());
+				resultXml.setPhoneNumber(imei.getMsisdn());
+				resultXMLList.add(resultXml);
+			}
+			catch (Exception e) 
+			{
+				throw new ResultNotParsedException();
+			}
+
+			Collection<TransactionLogVO> logs = businessDelegate.getResultReceived(surveyId,
+					result.getIdResult());
+			HashMap<String, TransactionLogVO> map = new HashMap<String, TransactionLogVO>();
+
+			for (TransactionLogVO rlog : logs)
+			{
+				map.put(rlog.getResultId(), rlog);
+			}
+
+			if (!logs.isEmpty())
+			{
+				TransactionLogVO t = map.get(result.getIdResult());
+
+				if (t != null)
+				{
+					resultXml.setDate(SystemUtils.toDate(t.getDtLog()));
+					resultXml.setUser(t.getUser());
+				}
+			}
+
+		}
+
+		return resultXMLList;
+	}
 }

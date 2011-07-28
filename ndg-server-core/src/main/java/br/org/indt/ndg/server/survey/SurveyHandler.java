@@ -116,4 +116,10 @@ public interface SurveyHandler {
 
 	public void detachImeiFromSurvey(String surveyID, String imeiNumber)
 			throws MSMApplicationException;
+
+	public SurveyXML loadSelectedResults(ArrayList<String> resultIds, String surveyId)
+			throws MSMApplicationException, MSMSystemException;
+
+	public ArrayList<ResultXml> loadSpecificResults(ArrayList<String> resultIds, String surveyId) 
+			throws MSMApplicationException, MSMSystemException;
 }
