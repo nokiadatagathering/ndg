@@ -45,4 +45,5 @@ public class SettingsProperties {
 
 	public static String CLIENT_VERSION = "client.version";
 	public static String CLIENT_OTA = "client.ota";
+	public static String LOCALE_OTA = "locale.ota";
 }
