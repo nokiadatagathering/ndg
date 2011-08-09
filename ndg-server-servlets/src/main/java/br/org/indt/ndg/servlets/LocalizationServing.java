@@ -121,7 +121,7 @@ public class LocalizationServing extends HttpServlet {
     	}else{
     		localeFile = localeDelegate.getFontFileName(locale);
     	}
-    	if(localeFile == null){
+    	if(localeFile == null || localeFile.isEmpty()){
     		return null;
     	}
     	
