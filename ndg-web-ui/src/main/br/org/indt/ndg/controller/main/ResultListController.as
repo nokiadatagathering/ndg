@@ -21,7 +21,7 @@
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	
+
 	import main.br.org.indt.ndg.controller.access.SessionClass;
 	import main.br.org.indt.ndg.controller.access.SessionTimer;
 	import main.br.org.indt.ndg.controller.main.resultimport.CloseResultImportEvent;
@@ -35,7 +35,7 @@
 	import main.br.org.indt.ndg.ui.view.main.resultMap.ResultMap;
 	import main.br.org.indt.ndg.ui.view.main.resultexport.ResultExport;
 	import main.br.org.indt.ndg.ui.view.main.resultimport.ResultImport;
-	
+
 	import mx.collections.ArrayCollection;
 	import mx.containers.VBox;
 	import mx.containers.ViewStack;
@@ -47,17 +47,17 @@
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
 	import mx.utils.Base64Decoder;
-			
-    [Bindable] public var resultList:ArrayCollection = new ArrayCollection();
-    [Bindable] public var remoteListResults:RemoteObject = new RemoteObject(REMOTE_SERVICE);
-    [Bindable] private var searchOptionsLabels:ArrayCollection = null;
-    [Bindable] private var searchOptionsFields:ArrayCollection = null;
-    public var myStack:ViewStack = null;
-    
-    //private var imageZoom:Image;
+
+        [Bindable] public var resultList:ArrayCollection = new ArrayCollection();
+        [Bindable] public var remoteListResults:RemoteObject = new RemoteObject(REMOTE_SERVICE);
+        [Bindable] private var searchOptionsLabels:ArrayCollection = null;
+        [Bindable] private var searchOptionsFields:ArrayCollection = null;
+        public var myStack:ViewStack = null;
+
+        //private var imageZoom:Image;
 	private var selectedSurveyDTO:SurveyDTO = null;
 	private var surveyHasImage:Boolean = false;
-	private static const REMOTE_SERVICE:String = "myService";	
+	private static const REMOTE_SERVICE:String = "myService";
 	private static const RESULT_PAGE_SIZE:int = 13;
 
 	private function init():void{
@@ -65,12 +65,12 @@
 		searchOptionsLabels.addItem(ConfigI18n.getInstance().getString("comboSearchAll"));
 		searchOptionsLabels.addItem(ConfigI18n.getInstance().getString("colResultId"));
 		searchOptionsLabels.addItem(ConfigI18n.getInstance().getString("colImei"));
-		
+
 		searchOptionsFields = new ArrayCollection();
 		searchOptionsFields.addItem(new Array("idResult", "imei"));
 		searchOptionsFields.addItem(new Array("idResult"));
 		searchOptionsFields.addItem(new Array("imei"));
-		
+
 		customCheck.addEventListener(MouseEvent.CLICK, selectedAll);
 	}
 
@@ -79,7 +79,7 @@
 		resetView(selectedSurveyDTO);
 		pagination.refresh();
 	}
-		
+
 	private function listResults(event:ChangePageEvent):void{
 		preview.removeAllChildren();
 		resultList.source = new Array();
@@ -89,14 +89,14 @@
 				event.filterText, event.filterFields, event.sortField, event.sortDescending);
 		SessionTimer.getInstance().resetTimer();
 	}
-			
+
 	private function resetView(survey:SurveyDTO):void{
 		surveyTitle.text = survey.title;
 		search.clearUI();
 		pagination.reset();
 		resultList.source = new Array();
 	}
-			
+
 	private function showSurveys(event:MouseEvent):void{
 		myStack.selectedIndex = 0;
 	}
@@ -104,15 +104,15 @@
 	private function selectedAll(event:MouseEvent):void{
 		pagination.selectAll(customCheck.selected);
 	}
-			
+
 	private function markAll(event:MouseEvent):void{
 		pagination.selectAll(true);
 	}
-			
+
 	private function unmarkAll(event:MouseEvent):void{
 		pagination.selectAll(false);
 	}
-	
+
 	private function showPreview(event:Event):void{
 		var result:ResultDTO = resultsGrid.selectedItem as ResultDTO;
 		if (result != null){
@@ -120,18 +120,18 @@
 			remoteObject.showBusyCursor = true;
 			remoteObject.addEventListener(FaultEvent.FAULT, onFault);
 			remoteObject.addEventListener(ResultEvent.RESULT, onSuccess);
-			remoteObject.getPreview(SessionClass.getInstance().loggedUser.username, 
+			remoteObject.getPreview(SessionClass.getInstance().loggedUser.username,
 							selectedSurveyDTO.idSurvey, result.idResult);
 		} else{
 			preview.removeAllChildren();
 		}
-				
+
 		function onSuccess(event:ResultEvent):void {
 			var i:int;
 			var previewContent:SurveyPreviewDTO;
 			preview.removeAllChildren();
 			surveyHasImage = false;
-			
+
 			if (event.result != null) {
 				var arrayPreview:ArrayCollection = new ArrayCollection();
 				arrayPreview = event.result as ArrayCollection;
@@ -142,10 +142,10 @@
 				var txtHtmlText:Text;
 				var photoImage:Image;
 				var panel:VBox;
-				
+
 				for (i = 0; i<arrayPreview.length; i++){
 	                surveyPreviewDTO = arrayPreview.getItemAt(i) as SurveyPreviewDTO;
-					
+
 					if (!surveyPreviewDTO.isImage) {
 						txtHtmlText = new Text();
 						txtHtmlText.width = 220;
@@ -162,7 +162,7 @@
 						panel = new VBox();
 						panel.styleName = "imagePanel";
 						panel.addChild(photoImage);
-						
+
 			            base64Dec.decode(surveyPreviewDTO.htmlText);
 			            byteArr = base64Dec.toByteArray();
 						photoImage.load(byteArr);
@@ -172,47 +172,49 @@
 				}
 			}
 		}
-				
+
 		function onFault(event:FaultEvent):void	{
 			Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
 					ConfigI18n.getInstance().getString("lblError"));
 		}
 	}
-	
+
 	private function zoomImage(event:MouseEvent):void{
         var imageViewer:ImageViewer = new ImageViewer();
         imageViewer.imageSource = (event.currentTarget as Image).source;
-        
+
         PopUpManager.addPopUp(imageViewer, this.parentApplication as DisplayObject, true);
         PopUpManager.centerPopUp(imageViewer);
 	}
-		
-	private function export():void{
+
+	private function export(isSelected:Boolean):void{
 		if (resultList.length > 0){
 			var resultExport:ResultExport = new ResultExport();
 			resultExport.surveyDTO = selectedSurveyDTO;
 			PopUpManager.addPopUp(resultExport, this.parentApplication as DisplayObject, true);
 			PopUpManager.centerPopUp(resultExport);
-			resultExport.renderasExportImages(surveyHasImage);			
+			resultExport.renderasExportImages(surveyHasImage);
+                        if(isSelected && pagination.selectedAllItems.length > 0)
+                            resultExport.setSelectedResultList(pagination.selectedAllItems);
 		} else {
 			Alert.show(ConfigI18n.getInstance().getString("noResultsToExport"),
 					ConfigI18n.getInstance().getString("lblWarning"));
 		}
 	}
-	
+
 	private function showImport():void {
 		var resultImport:ResultImport = new ResultImport();
 		resultImport.surveyDTO = selectedSurveyDTO;
 		resultImport.addEventListener(CloseResultImportEvent.EVENT_NAME, closePopup);
-		
+
 		PopUpManager.addPopUp(resultImport, this.parentApplication as DisplayObject, true);
 		PopUpManager.centerPopUp(resultImport);
-		
+
 		function closePopup(event:CloseResultImportEvent):void{
 			pagination.refresh();
 		}
 	}
-	
+
 	private function showMap():void {
 		if (pagination.selectedAllItems.length > 0) {
 			var mapPosition:ResultMap = new ResultMap();
@@ -221,13 +223,13 @@
 			PopUpManager.centerPopUp(mapPosition);
 		} else {
 			Alert.show(ConfigI18n.getInstance().getString("noResultsSelected"),
-					ConfigI18n.getInstance().getString("lblWarning"));			
+					ConfigI18n.getInstance().getString("lblWarning"));
 		}
 	}
-	
+
 	private function showMapAll():void {
 		var mapPosition:ResultMap = new ResultMap();
 		mapPosition.setSurvey(selectedSurveyDTO.idSurvey);
 		PopUpManager.addPopUp(mapPosition, this.parentApplication as DisplayObject , true);
-		PopUpManager.centerPopUp(mapPosition);		
+		PopUpManager.centerPopUp(mapPosition);
 	}

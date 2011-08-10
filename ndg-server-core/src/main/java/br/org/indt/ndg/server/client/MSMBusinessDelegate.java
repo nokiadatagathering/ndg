@@ -854,10 +854,10 @@ public class MSMBusinessDelegate {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public byte[] jadDownload(String msisdn) throws MSMApplicationException{
 		deviceManager.createDynamicJad(msisdn);
-		
+
 		if (msisdn.contains("+")) {
 			msisdn = msisdn.replace("+", "");
 		}
@@ -874,7 +874,7 @@ public class MSMBusinessDelegate {
 		}
 		return byteArray;
 	}
-	
+
 	public void deleteJadDir(String msisdn) throws MSMApplicationException{
 		deviceManager.deleteJadDir(msisdn);
 	}
@@ -895,18 +895,22 @@ public class MSMBusinessDelegate {
 
 		return ndgVersion;
 	}
-	
+
 	public boolean hasSmsSupport(){
 		return SmsHandlerFactory.getInstance().hasSmsSupport();
 	}
-	
+
 	public void registerIMEI(String msisdn, String newImei) throws MSMApplicationException {
 		System.out.println("[MSMBusinessDelegate.registerIMEI] Msisdn " + msisdn +
 				"; Imei: " + newImei);
 		imeiManager.registerIMEI(msisdn, newImei);
 		deleteJadDir(msisdn);
 	}
-	
-	
-	
+
+    public SurveyXML loadSelectedResults(ArrayList<String> resultIds, String surveyId)
+                     throws MSMApplicationException, MSMSystemException {
+    	SurveyXML surveyXML = surveyHandler.loadSelectedResults(resultIds, surveyId);
+    	
+        return surveyXML;
+    }
 }

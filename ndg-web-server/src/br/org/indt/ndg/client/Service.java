@@ -918,32 +918,39 @@ public class Service {
 		}
 		return sResult;
 	}
-	
+
 	/**
-	 * 
+	 *
+	 * @param username
 	 * @param format
 	 * @param surveyId
 	 * @param exportWithImages
+	 * @param resultIds
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String exportResults(String username, String format, String surveyId,
-								Boolean exportWithImages)
+								Boolean exportWithImages, ArrayList<String> resultIds,
+								Boolean isSelected)
 			throws NDGServerException{
-		
+
 		final String SURVEY = "survey";
 		String fileType = "";
 		String strFileContent = null;
 		byte[] fileContent = null;
-		
+		SurveyXML survey = null;
+
 		if (exportWithImages == true) {
 			new File(surveyId).mkdir();
 			new File(surveyId + File.separator + "photos").mkdir();
 		}
-		
+
 		try{
-			SurveyXML survey = msmBD.loadSurveyAndResultsDB(username, surveyId);
-			
+			if(isSelected)
+				survey = msmBD.loadSelectedResults(resultIds, surveyId);
+			else
+				survey = msmBD.loadSurveyAndResultsDB(username, surveyId);
+
 			if (CSV.equalsIgnoreCase(format)){
 				CSVTransformer transformer = new CSVTransformer(survey, exportWithImages);
 				fileContent = transformer.getBytes();
@@ -964,7 +971,7 @@ public class Service {
 			e.printStackTrace();
 			throw new NDGServerException(UNEXPECTED_SERVER_EXCEPTION);
 		}
-		
+
 		if (exportWithImages == true)
 		{
 			zipSurvey(surveyId, fileContent, fileType);
@@ -976,11 +983,11 @@ public class Service {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			zipFile.delete();
 			deleteDir(zipDir);
 		}
-		
+
 		return  strFileContent;
 	}
 

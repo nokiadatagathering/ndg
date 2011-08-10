@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="Flex Builder" basedir="." default="generate-start-pages">
+<project name="Flex Builder" basedir="." default="copy-flex">
 
 <!-- README: It is not 100% sure every line here is neccessary and maybe there are some lines missing
         so do not hesitate to make some corrections as they indeed might be needed -->

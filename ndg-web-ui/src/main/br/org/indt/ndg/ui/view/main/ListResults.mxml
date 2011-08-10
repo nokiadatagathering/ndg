@@ -17,12 +17,12 @@
         <mx:Zoom />
         <mx:Fade />
     </mx:Parallel>
-        
+
 	<mx:HBox width="100%" styleName="functionalitiesBar" verticalAlign="bottom">
 		<mx:Button height="43" width="63" click="showSurveys(event)"
 			label="{ConfigI18n.getInstance().getString('btnDetailsBack')}">
 			<mx:icon>@Embed(source='../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
-		</mx:Button>		
+		</mx:Button>
 		<mx:VBox verticalAlign="middle" verticalGap="0">
 			<mx:HBox verticalAlign="middle" horizontalGap="4">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblResultsSurveyTitle')}" styleName="darkTitle"/>
@@ -33,13 +33,15 @@
 					click="showMap()" enabled="{pagination.selectedAllItems.length >= 1}"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMapAll')}" height="22" id="btnMapAll" width="80"
 					click="showMapAll()"/>
-				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExport')}" height="22" id="btnExport"
-					click="export()" width="80"/>
+                                <mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExport')}" height="22" id="btnExportSelected"
+                                        click="export(true)" enabled="{pagination.selectedAllItems.length >= 1}" width="80"/>
+                                <mx:Button label="{ConfigI18n.getInstance().getString('btnResultsExportAll')}" height="22" id="btnExport"
+                                        click="export(false)" width="80"/>
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsImport')}" height="22" id="btnImport"
 					click="showImport()" width="80" visible="{!SessionClass.getInstance().isHostedMode}"/>
 			</mx:HBox>
 		</mx:VBox>
-		
+
 		<mx:HRule width="100%" visible="false"/>
 		<comp:PowerSearch id="search" optionsLabels="{searchOptionsLabels}" optionsFields="{searchOptionsFields}"
 			searchLabel="{ConfigI18n.getInstance().getString('lblSearch')}"/>
@@ -85,15 +87,15 @@
 				refreshLabel="{ConfigI18n.getInstance().getString('pcRefreshLabel')}"
 				itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
 				selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}"/>
-		</mx:VBox>	
-		
+		</mx:VBox>
+
 		<mx:VBox width="250" height="100%" borderStyle="none" verticalGap="1">
 			<mx:ApplicationControlBar height="23" width="100%" styleName="previewCtrlBar">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblPreviewPanel')}" styleName="clearText" fontWeight="bold"/>
 			</mx:ApplicationControlBar>
-			<mx:VBox width="100%" height="380" id="preview" styleName="previewArea" verticalScrollPolicy="auto"/>	
+			<mx:VBox width="100%" height="380" id="preview" styleName="previewArea" verticalScrollPolicy="auto"/>
 		</mx:VBox>
 	</mx:HBox>
 
-	
+
 </mx:Module>
