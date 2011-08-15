@@ -130,11 +130,7 @@ public class LocalizationServing extends HttpServlet {
 		File file = null;
 		try {
 			localeOtaDirectory = msmBD.getSpecificPropertySetting(SettingsProperties.LOCALE_OTA);
-			jbossDirectory = System.getProperty("jboss.home.url");
-			if(jbossDirectory.startsWith("file:/"))
-			{
-				jbossDirectory = jbossDirectory.replace("file:/", "");
-			}
+			jbossDirectory = System.getProperty("jboss.home.dir");
 	    	file = new File(jbossDirectory + localeOtaDirectory + localeFile);
 		} catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
