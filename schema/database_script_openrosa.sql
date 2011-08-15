@@ -311,5 +311,42 @@ SET FOREIGN_KEY_CHECKS = 1;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 
-grant usage on *.* to ndg@localhost identified by 'ndg';
-grant all privileges on ndg.* to ndg@localhost;
+CREATE TABLE IF NOT EXISTS `ndg`.`languages` (
+  `language_id` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `localeString` VARCHAR(45) NOT NULL ,
+  `translationFilePath` VARCHAR(256) NOT NULL ,
+  `fontFilePath` VARCHAR(256) NULL ,
+  PRIMARY KEY (`language_id`) )
+ENGINE = InnoDB DEFAULT CHARSET=latin1;
+
+INSERT IGNORE INTO `ndg`.`languages`
+(`name`, `localeString`, `translationFilePath`)
+VALUES
+( 'Español', 'es-ES', 'messages_es.properties' );
+
+INSERT IGNORE INTO `ndg`.`languages`
+(`name`, `localeString`, `translationFilePath`)
+VALUES
+( 'Português', 'pt-BR', 'messages_pt.properties' );
+
+INSERT IGNORE INTO `ndg`.`languages`
+(`name`, `localeString`, `translationFilePath`,`fontFilePath`)
+VALUES
+( 'Suomi', 'fi-FI', 'messages_fi.properties', 'fonts_fi.res');
+
+INSERT IGNORE INTO `ndg`.`languages`
+(`name`, `localeString`, `translationFilePath`,`fontFilePath`)
+VALUES
+('Polski', 'pl-PL', 'messages_pl.properties','fonts_pl.res');
+
+
+CREATE OR REPLACE VIEW V_user_role AS
+SELECT username, roleName
+FROM user
+INNER JOIN role
+USING (idRole);
+
+
+CREATE USER 'ndg'@'localhost' IDENTIFIED BY 'ndg';
+GRANT ALL PRIVILEGES ON ndg.* to 'ndg'@'localhost' WITH GRANT OPTION;
