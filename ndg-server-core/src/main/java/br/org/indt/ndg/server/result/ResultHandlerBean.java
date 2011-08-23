@@ -137,27 +137,25 @@ public class ResultHandlerBean implements ResultHandler {
 		{
 			queryIOVO = new QueryInputOutputVO();
 		}
-		
+
 		MSMBusinessDelegate bd = new MSMBusinessDelegate();
-			
+
 		String sqlCommand = "SELECT U FROM Result U WHERE survey.idSurvey = " + surveyId;
-		
+
 		if ((queryIOVO.getFilterText() != null) && (queryIOVO.getFilterFields() != null))
 		{
 			sqlCommand += SqlUtil.getFilterCondition(queryIOVO.getFilterText(), queryIOVO.getFilterFields());
 		}
-			
+
 		if ((queryIOVO.getSortField() != null) && (queryIOVO.getIsDescending() != null))
 		{
-			if (!queryIOVO.getSortField().equals("date"))
-			{
+			if (!queryIOVO.getSortField().equals("date") && !queryIOVO.getSortField().equals("user")) 
 				sqlCommand += SqlUtil.getSortCondition(queryIOVO.getSortField(), queryIOVO.getIsDescending());
-			}
 		}
-			
+
 		Query q = manager.createQuery(sqlCommand);			
 		queryIOVO.setRecordCount(q.getResultList().size());
-			
+
 		if ((queryIOVO.getPageNumber() != null) && (queryIOVO.getRecordsPerPage() != null))
 		{
 			q.setFirstResult((queryIOVO.getPageNumber() - 1) * queryIOVO.getRecordsPerPage());
@@ -167,7 +165,7 @@ public class ResultHandlerBean implements ResultHandler {
 		ArrayList<Object> resultList = new ArrayList<Object>();
 		ArrayList<Result> resultsListDB = (ArrayList<Result>) q.getResultList();
 		ArrayList<ResultVO> notNullResults = new ArrayList<ResultVO>();
-		
+
 		for (Result result : resultsListDB)
 		{
 			Collection<TransactionLogVO> logs = bd.getResultReceived(surveyId, result.getIdResult());
@@ -177,9 +175,9 @@ public class ResultHandlerBean implements ResultHandler {
 			{
 				map.put(rlog.getResultId(), rlog);
 			}
-			
+
 			ResultVO bean = new ResultVO();
-				
+
 			try 
 			{
 				Result currentResult = manager.find(Result.class, result.getIdResult());
@@ -187,20 +185,20 @@ public class ResultHandlerBean implements ResultHandler {
 				bean.setIdResult(currentResult.getIdResult());
 				bean.setSurveyId(currentResult.getSurvey().getIdSurvey());
 				bean.setImei(currentResult.getImei().getImei());
-				
+
 				if ((currentResult.getTitle() == null) || (currentResult.getLatitude() == null) || (currentResult.getLongitude() == null))
 				{
 					ResultParser parser = new ResultParser();
 					ResultXml resultXML = parser.parseResult(new StringBuffer(result.getResultXml()), "UTF-8");
-					
+
 					bean.setTitle(resultXML.getTitle());
 					bean.setLat(resultXML.getLatitude());
 					bean.setLon(resultXML.getLongitude());
-					
+
 					currentResult.setTitle(resultXML.getTitle());
 					currentResult.setLatitude(resultXML.getLatitude());
 					currentResult.setLongitude(resultXML.getLongitude());
-					
+
 					manager.merge(currentResult);
 				}
 				else
@@ -213,14 +211,14 @@ public class ResultHandlerBean implements ResultHandler {
 				if (!logs.isEmpty()) 
 				{
 					TransactionLogVO t = map.get(result.getIdResult());
-						
+
 					if (t != null) 
 					{
 						bean.setDate(SystemUtils.toDate(t.getDtLog()));
 						bean.setUser(t.getUser());
 					}
 				}
-					
+
 				// order results by title - ascending
 				if (bean.getTitle() == null)
 				{
@@ -250,15 +248,15 @@ public class ResultHandlerBean implements ResultHandler {
 				throw new ResultNotParsedException();
 			} 
 		}
-		
+
 		// results without title come first
 		resultList.addAll(notNullResults);
-		
+
 		queryIOVO.setQueryResult(resultList);
-		
+
 		return queryIOVO;
 	}
-	
+
 	@Override
 	public ResultXml getResultDB(String idResult) throws MSMApplicationException, MSMSystemException {		
 		Query q = manager.createNamedQuery("result.findByIdResult");
