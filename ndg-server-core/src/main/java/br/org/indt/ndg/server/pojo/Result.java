@@ -17,6 +17,8 @@
 
 package br.org.indt.ndg.server.pojo;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,6 +28,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Result entity. @author MyEclipse Persistence Tools
@@ -48,6 +52,7 @@ public class Result implements java.io.Serializable {
 	private String latitude;
 	private String longitude;
 	private String title;
+	private Date dateSaved;
 
 	@Id
 	@Column(name = "idResult", unique = true, nullable = false, length = 8)
@@ -119,5 +124,17 @@ public class Result implements java.io.Serializable {
 	public void setTitle(String title)
 	{
 		this.title = title;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "dateSaved", length = 150)
+	public Date getDateSaved()
+	{
+		return this.dateSaved;
+	}
+
+	public void setDateSaved(Date dateSaved)
+	{
+		this.dateSaved = dateSaved;
 	}
 }

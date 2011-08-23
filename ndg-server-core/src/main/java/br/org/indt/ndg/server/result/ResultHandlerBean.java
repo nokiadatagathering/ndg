@@ -18,6 +18,7 @@
 package br.org.indt.ndg.server.result;
 
 import java.io.IOException;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -112,19 +113,20 @@ public class ResultHandlerBean implements ResultHandler {
 
 		Result result = manager.find(Result.class, resultToPersist.getIdResult());
 		resultToPersist = (result!=null) ? result : resultToPersist;
-			
+
 		Imei imei = new Imei();
 		imei.setImei(resultXml.getImei());
 		Survey survey = new Survey();
 		survey.setIdSurvey(resultXml.getSurveyId());
-			
+
 		resultToPersist.setResultXml(buffer.toString());
 		resultToPersist.setSurvey(survey);
 		resultToPersist.setImei(imei);
 		resultToPersist.setLatitude(resultXml.getLatitude());
 		resultToPersist.setLongitude(resultXml.getLongitude());
 		resultToPersist.setTitle(resultXml.getTitle());
-			
+		resultToPersist.setDateSaved(new Date(Long.parseLong(resultXml.getTime())));
+
 		manager.persist(resultToPersist);
 	}
 
@@ -147,7 +149,10 @@ public class ResultHandlerBean implements ResultHandler {
 			
 		if ((queryIOVO.getSortField() != null) && (queryIOVO.getIsDescending() != null))
 		{
-			sqlCommand += SqlUtil.getSortCondition(queryIOVO.getSortField(), queryIOVO.getIsDescending());
+			if (!queryIOVO.getSortField().equals("date"))
+			{
+				sqlCommand += SqlUtil.getSortCondition(queryIOVO.getSortField(), queryIOVO.getIsDescending());
+			}
 		}
 			
 		Query q = manager.createQuery(sqlCommand);			

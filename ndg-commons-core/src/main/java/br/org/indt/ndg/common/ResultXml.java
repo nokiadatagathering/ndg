@@ -32,8 +32,8 @@ public class ResultXml implements Serializable{
 	private String phoneNumber;
 	private String imei;
 	private String user;
-	private String time;
-	private String date;
+	private String time;                 //Date saved
+	private String timeSent;             //Date sent
 	private String title;
 	private String latitude;
 	private String longitude;
@@ -44,76 +44,90 @@ public class ResultXml implements Serializable{
 	public ResultXml() {
 		categories = new TreeMap<Integer, CategoryAnswer>();
 	}
-	
-	
+
 	public TreeMap<Integer, CategoryAnswer> getCategories() {
 		return categories;
 	}
+
 	public void setCategories(TreeMap<Integer, CategoryAnswer> categories) {
 		this.categories = categories;
 	}
+
 	public void addCategory(int categoryId, CategoryAnswer category){
 		this.categories.put(new Integer(categoryId), category);
 	}
+
 	public String getResultId() {
 		return resultId;
 	}
+
 	public void setResultId(String resultId) {
 		this.resultId = resultId;
 	}
+
 	public String getSurveyId() {
 		return surveyId;
 	}
+
 	public void setSurveyId(String surveyId) {
 		this.surveyId = surveyId;
 	}
+
 	public String getTime() {
 		return time;
 	}
+
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public String getDate() {
-		return date;
+
+	public String getTimeSent() {
+		return timeSent;
 	}
-	public void setDate(String date) {
-		this.date = date;
+
+	public void setTimeSent(String timeSent) {
+		this.timeSent = timeSent;
 	}
+
 	public String getImei() {
 		return imei;
 	}
+
 	public void setImei(String imei) {
 		this.imei = imei;
 	}
+
 	public void setUser(String user) {
 		this.user = user;
 	}
-
 
 	public String getUser() {
 		return user;
 	}
 
-
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getLatitude() {
 		return latitude;
 	}
+
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+
 	public String getLongitude() {
 		return longitude;
 	}
+
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-
 
 	public String getPhoneNumber() {
 		return phoneNumber;

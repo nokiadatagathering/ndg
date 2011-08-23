@@ -63,8 +63,9 @@ public class ExcelTransformer extends ResultsTransformer {
 		row.createCell((short)fieldcounter++).setCellValue("ResultId");
 		row.createCell((short)fieldcounter++).setCellValue("SurveyId");
 		row.createCell((short)fieldcounter++).setCellValue("Title");
-		row.createCell((short)fieldcounter++).setCellValue("Date");
-		row.createCell((short)fieldcounter++).setCellValue("Time");
+		row.createCell((short)fieldcounter++).setCellValue("Date Saved");
+//		row.createCell((short)fieldcounter++).setCellValue("Time Saved");
+		row.createCell((short)fieldcounter++).setCellValue("Date Sent");
 		row.createCell((short)fieldcounter++).setCellValue("User");
 		row.createCell((short)fieldcounter++).setCellValue("Imei");
 		row.createCell((short)fieldcounter++).setCellValue("PhoneNumber");
@@ -88,9 +89,14 @@ public class ExcelTransformer extends ResultsTransformer {
 			row.createCell((short)fieldcounter++).setCellValue(result.getResultId());
 			row.createCell((short)fieldcounter++).setCellValue(result.getSurveyId());
 			row.createCell((short)fieldcounter++).setCellValue(result.getTitle());
-			row.createCell((short)fieldcounter++).setCellValue(result.getDate());
-			date.setTime(Long.parseLong(result.getTime()));
-			row.createCell((short)fieldcounter++).setCellValue(dateFormat.format(date));
+			//date saved
+			row.createCell((short)fieldcounter++).setCellValue(new Date(Long.parseLong(result.getTime())).toString());
+//			date.setTime(Long.parseLong(result.getTime()));
+//			row.createCell((short)fieldcounter++).setCellValue(dateFormat.format(date));
+
+			//date sent
+			row.createCell((short)fieldcounter++).setCellValue(result.getTimeSent());
+
 			row.createCell((short)fieldcounter++).setCellValue(result.getUser());
 			row.createCell((short)fieldcounter++).setCellValue(result.getImei());
 			row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());
@@ -188,8 +194,9 @@ public class ExcelTransformer extends ResultsTransformer {
 			row.createCell((short)fieldcounter++).setCellValue("ResultId");
 			row.createCell((short)fieldcounter++).setCellValue("SurveyId");
 			row.createCell((short)fieldcounter++).setCellValue("Title");
-			row.createCell((short)fieldcounter++).setCellValue("Date");
-			row.createCell((short)fieldcounter++).setCellValue("Time");
+			row.createCell((short)fieldcounter++).setCellValue("Date Saved");
+//			row.createCell((short)fieldcounter++).setCellValue("Time Saved");
+			row.createCell((short)fieldcounter++).setCellValue("Date Sent");
 			row.createCell((short)fieldcounter++).setCellValue("User");
 			row.createCell((short)fieldcounter++).setCellValue("Imei");
 			row.createCell((short)fieldcounter++).setCellValue("PhoneNumber");
@@ -216,9 +223,14 @@ public class ExcelTransformer extends ResultsTransformer {
 				row.createCell((short)fieldcounter++).setCellValue(result.getResultId());
 				row.createCell((short)fieldcounter++).setCellValue(result.getSurveyId());
 				row.createCell((short)fieldcounter++).setCellValue(result.getTitle());
-				row.createCell((short)fieldcounter++).setCellValue(result.getDate());
-				date.setTime(Long.parseLong(result.getTime()));
-				row.createCell((short)fieldcounter++).setCellValue(dateFormat.format(date));
+				//date saved
+				row.createCell((short)fieldcounter++).setCellValue(new Date(Long.parseLong(result.getTime())));
+//				date.setTime(Long.parseLong(result.getTime()));
+//				row.createCell((short)fieldcounter++).setCellValue(dateFormat.format(date));
+
+				//date sent
+				row.createCell((short)fieldcounter++).setCellValue(result.getTimeSent());
+
 				row.createCell((short)fieldcounter++).setCellValue(result.getUser());
 				row.createCell((short)fieldcounter++).setCellValue(result.getImei());
 				row.createCell((short)fieldcounter++).setCellValue(result.getPhoneNumber());

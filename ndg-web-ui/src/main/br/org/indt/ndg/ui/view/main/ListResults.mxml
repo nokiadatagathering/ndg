@@ -61,7 +61,7 @@
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colResultTitle')}"
 						dataField="title" width="200"/>
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDate')}"
-						dataField="date" sortable="false" width="80"/>
+						dataField="date" width="80"/>
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUser')}"
 						dataField="user" sortable="false" width="115"/>
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colImei')}"

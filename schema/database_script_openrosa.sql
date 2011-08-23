@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `results` (
   `latitude` varchar(25) default NULL,
   `longitude` varchar(25) default NULL,
   `title` varchar(150) default NULL,
+  `dateSaved` date default NULL,
   PRIMARY KEY  (`idResult`),
   UNIQUE KEY `idResult` (`idResult`),
   KEY `FK_results_idSurvey` (`idSurvey`),

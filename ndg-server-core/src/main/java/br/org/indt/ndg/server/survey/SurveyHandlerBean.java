@@ -860,11 +860,10 @@ class SurveyHandlerBean implements SurveyHandler
 
 				if (t != null)
 				{
-					resultXml.setDate(SystemUtils.toDate(t.getDtLog()));
+					resultXml.setTimeSent(SystemUtils.toDate(t.getDtLog()));
 					resultXml.setUser(t.getUser());
 				}
 			}
-
 		}
 
 		return resultXMLList;
@@ -1185,11 +1184,10 @@ class SurveyHandlerBean implements SurveyHandler
 
 				if (t != null)
 				{
-					resultXml.setDate(SystemUtils.toDate(t.getDtLog()));
+					resultXml.setTimeSent(SystemUtils.toDate(t.getDtLog()));
 					resultXml.setUser(t.getUser());
 				}
 			}
-
 		}
 
 		return resultXMLList;

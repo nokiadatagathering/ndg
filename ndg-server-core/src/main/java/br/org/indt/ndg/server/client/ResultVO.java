@@ -31,6 +31,7 @@ public class ResultVO implements Serializable
 	private String lat;
 	private String lon;
 	private String date;
+	private String time;
 	private String resultXml;
 	private boolean hasCoordinates;
 
@@ -149,6 +150,16 @@ public class ResultVO implements Serializable
 	public void setDate(String date) 
 	{
 		this.date = date;
+	}
+	
+	public String getTime() 
+	{
+		return time;
+	}
+
+	public void setTime(String time) 
+	{
+		this.time = time;
 	}
 
 	public void setResultXml(String resultXml) 
