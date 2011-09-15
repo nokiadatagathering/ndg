@@ -10,7 +10,7 @@
 # ------------------------------------------------------
 # Server version 5.0.81-community-nt
 
-CREATE DATABASE IF NOT EXISTS `ndg` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `ndg` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ndg`;
 
 #
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `company` (
   PRIMARY KEY  (`idCompany`),
   UNIQUE KEY `idCompany` (`idCompany`),
   UNIQUE KEY `companyName` (`companyName`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table company
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `device` (
   PRIMARY KEY  (`idDevice`),
   UNIQUE KEY `idDevice` (`idDevice`),
   UNIQUE KEY `deviceModel` (`deviceModel`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table device
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `imei` (
   KEY `FK3160C8F6E146B5` (`idUser`),
   CONSTRAINT `FK_imei_idDevice` FOREIGN KEY (`idDevice`) REFERENCES `device` (`idDevice`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `FK_imei_idUser` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table imei
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `results` (
   KEY `FK_results_imei` (`imei`),
   CONSTRAINT `FK_results_idSurvey` FOREIGN KEY (`idSurvey`) REFERENCES `surveys` (`idSurvey`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_results_imei` FOREIGN KEY (`imei`) REFERENCES `imei` (`imei`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table results
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY  (`idRole`),
   UNIQUE KEY `idRole` (`idRole`),
   UNIQUE KEY `roleName` (`roleName`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table role
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `surveys` (
   KEY `FK_surveys_idUser` (`idUser`),
   KEY `FK91914459F6E146B5` (`idUser`),
   CONSTRAINT `FK_surveys_idUser` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table surveys
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `transactionlog` (
   CONSTRAINT `FK_transactionlog_idSurvey` FOREIGN KEY (`idSurvey`) REFERENCES `surveys` (`idSurvey`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_transactionlog_idUser` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `FK_transactionlog_imei` FOREIGN KEY (`imei`) REFERENCES `imei` (`imei`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table transactionlog
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `FK36EBCBA7EBF1F2` (`idCompany`),
   CONSTRAINT `FK_user_idCompany` FOREIGN KEY (`idCompany`) REFERENCES `company` (`idCompany`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `FK_user_idRole` FOREIGN KEY (`idRole`) REFERENCES `role` (`idRole`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table user
@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `userbalance` (
   KEY `FK_userbalance_idUser` (`idUser`),
   KEY `FK7691B8B1F6E146B5` (`idUser`),
   CONSTRAINT `FK_userbalance_idUser` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table userbalance
@@ -266,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `surveysopenrosa` (
   `surveyXML` text,
   PRIMARY KEY (`idSurvey`) USING BTREE,
   UNIQUE KEY `idSurvey` (`idSurvey`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET autocommit = 0;
 
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `resultsopenrosa` (
   KEY `fk_resultsopenrosa_surveysopenrosa` (`idSurvey`),
   KEY `idDevice` (`idDevice`) USING BTREE,
   CONSTRAINT `fk_resultsopenrosa_surveysopenrosa` FOREIGN KEY (`idSurvey`) REFERENCES `surveysopenrosa` (`idSurvey`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # Source for table surveysstatusopenrosa
@@ -305,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `surveysstatusopenrosa` (
   KEY `fk_surveysstatusopenrosa_imei` (`idDevice`),
   CONSTRAINT `fk_surveysstatusopenrosa_imei` FOREIGN KEY (`idDevice`) REFERENCES `imei` (`imei`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_surveysstatusopenrosa_surveysopenrosa` FOREIGN KEY (`idSurvey`) REFERENCES `surveysopenrosa` (`idSurvey`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -319,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `ndg`.`languages` (
   `translationFilePath` VARCHAR(256) NOT NULL ,
   `fontFilePath` VARCHAR(256) NULL ,
   PRIMARY KEY (`language_id`) )
-ENGINE = InnoDB DEFAULT CHARSET=latin1;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 INSERT IGNORE INTO `ndg`.`languages`
 (`name`, `localeString`, `translationFilePath`)
