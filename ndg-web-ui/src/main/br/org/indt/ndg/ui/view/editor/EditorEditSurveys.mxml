@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init(this)"
 		width="956" height="460" styleName="mainAreaModule"
+        xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
 		xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*"
 		xmlns:sharedViews="main.br.org.indt.ndg.ui.view.editor.*">
@@ -18,14 +19,13 @@
 						paddingBottom="10" paddingTop="10">
 						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CATEGORY_DESC')}"
 							fontSize="11" fontFamily="Arial" id="lblCategory" enabled="true"/>
-						<mx:TextArea id="txtCategory" width="100%"
-							wordWrap="true" height="56"	text=""
+						<s:TextArea id="txtCategory" width="100%"
+							height="56"	text=""
 							editable="true"
 							enabled="true" fontSize="12"
 							click="txtQuestionFocus(event, 0);"
 							focusIn="txtQuestionFocus(event, 0);"
 							focusOut="txtQuestionFocus(event, 0);"
-							textInput="textArea_textInput(event);"
 							change="_catValidator.validate();"/>
 						<mx:VBox height="100%">
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CONDITION')}" width="80"/>
@@ -35,7 +35,7 @@
 								<mx:RadioButton label="{ConfigI18n.getInstance().getStringFile('editorResources', 'CONDITION_ENABLED')}" groupName="conditionalCategoryGroup" selected="false" id="conditionEnabledRadioButton" enabled="true"/>
 							</mx:HBox>
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CONDITIONAL_QUESTION')}"/>
-							<mx:TextArea width="298" enabled="false" height="62" id="conditionQuestion"/>
+							<s:TextArea width="298" enabled="false" height="62" id="conditionQuestion"/>
 						</mx:VBox>
 						<mx:Spacer width="100%" height="60"/>
 						<mx:HBox width="100%" horizontalAlign="right">
@@ -58,13 +58,12 @@
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
 		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblQuestion" enabled="true"/>
-		   			<mx:TextArea id="txtQuestion" width="100%" height="56"	text=""
-						wordWrap="true" editable="true"
+		   			<s:TextArea id="txtQuestion" width="100%" height="56"	text=""
+					    editable="true"
 						enabled="true" fontSize="12"
 						click="txtQuestionFocus(event, Question.QUESTION_STRING);"
 						focusIn="txtQuestionFocus(event, Question.QUESTION_STRING);"
 						focusOut="txtQuestionFocus(event, Question.QUESTION_STRING);"
-						textInput="textArea_textInput(event);"
 						change="isQuestionValid(Question.STRING_TYPE)"/>
 					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion_Length" enabled="true"/>
 					<mx:TextInput id="txtQuestionString_Length" width="80" height="20" editable="true" enabled="true" change="isQuestionValid(Question.STRING_TYPE)" />
@@ -72,7 +71,7 @@
 					<!-- Inicio Editado Por Kivia Ramos-->
 					<!--	<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD_CSV')}"/>
 							<mx:HBox width="280" height="22" horizontalAlign="center">
-							<mx:TextArea id="txtPathStringFile" width="200" height="20"
+							<s:TextArea id="txtPathStringFile" width="200" height="20"
 								wordWrap="false" editable="false" enabled="true"
 								textInput="textArea_textInput(event)"/>
 						    <mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'SEARCH_CSV')}"
@@ -81,7 +80,7 @@
 							</mx:HBox> -->
 					<!--Fim Editado Por Kivia Ramos-->
                     <mx:HRule width="100%"/>
-					<mx:TextArea id="lblFirstQuestion_str" width="100%" height="35"
+					<s:TextArea id="lblFirstQuestion_str" width="100%" height="35"
 						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 						enabled="false" styleName="editorFirstQuestion"/>
 					<mx:Spacer width="100%" height="100%"/>
@@ -107,12 +106,11 @@
 						<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10"
 							paddingRight="10" paddingBottom="10" paddingTop="10" x="0" y="0">
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}"/>
-							<mx:TextArea id="txtQuestionExclusive" width="100%" height="40"
-								wordWrap="true" editable="true" enabled="true"
+							<s:TextArea id="txtQuestionExclusive" width="100%" height="40"
+							    editable="true" enabled="true"
 								click="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
 								focusIn="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
 								focusOut="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
-								textInput="textArea_textInput(event);"
 								change="isQuestionValid(Question.CHOICE_TYPE)"/>
 							<mx:HRule width="100%"/>
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'ALTERNATIVES')}" id="label1"/>
@@ -130,9 +128,8 @@
 							<!-- Inicio Editado Por Kivia Ramos-->
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD_CSV')}"/>
 							<mx:HBox width="280" height="22" horizontalAlign="center">
-							<mx:TextArea id="txtPathFile" width="200" height="20"
-								wordWrap="false" editable="false" enabled="true"
-								textInput="textArea_textInput(event)"/>
+							<s:TextArea id="txtPathFile" width="200" height="20"
+								editable="false" enabled="true"/>
 						    <mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'SEARCH_CSV')}"
 									click="searchCSV()" width="70"
 									toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SEARCH_CSV')}"/>
@@ -140,7 +137,7 @@
 							<!-- Fim Editado Por Kivia Ramos-->
 							
 							<mx:HRule width="100%"/>
-							<mx:TextArea id="lblFirstQuestion_choice" width="100%" height="35"
+							<s:TextArea id="lblFirstQuestion_choice" width="100%" height="35"
 								text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 								enabled="false" styleName="editorFirstQuestion"/>
 							<mx:HBox width="100%" height="22" horizontalAlign="right" verticalAlign="bottom">
@@ -166,13 +163,12 @@
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
 					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion" enabled="true"/>
-					<mx:TextArea id="txtQuestionInteger" width="100%" height="56"	text=""
-					wordWrap="true" editable="true" 
+					<s:TextArea id="txtQuestionInteger" width="100%" height="56"	text=""
+					editable="true" 
 					enabled="true" fontSize="12"
 					click="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
 					focusIn="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
 					focusOut="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
-					textInput="textArea_textInput(event);"
 					change="isQuestionValid(Question.INTEGER_TYPE)"/>
 					<mx:HBox width="100%">
 						<mx:RadioButton groupName="numbertype" value="int" id="radioInt" fontSize="11" fontFamily="Arial"
@@ -196,7 +192,7 @@
 						</mx:Tile>
 					</mx:HBox>
 					<mx:HRule width="100%"/>
-					<mx:TextArea id="lblFirstQuestion_int" width="100%" height="35"
+					<s:TextArea id="lblFirstQuestion_int" width="100%" height="35"
 						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 						enabled="false" styleName="editorFirstQuestion"/>
 					<mx:Spacer width="100%" height="100%"/>
@@ -219,13 +215,12 @@
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
 					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblDateQuestion" enabled="true"/>
-					<mx:TextArea id="txtQuestionDate" width="100%" height="56"	text=""
-					wordWrap="true" editable="true" 
+					<s:TextArea id="txtQuestionDate" width="100%" height="56"	text=""
+					editable="true" 
 					enabled="true" fontSize="12"
 					click="txtQuestionFocus(event, Question.QUESTION_DATE);"
 					focusIn="txtQuestionFocus(event, Question.QUESTION_DATE);"
 					focusOut="txtQuestionFocus(event, Question.QUESTION_DATE);"
-					textInput="textArea_textInput(event);"
 					change="isQuestionValid(Question.DATE_TYPE)"/>
 					<mx:HRule width="100%"/>
 					<mx:CheckBox id="ckBoxMinRange_date" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MIN_RANGE')}" click="minRangeClick_date()"/>
@@ -235,7 +230,7 @@
 					<mx:DateField id="txtMaxRange_date" height="20" width="90" enabled="false"
 						yearNavigationEnabled="true" formatString="DD/MM/YYYY"/>
 					<mx:HRule width="100%"/>
-					<mx:TextArea id="lblFirstQuestion_date" width="100%" height="35"
+					<s:TextArea id="lblFirstQuestion_date" width="100%" height="35"
 						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 						enabled="false" styleName="editorFirstQuestion"/>					
 					<mx:Spacer width="100%" height="100%"/>
@@ -257,13 +252,12 @@
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
 					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblTimeQuestion" enabled="true"/>
-					<mx:TextArea id="txtQuestionTime" width="100%" height="56"	text=""
-					wordWrap="true" editable="true" 
+					<s:TextArea id="txtQuestionTime" width="100%" height="56"	text=""
+					editable="true" 
 					enabled="true" fontSize="12"
 					click="txtQuestionFocus(event, Question.QUESTION_TIME);"
 					focusIn="txtQuestionFocus(event, Question.QUESTION_TIME);"
 					focusOut="txtQuestionFocus(event, Question.QUESTION_TIME);"
-					textInput="textArea_textInput(event);"
 					change="isQuestionValid(Question.TIME_TYPE)"/>
 					<mx:HRule width="100%"/>
                     <mx:HBox horizontalGap="30">					
@@ -271,7 +265,7 @@
 					   <mx:RadioButton id="ckBoxAMPM_time" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIME_AMPM')}"/>
 			        </mx:HBox>	
 					<mx:HRule width="100%"/>
-					<mx:TextArea id="lblFirstQuestion_time" width="100%" height="35" 
+					<s:TextArea id="lblFirstQuestion_time" width="100%" height="35" 
 						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 						enabled="false" styleName="editorFirstQuestion"/>					
 					<mx:Spacer width="100%" height="100%"/>
@@ -293,20 +287,19 @@
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
 		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblQuestion_img" enabled="true"/>
-		   			<mx:TextArea id="txtQuestion_img" width="100%" height="56"	text=""
-						wordWrap="true" editable="true"
+		   			<s:TextArea id="txtQuestion_img" width="100%" height="56"	text=""
+						editable="true"
 						enabled="true" fontSize="12"
 						click="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
 						focusIn="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
 						focusOut="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
-						textInput="textArea_textInput(event);"
 						change="isQuestionValid(Question.IMAGE_TYPE)"/>
 
                    <mx:Label text="Maximum number of images" width="152" id="labelImgCount" textAlign="left"/>
                    <mx:NumericStepper width="80" id="numericImageCount" minimum="1" maximum="100" click="editImageQuestion()" textAlign="left"/>
 
 					<mx:HRule width="100%"/>
-					<mx:TextArea id="lblFirstQuestion_img" width="100%" height="35"
+					<s:TextArea id="lblFirstQuestion_img" width="100%" height="35"
 						text="{ConfigI18n.getInstance().getStringFile('editorResources', 'FIRST_QUESTION_NOTE')}"
 						enabled="false" styleName="editorFirstQuestion"/>	
 					<mx:Spacer width="100%" height="110"/>

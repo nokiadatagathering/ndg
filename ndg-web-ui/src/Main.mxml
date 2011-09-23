@@ -1,51 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:vapp="main.br.org.indt.ndg.ui.view.app.*"
 	xmlns:vaccess="main.br.org.indt.ndg.ui.view.access.*"
 	xmlns:events="flash.events.*"
 	xmlns:requestAccount="main.br.org.indt.ndg.ui.view.access.requestAccount.*"
+    xmlns:sparkTree="com.sparkTree.*" 
 	creationComplete="init()"	
 	pageTitle="Nokia Data Gathering"
 	layout="absolute" width="100%" height="100%">
 	
-	<mx:Style>
+	<fx:Style>
 		@font-face{
 			src: url("main/resources/fonts/NS Wide Regular.ttf");
 			font-style: normal;
 			font-weight: normal;
 			font-family: "NokiaSansWide";
+            embedAsCFF: false;
 		}
 		@font-face{
 			src: url("main/resources/fonts/NS Wide Bold.ttf");
 			font-style: normal;
 			font-weight: bold;
 			font-family: "NokiaSansWide";
+            embedAsCFF: false;
 		}
 		@font-face{
 			src: url("main/resources/fonts/NS Wide Italic.ttf");
 			font-style: italic;
 			font-weight: normal;
 			font-family: "NokiaSansWide";
+            embedAsCFF: false;
 		}
 		@font-face{
 			src: url("main/resources/fonts/NS Wide BolIta.ttf");
 			font-style: italic;
 			font-weight: bold;
 			font-family: "NokiaSansWide";
+            embedAsCFF: false;
 		}
-	</mx:Style>	
+	</fx:Style>
 
-	<mx:Style source="main/resources/style/ndgStyle.css"/>
-	
-	<mx:Script source="MainController.as"/>
+    <fx:Style source="main/resources/style/ndgStyle.css"/>
+
+	<fx:Script source="MainController.as"/>
 	
 	<mx:Canvas x="0" y="0" width="100%" height="248">
 		<mx:borderSkin>@Embed(source='main/resources/images/HEADER_1PX_LINE.png')</mx:borderSkin>
 	</mx:Canvas>
 	
-	<mx:Dissolve id="dissolveOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
-    <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
-	
+    <fx:Declarations>
+	    <mx:Dissolve id="dissolveOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+        <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+    </fx:Declarations>	
+
 	<mx:Canvas width="994" y="0" horizontalCenter="0">
 		<mx:Image x="2" y="98" source="@Embed('main/resources/images/SHADOW_LEFT.png')"/>
 		<mx:Image x="980" y="98" source="@Embed('main/resources/images/SHADOW_RIGTH.png')"/>
