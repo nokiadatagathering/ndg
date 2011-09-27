@@ -53,6 +53,11 @@ VBox.gridPanel
 	border-style: none;
 	paddingTop: 1;
 }
+HBox.gridPanel
+{
+	border-style: none;
+	paddingTop: 1;
+}
 HBox.functionalitiesBar
 {
 	backgroundColor: #DFECFF;
@@ -230,6 +235,14 @@ VBox.imagePanel
 	borderThickness: 1;
 }
 Module.previewPanel
+{
+	backgroundColor: #DFECFF;
+	borderStyle: none;
+	horizontalAlign: center;
+	verticalAlign: top;
+	verticalGap: 0;
+}
+VBox.previewPanel
 {
 	backgroundColor: #DFECFF;
 	borderStyle: none;
