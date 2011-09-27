@@ -357,7 +357,8 @@
     }
 
     public static function TextInputSelectField(area:TextInput):void {
-        area.setSelection(0, area.text.length);
+//        area.setSelection(0, area.text.length);             // Flex 3
+        area.selectAll();                                     // Flex 4
     }
 
     private function initMultipleChoice():void {

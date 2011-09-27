@@ -2,10 +2,11 @@
 <mx:Panel x="0" y="0" width="220" height="173" layout="absolute" title="{ConfigI18n.getInstance().getStringFile('editorResources', 'CHOICE_ITEM')}" borderAlpha="1" dropShadowEnabled="false" 
 		keyUp="onKeyUp(event)"
 		xmlns:mx="http://www.adobe.com/2006/mxml" 
+        xmlns:s="library://ns.adobe.com/flex/spark"
 		initialize="init()"
 		verticalScrollPolicy="off"
 		>
-	<mx:TextInput width="190" id="txtChoiceItem" 
+	<s:TextInput width="190" id="txtChoiceItem"
 		maxChars="100" editable="true" 
 		enabled="true" fontStyle="italic" color="#000000" y="4" x="4"/>
 	<mx:Button x="147" y="35" label="OK" height="19" click="editChoiceItem()"/>

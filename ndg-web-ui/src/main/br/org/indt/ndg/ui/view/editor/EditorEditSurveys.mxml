@@ -66,7 +66,7 @@
 						focusOut="txtQuestionFocus(event, Question.QUESTION_STRING);"
 						change="isQuestionValid(Question.STRING_TYPE)"/>
 					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion_Length" enabled="true"/>
-					<mx:TextInput id="txtQuestionString_Length" width="80" height="20" editable="true" enabled="true" change="isQuestionValid(Question.STRING_TYPE)" />
+					<s:TextInput id="txtQuestionString_Length" width="80" height="20" editable="true" enabled="true" change="isQuestionValid(Question.STRING_TYPE)" />
 					<mx:HRule width="100%"/>
 					<!-- Inicio Editado Por Kivia Ramos-->
 					<!--	<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'UPLOAD_CSV')}"/>
@@ -177,7 +177,7 @@
 						    label="{ConfigI18n.getInstance().getStringFile('editorResources', 'NUMBER_DECIMAL')}" width="73"/>
 					</mx:HBox>
 					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblStringQuestion_Length" enabled="true"/>
-					<mx:TextInput id="txtQuestionInteger_Length" width="80" height="20"	text=""
+					<s:TextInput id="txtQuestionInteger_Length" width="80" height="20"	text=""
 					editable="true" 
 					enabled="true"
 					change="isQuestionValid(Question.INTEGER_TYPE)"				
@@ -186,9 +186,9 @@
 					<mx:HBox width="100%">
 						<mx:Tile width="100%" height="100%" direction="vertical">
 							<mx:CheckBox id="ckBoxMinRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MIN_RANGE')}" click="minRangeClick_int()" fontFamily="Arial" fontSize="11"/>
-							<mx:TextInput id="txtMinRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
+							<s:TextInput id="txtMinRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
 							<mx:CheckBox id="ckBoxMaxRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MAX_RANGE')}" click="maxRangeClick_int()" fontFamily="Arial" fontSize="11"/>
-							<mx:TextInput id="txtMaxRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
+							<s:TextInput id="txtMaxRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
 						</mx:Tile>
 					</mx:HBox>
 					<mx:HRule width="100%"/>
@@ -355,7 +355,7 @@
 		<mx:HRule width="100%" visible="false"/>
 		<mx:HBox horizontalGap="2" verticalAlign="middle" fontSize="10">
 			<mx:Label text="{ConfigI18n.getInstance().getString('lblSearch')}" fontWeight="bold"/>
-			<mx:TextInput id="txtSearch" enter="onEnter_search(event)" height="22"/>
+			<s:TextInput id="txtSearch" enter="onEnter_search(event)" height="22"/>
 			<mx:Button id="btnSearchGo" click="onEnter_search(event)" styleName="iconButton" width="22" height="22">
 				<mx:icon>@Embed(source='../../../../../../../resources/images/SEARCH_TRANSP.png')</mx:icon>
 			</mx:Button>
@@ -381,7 +381,7 @@
 		</mx:HBox>
 		<mx:HBox id="boxEditName" visible="false" includeInLayout="false">
 			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'SURVEY_NAME')}"/>		
-			<mx:TextInput id="txtSurveyName" enter="okSurveyName()" height="22" width="162" maxChars="255"/>
+			<s:TextInput id="txtSurveyName" enter="okSurveyName()" height="22" width="162" maxChars="255"/>
 			<mx:Button label="OK" click="okSurveyName()"
 				toolTip="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIP_SAVE_CHANGES')}"/>
 			<mx:Button label="{ConfigI18n.getInstance().getStringFile('editorResources', 'CANCEL')}"
