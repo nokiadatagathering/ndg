@@ -533,7 +533,7 @@ Alert.alertButtonStyle
 	fontStyle: normal;
 	textAlign: center;
 }
-TextArea.editorFirstQuestion
+Label.editorFirstQuestion
 {
 	backgroundDisabledColor: #ECECEC;
 	borderStyle: none;
@@ -541,5 +541,3 @@ TextArea.editorFirstQuestion
 	fontWeight: bold;
 	textAlign: center;
 }
-
-
