@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" 
+    xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="init()"
 	width="956" height="460" styleName="mainAreaModule"
 	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
 	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
@@ -26,7 +27,7 @@
 		<mx:VBox verticalAlign="middle" verticalGap="0">
 			<mx:HBox verticalAlign="middle" horizontalGap="4">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblResultsSurveyTitle')}" styleName="darkTitle"/>
-				<mx:Label id="surveyTitle" styleName="darkTitle" maxWidth="220"/>
+				<s:Label id="surveyTitle" styleName="darkTitle" maxWidth="220"/>
 			</mx:HBox>
 			<mx:HBox verticalAlign="middle" horizontalGap="2">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMap')}" height="22" id="btnMap" width="80"

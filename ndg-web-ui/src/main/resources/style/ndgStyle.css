@@ -1,4 +1,6 @@
 /* CSS file */
+/*@namespace "http://www.adobe.com/2006/mxml"; */
+@namespace s "library://ns.adobe.com/flex/spark";
 @namespace "http://www.adobe.com/2006/mxml";
 
 /* Global */
@@ -340,6 +342,13 @@ Label.darkText
 	font-style: normal;
 }
 Label.darkTitle
+{
+	color: #051F7D;
+	font-size: 12;
+	font-weight: bold;
+	font-style: normal;
+}
+s|Label.darkTitle
 {
 	color: #051F7D;
 	font-size: 12;
