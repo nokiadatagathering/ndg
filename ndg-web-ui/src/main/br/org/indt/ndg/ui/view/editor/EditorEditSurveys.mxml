@@ -368,7 +368,7 @@
 		<mx:HBox id="boxName" verticalAlign="middle" horizontalGap="2">
 			<mx:HBox verticalAlign="middle" horizontalGap="0">
 				<mx:Label text="*" includeInLayout="{bModifiedSurvey}" visible="{bModifiedSurvey}" width="10"/>
-				<mx:Label id="lblSurveyName" styleName="darkTitle" maxWidth="538"
+				<s:Label id="lblSurveyName" styleName="darkTitle" maxWidth="538"
 					text="{ConfigI18n.getInstance().getStringFile('editorResources', 'SURVEY_NAME')}"/>
 				<mx:Label id="lblReadOnly" includeInLayout="{deployed}" visible="{deployed}" 
 					text="{ConfigI18n.getInstance().getStringFile('editorResources', 'READ_ONLY')}"/>
