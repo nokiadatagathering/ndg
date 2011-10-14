@@ -431,6 +431,7 @@ RadioButton
 	color: #051F7D;
 	textRollOverColor: #051F7D;
 	textSelectedColor: #29469F;
+    textFieldClass:ClassReference("mx.core.UIFTETextField");
 }
 CheckBox
 {
@@ -441,6 +442,7 @@ CheckBox
 	color: #051F7D;
 	textRollOverColor: #051F7D;
 	textSelectedColor: #29469F;
+    textFieldClass:ClassReference("mx.core.UIFTETextField");
 }
 VScrollBar
 {
