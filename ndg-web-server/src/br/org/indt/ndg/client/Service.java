@@ -745,7 +745,7 @@ public class Service {
 			
 			SCategory sc = (SCategory) ((SResult)survey.getResults().get(0)).getCategories().get( iCategory.next() );
 			finalString = "<span id='txt-list-top'><b>" + sc.getId()+ " - "
-					+ sc.getName().toUpperCase() + "</b></span>";
+					+ sc.getName().toUpperCase() + "</b></span><br>";
 
 			list.add(new SPreview(finalString, false));
 
@@ -759,7 +759,7 @@ public class Service {
 				Vector<SField> fields = sc.getSubCategories().get(subCatId);
 
 				if(sc.getSubCategories().keySet().size() > 1 ) {
-					finalString = "<span id='txt-list-down'><b>" + sc.getId() + "." + subCatId + "</b></span>";
+					finalString = "<span id='txt-list-down'><b>" + sc.getId() + "." + subCatId + "</b></span><br>";
 					list.add(new SPreview(finalString, false));
 				}
 				
@@ -770,10 +770,10 @@ public class Service {
 
 					if(sc.getSubCategories().keySet().size() > 1 ) {
 						finalString = "<span id='txt-list-down'><b>" + sc.getId() + "." + subCatId + "."+ sf.getId()
-						+ "&nbsp;" + sf.getDescription() + "</b></span>";
+						+ " " + sf.getDescription() + "</b></span><br>";
 					} else {
 						finalString = "<span id='txt-list-down'><b>" + sc.getId() + "."+ sf.getId()
-						+ "&nbsp;" + sf.getDescription() + "</b></span>";
+						+ " " + sf.getDescription() + "</b></span><br>";
 					}
 					
 					list.add(new SPreview(finalString, false));
@@ -792,7 +792,7 @@ public class Service {
 							if (!sf.getElementName().equals("img_data")) {
 								value = value.trim().replaceAll("\n", "");
 								finalString = "<span id = 'txt-list-answer'><i>"
-										+ value + "</i></span>";
+										+ value + "</i></span><br>";
 
 								list.add(new SPreview(finalString, false));
 							} else {

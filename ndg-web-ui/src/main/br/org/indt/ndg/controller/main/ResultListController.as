@@ -41,12 +41,15 @@
 	import mx.containers.ViewStack;
 	import mx.controls.Alert;
 	import mx.controls.Image;
-	import mx.controls.Text;
+//	import mx.controls.Text;    // Old preview
+    import spark.components.RichText;
 	import mx.managers.PopUpManager;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
 	import mx.utils.Base64Decoder;
+
+    import flashx.textLayout.conversion.TextConverter;
 
         [Bindable] public var resultList:ArrayCollection = new ArrayCollection();
         [Bindable] public var remoteListResults:RemoteObject = new RemoteObject(REMOTE_SERVICE);
@@ -139,7 +142,8 @@
 				var surveyPreviewDTO:SurveyPreviewDTO;
 	            var byteArr:ByteArray;
 				var base64Dec:Base64Decoder = new Base64Decoder();
-				var txtHtmlText:Text;
+//				var txtHtmlText:Text;   // Old preview
+                var txtHtmlText:RichText;
 				var photoImage:Image;
 				var panel:VBox;
 
@@ -147,10 +151,15 @@
 	                surveyPreviewDTO = arrayPreview.getItemAt(i) as SurveyPreviewDTO;
 
 					if (!surveyPreviewDTO.isImage) {
-						txtHtmlText = new Text();
-						txtHtmlText.width = 220;
-						txtHtmlText.htmlText = surveyPreviewDTO.htmlText;
-						preview.addChild(txtHtmlText);
+//						txtHtmlText = new Text();
+//						txtHtmlText.width = 220;
+//						txtHtmlText.htmlText = surveyPreviewDTO.htmlText;   // Old preview
+//						preview.addChild(txtHtmlText);
+                        txtHtmlText = new RichText();
+                        txtHtmlText.styleName = "preview";
+                        txtHtmlText.textFlow = TextConverter.importToFlow(surveyPreviewDTO.htmlText, TextConverter.TEXT_FIELD_HTML_FORMAT)
+                        txtHtmlText.width = 220;
+                        preview.addChild(txtHtmlText);
 					} else {
 						photoImage = new Image();
 						photoImage.width = 96;

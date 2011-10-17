@@ -269,6 +269,13 @@ ComboBox.formComboBox
 	font-weight: normal;
 }
 
+s|RichText.preview
+{
+    padding-top: 2;
+    font-family: Arial;
+    font-size: 12;
+}
+
 
 /* Labels */
 Label.errorText
