@@ -311,7 +311,7 @@
 	private function backToSelectImei(event:MouseEvent):void{
 		if (transmissionMode == MODE_CABLE){
 			viewStackSendSurvey.selectedIndex = 1;
-		} else if (transmissionMode == MODE_SMS){
+		} else{
 			viewStackSendSurvey.selectedIndex = 2;
 		}		
 	}
