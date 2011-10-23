@@ -46,6 +46,16 @@ Module.bodyModule
 	vertical-align: top;
 	vertical-gap: 0;
 }
+VBox.bodyModule   /* Adding VBox.bodyModule because it won't work as Module.bodyModule in flex4. It's a VBox in Main.mxml */
+{
+	backgroundColor: #FFFFFF;
+	borderStyle: solid;
+	borderThickness: 0;
+	cornerRadius: 6;
+	horizontal-align: center;
+	vertical-align: top;
+	vertical-gap: 0;
+}
 Module.mainAreaModule
 {
 	vertical-gap: 0;
