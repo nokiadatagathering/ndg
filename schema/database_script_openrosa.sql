@@ -324,23 +324,32 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8;
 INSERT IGNORE INTO `ndg`.`languages`
 (`name`, `localeString`, `translationFilePath`)
 VALUES
-( 'Espa�ol', 'es-ES', 'messages_es.properties' );
+( 'Español', 'es-ES', 'messages_es.properties');
 
 INSERT IGNORE INTO `ndg`.`languages`
 (`name`, `localeString`, `translationFilePath`)
 VALUES
-( 'Portugu�s', 'pt-BR', 'messages_pt.properties' );
+( 'Português', 'pt-BR', 'messages_pt.properties');
 
 INSERT IGNORE INTO `ndg`.`languages`
-(`name`, `localeString`, `translationFilePath`,`fontFilePath`)
+(`name`, `localeString`, `translationFilePath`)
 VALUES
-( 'Suomi', 'fi-FI', 'messages_fi.properties', 'fonts_fi.res');
+( 'Suomi', 'fi-FI', 'messages_fi.properties');
 
 INSERT IGNORE INTO `ndg`.`languages`
-(`name`, `localeString`, `translationFilePath`,`fontFilePath`)
+(`name`, `localeString`, `translationFilePath`)
 VALUES
-('Polski', 'pl-PL', 'messages_pl.properties','fonts_pl.res');
+('Polski', 'pl-PL', 'messages_pl.properties');
 
+INSERT IGNORE INTO `ndg`.`languages`
+(`name`, `localeString`, `translationFilePath`)
+VALUES
+('Français', 'fr-FR', 'messages_fr.properties');
+
+INSERT IGNORE INTO `ndg`.`languages`
+(`name`, `localeString`, `translationFilePath`)
+VALUES
+('Русский', 'ru-RU', 'messages_ru.properties');
 
 CREATE OR REPLACE VIEW V_user_role AS
 SELECT username, roleName
