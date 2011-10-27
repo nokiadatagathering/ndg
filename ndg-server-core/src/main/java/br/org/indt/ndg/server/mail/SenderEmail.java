@@ -47,7 +47,7 @@ public class SenderEmail {
 
 			msg.setSubject("Teste JavaMail");
 
-			msg.setText("Não responder ...");
+			msg.setText("Nao responder ...");
 
 			// evniando mensagem (tentando)
 			Transport.send(msg);

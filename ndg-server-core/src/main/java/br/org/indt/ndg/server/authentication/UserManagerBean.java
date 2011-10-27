@@ -685,15 +685,15 @@ class UserManagerBean implements UserManager {
 			pattern = Pattern.compile("CHKS");
 			matcher = pattern.matcher(surveyString);
 
-			// 1º - change string "CHKS" by dummy checksum key,
+			// 1 - change string "CHKS" by dummy checksum key,
 			// once the method getMD5FromSurvey will remove it
 			surveyStringBuffer = new StringBuffer(matcher
 					.replaceAll("00000000000000000000000000000000"));
 
-			// 2º - generate MD5 from survey
+			// 2 - generate MD5 from survey
 			String md5FromSurvey = MD5.getMD5FromSurvey(surveyStringBuffer);
 
-			// 3º - replace dummy checksum key by the real one
+			// 3 - replace dummy checksum key by the real one
 			surveyString = surveyStringBuffer.toString();
 			pattern = Pattern.compile("00000000000000000000000000000000");
 			matcher = pattern.matcher(surveyString);
