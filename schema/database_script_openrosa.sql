@@ -351,6 +351,11 @@ INSERT IGNORE INTO `ndg`.`languages`
 VALUES
 ('Русский', 'ru-RU', 'messages_ru.properties');
 
+INSERT IGNORE INTO `ndg`.`languages`
+(`name`, `localeString`, `translationFilePath`)
+VALUES
+('Kiswahili', 'sw-KE', 'messages_sw.properties');
+
 CREATE OR REPLACE VIEW V_user_role AS
 SELECT username, roleName
 FROM user
