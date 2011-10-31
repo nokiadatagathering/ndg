@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+<mx:Module xmlns:mx="library://ns.adobe.com/flex/mx"
+    xmlns:fx="http://ns.adobe.com/mxml/2009" layout="vertical"
 	xmlns:vmain="main.br.org.indt.ndg.ui.view.main.*"
 	xmlns:vSurveyDetail="main.br.org.indt.ndg.ui.view.main.surveyDetails.*">
 
-	<mx:Script>
+	<fx:Script>
 		<![CDATA[
 			private function changeView():void{
 				if (viewStack.selectedIndex == 1 && listResults !== null){
@@ -19,12 +20,13 @@
 				detailsSurvey.listResultsFirstPage(listSurveys.getSelectedSurvey());
 			}
 		]]>
-	</mx:Script>
-	
-    <mx:Dissolve id="dissolveOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
-    <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
-    
-    
+	</fx:Script>
+
+    <fx:Declarations>
+        <mx:Dissolve id="dissolveOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+        <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+    </fx:Declarations>
+
 	<mx:ViewStack id="viewStack" change="changeView()">
 		<!-- List of Surveys -->
 		<mx:VBox hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
@@ -42,5 +44,4 @@
 		</mx:HBox>
 	</mx:ViewStack>	
 
-	
 </mx:Module>

@@ -149,7 +149,7 @@
 					<mx:VBox paddingTop="10" paddingBottom="10">
 						<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 							<mx:FormItem label="{resourceManager.getString('requestAccount', 'fieldAgreement')}">
-								<mx:TextArea width="380" height="200" editable="false" id="licenseArea"
+								<mx:TextArea width="380" height="238" editable="false" id="licenseArea"
 									htmlText="{resourceManager.getString('requestAccount', 'license')}"/>
 							</mx:FormItem>
 							<mx:FormItem>

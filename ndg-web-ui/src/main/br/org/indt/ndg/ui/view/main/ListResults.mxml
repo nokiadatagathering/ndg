@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
+<mx:Module xmlns:mx="library://ns.adobe.com/flex/mx"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()"
 	width="956" height="460" styleName="mainAreaModule"
 	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
 	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
-	<mx:Script>
+
+	<fx:Script>
 		<![CDATA[
 			import main.br.org.indt.ndg.controller.access.SessionClass;
 		]]>
-	</mx:Script>
+	</fx:Script>
 
+	<fx:Script source="../../../controller/main/ResultListController.as" />
 
-	<mx:Script source="../../../controller/main/ResultListController.as" />
-
-	<mx:WipeUp id="image_addedEffect" startDelay="100" />
-    <mx:Parallel id="image_removedEffect">
-        <mx:Zoom />
-        <mx:Fade />
-    </mx:Parallel>
+    <fx:Declarations>
+    	<mx:WipeUp id="image_addedEffect" startDelay="100" />
+        <mx:Parallel id="image_removedEffect">
+            <mx:Zoom />
+            <mx:Fade />
+        </mx:Parallel>
+    </fx:Declarations>
 
 	<mx:HBox width="100%" styleName="functionalitiesBar" verticalAlign="bottom">
 		<mx:Button height="43" width="63" click="showSurveys(event)"
@@ -26,7 +30,7 @@
 		<mx:VBox verticalAlign="middle" verticalGap="0">
 			<mx:HBox verticalAlign="middle" horizontalGap="4">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblResultsSurveyTitle')}" styleName="darkTitle"/>
-				<mx:Label id="surveyTitle" styleName="darkTitle" maxWidth="220"/>
+				<s:Label id="surveyTitle" styleName="darkTitle" maxWidth="220"/>
 			</mx:HBox>
 			<mx:HBox verticalAlign="middle" horizontalGap="2">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnResultsMap')}" height="22" id="btnMap" width="80"
@@ -56,25 +60,100 @@
 						id="customCheck" width="25" sortable="false"
 						headerRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer"
 						itemRenderer="main.br.org.indt.ndg.ui.component.renderes.CheckBoxRenderer" />
-					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colResultId')}"
-						dataField="idResult" width="70"/>
-					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colResultTitle')}"
-						dataField="title" width="200"/>
-					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDate')}"
-						dataField="date" width="80"/>
-					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUser')}"
-						dataField="user" width="115"/>
-					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colImei')}"
-						dataField="imei" width="130"/>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colResultId')}" dataField="idResult" width="70">
+                        <mx:itemRenderer>
+                            <fx:Component>
+                                <!--two label renderer -->
+                                <s:MXDataGridItemRenderer height="19">
+                                    <s:states>
+                                        <s:State name="normal" />            
+                                        <s:State name="hovered" />
+                                        <s:State name="selected" />
+                                    </s:states>
+                                    <s:HGroup left="6" right="0" verticalCenter="0">
+                                        <s:Label text="{data.idResult}" />
+                                    </s:HGroup>
+                                </s:MXDataGridItemRenderer>
+                            </fx:Component>
+                        </mx:itemRenderer>
+                    </mx:DataGridColumn>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colResultTitle')}" dataField="title" width="200">
+                        <mx:itemRenderer>
+                            <fx:Component>
+                                <!--two label renderer -->
+                                <s:MXDataGridItemRenderer height="19">
+                                    <s:states>
+                                        <s:State name="normal" />            
+                                        <s:State name="hovered" />
+                                        <s:State name="selected" />
+                                    </s:states>
+                                    <s:HGroup left="6" right="0" verticalCenter="0">
+                                        <s:Label text="{data.title}" />
+                                    </s:HGroup>
+                                </s:MXDataGridItemRenderer>
+                            </fx:Component>
+                        </mx:itemRenderer>
+                    </mx:DataGridColumn>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colDate')}" dataField="date" width="80">
+                        <mx:itemRenderer>
+                            <fx:Component>
+                                <!--two label renderer -->
+                                <s:MXDataGridItemRenderer height="19">
+                                    <s:states>
+                                        <s:State name="normal" />            
+                                        <s:State name="hovered" />
+                                        <s:State name="selected" />
+                                    </s:states>
+                                    <s:HGroup left="6" right="0" verticalCenter="0">
+                                        <s:Label text="{data.date}" />
+                                    </s:HGroup>
+                                </s:MXDataGridItemRenderer>
+                            </fx:Component>
+                        </mx:itemRenderer>
+                    </mx:DataGridColumn>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colUser')}" dataField="user" width="115">
+                        <mx:itemRenderer>
+                            <fx:Component>
+                                <!--two label renderer -->
+                                <s:MXDataGridItemRenderer height="19">
+                                    <s:states>
+                                        <s:State name="normal" />            
+                                        <s:State name="hovered" />
+                                        <s:State name="selected" />
+                                    </s:states>
+                                    <s:HGroup left="6" right="0" verticalCenter="0">
+                                        <s:Label text="{data.user}" />
+                                    </s:HGroup>
+                                </s:MXDataGridItemRenderer>
+                            </fx:Component>
+                        </mx:itemRenderer>
+                    </mx:DataGridColumn>
+					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colImei')}" dataField="imei" width="130">
+                        <mx:itemRenderer>
+                            <fx:Component>
+                                <!--two label renderer -->
+                                <s:MXDataGridItemRenderer height="19">
+                                    <s:states>
+                                        <s:State name="normal" />            
+                                        <s:State name="hovered" />
+                                        <s:State name="selected" />
+                                    </s:states>
+                                    <s:HGroup left="6" right="0" verticalCenter="0">
+                                        <s:Label text="{data.imei}" />
+                                    </s:HGroup>
+                                </s:MXDataGridItemRenderer>
+                            </fx:Component>
+                        </mx:itemRenderer>
+                    </mx:DataGridColumn>
 					<mx:DataGridColumn headerText="{ConfigI18n.getInstance().getString('colLocation')}"
 						dataField="" sortable="false" width="84">
 						<mx:itemRenderer>
-							<mx:Component>
+							<fx:Component>
 								<mx:VBox width="100%" horizontalAlign="center">
 									<mx:Image source="@Embed('../../../../../../../resources/images/MAP_STATUS_OK.png')" mouseEnabled="true" buttonMode="true"
 										visible="{data.lat != 0 || data.lon != 0}" toolTip="[{data.lat},{data.lon}]"/>
 								</mx:VBox>
-							</mx:Component>
+							</fx:Component>
 						</mx:itemRenderer>
 					</mx:DataGridColumn>
 				</mx:columns>
@@ -96,6 +175,5 @@
 			<mx:VBox width="100%" height="380" id="preview" styleName="previewArea" verticalScrollPolicy="auto"/>
 		</mx:VBox>
 	</mx:HBox>
-
 
 </mx:Module>

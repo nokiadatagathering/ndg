@@ -1,4 +1,7 @@
 /* CSS file */
+/*@namespace "http://www.adobe.com/2006/mxml"; */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace "http://www.adobe.com/2006/mxml";
 
 /* Global */
 global
@@ -43,11 +46,26 @@ Module.bodyModule
 	vertical-align: top;
 	vertical-gap: 0;
 }
+VBox.bodyModule   /* Adding VBox.bodyModule because it won't work as Module.bodyModule in flex4. It's a VBox in Main.mxml */
+{
+	backgroundColor: #FFFFFF;
+	borderStyle: solid;
+	borderThickness: 0;
+	cornerRadius: 6;
+	horizontal-align: center;
+	vertical-align: top;
+	vertical-gap: 0;
+}
 Module.mainAreaModule
 {
 	vertical-gap: 0;
 }
 VBox.gridPanel
+{
+	border-style: none;
+	paddingTop: 1;
+}
+HBox.gridPanel
 {
 	border-style: none;
 	paddingTop: 1;
@@ -76,6 +94,18 @@ ApplicationControlBar.loginBar
 	horizontal-gap: 2;
 }
 HBox.loginCenterPanel
+{
+	horizontal-gap: 45;
+    font-size: 12;
+	backgroundColor: #DFECFF;
+	paddingBottom: 20;
+	paddingLeft: 20;
+	paddingRight: 20;
+	paddingTop: 20;
+	vertical-align: middle;
+}
+/* Correcting so request account style can work on flex 4 */
+VBox.loginCenterPanel
 {
 	horizontal-gap: 45;
     font-size: 12;
@@ -236,6 +266,14 @@ Module.previewPanel
 	verticalAlign: top;
 	verticalGap: 0;
 }
+VBox.previewPanel
+{
+	backgroundColor: #DFECFF;
+	borderStyle: none;
+	horizontalAlign: center;
+	verticalAlign: top;
+	verticalGap: 0;
+}
 TextInput.formTextInput
 {
 	paddingTop: 1;
@@ -251,6 +289,13 @@ ComboBox.formComboBox
 	themeColor: #051F7D;
 	paddingLeft: 1;
 	font-weight: normal;
+}
+
+s|RichText.preview
+{
+    padding-top: 2;
+    font-family: Arial;
+    font-size: 12;
 }
 
 
@@ -326,6 +371,13 @@ Label.darkText
 	font-style: normal;
 }
 Label.darkTitle
+{
+	color: #051F7D;
+	font-size: 12;
+	font-weight: bold;
+	font-style: normal;
+}
+s|Label.darkTitle
 {
 	color: #051F7D;
 	font-size: 12;
@@ -417,6 +469,7 @@ RadioButton
 	color: #051F7D;
 	textRollOverColor: #051F7D;
 	textSelectedColor: #29469F;
+    textFieldClass:ClassReference("mx.core.UIFTETextField");
 }
 CheckBox
 {
@@ -427,6 +480,7 @@ CheckBox
 	color: #051F7D;
 	textRollOverColor: #051F7D;
 	textSelectedColor: #29469F;
+    textFieldClass:ClassReference("mx.core.UIFTETextField");
 }
 VScrollBar
 {
@@ -519,7 +573,7 @@ Alert.alertButtonStyle
 	fontStyle: normal;
 	textAlign: center;
 }
-TextArea.editorFirstQuestion
+Label.editorFirstQuestion
 {
 	backgroundDisabledColor: #ECECEC;
 	borderStyle: none;
@@ -527,5 +581,3 @@ TextArea.editorFirstQuestion
 	fontWeight: bold;
 	textAlign: center;
 }
-
-
