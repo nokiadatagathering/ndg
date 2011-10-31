@@ -9,7 +9,6 @@
 		<mx:Label text="GATHERING" styleName="clearTitle" height="18"/>
 	</mx:VBox>
 	<mx:HRule width="100%" visible="false"/>
-	<mx:Label text="NOKIA" styleName="clearTitle"/>
-	
+    <mx:Image source="@Embed('../../../../../../../resources/images/Nokia_logo_white_RGB.png')"/>
 	
 </mx:Module>
