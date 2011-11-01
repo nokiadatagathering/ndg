@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
-	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*" 
+	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
 	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*"
 	layout="vertical" styleName="wizardModule" width="640" height="363">
 	<mx:Script>
@@ -24,18 +44,17 @@
         <mx:Label text="{stepText}" styleName="clearSmallText" fontWeight="bold" width="10"/>
         <mx:Label text="{ConfigI18n.getInstance().getString('lblSendAlertStepOf')}" styleName="clearSmallText" fontWeight="bold"/>
         <mx:Label text="3" styleName="clearSmallText" fontWeight="bold" width="10"/>
-        
+
         <mx:ApplicationControlBar id="stp1" styleName="wizardProgress" width="35" height="7"/>
         <mx:ApplicationControlBar id="stp2" styleName="wizardBlank" width="35" height="7"/>
         <mx:ApplicationControlBar id="stp3" styleName="wizardBlank" width="35" height="7"/>
     </mx:ApplicationControlBar>
-    
+
     <mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
     <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>
-	
-	
+
 	<mx:ViewStack id="viewStackSendAlert" width="100%" height="100%" selectedIndex="0" change="updateSteps()">
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="3" paddingBottom="5" paddingTop="5">
@@ -80,7 +99,7 @@
 				</mx:Button>		
 			</mx:HBox>
 		</mx:VBox>
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
@@ -103,7 +122,7 @@
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnSendAlertSend')}" click="sendAlert()"/>
 			</mx:HBox>			
 		</mx:VBox>
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
@@ -119,7 +138,7 @@
 					paddingLeft="10" paddingRight="10"/>
 			</mx:HBox>
 		</mx:VBox>
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="12">
@@ -137,8 +156,7 @@
 				</mx:Button>
 			</mx:HBox>	
 		</mx:VBox>
-		
-	</mx:ViewStack>
 
+	</mx:ViewStack>
 
 </mx:Module>

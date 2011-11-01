@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
 	width="956" height="460" styleName="mainAreaModule"
 	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
 	xmlns:adm="main.br.org.indt.ndg.ui.view.adm.deviceManager.*"
 	xmlns:render="main.br.org.indt.ndg.ui.component.renderes.*">
-	
+
 	<mx:Script source="../../../../controller/adm/deviceManager/ImeiListController.as" />
-	
+
 	<mx:HBox width="100%" styleName="functionalitiesBar" verticalAlign="bottom">
 		<mx:Button height="43" width="63" click="showUsers(event)"
 			label="{ConfigI18n.getInstance().getString('btnImeisBack')}">
 			<mx:icon>@Embed(source='../../../../../../../../resources/images/SETA_BACK_TRANSP.png')</mx:icon>
-		</mx:Button>		
+		</mx:Button>
 		<mx:HBox verticalAlign="middle">
 			<mx:Label text="{ConfigI18n.getInstance().getString('lblDeviceManagerTitle')}" styleName="darkTitle"/>
 			<mx:Label styleName="darkTitle" id="userTitle" maxWidth="100"/>
@@ -20,7 +40,7 @@
 		<comp:PowerSearch id="search" optionsLabels="{searchOptionsLabels}" optionsFields="{searchOptionsFields}"
 			searchLabel="{ConfigI18n.getInstance().getString('lblSearch')}"/>
 	</mx:HBox>	
-	
+
 	<!--
 	<mx:HBox width="100%" height="22" borderStyle="none" verticalAlign="middle" horizontalGap="4">
 		<mx:LinkButton label="{ConfigI18n.getInstance().getString('btnUsersMarkAll')}"
@@ -29,7 +49,7 @@
 			height="20" click="unmarkAll(event)"/>
 	</mx:HBox>
 	-->
-	
+
 	<mx:HBox width="100%" height="100%" horizontalGap="2">
 		<mx:VBox width="100%" height="100%" styleName="gridPanel">
 			<mx:DataGrid id="imeiGrid" dataProvider="{imeiList}" change="showPreview(event)"
@@ -47,7 +67,7 @@
 						labelFunction="getDeviceModel" sortable="false" width="189"/>
 				</mx:columns>
 			</mx:DataGrid>
-			
+
 			<comp:PowerDataPagination dataProvider="{imeiList}" remoteObject="{remoteImeiList}"
 				grid="{imeiGrid}" search="{search}" id="pagination" checkable="true"
 				changePage="listImeis(event)" pageSize="{IMEI_PAGE_SIZE}"
@@ -57,15 +77,13 @@
 				itemsLabel="{ConfigI18n.getInstance().getString('pcItemsLabel')}"
 				selectedItemsLabel="{ConfigI18n.getInstance().getString('pcSelectedItemsLabel')}"/>
 		</mx:VBox>
-		
+
 		<mx:VBox width="300" height="100%" borderStyle="none" verticalGap="1">
 			<mx:ApplicationControlBar height="23" width="100%" styleName="previewCtrlBar">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblPreviewDevice')}" styleName="clearText" fontWeight="bold"/>
 			</mx:ApplicationControlBar>
-			<adm:ImeiForm width="100%" height="100%" id="imeiPreview" pagination="{pagination}" selectedUser="{selectedUserDTO}"/>	
-		</mx:VBox>			
-	</mx:HBox>		
-			
+			<adm:ImeiForm width="100%" height="100%" id="imeiPreview" pagination="{pagination}" selectedUser="{selectedUserDTO}"/>
+		</mx:VBox>
+	</mx:HBox>
 
-	
 </mx:Module>

@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module layout="vertical" styleName="wizardModule" width="800" height="383"
 	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:wizard="main.br.org.indt.ndg.ui.view.main.wizard.*">
-	
+
 	<mx:Script source="../../../../controller/main/wizard/WizardController.as" />
 
     <mx:Canvas width="100%" height="25">
@@ -9,7 +29,7 @@
             <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
         </mx:Button>
     </mx:Canvas>
-    
+
     <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
         <mx:Label text="{wizardTitle}" styleName="clearTitle3"/>
         <mx:HRule width="100%" visible="false"/>
@@ -17,20 +37,20 @@
         <mx:Label text="{stepText}" styleName="clearSmallText" fontWeight="bold" width="10"/>
         <mx:Label text="{ConfigI18n.getInstance().getString('lblWizardStepOf')}" styleName="clearSmallText" fontWeight="bold"/>
         <mx:Label text="4" styleName="clearSmallText" fontWeight="bold" width="10"/>
-        
+
         <mx:ApplicationControlBar id="stp1" styleName="wizardProgress" width="35" height="7"/>
         <mx:ApplicationControlBar id="stp2" styleName="wizardBlank" width="35" height="7"/>
         <mx:ApplicationControlBar id="stp3" styleName="wizardBlank" width="35" height="7"/>
         <mx:ApplicationControlBar id="stp4" styleName="wizardBlank" width="35" height="7"/>
     </mx:ApplicationControlBar>
-    
+
     <mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
     <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>
     
 	<mx:ViewStack id="viewStackWizard" width="100%" height="100%" selectedIndex="0" change="updateSteps()">
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}" creationComplete="updateSteps()">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardWelcomeMessage')}" styleName="darkTitle" height="16"/>
 			</mx:VBox>
@@ -41,14 +61,14 @@
 					<mx:overSkin>@Embed(source='../../../../../../../../resources/images/NDG_WELCOME_OVER.png')</mx:overSkin>
 				</mx:Button>		
 			</mx:HBox>
-			
+
 			<mx:HBox width="100%" height="52" horizontalAlign="left" verticalAlign="middle">
 				<mx:CheckBox label="{ConfigI18n.getInstance().getString('btnWizardCloseWarn')}" width="75%" paddingLeft="10" paddingRight="10" id="chkFirstTimeUser"/>
 			</mx:HBox>
 		</mx:VBox>	
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}" horizontalScrollPolicy="off">
-			
+
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="2" paddingBottom="4" paddingTop="5" height="36">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardDownloadMessage')}" styleName="darkTitle" height="16"/>
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardDownloadMessage2')}" styleName="darkTitle" height="16"/>
@@ -71,7 +91,7 @@
 		</mx:VBox>
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
 			</mx:VBox>
 			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
@@ -79,7 +99,7 @@
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallCongratQuest')}" horizontalCenter="0" fontSize="16" y="118"/>
 				<mx:Image y="51" source="@Embed('../../../../../../../../resources/images/ICON_SUCCESS.png')" horizontalCenter="0"/>
 			</mx:Canvas>
-			
+
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardInstallNo')}" click="pcInstructions(event)"
 					paddingLeft="10" paddingRight="10" width="150">
@@ -89,10 +109,10 @@
 				</mx:Button>
 			</mx:HBox>
 		</mx:VBox>
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
 			</mx:VBox>
@@ -102,7 +122,7 @@
 				</mx:HBox>
 				<mx:Image x="471" source="@Embed('../../../../../../../../resources/images/SMS_INSTALL.png')" verticalCenter="0"/>
 			</mx:Canvas>
-			
+
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
 					paddingLeft="10" paddingRight="10" width="130">
@@ -114,10 +134,10 @@
 				</mx:Button>
 			</mx:HBox>
 		</mx:VBox>	
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="38">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
 			</mx:VBox>
@@ -154,7 +174,7 @@
 		</mx:VBox>
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="38">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
 			</mx:VBox>
@@ -191,7 +211,7 @@
 		</mx:VBox>						
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="38">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
 			</mx:VBox>
@@ -228,7 +248,7 @@
 		</mx:VBox>						
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
 			</mx:VBox>
 			<mx:Canvas width="100%" height="100%" styleName="wizardCenterPanel">			
@@ -247,10 +267,10 @@
 				</mx:Button>
 			</mx:HBox>
 		</mx:VBox>
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
 			</mx:VBox>
@@ -260,7 +280,7 @@
 				</mx:HBox>
 				<mx:Image x="471" source="@Embed('../../../../../../../../resources/images/PC_INSTALL.png')" verticalCenter="0"/>
 			</mx:Canvas>
-			
+
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="messageConfirmation(event)"
 					paddingLeft="10" paddingRight="10" width="130">
@@ -272,17 +292,17 @@
 				</mx:Button>
 			</mx:HBox>
 		</mx:VBox>
-		
+
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallPCDownJadTitle')}" styleName="darkTitle" height="18" fontSize="16" fontWeight="normal"/>
 			</mx:VBox>
 			<mx:VBox width="100%" height="100%" styleName="wizardCenterPanel">			
 				<mx:Text text="{ConfigI18n.getInstance().getString('lblWizardInstallPCDownJad')}" width="779" styleName="darkTitle" fontSize="12" fontWeight="bold" textAlign="center"/>
 			</mx:VBox>
-			
+
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
 					paddingLeft="10" paddingRight="10" width="100">
@@ -297,7 +317,7 @@
 
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="top"
 				hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
-				
+
 			<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="12" paddingTop="10" height="40">
 				<mx:Label text="{ConfigI18n.getInstance().getString('lblWizardInstallWelcome')}" styleName="darkTitle" height="16" fontSize="16" fontWeight="normal"/>
 			</mx:VBox>
@@ -308,7 +328,7 @@
 				<mx:Text text="2. {ConfigI18n.getInstance().getString('lblWizardInstallPCInstTitle2')}" width="700" styleName="darkTitle" fontSize="12" fontWeight="bold"/>
 				<mx:Text text="     {ConfigI18n.getInstance().getString('lblWizardInstallPCInst2')}" width="700" styleName="darkTitle" fontSize="12" fontWeight="normal"/>
 			</mx:VBox>
-			
+
 			<mx:HBox width="100%" height="52" horizontalAlign="center" verticalAlign="middle">
 				<mx:Button label="{ConfigI18n.getInstance().getString('btnWizardBack')}" click="backStep(event)"
 					paddingLeft="10" paddingRight="10" width="100">
@@ -320,7 +340,7 @@
 				</mx:Button>
 			</mx:HBox>
 		</mx:VBox>	
-								
+			
 	</mx:ViewStack>
-	
+
 </mx:Module>

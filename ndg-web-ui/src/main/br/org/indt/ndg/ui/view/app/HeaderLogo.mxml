@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" 
-	layout="horizontal" width="970" height="55" 
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="horizontal" width="970" height="55"
 	horizontalAlign="center" verticalAlign="middle">
 
-	
 	<mx:VBox verticalGap="0" verticalAlign="middle" horizontalAlign="center">
 		<mx:Label text="NOKIA DATA" styleName="clearTitle" height="18"/>
 		<mx:Label text="GATHERING" styleName="clearTitle" height="18"/>
 	</mx:VBox>
 	<mx:HRule width="100%" visible="false"/>
     <mx:Image source="@Embed('../../../../../../../resources/images/Nokia_logo_white_RGB.png')"/>
-	
+
 </mx:Module>

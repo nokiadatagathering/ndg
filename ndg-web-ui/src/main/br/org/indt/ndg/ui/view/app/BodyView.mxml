@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module layout="vertical"
 	width="970" height="562" styleName="bodyModule"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
@@ -6,9 +26,9 @@
 	xmlns:vadm="main.br.org.indt.ndg.ui.view.adm.*"
 	xmlns:veditor="main.br.org.indt.ndg.ui.view.editor.*"
 	creationComplete="init()">
-	
+
 	<mx:Script source="../../../controller/app/BodyController.as" />
-	
+
 	<!--
 	<mx:ViewStack height="102" id="viewStackButtonBar" selectedIndex="0">
 	-->
@@ -23,7 +43,7 @@
 			<mx:selectedDownSkin>{ConfigI18n.getInstance().getClass("imgTabMainSelected")}</mx:selectedDownSkin>			
 			<mx:selectedUpSkin>{ConfigI18n.getInstance().getClass("imgTabMainSelected")}</mx:selectedUpSkin>	
 		</mx:Button>
-		
+
 		<mx:Button id="btnEditor" width="319" height="77" x="324" y="12" click="mouseClickButton(2, event)"
 				mouseOver="mouseOverButton(2, event)" mouseOut="mouseOutButton(2, event)">
 			<mx:skin>{ConfigI18n.getInstance().getClass("imgTabEditorIdle")}</mx:skin>					
@@ -34,7 +54,7 @@
 			<mx:selectedDownSkin>{ConfigI18n.getInstance().getClass("imgTabEditorSelected")}</mx:selectedDownSkin>			
 			<mx:selectedUpSkin>{ConfigI18n.getInstance().getClass("imgTabEditorSelected")}</mx:selectedUpSkin>								
 		</mx:Button>
-	
+
 		<mx:Button id="btnManager" width="319" height="77" x="643" y="12" click="mouseClickButton(3, event)"
 				mouseOver="mouseOverButton(3, event)" mouseOut="mouseOutButton(3, event)" visible="false">
 			<mx:skin>{ConfigI18n.getInstance().getClass("imgTabManageIdle")}</mx:skin>					
@@ -58,11 +78,10 @@
 	<!--
 	</mx:ViewStack>
 	-->
-	
+
     <mx:Dissolve id="dissolveOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
     <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
-        
-	
+
 	<mx:ViewStack id="viewStack" width="100%">
 		<!-- Main Tab -->
 		<mx:VBox width="100%" horizontalAlign="center" hideEffect="{dissolveOut}" showEffect="{dissolveIn}">
@@ -77,5 +96,5 @@
 			<vadm:ManagerTabContainer id="managerTabContainer"/>
 		</mx:HBox>
 	</mx:ViewStack>
-	
+
 </mx:Module>

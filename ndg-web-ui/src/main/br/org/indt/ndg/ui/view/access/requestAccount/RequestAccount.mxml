@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module layout="vertical"
 	width="970" height="562" styleName="bodyModule"
 	xmlns:mx="http://www.adobe.com/2006/mxml"
@@ -6,10 +26,9 @@
 	updateComplete="updateLanguage()"
 	creationComplete="init()">
 
-
 	<mx:Script source="../../../../controller/access/requestAccount/ComboArrays.as" />
 	<mx:Script source="../../../../controller/access/requestAccount/RequestAccountController.as" />
-	
+
 	<mx:Array id="validators">
 		<mx:StringValidator source="{txFirstname}" property="text"
 			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
@@ -71,12 +90,12 @@
 			required="true" lowerThanMinError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
 			minValue="1" triggerEvent="change" enabled="{txCompany.text.length > 0}"/>
 	</mx:Array>
-	
+
 	<mx:Dissolve id="dissolveOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
     <mx:Dissolve id="dissolveIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>	
 
 	<mx:VRule height="30" visible="false"/>
-	
+
     <mx:ApplicationControlBar width="100%" height="80" styleName="loginBar">
     	<mx:VBox verticalGap="0">
 	        <mx:Label text="{resourceManager.getString('requestAccount', 'titleRequestAccount01')}"
@@ -85,8 +104,7 @@
 	        	styleName="clearTitle2"/>
     	</mx:VBox>
     </mx:ApplicationControlBar>
-    
-    	
+
 	<mx:ViewStack id="raStack" width="100%">
 		<mx:VBox width="100%" hideEffect="{dissolveOut}" showEffect="{dissolveIn}" verticalGap="0">
 			<mx:HBox width="100%" height="27" verticalAlign="middle" horizontalAlign="center">
@@ -185,5 +203,5 @@
 		</mx:VBox>
 		-->
 	</mx:ViewStack>
-	
+
 </mx:Module>

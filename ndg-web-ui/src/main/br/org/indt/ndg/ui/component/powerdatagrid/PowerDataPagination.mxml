@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" 
-	width="100%" height="23" horizontalGap="4" verticalAlign="middle" creationComplete="init()">
 
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="100%" height="23" horizontalGap="4" verticalAlign="middle" creationComplete="init()">
 
 	<mx:Script>
 		<![CDATA[
@@ -19,7 +38,7 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.remoting.mxml.RemoteObject;
-			
+
 			public var pageSize:int = 1;
 			public var grid:DataGrid = null;
 			public var search:PowerSearch = null;
@@ -31,7 +50,7 @@
 			[Bindable] public var refreshLabel:String = "Refresh";
 			[Bindable] public var itemsLabel:String = "Items:";
 			[Bindable] public var selectedItemsLabel:String = "Selected Items:";
-			
+
 			[Bindable] public var selectedAllItems:ArrayCollection = new ArrayCollection();
 			[Bindable] public var currentPage:int = 0;
 			[Bindable] private var pageCount:int = 0;
@@ -40,8 +59,7 @@
 			private var sortDescending:Boolean = false;
 			private var filterText:String = null;
 			private var filterFields:Array = null;
-			
-			
+
 			public function reset():void{
 				selectedAllItems = new ArrayCollection();
 				currentPage = 0;
@@ -52,7 +70,7 @@
 				filterText = null;
 				filterFields = null;
 			}
-			
+
 			private function init():void{
 				remoteObject.showBusyCursor = true;
 				remoteObject.addEventListener(FaultEvent.FAULT, onFault);
@@ -70,42 +88,43 @@
 					selectedItemsRule.includeInLayout = false;
 				}
 			}
-			
+
 			private function headerRelease(event:DataGridEvent):void{
 				var c:DataGridColumn = grid.columns[event.columnIndex] as DataGridColumn;
 				sortField = event.dataField.toString();
 				sortDescending = !c.sortDescending;
 				reorder();
 			}
-			
+
 			private function searching(event:SearchEvent):void{
 				filterText = event.filterText;
 				filterFields = event.filterFields;
 				filter();
 			}
-			
+
 			private function onFault(event:FaultEvent):void{
 				pageInput.text = currentPage.toString();
 				Alert.show(ExceptionUtil.getMessage(event.fault.faultString),
 						ConfigI18n.getInstance().getString("lblError"));
 			}
+
 			private function onSuccess(event:ResultEvent):void{
 				if (event.result != null) {
 					var result:QueryInputOutputDTO = event.result as QueryInputOutputDTO;
 					var array:ArrayCollection = result.queryResult;
-					
+
 					dataProvider.source = array.toArray();
 					if (array == null || array.length == 0){
 						selectedAllItems = new ArrayCollection();
 					} else{
 						updateChecks();	
 					}
-					
+
 					recordCount = result.recordCount;
 					pageCount = result.pageCount;
 					currentPage = result.pageNumber;
 					pageInput.text = currentPage.toString();
-					
+
 					if (currentPage <= 1){
 						firstBtn.enabled = false;
 						previousBtn.enabled = false;
@@ -120,14 +139,14 @@
 						nextBtn.enabled = true;
 						lastBtn.enabled = true;
 					}
-					
+
 					if (array.length > 0){
 						grid.selectedIndex = 0;
 						grid.dispatchEvent(new ListEvent(ListEvent.CHANGE));
 					}
 				}	
 			}
-			
+
 			private function changePage(page:int):void{
 				var aEvent:ChangePageEvent = new ChangePageEvent(ChangePageEvent.EVENT_NAME);
 				aEvent.page = page;
@@ -138,29 +157,36 @@
 				aEvent.filterFields = filterFields;
 				dispatchEvent(aEvent);
 			}
-			
+
 			public function nextPage():void{
 				changePage(currentPage+1);
 			}
+
 			public function previousPage():void{
 				changePage(currentPage-1);
 			}
+
 			public function lastPage():void{
 				changePage(pageCount);
 			}
+
 			public function firstPage():void{
 				changePage(1);
 			}
+
 			public function refresh():void{
 				selectedAllItems = new ArrayCollection();
 				changePage(1);
 			}
+
 			private function reorder():void{
 				changePage(1);
 			}
+
 			private function filter():void{
 				refresh();
 			}
+
 			public function getPage(p:int):void{
 				if (p < 1){
 					p = 1;
@@ -169,7 +195,7 @@
 				}
 				changePage(p);
 			}
-			
+
 			public function itemClick(item:Object):void{
 				if (checkable){
 					var selItem:Object = null;
@@ -194,7 +220,7 @@
 					}
 				}
 			}
-			
+
 			public function selectAll(selected:Boolean):void{
 				if (checkable){
 					var array:Array = dataProvider.source as Array;
@@ -226,7 +252,7 @@
 					}
 				}
 			}
-			
+
 			private function updateChecks():void{
 				if (checkable){
 					var array:Array = dataProvider.source as Array;
@@ -242,11 +268,11 @@
 					}
 				}
 			}
-			
+
 			public function getSelectedAllItems():ArrayCollection{
 				return selectedAllItems;
 			}
-			
+
 		]]>
 	</mx:Script>
 
@@ -290,7 +316,5 @@
 		<mx:Label text="{selectedItemsLabel}" visible="{checkable}" id="selectedItemsLbl01"/>
 		<mx:Label text="{selectedAllItems.length}" visible="{checkable}" id="selectedItemsLbl02"/>	
 	</mx:HBox>
-	
-	
-	
+
 </mx:HBox>

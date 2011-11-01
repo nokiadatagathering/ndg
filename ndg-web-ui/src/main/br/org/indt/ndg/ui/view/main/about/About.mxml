@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module layout="vertical" styleName="wizardModule" width="400" height="250" 
 	xmlns:mx="http://www.adobe.com/2006/mxml" verticalAlign="top"
 	creationComplete="init()">
-	
+
 	<mx:Script source="../../../../controller/main/about/AboutController.as" />
-	
+
     <mx:Canvas width="100%" height="25">
         <mx:Button width="38" height="14" styleName="iconButton" x="352" y="-1" click="close()">
             <mx:skin>@Embed(source='../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
         </mx:Button>
     </mx:Canvas>
-    
+
     <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
 		<mx:Label text="{ConfigI18n.getInstance().getString('lblTitleAbout')}" styleName="clearTitle3"/>
     	<mx:HRule width="10" visible="false"/>    	

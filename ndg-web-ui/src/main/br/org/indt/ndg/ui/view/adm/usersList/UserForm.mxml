@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:display="flash.display.*"
 	layout="vertical" styleName="previewPanel"
 	creationComplete="init()">
-	
-	
-	<mx:Script source="../../../../controller/adm/usersList/UserFormController.as" />	
 
+	<mx:Script source="../../../../controller/adm/usersList/UserFormController.as" />	
 
 	<mx:HBox width="100%" horizontalAlign="center" paddingTop="3" paddingBottom="15">
 		<mx:Label text="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredUserFields')}"/>
 	</mx:HBox>
-	
+
 	<mx:Array id="validators">
 		<mx:StringValidator source="{inputUser}" property="text"
 			required="true" requiredFieldError="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'requiredFieldMsg')}"
@@ -57,7 +75,7 @@
 			maxLength="8" tooLongError="{getMaxLengthMsg('8')}"
 			triggerEvent="change"/>
 	</mx:Array>
-	
+
 	<mx:Form id="form" paddingLeft="0" paddingRight="0" paddingBottom="5" paddingTop="0">
 		<mx:FormItem label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'fieldUsername')}" fontWeight="bold">
 			<mx:TextInput id="inputUser" text="{dto.username}" fontWeight="normal" width="155" enabled="false"
@@ -96,12 +114,12 @@
 				change="updatePassValidatorState()" styleName="formTextInput"/>
 		</mx:FormItem>
 	</mx:Form>
-	
+
 	<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle" horizontalGap="3" visible="{hasBalanceCheck}">
 		<mx:Image width="16" height="14" source="@Embed('../../../../../../../../resources/images/BALANCE.png')" id="balanceIcon"/>
 		<mx:Label text="{userBalanceMessage}"/>
 	</mx:HBox>
-	
+
 	<mx:HBox width="100%" horizontalGap="3" horizontalAlign="center" verticalAlign="middle"
 		paddingBottom="20" paddingTop="5">
 		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnNewUser')}"
@@ -115,11 +133,8 @@
 		<mx:Button label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnDeleteUser')}"
 				click="remove()" enabled="{!(editMode || (dto == null))}"/>
 	</mx:HBox>
-	
 
 	<mx:LinkButton label="{resourceManager.getString(ConfigI18n.LOCALE_FILE, 'btnAssociatedImeis')}"
 		enabled="{!(editMode || (dto == null))}" click="showAssociatedImeis()"/>
-	
-	
-	
+
 </mx:Module>

@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="406" height="474">
 
-	
 	<mx:Image width="392" height="410" source="@Embed('../../../../../../../resources/images/editor/preview/e61/e61_3.png')"
 		scaleContent="false" id="imgMobileE61" y="64" x="11" visible="false"/>
 	<mx:Image width="392" height="410" source="@Embed('../../../../../../../resources/images/editor/preview/e71/e71_3.png')"
 		scaleContent="false" id="imgMobileE71" y="64" x="11" visible="true"/>
-			
+
 	<mx:Canvas x="27" y="23" width="406" height="474" id="cScreen" scaleX="0.84" scaleY="0.84">
 		<mx:Image y="174" width="320" height="240" id="imgBackGrd" 
 			scaleContent="false" autoLoad="true" source="@Embed('../../../../../../../resources/images/editor/preview/e61/model1.png" x="46"/>

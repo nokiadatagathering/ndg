@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	horizontalGap="2" verticalAlign="middle"
 	fontSize="10">
-
 
 	<mx:Script>
 		<![CDATA[
@@ -12,18 +31,17 @@
 			[Bindable] public var searchLabel:String = "Search";
 			[Bindable] public var optionsLabels:ArrayCollection = null;
 			[Bindable] public var optionsFields:ArrayCollection= null;			
-			
-			
+
 			public function clearUI():void{
 				searchInput.text = "";
 				combo.selectedIndex = 0;
 			}
-			
+
 			private function clear():void{
 				clearUI();
 				search();
 			}
-			
+
 			private function search():void{
 				var text:String = this.getFormattedString(searchInput.text);
 				var aEvent:SearchEvent = new SearchEvent(SearchEvent.EVENT_NAME);
@@ -31,27 +49,26 @@
 				aEvent.filterText = text;
 				dispatchEvent(aEvent);
 			}
-			
+
 			private function getFormattedString(str:String):String{
 				if (str == ""){
 					str = null;
 				}
 				return str;
 			}
-			
+
 			private function getFields():Array{
 				var fields:ArrayCollection = new ArrayCollection();
 				var array:Array = optionsFields.getItemAt(combo.selectedIndex) as Array;
 				return array;
 			}
-			
+
 		]]>
 	</mx:Script>
 
 	<mx:Metadata>
 		[Event(name="search", type="main.br.org.indt.ndg.ui.component.powerdatagrid.SearchEvent")]
 	</mx:Metadata>
-	
 
 	<mx:Label text="{searchLabel}" fontWeight="bold"/>
 	<mx:TextInput id="searchInput" enter="search()" height="22"/>
@@ -62,5 +79,5 @@
 	<mx:Button click="clear()" styleName="iconButton" width="22" height="22">
 		<mx:icon>@Embed(source='../../../../../../../resources/images/CLEAR_TRANSP.png')</mx:icon>
 	</mx:Button>
-	
+
 </mx:HBox>

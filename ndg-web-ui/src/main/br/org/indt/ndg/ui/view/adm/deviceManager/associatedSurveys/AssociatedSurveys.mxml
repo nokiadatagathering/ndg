@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*  Nokia Data Gathering
+*
+*  Copyright (C) 2011 Nokia Corporation
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/
+-->
+
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
 	xmlns:comp="main.br.org.indt.ndg.ui.component.powerdatagrid.*"
-	layout="vertical" styleName="wizardModule" width="550" height="345">	
+	layout="vertical" styleName="wizardModule" width="550" height="345">
 
-	
 	<mx:Script source="../../../../../controller/adm/deviceManager/associatedSurveys/AssociatedSurveysController.as" />
-
 
     <mx:Canvas width="100%" height="25">
         <mx:Button width="38" height="14" styleName="iconButton" x="490" y="-1" click="close()">
             <mx:skin>@Embed(source='../../../../../../../../../resources/images/POPUP_ICON_CLOSE.png')</mx:skin>
         </mx:Button>
-    </mx:Canvas>	
-	
+    </mx:Canvas>
+
     <mx:ApplicationControlBar width="100%" height="50" styleName="wizardProgressBar" horizontalAlign="left">
         <mx:Label text="{ConfigI18n.getInstance().getString('associatedSurveysTitle')}" styleName="clearTitle3"/>
-    </mx:ApplicationControlBar>	
-	
+    </mx:ApplicationControlBar>
+
 	<mx:VBox width="100%" horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingBottom="5" paddingTop="5">
 		<mx:Label text="" styleName="darkTitle" height="16"/>
 	</mx:VBox>
-
 
 	<mx:VBox width="100%" height="100%" verticalAlign="middle" horizontalAlign="center" verticalGap="5"
 		styleName="wizardCenterPanel">
@@ -32,7 +49,7 @@
 					dataField="title" sortable="true" width="75"/>
 			</mx:columns>
 		</mx:DataGrid>
-		
+
 		<comp:PowerDataPagination dataProvider="{surveyList}" remoteObject="{remoteList}"
 			grid="{grid}" id="pagination" checkable="false" width="98%"
 			changePage="listSurveys(event)" pageSize="{IMEIS_PAGE_SIZE}"
@@ -44,8 +61,7 @@
 			horizontalAlign="center" verticalAlign="middle"/>
 	</mx:VBox>
 
-
 	<mx:HBox width="100%" height="52" verticalAlign="middle" horizontalAlign="center">
-	</mx:HBox>		
-	
+	</mx:HBox>
+
 </mx:Module>
