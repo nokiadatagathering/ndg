@@ -7,7 +7,7 @@
 global
 {
 	font-family: NokiaSansWide;
-	color: #051F7D;
+	color: #124191;
 	font-size: 10;
 	font-weight: normal;
 	font-style: normal;
@@ -91,7 +91,7 @@ ApplicationControlBar.loginBar
 {
 	cornerRadius: 0;
 	fillAlphas: 1, 1;
-	fillColors: #3687FF, #051F7D;
+	fillColors: #124191, #124191;
 	horizontalAlign: left;
 	paddingBottom: 0;
 	paddingTop: 2;
@@ -127,7 +127,7 @@ VBox.loginCenterPanel
 ApplicationControlBar.paginationCtrlBar
 {
 	fill-alphas: 1,1;
-	fill-colors: #3687FF,#051F7D;
+	fill-colors: #124191,#124191;
 	vertical-align: middle;
 	padding-bottom: 0;
 	padding-left: 4;
@@ -145,14 +145,14 @@ TextInput.paginationTextInput
 /* Search Components */
 ComboBox.paginationCombo
 {
-	borderColor: #051F7D;
+	borderColor: #124191;
 	color: #FFFFFF;
 	cornerRadius: 4;
 	fillAlphas: 1.0, 1.0;
-	fillColors: #3687FF, #051F7D;
-	text-roll-over-color: #051f7d;
-	text-selected-color: #051f7d;
-	alternating-item-colors: #3687FF, #3687FF;
+	fillColors: #124191, #124191;
+	text-roll-over-color: #124191;
+	text-selected-color: #124191;
+	alternating-item-colors: #124191, #124191;
 	selection-color: #DFECFF;
 	roll-over-color: #DFECFF;
 	dropdownStyleName: comboBoxDropdown;
@@ -190,7 +190,7 @@ ApplicationControlBar.wizardProgressBar
 {
 	cornerRadius: 0;
 	fillAlphas: 1, 1;
-	fillColors: #3687FF, #051F7D;
+	fillColors: #124191, #124191;
 	horizontalAlign: center;
 	paddingBottom: 0;
 	paddingTop: 2;
@@ -219,17 +219,17 @@ HBox.wizardStepPanel
 }
 Button.wizardClearButton
 {
-	borderColor: #051F7D;
-	color: #051F7D;
+	borderColor: #124191;
+	color: #124191;
 	fillAlphas: 1.0, 1.0;
 	fillColors: #FFFFFF, #FFFFFF;
 	paddingLeft: 2;
 	paddingRight: 2;
 	font-size: 10;
-	textRollOverColor: #3687FF;
-	textSelectedColor: #051F7D;
-	disabledColor: #051F7D;
-	themeColor: #3687FF;
+	textRollOverColor: #124191;
+	textSelectedColor: #124191;
+	disabledColor: #124191;
+	themeColor: #124191;
 }
 DataGrid.wizardGrid
 {
@@ -243,7 +243,7 @@ ApplicationControlBar.previewCtrlBar
 {
 	cornerRadius: 0;
 	fillAlphas: 1, 1;
-	fillColors: #3687FF, #051F7D;
+	fillColors: #124191, #124191;
 	horizontalAlign: center;
 	paddingBottom: 0;
 	paddingTop: 2;
@@ -261,7 +261,7 @@ VBox.imagePanel
 {
 	borderStyle: solid;
 	cornerRadius: 5;
-	borderColor: #051F7D;
+	borderColor: #124191;
 	borderThickness: 1;
 }
 Module.previewPanel
@@ -285,14 +285,14 @@ TextInput.formTextInput
 	paddingTop: 1;
 	paddingLeft: 1;
 	paddingRight: 1;
-	disabledColor: #3687FF;
+	disabledColor: #124191;
 	backgroundDisabledColor: #FFFFFF;
 }
 ComboBox.formComboBox
 {
 	background-disabled-color: #DFECFF;
-	disabled-color: #3687FF;
-	themeColor: #051F7D;
+	disabled-color: #124191;
+	themeColor: #124191;
 	paddingLeft: 1;
 	font-weight: normal;
 }
@@ -364,42 +364,42 @@ Label.clearTitle7
 }
 Label.darkSmallText
 {
-	color: #051F7D;
+	color: #124191;
 	font-size: 8;
 	font-weight: normal;
 	font-style: normal;
 }
 Label.darkText
 {
-	color: #051F7D;
+	color: #124191;
 	font-size: 10;
 	font-weight: normal;
 	font-style: normal;
 }
 Label.darkTitle
 {
-	color: #051F7D;
+	color: #124191;
 	font-size: 12;
 	font-weight: bold;
 	font-style: normal;
 }
 s|Label.darkTitle
 {
-	color: #051F7D;
+	color: #124191;
 	font-size: 12;
 	font-weight: bold;
 	font-style: normal;
 }
 Label.darkTitle2
 {
-	color: #051F7D;
+	color: #124191;
 	font-size: 14;
 	font-weight: bold;
 	font-style: normal;
 }
 Label.darkTitle3
 {
-	color: #051F7D;
+	color: #124191;
 	font-size: 16;
 	font-weight: bold;
 	font-style: normal;
@@ -408,17 +408,17 @@ Label.darkTitle3
 /* Components */
 Button
 {
-	borderColor: #051F7D;
+	borderColor: #124191;
 	color: #FFFFFF;
 	fillAlphas: 1.0, 1.0;
-	fillColors: #3687FF, #051F7D, #DFECFF, #3687FF;
+	fillColors: #124191, #124191, #DFECFF, #124191;
 	paddingLeft: 2;
 	paddingRight: 2;
-	themeColor: #051F7D;
+	themeColor: #124191;
 	font-size: 10;
-	textRollOverColor: #051F7D;
-	textSelectedColor: #051f7d;
-	disabledColor: #29469F;
+	textRollOverColor: #124191;
+	textSelectedColor: #124191;
+	disabledColor: #d6d6d6;
 	leading: 0;
 	fontWeight: bold;
 	fontStyle: normal;
@@ -439,9 +439,9 @@ LinkButton
 	paddingLeft: 0;
 	paddingRight: 0;
 	paddingTop: 0;
-	color: #051f7d;
-	textSelectedColor: #051F7D;
-	textRollOverColor: #051F7D;
+	color: #124191;
+	textSelectedColor: #124191;
+	textRollOverColor: #124191;
 }
 LinkButton.headerLinkButton
 {
@@ -450,41 +450,41 @@ LinkButton.headerLinkButton
 	paddingRight: 0;
 	paddingTop: 0;
 	color: #FFFFFF;
-	textSelectedColor: #051F7D;
-	textRollOverColor: #051F7D;
+	textSelectedColor: #124191;
+	textRollOverColor: #124191;
 }
 ComboBox
 {
-	borderColor: #051F7D;
-	color: #051F7D;
+	borderColor: #124191;
+	color: #124191;
 	cornerRadius: 4;
 	fillAlphas: 1.0, 1.0;
 	fillColors: #FFFFFF, #FFFFFF;
-	text-roll-over-color: #051f7d;
-	text-selected-color: #051f7d;
+	text-roll-over-color: #124191;
+	text-selected-color: #124191;
 	dropdownStyleName: comboBoxDropdown;
 	font-size: 10;
-	iconColor: #051f7d;
+	iconColor: #124191;
 }
 RadioButton
 {
-	borderColor: #051F7D;
+	borderColor: #124191;
 	cornerRadius: 4;
 	fillAlphas: 1,1,1,1;
 	fillColors: #FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF;
-	color: #051F7D;
-	textRollOverColor: #051F7D;
+	color: #124191;
+	textRollOverColor: #124191;
 	textSelectedColor: #29469F;
     textFieldClass:ClassReference("mx.core.UIFTETextField");
 }
 CheckBox
 {
-	borderColor: #051F7D;
+	borderColor: #124191;
 	cornerRadius: 4;
 	fillAlphas: 1,1,1,1;
 	fillColors: #FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF;
-	color: #051F7D;
-	textRollOverColor: #051F7D;
+	color: #124191;
+	textRollOverColor: #124191;
 	textSelectedColor: #29469F;
     textFieldClass:ClassReference("mx.core.UIFTETextField");
 }
@@ -495,8 +495,8 @@ VScrollBar
    fillAlphas: 1, 1, 1, 1;
    fillColors: #DEEEF9, #DEEEF9, #FFFFFF, #DEEEF9;
    trackColors: #FFFFFF, #FFFFFF;
-   themeColor: #051F7D;
-   borderColor: #051F7D;
+   themeColor: #124191;
+   borderColor: #124191;
    iconColor: #000000;
    thumbOffset: 0;
 }
@@ -507,14 +507,14 @@ HScrollBar
    fillAlphas: 1, 1, 1, 1;
    fillColors: #DEEEF9, #DEEEF9, #FFFFFF, #DEEEF9;
    trackColors: #FFFFFF, #FFFFFF;
-   themeColor: #051F7D;
-   borderColor: #051F7D;
+   themeColor: #124191;
+   borderColor: #124191;
    iconColor: #000000;
    thumbOffset: 0;
 }
 TextInput
 {
-	borderColor: #051F7D;
+	borderColor: #124191;
 	borderStyle: solid;
 	borderThickness: 1;
 	cornerRadius: 4;
@@ -525,15 +525,15 @@ DataGrid
 	border-style: none;
 	border-color: #FFFFFF;
 	alternatingItemColors: #FFFFFF,#DFECFF;
-	color: #051F7D;
-	headerColors: #3687FF, #051F7D;
+	color: #124191;
+	headerColors: #124191, #124191;
 	rollOverColor: #92C2E8;
 	selectionColor: #92C2E8;
 	verticalGridLineColor: #FFFFFF;
 	verticalGridLines: true;
 	horizontalGridLines: false;
-	textRollOverColor: #051F7D;
-	textSelectedColor: #051F7D;
+	textRollOverColor: #124191;
+	textSelectedColor: #124191;
 	icon-color: #FFFFFF;
 	headerStyleName: "dataGridHeaderStyle";
 	font-size: 10;
@@ -546,8 +546,8 @@ DataGrid
 }
 VRule
 {
-	strokeColor: #051F7D;
-	themeColor: #051F7D;
+	strokeColor: #124191;
+	themeColor: #124191;
 }
 Alert
 {
@@ -558,21 +558,21 @@ Alert
 	cornerRadius: 7;
 	verticalAlign: middle;
 	verticalGap: 0;
-	color: #051F7D;
+	color: #124191;
 	background-alpha: 1.0;
 }
 Alert.alertButtonStyle
 {
-	borderColor: #051F7D;
+	borderColor: #124191;
 	color: #FFFFFF;
 	fillAlphas: 1.0, 1.0;
-	fillColors: #3687FF, #051F7D, #DFECFF, #3687FF;
+	fillColors: #124191, #124191, #DFECFF, #124191;
 	paddingLeft: 2;
 	paddingRight: 2;
-	themeColor: #051F7D;
+	themeColor: #124191;
 	font-size: 10;
-	textRollOverColor: #051F7D;
-	textSelectedColor: #051f7d;
+	textRollOverColor: #124191;
+	textSelectedColor: #124191;
 	disabledColor: #C3C4C8;
 	leading: 0;
 	fontWeight: bold;
