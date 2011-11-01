@@ -17,7 +17,13 @@ Application
 	vertical-align: top;
 	horizontal-align: center;
 	background-gradient-alphas: 1, 1;
-	background-gradient-colors: #FFFFFF, #FFFFFF;
+/*	background-gradient-colors: #124191, #FFFFFF; */
+    background-gradient-colors: #FFFFFF, #FFFFFF;
+}
+
+VBox.topBackground
+{
+    backgroundColor: #124191;
 }
 
 /* Tabs */
