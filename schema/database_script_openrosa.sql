@@ -179,8 +179,8 @@ CREATE TABLE IF NOT EXISTS `transactionlog` (
   KEY `FK3C3C7BA6F6E146B5` (`idUser`),
   CONSTRAINT `FK_transactionlog_idResult` FOREIGN KEY (`idResult`) REFERENCES `results` (`idResult`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_transactionlog_idSurvey` FOREIGN KEY (`idSurvey`) REFERENCES `surveys` (`idSurvey`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_transactionlog_idUser` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `FK_transactionlog_imei` FOREIGN KEY (`imei`) REFERENCES `imei` (`imei`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `FK_transactionlog_idUser` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_transactionlog_imei` FOREIGN KEY (`imei`) REFERENCES `imei` (`imei`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
