@@ -1,48 +1,63 @@
-The NDG project is made up of various modules which combine to make the whole application.
+    # ******************************************************************************************************* #
+    #                                                                                                         #
+    #     _   _       _    _         ____        _           ____       _   _               _                 #
+    #    | \ | | ___ | | _(_) __ _  |  _ \  __ _| |_ __ _   / ___| __ _| |_| |__   ___ _ __(_)_ __   __ _     #
+    #    |  \| |/ _ \| |/ / |/ _` | | | | |/ _` | __/ _` | | |  _ / _` | __| '_ \ / _ \ '__| | '_ \ / _` |    #
+    #    | |\  | (_) |   <| | (_| | | |_| | (_| | || (_| | | |_| | (_| | |_| | | |  __/ |  | | | | | (_| |    #
+    #    |_| \_|\___/|_|\_\_|\__,_| |____/ \__,_|\__\__,_|  \____|\__,_|\__|_| |_|\___|_|  |_|_| |_|\__, |    #
+    #                                                                                               |___/     #
+    #                                                                                                         #
+    # ******************************************************************************************************* #
 
+Nokia Data Gathering (NDG) has many modules.
 The server modules are:
 
-  ndg-commons-core
-  ndg-server-core
-  ndg-server-servlets
-  ndg-web-server
-  
+    ndg-commons-core
+    ndg-server-core
+    ndg-server-servlets
+    ndg-web-server
+
 The web user interface module is:
 
-  ndg-web-ui
-    
-The release includes the source code to create the .jar files on which NDG depends. 
-  
-Inside the lib directory there are Java .jar files needed for compilation. They provide core functionality which the NDG software uses. For some of these files and which module uses them use we have specified the .jar name, give a short description and the software license: 
+    ndg-web-ui
+
+Inside the lib directory we have our Java .jar dependencies. 
+Here is a brief description for some of them:
 
 1. ndg-commons-core
-  (Required) commons-logging.jar - A modular bridging API with support for most well known logging system - Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
-  
-2. ndg-server-core/lib
-  (Required) indt-smslib.jar - (explained above) HTTP Classes and methods written by INdT which interact with the mobile broker Clickatell (http://www.clickatell.com/) - source code included
-  (Required) mail.jar - provides a platform-independent and protocol-independent API framework to build mail and messaging applications - CDDL license and the GPLv2 with Classpath Exception
-  (Required) smslib-3.3.0.jar - SMSLib is a programmer's library for sending and receiving SMS messages via a GSM modem or mobile phone - Apache License, Version 2.0 
-  
-3. ndg-web-server/WebContent/WEB-INF/lib contains various .jar files which are part of the flex toolkit. These are all released by Adobe under the Mozilla Public License (http://www.mozilla.org/MPL/). The .jars are all (Required) to be able to compile the server UI
+    (Required) commons-logging.jar - A modular bridging API with support for most well known logging system - Apache 
+ License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 
+2. ndg-server-core/lib
+    (Required) indt-smslib.jar - (explained above) HTTP Classes and methods written by INdT which interact with the
+mobile broker Clickatell (http://www.clickatell.com/) - source code included
+
+    (Required) mail.jar - provides a platform-independent and protocol-independent API framework to build mail and
+messaging applications - CDDL license and the GPLv2 with Classpath Exception
+
+    (Required) smslib-3.3.0.jar - SMSLib is a programmer's library for sending and receiving SMS messages via a GSM
+modem or mobile phone - Apache License, Version 2.0 
+
+3. ndg-web-server/WebContent/WEB-INF/lib contains various .jar files which are part of the flex toolkit. These are all
+ released by Adobe under the Mozilla Public License (http://www.mozilla.org/MPL/). The .jars are all (Required) to be
+ able to compile the server UI
+
+ backport-util-concurrent.jar
  cfgatewayadapter.jar
- xalan.jar
+ commons-codec-1.3.jar
+ commons-httpclient-3.0.1.jar
  commons-logging.jar
+ concurrent.jar
+ flex-messaging-common.jar
  flex-messaging-core.jar
  flex-messaging-opt.jar
- concurrent.jar
- commons-codec-1.3.jar
- flex-messaging-remoting.jar
- flex-messaging-common.jar
- backport-util-concurrent.jar
  flex-messaging-proxy.jar
- commons-httpclient-3.0.1.jar
+ flex-messaging-remoting.jar
+ xalan.jar
 
-4. ndg-server-servlets/WebContent/client/ndg.jar
-  (Optional) the downloadable mobile client which is offered as a download after user registration. This .jar is created by the ndg-mobile-client module
-
---------------------------------------------------------------------------------------------------------------------------------------------------------
-
+-----------------------------------------------------------------------------------------------------------------------
+ DEPENDENCIES
+-----------------------------------------------------------------------------------------------------------------------
 NDG depends on openjdk-6-jre, mysql-server-5.1 and Flash.
 Run
     $ sudo apt-get install openjdk-6-jre mysql-server-5.1 flashplugin-nonfree
@@ -58,16 +73,25 @@ Create the database:
 
 Now you can login using "ndg" as username and password.
 
+You need JBoss-4.2.2.GA to run the server, download and extract it.
+You can get it from:
+http://sourceforge.net/projects/jboss/files/JBoss/JBoss-4.2.2.GA/jboss-4.2.2.GA.zip/download?use_mirror=softlayer
+
+------------------------------------
+ COMPILING
+-------------------------
+
 To compile, you have the following ant build files:
 
-* ndg-server-core/packaging-build.xml
-* ndg-commons-core/packaging-build.xml
-* ndg-server-servlets/packaging-build.xml
-* ndg-web-ui/build.xml
-* ndg-web-server/deploy/build.xml
+    * ndg-server-core/packaging-build.xml
+    * ndg-commons-core/packaging-build.xml
+    * ndg-server-servlets/packaging-build.xml
+    * ndg-web-ui/build.xml
+    * ndg-web-server/deploy/build.xml
 
 The easiest way to do it is to edit the ndg-web-ui/build.xml file and edit the right location of your flex sdk.
-Currently Nokia Data Gathering supports en_US, es_ES, pt_BR and fi_FI and you also need to add these specific locales to your flex sdk.
+Currently Nokia Data Gathering supports en_US, es_ES, pt_BR and fi_FI and you also need to add these specific locales
+to your flex sdk.
 Run the following commands to create them:
 
     $ ./<flex_sdk_home>/bin/copylocale en_US es_ES
@@ -78,43 +102,84 @@ Next, just run:
 
     $ ant -f build_all.xml
 
-It will compile everything and put the necessary files you need to deploy inside the jboss-4.2.2.GA folder.
+It will compile everything and put the necessary files you need to deploy inside the jboss-4.2.2.GA folder or straight
+to your JBoss instance if you edit build_all.xml and change it.
 
-You need JBoss-4.2.2.GA to run the server, download and extract it.
-You can get it from http://sourceforge.net/projects/jboss/files/JBoss/JBoss-4.2.2.GA/jboss-4.2.2.GA.zip/download?use_mirror=softlayer
-After the compilation process is over, copy or symbolic links the following files to the following destinations:
+After the compilation process is over, copy or create symbolic links the following files to the following destinations:
 
-jboss-4.2.2.GA/server/default/lib/ndg-commons.jar           $JBOSS_HOME/server/default/lib
-jboss-4.2.2.GA/server/default/lib/msmjms.jar                $JBOSS_HOME/server/default/lib
-jboss-4.2.2.GA/server/default/lib/ndg-ejb-client.jar        $JBOSS_HOME/server/default/lib
-jboss-4.2.2.GA/server/default/deploy/ndg-core.ear           $JBOSS_HOME/server/default/deploy
-jboss-4.2.2.GA/server/default/deploy/ndg-servlets.war       $JBOSS_HOME/server/default/deploy
-jboss-4.2.2.GA/server/default/deploy/ndgFlex.war            $JBOSS_HOME/server/default/deploy
+    conf/msm-core.properties                                    $JBOSS_HOME/server/<server_name>/conf
+    conf/msm-settings.properties                                $JBOSS_HOME/server/<server_name>/conf
+    conf/ndg.jad                                                $JBOSS_HOME/server/<server_name>/conf
+    conf/survey_protocol.properties                             $JBOSS_HOME/server/<server_name>/conf
+    conf/version.properties                                     $JBOSS_HOME/server/<server_name>/conf
 
-conf/msm-core.properties                                    $JBOSS_HOME/server/default/conf
-conf/msm-settings.properties                                $JBOSS_HOME/server/default/conf
-conf/ndg.jad                                                $JBOSS_HOME/server/default/conf
-conf/survey_protocol.properties                             $JBOSS_HOME/server/default/conf
-conf/version.properties                                     $JBOSS_HOME/server/default/conf
+    deploy/ndg-ds.xml                                           $JBOSS_HOME/server/<server_name>/deploy
+    deploy/ndg-ota.war                                          $JBOSS_HOME/server/<server_name>/deploy
 
-deploy/ndg-ds.xml                                           $JBOSS_HOME/server/default/deploy
-deploy/ndg-ota.war                                          $JBOSS_HOME/server/default/deploy
-
-lib/indt-smslib.jar                                         $JBOSS_HOME/server/default/lib
-lib/jboss-common-client.jar                                 $JBOSS_HOME/server/default/lib
-lib/mysql-driver.jar                                        $JBOSS_HOME/server/default/lib
-lib/smslib-3.3.0.jar                                        $JBOSS_HOME/server/default/lib
+    lib/indt-smslib.jar                                         $JBOSS_HOME/server/<server_name>/lib
+    lib/jboss-common-client.jar                                 $JBOSS_HOME/server/<server_name>/lib
+    lib/mysql-driver.jar                                        $JBOSS_HOME/server/<server_name>/lib
+    lib/poi-3.1-FINAL-20080629.jar                              $JBOSS_HOME/server/<server_name>/lib
+    lib/smslib-3.3.0.jar                                        $JBOSS_HOME/server/<server_name>/lib
 
 Next, you need to edit msm-settings.properties and msm-core.properties configuration files.
 
 After that, you need to start JBoss.
-Move into $JBOSS_HOME/bin and run 
+Move into $JBOSS_HOME/bin and run
 
     $ sh run.sh
+or
+    $ sh run.sh -b 0.0.0.0
 
 Once the server is up, go to your web browser and type
 
-    http://localhost:8080/ndgFlex/swf/main.html
+    http://<server>:8080/ndgFlex/swf/main.html
 
 Username: admin	
 Password: ndg
+
+------------------------------------------
+ SECURITY
+-------------------
+Make sure you enable authentication or disable remote access to jmx-console and web-console before running a server.
+You might also want to take additional security measures.
+
+--------------------------------------------------------------------
+ CLIENT STUFF
+-----------------
+1. conf/ndg.jad
+2. deploy/ndg-ota.war/client/ndg.jar
+
+These two are the mobile client, created by the ndg-mobile-client project.
+After you register a new phone number, it creates a .jad file (copy of the conf/ndg.jad) inside a folder with the phone
+number at <jboss_home>/server/<server>/deploy/ndg-ota.war/client/dyn/<phone_number>/ndg.jad and adds three fields to
+the jad which are necessary to correctly configure it to access the server.
+
+    app-msisdn: <phone_number>
+    server-url: <http://whatever.com:<port>>
+    MIDlet-Jar-URL: <http://whatever.com:<port>/ndg-ota/client/ndg.jar>
+
+------------------------------------------------
+LOCALIZATION
+------------
+
+All other localization files should be placed at locale.ota property defined in server's msm-settings.properties to be
+downloaded over the air. The default path is locale.ota=/server/default/deploy/ndg-ota.war/client/locale/
+ 
+To create a new one, just copy any language as a template and change and rename it. You can find the english one in the
+localization folder on the ndg-mobile-client project.
+
+After making the changes, you need to add it to the database so the client can see the available languages. Add the
+necessary information in the languages table.
+
+If you are want to use LWUIT bitmap fonts, you need the proper resource file (fonts.res is the english one, should be
+used with messages.properties) and place it at ndg-mobile-client/src/main/java/br/org/indt/ndg/lwuit/ui/res/
+The other res files (fonts_xx.res) contain english characters, symbols and specific language characters. If you are
+using those languages with bitmap fonts, place them at the server's locale.ota path and add the file names to the
+database column languages.fontFilePath at the corresponding language row, in order to download it along with the
+localization file.
+ 
+We are using LWUIT 1.4 and to edit a resource file you need LWUIT's ResourceEditor.jar which is included in the
+LWUIT_1_4.zip
+
+-------------------------------------------------
