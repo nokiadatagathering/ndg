@@ -108,7 +108,7 @@ Next, just run:
 It will compile everything and put the necessary files you need to deploy inside the jboss-4.2.2.GA folder or straight
 to your JBoss instance if you edit build_all.xml and change it.
 
-After the compilation process is over, copy or create symbolic links the following files to the following destinations:
+After the compilation process is over, the following files are going to be copied to the following destinations:
 
     conf/msm-core.properties                                    $JBOSS_HOME/server/<server_name>/conf
     conf/msm-settings.properties                                $JBOSS_HOME/server/<server_name>/conf
@@ -120,12 +120,14 @@ After the compilation process is over, copy or create symbolic links the followi
     deploy/ndg-ota.war                                          $JBOSS_HOME/server/<server_name>/deploy
 
     lib/indt-smslib.jar                                         $JBOSS_HOME/server/<server_name>/lib
-    lib/jboss-common-client.jar                                 $JBOSS_HOME/server/<server_name>/lib
     lib/mysql-driver.jar                                        $JBOSS_HOME/server/<server_name>/lib
     lib/poi-3.1-FINAL-20080629.jar                              $JBOSS_HOME/server/<server_name>/lib
     lib/smslib-3.3.0.jar                                        $JBOSS_HOME/server/<server_name>/lib
 
 Next, you need to edit msm-settings.properties and msm-core.properties configuration files.
+
+After the first build_all.xml execution, you can remove the deploy-additional target from the build_all_and_deploy
+one so it won't copy the same files after you compile it again.
 
 After that, you need to start JBoss.
 Move into $JBOSS_HOME/bin and run

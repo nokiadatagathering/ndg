@@ -1,11 +1,15 @@
 ﻿<project name="Build all" default="build_all_and_deploy">
-	<!-- build all projects -->
+    <!-- build all projects -->
     <property name="copyTo.dir" location="jboss-4.2.2.GA/server/default/deploy/"/>
     <property name="server-core.dir" location="ndg-server-core"/>
     <property name="commons-core.dir" location="ndg-commons-core"/>
     <property name="servlets.dir" location="ndg-server-servlets"/>
     <property name="flex.dir" location="ndg-web-ui"/>
     <property name="web-server.dir" location="ndg-web-server"/>
+
+    <property name="conf_dir" location="conf"/>
+    <property name="deploy_dir" location="deploy"/>
+    <property name="lib_dir" location="lib"/>
 
     <!-- clean all projects -->
     <target name="all_clean">
@@ -17,7 +21,7 @@
     </target>
 
     <target name="build_server_core">
-       <ant antfile="packaging-build.xml" dir="${server-core.dir}" />
+        <ant antfile="packaging-build.xml" dir="${server-core.dir}" />
     </target>
     <target name="build_commons_core">
        <ant antfile="packaging-build.xml" dir="${commons-core.dir}" />
@@ -30,10 +34,10 @@
     </target>
     <target name="build_web_server">
        <ant antfile="build.xml" dir="${web-server.dir}/deploy/" />
-	</target>
+    </target>
 
     <!-- deploy to server -->
-	<!-- add all necessary files for deployment here -->
+    <!-- add all NDG files for deployment here -->
     <target name="deploy">
         <copy file="${commons-core.dir}/build/ndg-commons.jar" todir="${copyTo.dir}/../lib"></copy>
         <copy file="${server-core.dir}/build/msmjms.jar" todir="${copyTo.dir}/../lib/"></copy>
@@ -43,7 +47,28 @@
         <copy file="${web-server.dir}/deploy/ndgFlex.war" todir="${copyTo.dir}"></copy>
     </target>
 
-	<!-- build al projects and deploy to server -->
+    <!-- deploy to server -->
+    <!-- additional files required -->
+    <target name="deploy-additional">
+        <copy todir="${copyTo.dir}/../conf">
+            <fileset dir="${conf_dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${copyTo.dir}/">
+            <fileset dir="${deploy_dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+        <copy file="${lib_dir}/indt-smslib.jar" todir="${copyTo.dir}/../lib/"></copy>
+        <copy file="${lib_dir}/mysql-driver.jar" todir="${copyTo.dir}/../lib/"></copy>
+        <copy file="${lib_dir}/smslib-3.3.0.jar" todir="${copyTo.dir}/../lib/"></copy>
+        <copy file="${lib_dir}/poi-3.1-FINAL-20080629.jar" todir="${copyTo.dir}/../lib/"></copy>
+    </target>
+
+    <!-- build al projects and deploy to server -->
     <target name="build_all_and_deploy" depends="
             all_clean,
             build_server_core,
@@ -51,5 +76,6 @@
             build_servlets,
             build_web_ui_flex,
             build_web_server,
-            deploy" />
+            deploy,
+            deploy-additional"/>
 </project>
