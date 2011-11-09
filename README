@@ -55,9 +55,11 @@ modem or mobile phone - Apache License, Version 2.0
  flex-messaging-remoting.jar
  xalan.jar
 
+
 -----------------------------------------------------------------------------------------------------------------------
- DEPENDENCIES
+                                                    DEPENDENCIES
 -----------------------------------------------------------------------------------------------------------------------
+
 NDG depends on openjdk-6-jre, mysql-server-5.1 and Flash.
 Run
     $ sudo apt-get install openjdk-6-jre mysql-server-5.1 flashplugin-nonfree
@@ -77,9 +79,10 @@ You need JBoss-4.2.2.GA to run the server, download and extract it.
 You can get it from:
 http://sourceforge.net/projects/jboss/files/JBoss/JBoss-4.2.2.GA/jboss-4.2.2.GA.zip/download?use_mirror=softlayer
 
-------------------------------------
- COMPILING
--------------------------
+
+-----------------------------------------------------------------------------------------------------------------------
+                                                    COMPILING
+-----------------------------------------------------------------------------------------------------------------------
 
 To compile, you have the following ant build files:
 
@@ -133,20 +136,24 @@ or
 
 Once the server is up, go to your web browser and type
 
-    http://<server>:8080/ndgFlex/swf/main.html
+    http://server_address:8080/ndgFlex/swf/main.html
 
 Username: admin	
 Password: ndg
 
-------------------------------------------
- SECURITY
--------------------
+
+-----------------------------------------------------------------------------------------------------------------------
+                                                    SECURITY
+-----------------------------------------------------------------------------------------------------------------------
+
 Make sure you enable authentication or disable remote access to jmx-console and web-console before running a server.
 You might also want to take additional security measures.
 
---------------------------------------------------------------------
- CLIENT STUFF
------------------
+
+-----------------------------------------------------------------------------------------------------------------------
+                                                    CLIENT
+-----------------------------------------------------------------------------------------------------------------------
+
 1. conf/ndg.jad
 2. deploy/ndg-ota.war/client/ndg.jar
 
@@ -156,12 +163,13 @@ number at <jboss_home>/server/<server>/deploy/ndg-ota.war/client/dyn/<phone_numb
 the jad which are necessary to correctly configure it to access the server.
 
     app-msisdn: <phone_number>
-    server-url: <http://whatever.com:<port>>
-    MIDlet-Jar-URL: <http://whatever.com:<port>/ndg-ota/client/ndg.jar>
+    server-url: <http://whatever.com:port>
+    MIDlet-Jar-URL: <http://whatever.com:port/ndg-ota/client/ndg.jar>
 
-------------------------------------------------
-LOCALIZATION
-------------
+
+-----------------------------------------------------------------------------------------------------------------------
+                                                    LOCALIZATION
+-----------------------------------------------------------------------------------------------------------------------
 
 All other localization files should be placed at locale.ota property defined in server's msm-settings.properties to be
 downloaded over the air. The default path is locale.ota=/server/default/deploy/ndg-ota.war/client/locale/
@@ -182,4 +190,21 @@ localization file.
 We are using LWUIT 1.4 and to edit a resource file you need LWUIT's ResourceEditor.jar which is included in the
 LWUIT_1_4.zip
 
--------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------
+                                                OPENROSA (Experimental)
+-----------------------------------------------------------------------------------------------------------------------
+
+You can also use OpenRosa XForms with NDG.
+
+To upload an XForm:
+
+    http://serveraddress:8080/ndg-servlets/PostSurveys?do=uploadOpenRosa
+
+To send an XForms to a device:
+
+    http://serveraddress:8080/ndg-servlets/OpenRosaManagement?action=setSurveysForUser
+
+To download all results that were sent from a given device:
+
+    http://serveraddress:8080/ndg-servlets/OpenRosaManagement?action=exportResultsForUser
