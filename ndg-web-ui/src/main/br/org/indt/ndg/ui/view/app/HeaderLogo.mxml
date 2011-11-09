@@ -23,10 +23,8 @@
 	layout="horizontal" width="970" height="55"
 	horizontalAlign="center" verticalAlign="middle">
 
-	<mx:VBox verticalGap="0" verticalAlign="middle" horizontalAlign="center">
-		<mx:Image source="@Embed('../../../../../../../resources/images/ndg.png')"/>
-	</mx:VBox>
-	<mx:HRule width="100%" visible="false"/>
+    <mx:Image source="@Embed('../../../../../../../resources/images/ndg.png')"/>
+    <mx:HRule width="100%" visible="false"/>
     <mx:Image source="@Embed('../../../../../../../resources/images/Nokia_logo_white_RGB.png')"/>
 
 </mx:Module>

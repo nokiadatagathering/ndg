@@ -71,7 +71,9 @@
         <mx:Dissolve id="dissolveIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
     </fx:Declarations>
 
-    <mx:VBox width="100%" height="248" styleName="topBackground"/>
+    <mx:Canvas x="0" y="0" width="100%" height="326">
+        <mx:borderSkin>@Embed(source='main/resources/images/header.png')</mx:borderSkin>
+    </mx:Canvas>
 
 	<mx:Canvas width="994" y="0" horizontalCenter="0">
 		<mx:Image x="2" y="98" source="@Embed('main/resources/images/SHADOW_LEFT.png')"/>
