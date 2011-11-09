@@ -179,6 +179,23 @@ the jad which are necessary to correctly configure it to access the server.
     MIDlet-Jar-URL: <http://whatever.com:port/ndg-ota/client/ndg.jar>
 
 
++ UPDATING THE SERVER WITH A NEW CLIENT VERSION
+-----------------------------------------------
+
+To deploy a new client version on the server, replace the conf/ndg.jar and the deploy/ndg-ota.war/client/ndg.jar files by the
+new one so new users can download the new version.
+
+After that, also copy the new ndg.jad file to deploy/ndg-ota.war/client/ndg.jar and add the lines:
+
+    MIDlet-Jar-URL: ndg.jar
+    server-url: http://your_server:port
+
+Finally, change conf/msm-settings.properties client.version property to the new version in order to allow old users to
+see that there is a new version available.
+
+Start JBoss again.
+
+
 -----------------------------------------------------------------------------------------------------------------------
                                                     LOCALIZATION
 -----------------------------------------------------------------------------------------------------------------------
