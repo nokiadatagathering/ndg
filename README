@@ -79,6 +79,9 @@ You need JBoss-4.2.2.GA to run the server, download and extract it.
 You can get it from:
 http://sourceforge.net/projects/jboss/files/JBoss/JBoss-4.2.2.GA/jboss-4.2.2.GA.zip/download?use_mirror=softlayer
 
+You also need the Adobe Flex SDK to compile the web ui. Currently we're using Flex 4.1.0. Download and extract it.
+You can get it here: http://opensource.adobe.com/wiki/display/flexsdk/download?build=4.1.0.16076&pkgtype=1
+
 
 -----------------------------------------------------------------------------------------------------------------------
                                                     COMPILING
@@ -92,37 +95,44 @@ To compile, you have the following ant build files:
     * ndg-web-ui/build.xml
     * ndg-web-server/deploy/build.xml
 
-The easiest way to do it is to edit the ndg-web-ui/build.xml file and edit the right location of your flex sdk.
 Currently Nokia Data Gathering supports en_US, es_ES, pt_BR and fi_FI and you also need to add these specific locales
 to your flex sdk.
 Run the following commands to create them:
 
-    $ ./<flex_sdk_home>/bin/copylocale en_US es_ES
-    $ ./<flex_sdk_home>/bin/copylocale en_US pt_BR
-    $ ./<flex_sdk_home>/bin/copylocale en_US fi_FI
+    $ ./<flex_sdk_4.1.0.16076>/bin/copylocale en_US es_ES
+    $ ./<flex_sdk_4.1.0.16076>/bin/copylocale en_US pt_BR
+    $ ./<flex_sdk_4.1.0.16076>/bin/copylocale en_US fi_FI
 
-Next, just run:
+To compile the ndg-web-ui module, edit the ndg-web-ui/build.xml file and edit the right location of your flex sdk.
+You can compile each module individually, but the easiest way to do it is to just run:
 
     $ ant -f build_all.xml
 
-It will compile everything and put the necessary files you need to deploy inside the jboss-4.2.2.GA folder or straight
-to your JBoss instance if you edit build_all.xml and change it.
+It will compile everything and put the necessary files you need to deploy inside the jboss-4.2.2.GA folder created or
+straight to your JBoss directory if you edit build_all.xml copyTo.dir property and change it.
 
 After the compilation process is over, the following files are going to be copied to the following destinations:
 
-    conf/msm-core.properties                                    $JBOSS_HOME/server/<server_name>/conf
-    conf/msm-settings.properties                                $JBOSS_HOME/server/<server_name>/conf
-    conf/ndg.jad                                                $JBOSS_HOME/server/<server_name>/conf
-    conf/survey_protocol.properties                             $JBOSS_HOME/server/<server_name>/conf
-    conf/version.properties                                     $JBOSS_HOME/server/<server_name>/conf
+    ndg-commons-core/build/ndg-commons.jar                      $JBOSS_HOME/server/default/lib
+    ndg-server-core/build/msmjms.jar                            $JBOSS_HOME/server/default/lib
+    ndg-server-core/build/ndg-ejb-client.jar                    $JBOSS_HOME/server/default/lib
+    ndg-server-core/build/ndg-core.ear                          $JBOSS_HOME/server/default/deploy
+    ndg-server-servlets/build/ndg-servlets.war                  $JBOSS_HOME/server/default/deploy
+    ndg-web-server/deploy/ndgFlex.war                           $JBOSS_HOME/server/default/deploy
 
-    deploy/ndg-ds.xml                                           $JBOSS_HOME/server/<server_name>/deploy
-    deploy/ndg-ota.war                                          $JBOSS_HOME/server/<server_name>/deploy
+    conf/msm-core.properties                                    $JBOSS_HOME/server/default/conf
+    conf/msm-settings.properties                                $JBOSS_HOME/server/default/conf
+    conf/ndg.jad                                                $JBOSS_HOME/server/default/conf
+    conf/survey_protocol.properties                             $JBOSS_HOME/server/default/conf
+    conf/version.properties                                     $JBOSS_HOME/server/default/conf
 
-    lib/indt-smslib.jar                                         $JBOSS_HOME/server/<server_name>/lib
-    lib/mysql-driver.jar                                        $JBOSS_HOME/server/<server_name>/lib
-    lib/poi-3.1-FINAL-20080629.jar                              $JBOSS_HOME/server/<server_name>/lib
-    lib/smslib-3.3.0.jar                                        $JBOSS_HOME/server/<server_name>/lib
+    deploy/ndg-ds.xml                                           $JBOSS_HOME/server/default/deploy
+    deploy/ndg-ota.war                                          $JBOSS_HOME/server/default/deploy
+
+    lib/indt-smslib.jar                                         $JBOSS_HOME/server/default/lib
+    lib/mysql-driver.jar                                        $JBOSS_HOME/server/default/lib
+    lib/poi-3.1-FINAL-20080629.jar                              $JBOSS_HOME/server/default/lib
+    lib/smslib-3.3.0.jar                                        $JBOSS_HOME/server/default/lib
 
 Next, you need to edit msm-settings.properties and msm-core.properties configuration files.
 
