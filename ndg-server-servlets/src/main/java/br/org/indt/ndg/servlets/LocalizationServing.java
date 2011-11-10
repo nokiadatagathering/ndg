@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.org.indt.ndg.common.exception.MSMApplicationException;
-import br.org.indt.ndg.server.client.LocalizationBussinessDelegate;
 import br.org.indt.ndg.server.client.MSMBusinessDelegate;
 import br.org.indt.ndg.server.util.SettingsProperties;
 
@@ -49,12 +48,13 @@ public class LocalizationServing extends HttpServlet {
     private static final String FILE_TYPE_FONTS = "Fonts";
     private static final String FILE_TYPE_HEADER = "File-Type";
     private static final String LOCALE_HEADER = "locale";
-	
+
 	private MSMBusinessDelegate msmBD = null;
+
 	public void init() {
 		msmBD = new MSMBusinessDelegate();
 	}
-    
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -69,15 +69,15 @@ public class LocalizationServing extends HttpServlet {
         String type = request.getHeader(FILE_TYPE_HEADER);
 
         File file = getFile(locale, type);
-        if(file == null || !file.exists()){
+        if (file == null || !file.exists()) {
         	response.sendError(HttpServletResponse.SC_NO_CONTENT);
         	return;
         }
-        
+
         OutputStream out = response.getOutputStream();
         try {
             printFile(out, file);
-        }finally {
+        } finally {
             out.close();
         }        	
     }
@@ -119,7 +119,7 @@ public class LocalizationServing extends HttpServlet {
     }// </editor-fold>
 
     private boolean printFile(OutputStream out, File file) throws IOException {
-    	
+
         FileInputStream input = new FileInputStream(file);
         int byteRead;
         while ((byteRead = input.read()) != -1) {
@@ -127,22 +127,22 @@ public class LocalizationServing extends HttpServlet {
         }
         out.flush();
         input.close();
-        
+
         return true;
     }
-    
-    private File getFile(String locale, String type){
+
+    private File getFile(String locale, String type) {
     	String localeFile = "";
-    	LocalizationBussinessDelegate localeDelegate = new LocalizationBussinessDelegate();
-    	if(type.equals(FILE_TYPE_TEXTS)){
-    		localeFile = localeDelegate.getLanguageFileName(locale);
-    	}else{
-    		localeFile = localeDelegate.getFontFileName(locale);
+
+    	if (type.equals(FILE_TYPE_TEXTS)) {
+    		localeFile = msmBD.getLanguageFileName(locale);
+    	} else {
+    		localeFile = msmBD.getFontFileName(locale);
     	}
-    	if(localeFile == null || localeFile.isEmpty()){
+    	if (localeFile == null || localeFile.isEmpty()) {
     		return null;
     	}
-    	
+
 		String localeOtaDirectory = "";
 		String jbossDirectory = "";
 		File file = null;
@@ -154,7 +154,7 @@ public class LocalizationServing extends HttpServlet {
 			System.out.println(e.getLocalizedMessage());
 			e.printStackTrace();
 		}       
-        
+
     	return file;
     }
 }

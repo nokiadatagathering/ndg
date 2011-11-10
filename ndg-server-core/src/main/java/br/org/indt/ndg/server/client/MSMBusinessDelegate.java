@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -72,6 +73,7 @@ import br.org.indt.ndg.server.sms.SmsHandlerFactory;
 import br.org.indt.ndg.server.sms.vo.SMSMessageVO;
 import br.org.indt.ndg.server.survey.SurveyHandler;
 import br.org.indt.ndg.server.transaction.TransactionLogManager;
+import br.org.indt.ndg.server.language.LanguageManager;
 import br.org.indt.ndg.server.util.FileUtil;
 import br.org.indt.ndg.server.util.PropertiesUtil;
 
@@ -85,6 +87,7 @@ public class MSMBusinessDelegate {
 	private ResultHandler resultHandler;
 	private MessageManager messageManager;
 	private TransactionLogManager transactionlogManager;
+    private LanguageManager languageManager;
 
 	private static final int EMAIL_SUBJECT_RECOVERY_PASSWORD = 0;
 	private static final int EMAIL_SUBJECT_REQUEST_ACCESS = 1;
@@ -110,6 +113,8 @@ public class MSMBusinessDelegate {
 					.lookup("ndg-core/MessageManagerBean/remote");
 			transactionlogManager = (TransactionLogManager) initialContext
 					.lookup("ndg-core/TransactionLogManagerBean/remote");
+            languageManager = (LanguageManager) initialContext
+					.lookup("ndg-core/LanguageManagerBean/remote");
 
 			System.out.println("InitialContext - using property file");
 		} catch (NamingException e1) {
@@ -137,6 +142,8 @@ public class MSMBusinessDelegate {
 						.lookup("ndg-core/MessageManagerBean/remote");
 				transactionlogManager = (TransactionLogManager) initialContext
 						.lookup("ndg-core/TransactionLogManagerBean/remote");
+                languageManager = (LanguageManager) initialContext
+					.lookup("ndg-core/LanguageManagerBean/remote");
 
 				System.err.println("InitialContext - using Hashtable");
 			} catch (NamingException e2) {
@@ -915,4 +922,20 @@ public class MSMBusinessDelegate {
     	
         return surveyXML;
     }
+
+    /**
+	 * 
+	 * @return map <language name, locale>
+	 */
+    public HashMap<String, String> getLanguageList() {
+		return languageManager.getLanguageList();
+	}
+
+    public String getLanguageFileName(String locale) {
+		return languageManager.getLanguagePath(locale);
+	}
+
+    public String getFontFileName(String locale) {
+        return languageManager.getFontPath(locale);
+	}
 }

@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.org.indt.ndg.server.client.LocalizationBussinessDelegate;
+import br.org.indt.ndg.server.client.MSMBusinessDelegate;
 
 /**
  *
@@ -55,14 +55,10 @@ public class LanguageList extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         final String root = this.getServletConfig().getInitParameter("localesFileDir");
-        
-        LocalizationBussinessDelegate localeDelegate = new LocalizationBussinessDelegate();
-        HashMap<String, String> langMap = localeDelegate.getLanguageList();
 
-//        File languageList = new File(root + "/" + "Languages.txt");
-//        response.setContentLength((int) languageList.length());
-//        FileInputStream fileInput = null;
-        
+        MSMBusinessDelegate msmBD = new MSMBusinessDelegate();
+        HashMap<String, String> langMap = msmBD.getLanguageList();
+
         PrintWriter out = response.getWriter();
         BufferedReader reader = null;
         try {
@@ -72,7 +68,7 @@ public class LanguageList extends HttpServlet {
 	        out.flush();
         } finally {
             out.close();
-            if(reader != null){
+            if (reader != null) {
             	reader.close();
             }
         }
