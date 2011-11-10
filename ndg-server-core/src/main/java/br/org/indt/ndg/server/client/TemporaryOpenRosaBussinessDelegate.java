@@ -68,6 +68,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import br.org.indt.ndg.server.client.MSMBusinessDelegate;
+import br.org.indt.ndg.common.exception.MSMApplicationException;
+import br.org.indt.ndg.server.util.SettingsProperties;
+
 /**
  * This class is only a temporary solution to provide some fake surveys in XForms
  * MSMBussinessDelegate should probably be involved in later full-featured solution
@@ -95,10 +99,19 @@ public class TemporaryOpenRosaBussinessDelegate {
 	private static final String RESULT_ID_COLUMN = "idResult";
 	private static final String IMEI_COLUMN = "imei";
 
+   	private MSMBusinessDelegate msmBD = null;
+
 	public TemporaryOpenRosaBussinessDelegate() {
-		setPortAndAddress("http://localhost:8080");
-		setDeviceId("1");
-	}
+
+        try {
+            msmBD = new MSMBusinessDelegate();
+            setPortAndAddress(msmBD.getSpecificPropertySetting(SettingsProperties.URLSERVER));
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+        setDeviceId("1");
+    }
 
 	public void setPortAndAddress(String thisServerAddress) {
 		m_surveysServerAddress = thisServerAddress;
