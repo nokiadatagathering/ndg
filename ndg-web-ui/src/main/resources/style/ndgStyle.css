@@ -555,6 +555,7 @@ Alert
 	verticalGap: 0;
 	color: #124191;
 	background-alpha: 1.0;
+    textFieldClass:ClassReference("mx.core.UIFTETextField");
 }
 Alert.alertButtonStyle
 {
