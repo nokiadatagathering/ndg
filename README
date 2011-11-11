@@ -224,7 +224,10 @@ LWUIT_1_4.zip
                                                 OPENROSA (Experimental)
 -----------------------------------------------------------------------------------------------------------------------
 
-You can also use OpenRosa XForms with NDG.
+You can also use OpenRosa XForms with NDG, this was an experimentation before we started
+http://github.com/nokiadatagathering/ndg-ng
+
+It's not fully supported, but if you want to check it:
 
 To upload an XForm:
 
@@ -237,3 +240,5 @@ To send an XForms to a device:
 To download all results that were sent from a given device:
 
     http://serveraddress:8080/ndg-servlets/OpenRosaManagement?action=exportResultsForUser
+
+Since it was only an experimentation, you might want to have a look at TemporaryOpenRosaBussinessDelegate.java.
