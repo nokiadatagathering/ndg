@@ -37,12 +37,11 @@
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10"
 						paddingBottom="10" paddingTop="10">
-						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CATEGORY_DESC')}"
-							fontSize="11" fontFamily="Arial" id="lblCategory" enabled="true"/>
+						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'CATEGORY_DESC')}" id="lblCategory" enabled="true"/>
 						<s:TextArea id="txtCategory" width="100%"
 							height="56"	text=""
 							editable="true"
-							enabled="true" fontSize="12"
+							enabled="true" styleName="editorQuestion"
 							click="txtQuestionFocus(event, 0);"
 							focusIn="txtQuestionFocus(event, 0);"
 							focusOut="txtQuestionFocus(event, 0);"
@@ -77,15 +76,15 @@
 						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'STRING')}" styleName="clearText" fontWeight="bold"/>
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
-		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblQuestion" enabled="true"/>
+		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" id="lblQuestion" enabled="true"/>
 		   			<s:TextArea id="txtQuestion" width="100%" height="56"	text=""
 					    editable="true"
-						enabled="true" fontSize="12"
+						enabled="true" styleName="editorQuestion"
 						click="txtQuestionFocus(event, Question.QUESTION_STRING);"
 						focusIn="txtQuestionFocus(event, Question.QUESTION_STRING);"
 						focusOut="txtQuestionFocus(event, Question.QUESTION_STRING);"
 						change="isQuestionValid(Question.STRING_TYPE)"/>
-					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion_Length" enabled="true"/>
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" id="lblNumericQuestion_Length" enabled="true"/>
 					<s:TextInput id="txtQuestionString_Length" width="80" height="20" editable="true" enabled="true" change="isQuestionValid(Question.STRING_TYPE)" />
 					<!--<mx:HRule width="100%"/> -->
 					<!-- Inicio Editado Por Kivia Ramos-->
@@ -127,7 +126,7 @@
 							paddingRight="10" paddingBottom="10" paddingTop="10" x="0" y="0">
 							<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}"/>
 							<s:TextArea id="txtQuestionExclusive" width="100%" height="40"
-							    editable="true" enabled="true"
+							    editable="true" enabled="true" styleName="editorQuestion"
 								click="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
 								focusIn="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
 								focusOut="txtQuestionFocus(event, Question.QUESTION_CHOICE);"
@@ -182,21 +181,21 @@
 						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'INTEGER')}" styleName="clearText" fontWeight="bold"/>
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
-					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblNumericQuestion" enabled="true"/>
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" id="lblNumericQuestion" enabled="true"/>
 					<s:TextArea id="txtQuestionInteger" width="100%" height="56"	text=""
 					editable="true" 
-					enabled="true" fontSize="12"
+					enabled="true" styleName="editorQuestion"
 					click="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
 					focusIn="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
 					focusOut="txtQuestionFocus(event, Question.QUESTION_INTEGER);"
 					change="isQuestionValid(Question.INTEGER_TYPE)"/>
 					<mx:HBox width="100%">
-						<mx:RadioButton groupName="numbertype" value="int" id="radioInt" fontSize="11" fontFamily="Arial"
+						<mx:RadioButton groupName="numbertype" value="int" id="radioInt"
 						    label="{ConfigI18n.getInstance().getStringFile('editorResources', 'NUMBER_INT')}" width="73"/>
-						<mx:RadioButton groupName="numbertype" value="decimal" id="radioDecimal" fontSize="11" fontFamily="Arial"
+						<mx:RadioButton groupName="numbertype" value="decimal" id="radioDecimal"
 						    label="{ConfigI18n.getInstance().getStringFile('editorResources', 'NUMBER_DECIMAL')}" width="73"/>
 					</mx:HBox>
-					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" fontSize="11" fontFamily="Arial" id="lblStringQuestion_Length" enabled="true"/>
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'LENGTH')}" id="lblStringQuestion_Length" enabled="true"/>
 					<s:TextInput id="txtQuestionInteger_Length" width="80" height="20"	text=""
 					editable="true" 
 					enabled="true"
@@ -205,9 +204,9 @@
 					<mx:HRule width="100%"/>
 					<mx:HBox width="100%">
 						<mx:Tile width="100%" height="100%" direction="vertical">
-							<mx:CheckBox id="ckBoxMinRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MIN_RANGE')}" click="minRangeClick_int()" fontFamily="Arial" fontSize="11"/>
+							<mx:CheckBox id="ckBoxMinRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MIN_RANGE')}" click="minRangeClick_int()" />
 							<s:TextInput id="txtMinRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
-							<mx:CheckBox id="ckBoxMaxRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MAX_RANGE')}" click="maxRangeClick_int()" fontFamily="Arial" fontSize="11"/>
+							<mx:CheckBox id="ckBoxMaxRange_int" label="{ConfigI18n.getInstance().getStringFile('editorResources', 'MAX_RANGE')}" click="maxRangeClick_int()" />
 							<s:TextInput id="txtMaxRange_int" height="20" width="80" enabled="false" change="isQuestionValid(Question.INTEGER_TYPE)"/>
 						</mx:Tile>
 					</mx:HBox>
@@ -234,10 +233,10 @@
 						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'DATE')}" styleName="clearText" fontWeight="bold"/>
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
-					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblDateQuestion" enabled="true"/>
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" id="lblDateQuestion" enabled="true"/>
 					<s:TextArea id="txtQuestionDate" width="100%" height="56"	text=""
 					editable="true" 
-					enabled="true" fontSize="12"
+					enabled="true" styleName="editorQuestion"
 					click="txtQuestionFocus(event, Question.QUESTION_DATE);"
 					focusIn="txtQuestionFocus(event, Question.QUESTION_DATE);"
 					focusOut="txtQuestionFocus(event, Question.QUESTION_DATE);"
@@ -271,10 +270,10 @@
 						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'TIME')}" styleName="clearText" fontWeight="bold"/>
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
-					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblTimeQuestion" enabled="true"/>
+					<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" id="lblTimeQuestion" enabled="true"/>
 					<s:TextArea id="txtQuestionTime" width="100%" height="56"	text=""
 					editable="true" 
-					enabled="true" fontSize="12"
+					enabled="true" styleName="editorQuestion"
 					click="txtQuestionFocus(event, Question.QUESTION_TIME);"
 					focusIn="txtQuestionFocus(event, Question.QUESTION_TIME);"
 					focusOut="txtQuestionFocus(event, Question.QUESTION_TIME);"
@@ -306,10 +305,10 @@
 						<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'IMAGE')}" styleName="clearText" fontWeight="bold"/>
 					</mx:ApplicationControlBar>
 					<mx:VBox height="100%" width="100%" horizontalAlign="left" verticalGap="6" paddingLeft="10" paddingRight="10" paddingBottom="10" paddingTop="10">
-		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" fontSize="11" fontFamily="Arial" id="lblQuestion_img" enabled="true"/>
+		   			<mx:Label text="{ConfigI18n.getInstance().getStringFile('editorResources', 'QUESTION')}" id="lblQuestion_img" enabled="true"/>
 		   			<s:TextArea id="txtQuestion_img" width="100%" height="56"	text=""
 						editable="true"
-						enabled="true" fontSize="12"
+						enabled="true" styleName="editorQuestion"
 						click="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
 						focusIn="txtQuestionFocus(event, Question.QUESTION_IMAGE);"
 						focusOut="txtQuestionFocus(event, Question.QUESTION_IMAGE);"

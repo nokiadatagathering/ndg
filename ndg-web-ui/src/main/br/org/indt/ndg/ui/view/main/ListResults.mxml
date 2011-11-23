@@ -91,7 +91,7 @@
                                         <s:State name="selected" />
                                     </s:states>
                                     <s:HGroup left="6" right="0" verticalCenter="0">
-                                        <s:Label text="{data.idResult}" />
+                                        <s:Label text="{data.idResult}" styleName="gridContent" />
                                     </s:HGroup>
                                 </s:MXDataGridItemRenderer>
                             </fx:Component>
@@ -108,7 +108,7 @@
                                         <s:State name="selected" />
                                     </s:states>
                                     <s:HGroup left="6" right="0" verticalCenter="0">
-                                        <s:Label text="{data.title}" />
+                                        <s:Label text="{data.title}" styleName="gridContent" />
                                     </s:HGroup>
                                 </s:MXDataGridItemRenderer>
                             </fx:Component>
@@ -125,7 +125,7 @@
                                         <s:State name="selected" />
                                     </s:states>
                                     <s:HGroup left="6" right="0" verticalCenter="0">
-                                        <s:Label text="{data.date}" />
+                                        <s:Label text="{data.date}" styleName="gridContent" />
                                     </s:HGroup>
                                 </s:MXDataGridItemRenderer>
                             </fx:Component>
@@ -142,7 +142,7 @@
                                         <s:State name="selected" />
                                     </s:states>
                                     <s:HGroup left="6" right="0" verticalCenter="0">
-                                        <s:Label text="{data.user}" />
+                                        <s:Label text="{data.user}" styleName="gridContent" />
                                     </s:HGroup>
                                 </s:MXDataGridItemRenderer>
                             </fx:Component>
@@ -159,7 +159,7 @@
                                         <s:State name="selected" />
                                     </s:states>
                                     <s:HGroup left="6" right="0" verticalCenter="0">
-                                        <s:Label text="{data.imei}" />
+                                        <s:Label text="{data.imei}" styleName="gridContent" />
                                     </s:HGroup>
                                 </s:MXDataGridItemRenderer>
                             </fx:Component>

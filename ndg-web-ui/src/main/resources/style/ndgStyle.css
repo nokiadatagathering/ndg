@@ -381,6 +381,8 @@ Label.darkTitle
 s|Label.darkTitle
 {
 	color: #124191;
+    font-family: NokiaSansWideCFF;
+    fontLookup: embeddedCFF;
 	font-size: 12;
 	font-weight: bold;
 	font-style: normal;
@@ -398,6 +400,15 @@ Label.darkTitle3
 	font-size: 16;
 	font-weight: bold;
 	font-style: normal;
+}
+s|Label.gridContent
+{
+    font-family: NokiaSansWideCFF;
+    color: #124191;
+	font-size: 10;
+	font-weight: normal;
+	font-style: normal;
+    fontLookup: embeddedCFF;
 }
 
 /* Components */
@@ -471,6 +482,7 @@ RadioButton
 	textRollOverColor: #124191;
 	textSelectedColor: #29469F;
     textFieldClass:ClassReference("mx.core.UIFTETextField");
+    font-family: NokiaSansWideCFF;
 }
 CheckBox
 {
@@ -482,6 +494,7 @@ CheckBox
 	textRollOverColor: #124191;
 	textSelectedColor: #29469F;
     textFieldClass:ClassReference("mx.core.UIFTETextField");
+    font-family: NokiaSansWideCFF;
 }
 VScrollBar
 {
@@ -514,6 +527,25 @@ TextInput
 	borderThickness: 1;
 	cornerRadius: 4;
 	font-size: 10;
+}
+s|TextInput
+{
+	borderColor: #124191;
+	borderStyle: solid;
+	borderThickness: 1;
+	cornerRadius: 4;
+	font-size: 10;
+    font-family: NokiaSansWideCFF;
+    fontLookup: embeddedCFF;
+}
+s|TextArea
+{
+    font-family: NokiaSansWideCFF;
+    fontLookup: embeddedCFF;
+}
+s|TextArea.editorQuestion
+{
+    font-size: 12;
 }
 DataGrid
 {
@@ -556,9 +588,12 @@ Alert
 	color: #124191;
 	background-alpha: 1.0;
     textFieldClass:ClassReference("mx.core.UIFTETextField");
+    font-family: NokiaSansWideCFF;
+    buttonStyleName: alertButtonStyle;
 }
-Alert.alertButtonStyle
+.alertButtonStyle
 {
+    font-family: NokiaSansWide;
 	borderColor: #124191;
 	color: #FFFFFF;
 	fillAlphas: 1.0, 1.0;

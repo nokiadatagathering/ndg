@@ -60,6 +60,34 @@
 			font-family: "NokiaSansWide";
             embedAsCFF: false;
 		}
+        @font-face{
+			src: url("main/resources/fonts/NS Wide Regular.ttf");
+			font-style: normal;
+			font-weight: normal;
+			font-family: "NokiaSansWideCFF";
+            embedAsCFF: true;
+		}
+		@font-face{
+			src: url("main/resources/fonts/NS Wide Bold.ttf");
+			font-style: normal;
+			font-weight: bold;
+			font-family: "NokiaSansWideCFF";
+            embedAsCFF: true;
+		}
+		@font-face{
+			src: url("main/resources/fonts/NS Wide Italic.ttf");
+			font-style: italic;
+			font-weight: normal;
+			font-family: "NokiaSansWideCFF";
+            embedAsCFF: true;
+		}
+		@font-face{
+			src: url("main/resources/fonts/NS Wide BolIta.ttf");
+			font-style: italic;
+			font-weight: bold;
+			font-family: "NokiaSansWideCFF";
+            embedAsCFF: true;
+		}
 	</fx:Style>
 
     <fx:Style source="main/resources/style/ndgStyle.css"/>
